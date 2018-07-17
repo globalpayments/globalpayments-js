@@ -1,0 +1,11 @@
+{
+  "defaultCommandTimeout": 15000,
+  "fixturesFolder": "test/fixtures",
+  "integrationFolder": "test/integration",
+  "pluginsFile": "test/plugins",
+  "screenshotOnHeadlessFailure": false,
+  "screenshotsFolder": "test/screenshots",
+  "supportFile": "test/support",
+  "videoRecording": false,
+  "videosFolder": "test/videos"
+}

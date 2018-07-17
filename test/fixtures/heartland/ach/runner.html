@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Heartland Examples</title>
+  </head>
+  <body>
+    <script src="/dist/globalpayments.js"></script>
+
+    <form id="form" action="/charge" method="get">
+      <div id="accountNumber"></div>
+      <div id="routingNumber"></div>
+      <div id="checkType">
+        <select>
+          <option> -- Check Type -- </option>
+          <option>Checking</option>
+          <option>Savings</option>
+        </select>
+      </div>
+      <div id="accountType">
+        <select>
+          <option> -- Account Type -- </option>
+          <option>Personal</option>
+          <option>Business</option>
+        </select>
+      </div>
+      <div id="achSubmit"></div>
+    </form>
+
+    <script>
+      const createResults = (resp) => {
+        const el = document.createElement("input");
+        el.id = "testResult";
+        el.type = "hidden";
+        el.value = JSON.stringify(resp);
+        document.body.appendChild(el);
+      };
+
+      GlobalPayments.configure({
+        publicApiKey: "pkapi_cert_dNpEYIISXCGDDyKJiV",
+      });
+
+      const achForm = GlobalPayments.ui.form({
+        fields: {
+          "account-number": {
+            placeholder: "",
+            target: "#accountNumber"
+          },
+          "routing-number": {
+            placeholder: "•••••••••",
+            target: "#routingNumber"
+          },
+          "submit": {
+            value: "Submit",
+            target: "#achSubmit"
+          }
+        }
+      });
+
+      achForm.on("account-number", "token-success", createResults);
+      achForm.on("account-number", "token-error", createResults);
+      GlobalPayments.on("error", createResults);
+    </script>
+  </body>
+</html>

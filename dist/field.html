@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+    <title>Secure Payment Field</title>
+    <style type="text/css">
+      html, #secure-payment-field-body,
+      #secure-payment-field-wrapper {
+        display: flex;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        flex: 1 1 auto;
+      }
+      #secure-payment-field {
+        margin: 0;
+        width: 100%;
+        flex: 1 1 auto;
+      }
+    </style>
+  </head>
+  <body id="secure-payment-field-body">
+    <div id="secure-payment-field-wrapper">
+      <div class="extra-div-1"></div>
+      <div class="extra-div-2"></div>
+    </div>
+    <script type="text/javascript" src="globalpayments.js"></script>
+    <script>
+      GlobalPayments.ui.IframeField.register(window.name);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,209 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+    <title>Heartland Examples</title>
+  </head>
+  <body>
+    <h1>Examples</h1>
+
+    <h2>Credit Card Form</h2>
+
+    <form id="card-form" action="/charge" method="get">
+      <div id="cardNumber"></div>
+      <div id="cardCvv"></div>
+      <div id="cardExpiration"></div>
+      <div id="cardSubmit"></div>
+    </form>
+
+    <h2>Drop-in Credit Card Form</h2>
+
+    <p>Uses the ready-to-use credit card form with the default style.</p>
+
+    <aside>
+      <p>Note: The card holder field is purely a pass-through for this gateway.</p>
+    </aside>
+
+    <form id="dropin-card-form" action="/charge" method="get">
+    </form>
+
+    <h2>ACH/eCheck Form</h2>
+
+    <form id="ach-form" action="/charge" method="get">
+      <div id="accountNumber"></div>
+      <div id="routingNumber"></div>
+      <div id="checkType">
+        <select>
+          <option> -- Check Type -- </option>
+          <option>Checking</option>
+          <option>Savings</option>
+        </select>
+      </div>
+      <div id="accountType">
+        <select>
+          <option> -- Account Type -- </option>
+          <option>Personal</option>
+          <option>Business</option>
+        </select>
+      </div>
+      <div id="achSubmit"></div>
+    </form>
+
+    <h2>Drop-in ACH/eCheck Form</h2>
+
+    <p>Uses the ready-to-use ACH/eCheck form with the default style.</p>
+
+    <form id="dropin-ach-form" action="/charge" method="get">
+    </form>
+
+    <h2>Gift/Loyalty Form</h2>
+
+    <form id="gift-form" action="/charge" method="get">
+      <div id="giftNumber"></div>
+      <div id="giftPin">
+        <input type="tel" name="pin" placeholder="••••" />
+      </div>
+      <div id="giftSubmit"></div>
+    </form>
+
+    <h2>Drop-in Gift/Loyalty Form</h2>
+
+    <p>Uses the ready-to-use gift/loyalty card form with the default style.</p>
+
+    <form id="dropin-gift-form" action="/charge" method="get">
+    </form>
+
+    <h2>PaymentRequest API</h2>
+
+    <div>
+      <button type="button" id="paymentRequestPlainButton" style="display: none">Pay</button>
+    </div>
+
+    <h2>Track reader</h2>
+
+    <form id="track-form" action="/charge" method="get">
+      <div id="cardTrack"></div>
+    </form>
+
+    <h2>Drop-in Track reader</h2>
+
+    <form id="dropin-track-form" action="/charge" method="get">
+    </form>
+
+    <script src="/dist/globalpayments.js"></script>
+    <script>
+      GlobalPayments.configure({
+        publicApiKey: "pkapi_cert_dNpEYIISXCGDDyKJiV",
+      });
+
+      GlobalPayments.on("error", function (error) {
+        console.error(error);
+      });
+
+      var cardForm = GlobalPayments.ui.form({
+        fields: {
+          "card-number": {
+            placeholder: "•••• •••• •••• ••••",
+            target: "#cardNumber"
+          },
+          "card-expiration": {
+            placeholder: "MM / YYYY",
+            target: "#cardExpiration"
+          },
+          "card-cvv": {
+            placeholder: "•••",
+            target: "#cardCvv"
+          },
+          "submit": {
+            value: "Submit",
+            target: "#cardSubmit"
+          }
+        }
+      });
+
+      cardForm.on("card-number", "register", function () { console.log("Registration of Card Number occurred"); });
+      cardForm.on("token-success", function (resp) { console.log(resp); });
+      cardForm.on("token-error", function (resp) { console.log(resp); });
+
+      var dropinCardForm = GlobalPayments.creditCard.form('#dropin-card-form', { style: 'blank' });
+
+      dropinCardForm.on("token-success", function (resp) { console.log(resp); });
+
+      var achForm = GlobalPayments.ui.form({
+        fields: {
+          "account-number": {
+            placeholder: "Account Number",
+            target: "#accountNumber"
+          },
+          "routing-number": {
+            placeholder: "•••••••••",
+            target: "#routingNumber"
+          },
+          "submit": {
+            value: "Submit",
+            target: "#achSubmit"
+          }
+        }
+      });
+
+      achForm.on("token-success", function (resp) { console.log(resp); });
+      achForm.on("token-error", function (resp) { console.log(resp); });
+
+      var dropinAchForm = GlobalPayments.eCheck.form('#dropin-ach-form', { style: 'blank' });
+
+      dropinAchForm.on("token-success", function (resp) { console.log(resp); });
+
+      var giftForm = GlobalPayments.ui.form({
+        fields: {
+          "card-number": {
+            placeholder: "•••• •••• •••• ••••",
+            target: "#giftNumber"
+          },
+          "submit": {
+            value: "Submit",
+            target: "#giftSubmit"
+          }
+        }
+      });
+
+      giftForm.on("token-success", function (resp) { console.log(resp); });
+      giftForm.on("token-error", function (resp) { console.log(resp); });
+
+      var dropinGiftForm = GlobalPayments.giftAndLoyalty.form('#dropin-gift-form', { style: 'blank' });
+
+      dropinGiftForm.on("token-success", function (resp) { console.log(resp); });
+
+      var paymentRequestForm = GlobalPayments.paymentRequest.setup("#paymentRequestPlainButton", {
+        total: {
+          label: "Total",
+          amount: { value: 10, currency: "USD" }
+        }
+      });
+
+      paymentRequestForm.on("token-success", function (resp) {
+        console.log(resp);
+        GlobalPayments.paymentRequest.complete("success");
+      });
+      paymentRequestForm.on("token-error", function (resp) { console.log(resp); });
+      paymentRequestForm.on("error", function (resp) { console.log(resp); });
+
+      var cardTrackForm = GlobalPayments.ui.form({
+        fields: {
+          "card-track": {
+            target: "#cardTrack"
+          }
+        }
+      });
+
+      cardTrackForm.on("card-track", "token-success", function (resp) { console.log(resp); });
+      cardTrackForm.on("card-track", "token-error", function (resp) { console.log(resp); });
+      cardTrackForm.on("card-track", "waiting-for-data", function () { console.log("Waiting for track data"); });
+      cardTrackForm.on("card-track", "data-received", function () { console.log("Track data received"); });
+
+      var dropinCardTrackForm = GlobalPayments.creditCard.trackReaderForm("#dropin-track-form", { style: 'blank' });
+
+      dropinCardTrackForm.on("token-success", function (resp) { console.log(resp); });
+    </script>
+  </body>
+</html>

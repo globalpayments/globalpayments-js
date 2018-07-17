@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Global Payments Examples</title>
+  </head>
+  <body>
+    <script src="/dist/globalpayments.js"></script>
+    <script src="/test/fixtures/globalpayments/sha1.min.js"></script>
+
+    <form id="form" action="/charge" method="get">
+    </form>
+
+    <script>
+      const createResults = (resp) => {
+        const el = document.createElement("input");
+        el.id = "testResult";
+        el.type = "hidden";
+        el.value = JSON.stringify(resp);
+        document.body.appendChild(el);
+      };
+
+      GlobalPayments.configure({
+        merchantId: "heartlandgpsandbox",
+        account: "hpp",
+        hash: (request) => {
+          // !!! Never do this in production. !!!
+          // It will expose your shared secret to the outside world.
+          // We're only doing this here to simplify the tests.
+          //
+          // See `/examples/globalpayments.html` for a suggested way to hash
+          // requests securely from a server-side integration.
+          // !!! Never do this in production. !!!
+
+          const sharedSecret = 'secret';
+
+          const toHash = [
+            request.TIMESTAMP || '',
+            request.MERCHANT_ID || '',
+            request.ORDER_ID || '',
+            '',
+            request.CURRENCY || '',
+            request.PAYER_REF || '',
+            request.PMT_REF || '',
+          ];
+
+          request.SHA1HASH = sha1(sha1(toHash.join('.')) + '.' + sharedSecret);
+
+          return Promise.resolve(request);
+        },
+        env: "sandbox",
+      });
+
+      const cardForm = GlobalPayments.creditCard.form('#form');
+
+      cardForm.on("token-success", createResults);
+      cardForm.on("token-error", createResults);
+      GlobalPayments.on("error", createResults);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,5 @@
+submit button treatment during tokenization, especially for globalpayments
+i18n
+i18n date format? https://github.com/hps/heartland-tokenization/issues/40
+expiration date dropdowns? https://github.com/hps/heartland-tokenization/issues/15
+add heartland gift bin range to card-types

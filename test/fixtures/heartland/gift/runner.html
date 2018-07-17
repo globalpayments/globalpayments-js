@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Heartland Examples</title>
+  </head>
+  <body>
+    <script src="/dist/globalpayments.js"></script>
+
+    <form id="form" action="/charge" method="get">
+      <div id="giftNumber"></div>
+      <div id="giftPin">
+        <input type="tel" name="pin" />
+      </div>
+      <div id="giftSubmit"></div>
+    </form>
+
+    <script>
+      const createResults = (resp) => {
+        const el = document.createElement("input");
+        el.id = "testResult";
+        el.type = "hidden";
+        el.value = JSON.stringify(resp);
+        document.body.appendChild(el);
+      };
+
+      GlobalPayments.configure({
+        publicApiKey: "pkapi_cert_dNpEYIISXCGDDyKJiV",
+      });
+
+      const giftForm = GlobalPayments.ui.form({
+        fields: {
+          "card-number": {
+            placeholder: "•••• •••• •••• ••••",
+            target: "#giftNumber"
+          },
+          "submit": {
+            value: "Submit",
+            target: "#giftSubmit"
+          }
+        }
+      });
+
+      giftForm.on("card-number", "token-success", createResults);
+      giftForm.on("card-number", "token-error", createResults);
+      GlobalPayments.on("error", createResults);
+    </script>
+  </body>
+</html>
