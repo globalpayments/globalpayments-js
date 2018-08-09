@@ -1,11 +1,11 @@
 if (!Object.prototype.hasOwnProperty) {
-  Object.prototype.hasOwnProperty = function hasOwnProperty(prop: string) {
+  Object.prototype.hasOwnProperty = (prop: string) => {
     return typeof this[prop] !== "undefined";
   };
 }
 
 if (!Object.getOwnPropertyNames) {
-  Object.getOwnPropertyNames = function getOwnPropertyNames(obj) {
+  Object.getOwnPropertyNames = (obj) => {
     const keys = [];
     for (const key in obj) {
       if (

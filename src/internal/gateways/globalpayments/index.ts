@@ -1,3 +1,4 @@
+import { IActions } from "..";
 import { options } from "../../lib/options";
 
 import actionNormalizeResponse from "./action-normalize-response";
@@ -37,7 +38,7 @@ export const getEnv = () => {
   return options.env || def;
 };
 
-export const actions = {
+export const actions: IActions = {
   normalizeResponse: actionNormalizeResponse,
   setup: actionSetup,
   tokenize: actionTokenize,

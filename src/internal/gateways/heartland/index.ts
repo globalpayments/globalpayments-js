@@ -1,3 +1,4 @@
+import { IActions } from "..";
 import { options } from "../../lib/options";
 
 import actionNormalizeResponse from "./action-normalize-response";
@@ -32,7 +33,7 @@ export const urls = {
       : `${domains.sandbox}/Hps.Exchange.PosGateway.Hpf.v1/api/token`,
 };
 
-export const actions = {
+export const actions: IActions = {
   normalizeResponse: actionNormalizeResponse,
   tokenize: actionTokenize,
   validateData: actionValidateData,

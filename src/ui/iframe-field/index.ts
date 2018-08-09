@@ -191,6 +191,8 @@ export class IframeField extends EventEmitter {
             }
           }
           break;
+        default:
+          break;
       }
     });
   }
@@ -366,6 +368,7 @@ export class IframeField extends EventEmitter {
     frame.frameBorder = "0";
     frame.scrolling = "no";
     frame.setAttribute("allowtransparency", "true");
+    frame.allowPaymentRequest = true;
     return frame;
   }
 }

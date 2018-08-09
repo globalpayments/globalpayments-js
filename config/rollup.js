@@ -1,7 +1,7 @@
 import commonjs from "rollup-plugin-commonjs";
 import resolve from "rollup-plugin-node-resolve";
 import typescript from "rollup-plugin-typescript2";
-import uglify from "rollup-plugin-uglify";
+import { uglify } from "rollup-plugin-uglify";
 
 const input = "./src/index.ts";
 
@@ -15,6 +15,7 @@ const plugins = [
   typescript({
     check: true,
     typescript: require("typescript"),
+    useTsconfigDeclarationDir: true,
   }),
 ];
 

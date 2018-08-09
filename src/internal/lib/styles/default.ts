@@ -1,6 +1,7 @@
 import assetBaseUrl from "../asset-base-url";
 
 // tslint:disable:object-literal-key-quotes
+// tslint:disable:object-literal-sort-keys
 
 const imageBase = assetBaseUrl() + "images/";
 

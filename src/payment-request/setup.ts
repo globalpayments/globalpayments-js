@@ -12,7 +12,7 @@ import {
 
 const iframeHolderId = "global-pay-payment-request";
 
-class PaymentRequestEmitter extends EventEmitter {
+export class PaymentRequestEmitter extends EventEmitter {
   private iframe: IframeField;
 
   constructor(iframe: IframeField) {
@@ -77,8 +77,6 @@ export default function(
     "#" + holder.id,
     assetBaseUrl() + "field.html",
   );
-
-  iframe.frame.setAttribute("allowpaymentrequest", "true");
 
   instruments = instruments || defaultPaymentRequestInstruments();
   details = details || defaultPaymentRequestDetails();

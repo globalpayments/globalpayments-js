@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
     "alwaysStrict": true,
+    "declaration": true,
+    "declarationDir": "./types",
     "importHelpers": true,
     "lib": ["dom", "esnext"],
     "noImplicitAny": true,

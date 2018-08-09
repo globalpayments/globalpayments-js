@@ -27,7 +27,9 @@ export interface ISuccess {
     cardBin?: string;
     cardLast4?: string;
     cardNumber?: string;
+    cardSecurityCode?: boolean;
     cardType?: string;
+    // matches PaymentRequest spec naming for cardholder name
     cardholderName?: string;
     expiryMonth?: string;
     expiryYear?: string;

@@ -8,7 +8,7 @@ export const assertCardTokenSuccess = ($json) => {
   assert.isOk(result.details);
   assert.isOk(result.details.cardBin);
   assert.isOk(result.details.cardNumber);
-  assert.isNotOk(result.details.cardSecurityCode);
+  assert.strictEqual(result.details.cardSecurityCode, true);
   assert.isOk(result.details.cardType);
   assert.isOk(result.details.cardLast4);
   assert.isOk(result.details.expiryMonth);

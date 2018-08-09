@@ -360,6 +360,8 @@ export let JSON: any = {};
               : "{" + partial.join(",") + "}";
         gap = mind;
         return v;
+      default:
+        break;
     }
 
     return undefined;

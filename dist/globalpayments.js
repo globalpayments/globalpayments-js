@@ -63,10 +63,11 @@ var GlobalPayments = (function () {
 
 	if (!window.fetch) window.fetch = require$$0.default || require$$0;
 
+	var _this = undefined;
 	if (!Array.prototype.forEach) {
-	    Array.prototype.forEach = function forEach(fn) {
-	        for (var i = 0; i < this.length; i++) {
-	            fn(this[i], i, this);
+	    Array.prototype.forEach = function (fn) {
+	        for (var i = 0; i < _this.length; i++) {
+	            fn(_this[i], i, _this);
 	        }
 	    };
 	}
@@ -89,60 +90,89 @@ var GlobalPayments = (function () {
 	revLookup['-'.charCodeAt(0)] = 62;
 	revLookup['_'.charCodeAt(0)] = 63;
 
-	function placeHoldersCount (b64) {
+	function getLens (b64) {
 	  var len = b64.length;
+
 	  if (len % 4 > 0) {
 	    throw new Error('Invalid string. Length must be a multiple of 4')
 	  }
 
-	  // the number of equal signs (place holders)
-	  // if there are two placeholders, than the two characters before it
-	  // represent one byte
-	  // if there is only one, then the three characters before it represent 2 bytes
-	  // this is just a cheap hack to not do indexOf twice
-	  return b64[len - 2] === '=' ? 2 : b64[len - 1] === '=' ? 1 : 0
+	  // Trim off extra bytes after placeholder bytes are found
+	  // See: https://github.com/beatgammit/base64-js/issues/42
+	  var validLen = b64.indexOf('=');
+	  if (validLen === -1) validLen = len;
+
+	  var placeHoldersLen = validLen === len
+	    ? 0
+	    : 4 - (validLen % 4);
+
+	  return [validLen, placeHoldersLen]
+	}
+
+	function _byteLength (b64, validLen, placeHoldersLen) {
+	  return ((validLen + placeHoldersLen) * 3 / 4) - placeHoldersLen
 	}
 
 	function toByteArray (b64) {
-	  var i, l, tmp, placeHolders, arr;
-	  var len = b64.length;
-	  placeHolders = placeHoldersCount(b64);
+	  var tmp;
+	  var lens = getLens(b64);
+	  var validLen = lens[0];
+	  var placeHoldersLen = lens[1];
 
-	  arr = new Arr((len * 3 / 4) - placeHolders);
+	  var arr = new Arr(_byteLength(b64, validLen, placeHoldersLen));
+
+	  var curByte = 0;
 
 	  // if there are placeholders, only get up to the last complete 4 chars
-	  l = placeHolders > 0 ? len - 4 : len;
+	  var len = placeHoldersLen > 0
+	    ? validLen - 4
+	    : validLen;
 
-	  var L = 0;
-
-	  for (i = 0; i < l; i += 4) {
-	    tmp = (revLookup[b64.charCodeAt(i)] << 18) | (revLookup[b64.charCodeAt(i + 1)] << 12) | (revLookup[b64.charCodeAt(i + 2)] << 6) | revLookup[b64.charCodeAt(i + 3)];
-	    arr[L++] = (tmp >> 16) & 0xFF;
-	    arr[L++] = (tmp >> 8) & 0xFF;
-	    arr[L++] = tmp & 0xFF;
+	  for (var i = 0; i < len; i += 4) {
+	    tmp =
+	      (revLookup[b64.charCodeAt(i)] << 18) |
+	      (revLookup[b64.charCodeAt(i + 1)] << 12) |
+	      (revLookup[b64.charCodeAt(i + 2)] << 6) |
+	      revLookup[b64.charCodeAt(i + 3)];
+	    arr[curByte++] = (tmp >> 16) & 0xFF;
+	    arr[curByte++] = (tmp >> 8) & 0xFF;
+	    arr[curByte++] = tmp & 0xFF;
 	  }
 
-	  if (placeHolders === 2) {
-	    tmp = (revLookup[b64.charCodeAt(i)] << 2) | (revLookup[b64.charCodeAt(i + 1)] >> 4);
-	    arr[L++] = tmp & 0xFF;
-	  } else if (placeHolders === 1) {
-	    tmp = (revLookup[b64.charCodeAt(i)] << 10) | (revLookup[b64.charCodeAt(i + 1)] << 4) | (revLookup[b64.charCodeAt(i + 2)] >> 2);
-	    arr[L++] = (tmp >> 8) & 0xFF;
-	    arr[L++] = tmp & 0xFF;
+	  if (placeHoldersLen === 2) {
+	    tmp =
+	      (revLookup[b64.charCodeAt(i)] << 2) |
+	      (revLookup[b64.charCodeAt(i + 1)] >> 4);
+	    arr[curByte++] = tmp & 0xFF;
+	  }
+
+	  if (placeHoldersLen === 1) {
+	    tmp =
+	      (revLookup[b64.charCodeAt(i)] << 10) |
+	      (revLookup[b64.charCodeAt(i + 1)] << 4) |
+	      (revLookup[b64.charCodeAt(i + 2)] >> 2);
+	    arr[curByte++] = (tmp >> 8) & 0xFF;
+	    arr[curByte++] = tmp & 0xFF;
 	  }
 
 	  return arr
 	}
 
 	function tripletToBase64 (num) {
-	  return lookup[num >> 18 & 0x3F] + lookup[num >> 12 & 0x3F] + lookup[num >> 6 & 0x3F] + lookup[num & 0x3F]
+	  return lookup[num >> 18 & 0x3F] +
+	    lookup[num >> 12 & 0x3F] +
+	    lookup[num >> 6 & 0x3F] +
+	    lookup[num & 0x3F]
 	}
 
 	function encodeChunk (uint8, start, end) {
 	  var tmp;
 	  var output = [];
 	  for (var i = start; i < end; i += 3) {
-	    tmp = ((uint8[i] << 16) & 0xFF0000) + ((uint8[i + 1] << 8) & 0xFF00) + (uint8[i + 2] & 0xFF);
+	    tmp =
+	      ((uint8[i] << 16) & 0xFF0000) +
+	      ((uint8[i + 1] << 8) & 0xFF00) +
+	      (uint8[i + 2] & 0xFF);
 	    output.push(tripletToBase64(tmp));
 	  }
 	  return output.join('')
@@ -152,30 +182,33 @@ var GlobalPayments = (function () {
 	  var tmp;
 	  var len = uint8.length;
 	  var extraBytes = len % 3; // if we have 1 byte left, pad 2 bytes
-	  var output = '';
 	  var parts = [];
 	  var maxChunkLength = 16383; // must be multiple of 3
 
 	  // go through the array every three bytes, we'll deal with trailing stuff later
 	  for (var i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength) {
-	    parts.push(encodeChunk(uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)));
+	    parts.push(encodeChunk(
+	      uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)
+	    ));
 	  }
 
 	  // pad the end with zeros, but make sure to not forget the extra bytes
 	  if (extraBytes === 1) {
 	    tmp = uint8[len - 1];
-	    output += lookup[tmp >> 2];
-	    output += lookup[(tmp << 4) & 0x3F];
-	    output += '==';
+	    parts.push(
+	      lookup[tmp >> 2] +
+	      lookup[(tmp << 4) & 0x3F] +
+	      '=='
+	    );
 	  } else if (extraBytes === 2) {
-	    tmp = (uint8[len - 2] << 8) + (uint8[len - 1]);
-	    output += lookup[tmp >> 10];
-	    output += lookup[(tmp >> 4) & 0x3F];
-	    output += lookup[(tmp << 2) & 0x3F];
-	    output += '=';
+	    tmp = (uint8[len - 2] << 8) + uint8[len - 1];
+	    parts.push(
+	      lookup[tmp >> 10] +
+	      lookup[(tmp >> 4) & 0x3F] +
+	      lookup[(tmp << 2) & 0x3F] +
+	      '='
+	    );
 	  }
-
-	  parts.push(output);
 
 	  return parts.join('')
 	}
@@ -214,7 +247,7 @@ var GlobalPayments = (function () {
 	license information. Microsoft reserves all rights not expressly granted under
 	the Apache 2.0 License, whether by implication, estoppel or otherwise.
 	----------------------------------------------------------------------------- */
-	var _this = undefined;
+	var _this$1 = undefined;
 	/*
 	    json2.js
 	    2011-10-19
@@ -374,24 +407,24 @@ var GlobalPayments = (function () {
 	    }
 	    if (typeof Date.prototype.toJSON !== "function") {
 	        Date.prototype.toJSON = function (_KEY) {
-	            return isFinite(_this.valueOf())
-	                ? _this.getUTCFullYear() +
+	            return isFinite(_this$1.valueOf())
+	                ? _this$1.getUTCFullYear() +
 	                    "-" +
-	                    f(_this.getUTCMonth() + 1) +
+	                    f(_this$1.getUTCMonth() + 1) +
 	                    "-" +
-	                    f(_this.getUTCDate()) +
+	                    f(_this$1.getUTCDate()) +
 	                    "T" +
-	                    f(_this.getUTCHours()) +
+	                    f(_this$1.getUTCHours()) +
 	                    ":" +
-	                    f(_this.getUTCMinutes()) +
+	                    f(_this$1.getUTCMinutes()) +
 	                    ":" +
-	                    f(_this.getUTCSeconds()) +
+	                    f(_this$1.getUTCSeconds()) +
 	                    "Z"
 	                : "";
 	        };
 	        var strProto = String.prototype;
 	        var numProto = Number.prototype;
-	        numProto.JSON = strProto.JSON = Boolean.prototype.toJSON = function (_KEY) { return _this.valueOf(); };
+	        numProto.JSON = strProto.JSON = Boolean.prototype.toJSON = function (_KEY) { return _this$1.valueOf(); };
 	    }
 	    var cx = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g;
 	    // tslint:disable-next-line
@@ -523,6 +556,8 @@ var GlobalPayments = (function () {
 	                            : "{" + partial.join(",") + "}";
 	                gap = mind;
 	                return v;
+	            default:
+	                break;
 	        }
 	        return undefined;
 	    }
@@ -628,7 +663,7 @@ var GlobalPayments = (function () {
 	// ES5 15.2.3.9
 	// http://es5.github.com/#x15.2.3.9
 	if (!Object.freeze) {
-	    Object.freeze = function freeze(object) {
+	    Object.freeze = function (object) {
 	        if (Object(object) !== object) {
 	            throw new TypeError("Object.freeze can only be called on Objects.");
 	        }
@@ -644,7 +679,7 @@ var GlobalPayments = (function () {
 	}
 	catch (exception) {
 	    Object.freeze = (function (freezeObject) {
-	        return function freeze(object) {
+	        return function (object) {
 	            if (typeof object === "function") {
 	                return object;
 	            }
@@ -655,13 +690,14 @@ var GlobalPayments = (function () {
 	    })(Object.freeze);
 	}
 
+	var _this$2 = undefined;
 	if (!Object.prototype.hasOwnProperty) {
-	    Object.prototype.hasOwnProperty = function hasOwnProperty(prop) {
-	        return typeof this[prop] !== "undefined";
+	    Object.prototype.hasOwnProperty = function (prop) {
+	        return typeof _this$2[prop] !== "undefined";
 	    };
 	}
 	if (!Object.getOwnPropertyNames) {
-	    Object.getOwnPropertyNames = function getOwnPropertyNames(obj) {
+	    Object.getOwnPropertyNames = function (obj) {
 	        var keys = [];
 	        for (var key in obj) {
 	            if (typeof obj.hasOwnProperty !== "undefined" &&
@@ -916,11 +952,12 @@ var GlobalPayments = (function () {
 
 	window.Promise = window.Promise || lib;
 
+	var _this$3 = undefined;
 	if (!String.prototype.repeat) {
-	    String.prototype.repeat = function repeat(length) {
+	    String.prototype.repeat = function (length) {
 	        var result = "";
 	        for (var i = 0; i < length; i++) {
-	            result += this;
+	            result += _this$3;
 	        }
 	        return result;
 	    };
@@ -1052,9 +1089,12 @@ var GlobalPayments = (function () {
 	***************************************************************************** */
 	/* global Reflect, Promise */
 
-	var extendStatics = Object.setPrototypeOf ||
-	    ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-	    function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+	var extendStatics = function(d, b) {
+	    extendStatics = Object.setPrototypeOf ||
+	        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+	        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+	    return extendStatics(d, b);
+	};
 
 	function __extends(d, b) {
 	    extendStatics(d, b);
@@ -1078,8 +1118,8 @@ var GlobalPayments = (function () {
 	    function step(op) {
 	        if (f) throw new TypeError("Generator is already executing.");
 	        while (_) try {
-	            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-	            if (y = 0, t) op = [0, t.value];
+	            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+	            if (y = 0, t) op = [op[0] & 2, t.value];
 	            switch (op[0]) {
 	                case 0: case 1: t = op; break;
 	                case 4: _.label++; return { value: op[1], done: false };
@@ -1158,9 +1198,9 @@ var GlobalPayments = (function () {
 	}());
 	var postMessage = new PostMessage();
 
-	var _this$1 = undefined;
+	var _this$4 = undefined;
 	var setup = false;
-	var actionSetup = (function () { return __awaiter(_this$1, void 0, void 0, function () {
+	var actionSetup = (function () { return __awaiter(_this$4, void 0, void 0, function () {
 	    var _this = this;
 	    return __generator(this, function (_a) {
 	        if (setup) {
@@ -1348,8 +1388,8 @@ var GlobalPayments = (function () {
 	    });
 	};
 
-	var _this$2 = undefined;
-	var actionTokenize = (function (data) { return __awaiter(_this$2, void 0, void 0, function () {
+	var _this$5 = undefined;
+	var actionTokenize = (function (data) { return __awaiter(_this$5, void 0, void 0, function () {
 	    var orderId, e_1, iframe, win, month, year, exp, request;
 	    return __generator(this, function (_a) {
 	        switch (_a.label) {
@@ -1519,8 +1559,8 @@ var GlobalPayments = (function () {
 	    return response;
 	});
 
-	var _this$3 = undefined;
-	var actionTokenize$1 = (function (data) { return __awaiter(_this$3, void 0, void 0, function () {
+	var _this$6 = undefined;
+	var actionTokenize$1 = (function (data) { return __awaiter(_this$6, void 0, void 0, function () {
 	    var url, request, exp, headers, resp, e_1;
 	    return __generator(this, function (_a) {
 	        switch (_a.label) {
@@ -1820,7 +1860,7 @@ var GlobalPayments = (function () {
 	    return keys;
 	}
 
-	var version = "1.0.1";
+	var version = "1.0.2";
 
 	var assetBaseUrl = (function () {
 	    var result = "https://api2-c.heartlandportico.com/SecureSubmit.v1/token/gp-" + version + "/";
@@ -1836,6 +1876,7 @@ var GlobalPayments = (function () {
 	});
 
 	// tslint:disable:object-literal-key-quotes
+	// tslint:disable:object-literal-sort-keys
 	var imageBase = assetBaseUrl() + "images/";
 	var fieldStyles = {
 	    "#secure-payment-field": {
@@ -2058,6 +2099,7 @@ var GlobalPayments = (function () {
 	        }
 	    };
 	    EventEmitter.prototype.once = function (event, listener) {
+	        // tslint:disable-next-line:only-arrow-functions
 	        this.on(event, function g() {
 	            this.off(event, g);
 	            listener.apply(this, arguments);
@@ -2226,6 +2268,7 @@ var GlobalPayments = (function () {
 	                resp.details.cardBin = bin;
 	                resp.details.cardLast4 = last4;
 	                resp.details.cardType = type ? type.code : "unknown";
+	                resp.details.cardSecurityCode = !!data["card-cvv"];
 	            }
 	            if (data["card-expiration"] &&
 	                data["card-expiration"].indexOf(" / ") !== -1) {
@@ -2236,6 +2279,7 @@ var GlobalPayments = (function () {
 	            }
 	            if (data["card-holder-name"]) {
 	                resp.details = resp.details || {};
+	                // matches PaymentRequest spec naming for cardholder name
 	                resp.details.cardholderName =
 	                    resp.details.cardholderName || data["card-holder-name"];
 	            }
@@ -2533,6 +2577,7 @@ var GlobalPayments = (function () {
 	    return Events;
 	}());
 
+	var _this$7 = undefined;
 	var Card = /** @class */ (function () {
 	    function Card() {
 	    }
@@ -2942,9 +2987,9 @@ var GlobalPayments = (function () {
 	    return Card;
 	}());
 	if (!Array.prototype.indexOf) {
-	    Array.prototype.indexOf = function indexOf(obj, start) {
-	        for (var i = start || 0, j = this.length; i < j; i++) {
-	            if (this[i] === obj) {
+	    Array.prototype.indexOf = function (obj, start) {
+	        for (var i = start || 0, j = _this$7.length; i < j; i++) {
+	            if (_this$7[i] === obj) {
 	                return i;
 	            }
 	        }
@@ -3062,8 +3107,8 @@ var GlobalPayments = (function () {
 	    });
 	});
 
-	var _this$4 = undefined;
-	var actionPaymentRequestComplete = (function (id, data) { return __awaiter(_this$4, void 0, void 0, function () {
+	var _this$8 = undefined;
+	var actionPaymentRequestComplete = (function (id, data) { return __awaiter(_this$8, void 0, void 0, function () {
 	    return __generator(this, function (_a) {
 	        if (!window.globalPaymentResponse) {
 	            postMessage.post({
@@ -3097,8 +3142,8 @@ var GlobalPayments = (function () {
 	    });
 	}); });
 
-	var _this$5 = undefined;
-	var actionPaymentRequestStart = (function (id, data) { return __awaiter(_this$5, void 0, void 0, function () {
+	var _this$9 = undefined;
+	var actionPaymentRequestStart = (function (id, data) { return __awaiter(_this$9, void 0, void 0, function () {
 	    var response, request, e_1, code, token, d, cardNumber, bin, last4, type, e_2;
 	    return __generator(this, function (_a) {
 	        switch (_a.label) {
@@ -3147,7 +3192,7 @@ var GlobalPayments = (function () {
 	                d.details.cardBin = bin;
 	                d.details.cardLast4 = last4;
 	                d.details.cardType = type ? type.code : "unknown";
-	                d.details.cardSecurityCode = null;
+	                d.details.cardSecurityCode = !!response.details.cardSecurityCode;
 	                token.details = d.details;
 	                token.methodName = d.methodName;
 	                token.payerEmail = d.payerEmail;
@@ -3164,7 +3209,6 @@ var GlobalPayments = (function () {
 	                return [3 /*break*/, 6];
 	            case 5:
 	                e_2 = _a.sent();
-	                // TODO: bubble up tokenization errors all proper like
 	                response.complete("fail");
 	                postMessage.post({
 	                    data: e_2,
@@ -3500,6 +3544,8 @@ var GlobalPayments = (function () {
 	                        }
 	                    }
 	                    break;
+	                default:
+	                    break;
 	            }
 	        });
 	    };
@@ -3555,6 +3601,7 @@ var GlobalPayments = (function () {
 	        frame.frameBorder = "0";
 	        frame.scrolling = "no";
 	        frame.setAttribute("allowtransparency", "true");
+	        frame.allowPaymentRequest = true;
 	        return frame;
 	    };
 	    return IframeField;
@@ -4147,7 +4194,6 @@ var GlobalPayments = (function () {
 	    // remove the inline display style to reveal
 	    target.style.display = null;
 	    var iframe = new IframeField("payment-request", "#" + holder.id, assetBaseUrl() + "field.html");
-	    iframe.frame.setAttribute("allowpaymentrequest", "true");
 	    instruments = instruments || defaultInstruments();
 	    details = details || defaultDetails();
 	    options$$1 = options$$1 || defaultOptions$3();

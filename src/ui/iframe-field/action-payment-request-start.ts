@@ -56,7 +56,7 @@ export default async (id: string, data: IDictionary) => {
     d.details.cardBin = bin;
     d.details.cardLast4 = last4;
     d.details.cardType = type ? type.code : "unknown";
-    d.details.cardSecurityCode = null;
+    d.details.cardSecurityCode = !!response.details.cardSecurityCode;
 
     (token as any).details = d.details;
     (token as any).methodName = d.methodName;
@@ -76,7 +76,6 @@ export default async (id: string, data: IDictionary) => {
       "parent",
     );
   } catch (e) {
-    // TODO: bubble up tokenization errors all proper like
     response.complete("fail");
     postMessage.post(
       {

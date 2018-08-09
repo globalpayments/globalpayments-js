@@ -498,7 +498,7 @@ export default class Card {
 }
 
 if (!Array.prototype.indexOf) {
-  Array.prototype.indexOf = function indexOf(obj, start) {
+  Array.prototype.indexOf = (obj, start) => {
     for (let i = start || 0, j = this.length; i < j; i++) {
       if (this[i] === obj) {
         return i;

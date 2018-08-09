@@ -73,6 +73,7 @@ export default class EventEmitter {
   }
 
   public once(event: string, listener: IEventListener) {
+    // tslint:disable-next-line:only-arrow-functions
     this.on(event, function g() {
       this.off(event, g);
       listener.apply(this, arguments);

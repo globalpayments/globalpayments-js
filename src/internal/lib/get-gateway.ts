@@ -1,4 +1,4 @@
-import { availableGateways } from "../gateways";
+import { availableGateways, IGatewayModule } from "../gateways";
 import { options } from "./options";
 
 const configHasAllRequiredSettings = (settings: string[]) => {
@@ -15,7 +15,7 @@ const configHasAllRequiredSettings = (settings: string[]) => {
   return count === totalSettings;
 };
 
-export default () => {
+export default (): IGatewayModule | undefined => {
   for (const key in availableGateways) {
     if (!availableGateways.hasOwnProperty(key)) {
       continue;

@@ -45,6 +45,7 @@ export default (data: IDictionary) => {
           resp.details.cardBin = bin;
           resp.details.cardLast4 = last4;
           resp.details.cardType = type ? type.code : "unknown";
+          resp.details.cardSecurityCode = !!data["card-cvv"];
         }
 
         if (
@@ -60,6 +61,7 @@ export default (data: IDictionary) => {
 
         if (data["card-holder-name"]) {
           resp.details = resp.details || {};
+          // matches PaymentRequest spec naming for cardholder name
           resp.details.cardholderName =
             resp.details.cardholderName || data["card-holder-name"];
         }

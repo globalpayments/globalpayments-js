@@ -24,7 +24,7 @@ This plugin allows you to use either Heartland eCommerce or Global Payments eCom
 ## Usage
 
 ```html
-<script src="https://api2-c.heartlandportico.com/SecureSubmit.v1/token/gp-1.0.1/globalpayments.js"></script>
+<script src="https://api2-c.heartlandportico.com/SecureSubmit.v1/token/gp-1.0.2/globalpayments.js"></script>
 ```
 
 ### Configuration

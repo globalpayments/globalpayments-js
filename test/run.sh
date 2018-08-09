@@ -1,7 +1,7 @@
 #!/bin/sh
 
 npm_run() {
-  if command -v foo >/dev/null 2>&1; then
+  if command -v yarn >/dev/null 2>&1; then
     yarn "$@"
   else
     npm "$@"

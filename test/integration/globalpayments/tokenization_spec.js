@@ -36,7 +36,7 @@ describe("globalpayments - tokenization", () => {
     });
 
     it("tokenizes card without error", () => {
-      cy.get("#credit-card-card-holder > iframe").then(enter("Jane Smith"));
+      cy.get("#credit-card-card-holder-name > iframe").then(enter("Jane Smith"));
       cy
         .get("#credit-card-card-number > iframe")
         .then(enter("4111111111111111"));
