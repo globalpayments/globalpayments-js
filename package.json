@@ -1,11 +1,11 @@
 {
   "name": "globalpayments-js",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "author": "Heartland Payment Systems",
   "license": "GPL-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/globalpayments/globalpayments-web.git"
+    "url": "https://github.com/globalpayments/globalpayments-js.git"
   },
   "typings": "./types/global-type.d.ts",
   "scripts": {

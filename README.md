@@ -24,7 +24,7 @@ This plugin allows you to use either Heartland eCommerce or Global Payments eCom
 ## Usage
 
 ```html
-<script src="https://api2-c.heartlandportico.com/SecureSubmit.v1/token/gp-1.0.2/globalpayments.js"></script>
+<script src="https://api2.heartlandportico.com/SecureSubmit.v1/token/gp-1.1.0/globalpayments.js"></script>
 ```
 
 ### Configuration
@@ -227,6 +227,7 @@ cardForm.on("token-success", (resp) => {
 
   // submit data to the integration's backend for processing
   const form = document.getElementById("payment-form");
+  form.appendChild(token);
   form.submit();
 });
 cardForm.on("token-error", (resp) => {
@@ -348,6 +349,7 @@ cardForm.on("token-success", (resp) => {
 
   // submit data to the integration's backend for processing
   const form = document.getElementById("payment-form");
+  form.appendChild(token);
   form.submit();
 });
 cardForm.on("token-error", (resp) => {
@@ -455,6 +457,7 @@ eCheckForm.on("token-success", (resp) => {
 
   // submit data to the integration's backend for processing
   const form = document.getElementById("payment-form");
+  form.appendChild(token);
   form.submit();
 });
 eCheckForm.on("token-error", (resp) => {

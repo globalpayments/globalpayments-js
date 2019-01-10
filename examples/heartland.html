@@ -15,6 +15,7 @@
       <div id="cardCvv"></div>
       <div id="cardExpiration"></div>
       <div id="cardSubmit"></div>
+      <button id="cardExternalTrigger" type="button">Trigger tokenization</button>
     </form>
 
     <h2>Drop-in Credit Card Form</h2>
@@ -101,7 +102,7 @@
         console.error(error);
       });
 
-      var cardForm = GlobalPayments.ui.form({
+      window.cardForm = GlobalPayments.ui.form({
         fields: {
           "card-number": {
             placeholder: "•••• •••• •••• ••••",
@@ -126,7 +127,39 @@
       cardForm.on("token-success", function (resp) { console.log(resp); });
       cardForm.on("token-error", function (resp) { console.log(resp); });
 
-      var dropinCardForm = GlobalPayments.creditCard.form('#dropin-card-form', { style: 'blank' });
+      var cardExternalTrigger = document.getElementById('cardExternalTrigger');
+
+      if (cardExternalTrigger) {
+        cardExternalTrigger.addEventListener('click', function (e) {
+          e.preventDefault();
+
+          for (const type in cardForm.fields) {
+            if (type === "submit") {
+              continue;
+            }
+
+            const field = cardForm.frames[type];
+
+            if (!field) {
+              continue;
+            }
+
+            GlobalPayments.internal.postMessage.post(
+              {
+                data: {
+                  fields: cardForm.fields,
+                  target: cardForm.frames["card-number"].id,
+                },
+                id: field.id,
+                type: "ui:iframe-field:request-data",
+              },
+              field.id,
+            );
+          }
+        });
+      }
+
+      var dropinCardForm = GlobalPayments.creditCard.form('#dropin-card-form', { style: 'default' });
 
       dropinCardForm.on("token-success", function (resp) { console.log(resp); });
 
@@ -150,7 +183,7 @@
       achForm.on("token-success", function (resp) { console.log(resp); });
       achForm.on("token-error", function (resp) { console.log(resp); });
 
-      var dropinAchForm = GlobalPayments.eCheck.form('#dropin-ach-form', { style: 'blank' });
+      var dropinAchForm = GlobalPayments.eCheck.form('#dropin-ach-form', { style: 'default' });
 
       dropinAchForm.on("token-success", function (resp) { console.log(resp); });
 
@@ -170,7 +203,7 @@
       giftForm.on("token-success", function (resp) { console.log(resp); });
       giftForm.on("token-error", function (resp) { console.log(resp); });
 
-      var dropinGiftForm = GlobalPayments.giftAndLoyalty.form('#dropin-gift-form', { style: 'blank' });
+      var dropinGiftForm = GlobalPayments.giftAndLoyalty.form('#dropin-gift-form', { style: 'default' });
 
       dropinGiftForm.on("token-success", function (resp) { console.log(resp); });
 
@@ -201,7 +234,7 @@
       cardTrackForm.on("card-track", "waiting-for-data", function () { console.log("Waiting for track data"); });
       cardTrackForm.on("card-track", "data-received", function () { console.log("Track data received"); });
 
-      var dropinCardTrackForm = GlobalPayments.creditCard.trackReaderForm("#dropin-track-form", { style: 'blank' });
+      var dropinCardTrackForm = GlobalPayments.creditCard.trackReaderForm("#dropin-track-form", { style: 'default' });
 
       dropinCardTrackForm.on("token-success", function (resp) { console.log(resp); });
     </script>

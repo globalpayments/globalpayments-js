@@ -1,6 +1,4 @@
 import {
-  click,
-  enter,
   shouldHaveStyle,
   shouldNotHaveStyle,
   visit,

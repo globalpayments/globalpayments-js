@@ -3,7 +3,7 @@ import { options } from "../../internal/lib/options";
 import version from "../../lib/version";
 
 export default () => {
-  let result = `https://api2-c.heartlandportico.com/SecureSubmit.v1/token/gp-${version}/`;
+  let result = `https://api2.heartlandportico.com/SecureSubmit.v1/token/gp-${version}/`;
 
   const gateway = getGateway();
   if (!gateway) {

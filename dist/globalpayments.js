@@ -1860,10 +1860,10 @@ var GlobalPayments = (function () {
 	    return keys;
 	}
 
-	var version = "1.0.2";
+	var version = "1.1.0";
 
 	var assetBaseUrl = (function () {
-	    var result = "https://api2-c.heartlandportico.com/SecureSubmit.v1/token/gp-" + version + "/";
+	    var result = "https://api2.heartlandportico.com/SecureSubmit.v1/token/gp-" + version + "/";
 	    var gateway = getGateway();
 	    if (!gateway) {
 	        return result;
