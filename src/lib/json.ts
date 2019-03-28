@@ -176,7 +176,7 @@ export let JSON: any = {};
   }
 
   if (typeof Date.prototype.toJSON !== "function") {
-    Date.prototype.toJSON = (_KEY?: any) => {
+    Date.prototype.toJSON = function(_KEY?: any) {
       return isFinite(this.valueOf())
         ? this.getUTCFullYear() +
             "-" +
@@ -195,9 +195,9 @@ export let JSON: any = {};
 
     const strProto: any = String.prototype;
     const numProto: any = Number.prototype;
-    numProto.JSON = strProto.JSON = (Boolean.prototype as any).toJSON = (
+    numProto.JSON = strProto.JSON = (Boolean.prototype as any).toJSON = function(
       _KEY?: any,
-    ) => this.valueOf();
+    ) { return this.valueOf(); };
   }
 
   const cx = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g;
@@ -261,7 +261,7 @@ export let JSON: any = {};
     // obtain a replacement value.
 
     if (typeof rep === "function") {
-      value = (rep as () => void).call(holder, key, value);
+      value = (rep as (key: string | number, value: any) => void).call(holder, key, value);
     }
 
     // what happens next depends on the value"s type.
@@ -420,7 +420,7 @@ export let JSON: any = {};
   // if the JSON object does not yet have a parse method, give it one.
 
   if (typeof JSON.parse !== "function") {
-    JSON.parse = (text: string, reviver: (() => void)) => {
+    JSON.parse = (text: string, reviver: ((key: string | number, value: any) => object)) => {
       // the parse method takes a text and an optional reviver function, and returns
       // a JavaScript value if the text is a valid JSON text.
 
@@ -485,6 +485,7 @@ export let JSON: any = {};
         // in JavaScript: it can begin a block or an object literal. We wrap the text
         // in parens to eliminate the ambiguity.
 
+        // tslint:disable-next-line:function-constructor
         j = new Function("return (" + text + ")")();
 
         // in the optional fourth stage, we recursively walk the new structure, passing

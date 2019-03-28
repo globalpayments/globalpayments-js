@@ -1,12 +1,6 @@
-import buildUrl from "../../lib/build-tokenization-url";
-import { options } from "../../lib/options";
 import { IDictionary } from "../../lib/util";
 
-export default async (data: IDictionary) => {
-  const url = buildUrl({
-    api_key: options.publicApiKey,
-  });
-
+export default async (url: string, data: IDictionary) => {
   const request: any = {
     object: "token",
     token_type: "supt",

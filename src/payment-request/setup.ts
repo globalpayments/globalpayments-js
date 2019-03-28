@@ -103,7 +103,7 @@ export default function(
       start();
     });
   } else {
-    Events.addHandler(target, "click", (e) => {
+    Events.addHandler(target, "click", (e: Event) => {
       e.preventDefault();
       start();
       return false;

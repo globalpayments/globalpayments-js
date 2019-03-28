@@ -1,11 +1,10 @@
 import paymentFieldId from "../../../internal/lib/payment-field-id";
 import generateGuid from "../../../lib/generate-guid";
-import buildUrl from "../../lib/build-tokenization-url";
 import { options } from "../../lib/options";
 import { postMessage as pm } from "../../lib/post-message";
 import { IDictionary } from "../../lib/util";
 
-export default () => {
+export default (url: string) => {
   // build request
   const orderId = btoa(generateGuid()).substring(0, 22);
   const date = new Date();
@@ -46,7 +45,7 @@ export default () => {
 
   return getHashResult(data)
     .then((request: any) => {
-      submitHppRequest(request);
+      submitHppRequest(url, request);
       return getHppReadyState(orderId);
     })
     .then(() => orderId);
@@ -93,13 +92,13 @@ const getHashResult = (data: IDictionary) => {
   });
 };
 
-const submitHppRequest = (request: any) => {
+const submitHppRequest = (url: string, request: any) => {
   const iframe = createIframe(request.ORDER_ID);
 
   const form = document.createElement("form");
 
   form.method = "POST";
-  form.action = buildUrl();
+  form.action = url;
 
   for (const prop in request) {
     if (Object.prototype.hasOwnProperty.call(request, prop)) {

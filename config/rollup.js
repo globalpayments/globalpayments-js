@@ -1,7 +1,7 @@
 import commonjs from "rollup-plugin-commonjs";
 import resolve from "rollup-plugin-node-resolve";
 import typescript from "rollup-plugin-typescript2";
-import { uglify } from "rollup-plugin-uglify";
+import { terser } from "rollup-plugin-terser";
 
 const input = "./src/index.ts";
 
@@ -53,7 +53,7 @@ export default [
     },
 
     plugins: plugins.concat([
-      uglify({
+      terser({
         compress: {
           dead_code: true,
           drop_debugger: true,

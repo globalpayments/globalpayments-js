@@ -13,7 +13,7 @@ export default class Events {
   public static addHandler(
     target: string | EventTarget,
     event: string,
-    callback: EventListener,
+    callback: EventListener | ((e: KeyboardEvent) => void),
   ) {
     let node: EventTarget | null;
     if (typeof target === "string") {
@@ -27,9 +27,9 @@ export default class Events {
     }
 
     if (document.addEventListener) {
-      node.addEventListener(event, callback, false);
+      node.addEventListener(event, callback as EventListener, false);
     } else {
-      Ev.listen(node, event, callback);
+      Ev.listen(node, event, callback as EventListener);
     }
   }
 

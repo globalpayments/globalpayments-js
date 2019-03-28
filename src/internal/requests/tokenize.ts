@@ -1,6 +1,8 @@
 import { IError, ISuccess } from "../gateways";
+import buildUrl from "../lib/build-tokenization-url";
 import { typeByNumber, typeByTrack } from "../lib/card-types";
 import getGateway from "../lib/get-gateway";
+import { options } from "../lib/options";
 import { IDictionary } from "../lib/util";
 
 export default (data: IDictionary) => {
@@ -22,8 +24,14 @@ export default (data: IDictionary) => {
   }
 
   return new Promise((resolve, reject) => {
+    let query: any;
+    if (gateway.requiredSettings.indexOf("publicApiKey") !== -1) {
+      query = {
+        api_key: options.publicApiKey,
+      };
+    }
     gateway.actions
-      .tokenize(data)
+      .tokenize(buildUrl(query), data)
       .then(gateway.actions.normalizeResponse)
       .then((resp: IError | ISuccess) => {
         if ((resp as IError).error) {

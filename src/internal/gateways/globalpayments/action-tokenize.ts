@@ -3,10 +3,10 @@ import { IDictionary } from "../../lib/util";
 
 import actionOnload from "./action-onload";
 
-export default async (data: IDictionary) => {
+export default async (url: string, data: IDictionary) => {
   let orderId: string;
   try {
-    orderId = await actionOnload();
+    orderId = await actionOnload(url);
   } catch (e) {
     return Promise.reject(e);
   }

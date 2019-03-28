@@ -6,7 +6,7 @@ var GlobalPayments = (function () {
 		return new Promise( function (resolve, reject) {
 			var request = new XMLHttpRequest();
 
-			request.open(options.method || 'get', url);
+			request.open(options.method || 'get', url, true);
 
 			for (var i in options.headers) {
 				request.setRequestHeader(i, options.headers[i]);
@@ -20,7 +20,7 @@ var GlobalPayments = (function () {
 
 			request.onerror = reject;
 
-			request.send(options.body);
+			request.send(options.body || null);
 
 			function response() {
 				var keys = [],
@@ -28,7 +28,7 @@ var GlobalPayments = (function () {
 					headers = {},
 					header;
 
-				request.getAllResponseHeaders().replace(/^(.*?):\s*([\s\S]*?)$/gm, function (m, key, value) {
+				request.getAllResponseHeaders().replace(/^(.*?):[^\S\n]*([\s\S]*?)$/gm, function (m, key, value) {
 					keys.push(key = key.toLowerCase());
 					all.push([key, value]);
 					header = headers[key];
@@ -36,7 +36,7 @@ var GlobalPayments = (function () {
 				});
 
 				return {
-					ok: (request.status/200|0) == 1,		// 200-299
+					ok: (request.status/100|0) == 2,		// 200-299
 					status: request.status,
 					statusText: request.statusText,
 					url: request.responseURL,
@@ -55,19 +55,12 @@ var GlobalPayments = (function () {
 		});
 	};
 
-	var unfetch_es = /*#__PURE__*/Object.freeze({
-		default: index
-	});
+	if (!window.fetch) window.fetch = index.default || index;
 
-	var require$$0 = ( unfetch_es && index ) || unfetch_es;
-
-	if (!window.fetch) window.fetch = require$$0.default || require$$0;
-
-	var _this = undefined;
 	if (!Array.prototype.forEach) {
 	    Array.prototype.forEach = function (fn) {
-	        for (var i = 0; i < _this.length; i++) {
-	            fn(_this[i], i, _this);
+	        for (var i = 0; i < this.length; i++) {
+	            fn(this[i], i, this);
 	        }
 	    };
 	}
@@ -247,7 +240,6 @@ var GlobalPayments = (function () {
 	license information. Microsoft reserves all rights not expressly granted under
 	the Apache 2.0 License, whether by implication, estoppel or otherwise.
 	----------------------------------------------------------------------------- */
-	var _this$1 = undefined;
 	/*
 	    json2.js
 	    2011-10-19
@@ -407,24 +399,24 @@ var GlobalPayments = (function () {
 	    }
 	    if (typeof Date.prototype.toJSON !== "function") {
 	        Date.prototype.toJSON = function (_KEY) {
-	            return isFinite(_this$1.valueOf())
-	                ? _this$1.getUTCFullYear() +
+	            return isFinite(this.valueOf())
+	                ? this.getUTCFullYear() +
 	                    "-" +
-	                    f(_this$1.getUTCMonth() + 1) +
+	                    f(this.getUTCMonth() + 1) +
 	                    "-" +
-	                    f(_this$1.getUTCDate()) +
+	                    f(this.getUTCDate()) +
 	                    "T" +
-	                    f(_this$1.getUTCHours()) +
+	                    f(this.getUTCHours()) +
 	                    ":" +
-	                    f(_this$1.getUTCMinutes()) +
+	                    f(this.getUTCMinutes()) +
 	                    ":" +
-	                    f(_this$1.getUTCSeconds()) +
+	                    f(this.getUTCSeconds()) +
 	                    "Z"
 	                : "";
 	        };
 	        var strProto = String.prototype;
 	        var numProto = Number.prototype;
-	        numProto.JSON = strProto.JSON = Boolean.prototype.toJSON = function (_KEY) { return _this$1.valueOf(); };
+	        numProto.JSON = strProto.JSON = Boolean.prototype.toJSON = function (_KEY) { return this.valueOf(); };
 	    }
 	    var cx = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g;
 	    // tslint:disable-next-line
@@ -439,7 +431,7 @@ var GlobalPayments = (function () {
 	        "\f": "\\f",
 	        "\r": "\\r",
 	        '"': '\\"',
-	        "\\": "\\\\"
+	        "\\": "\\\\",
 	    };
 	    var rep;
 	    function quote(quoteStr) {
@@ -647,6 +639,7 @@ var GlobalPayments = (function () {
 	                // javascript structure. The "{" operator is subject to a syntactic ambiguity
 	                // in JavaScript: it can begin a block or an object literal. We wrap the text
 	                // in parens to eliminate the ambiguity.
+	                // tslint:disable-next-line:function-constructor
 	                j = new Function("return (" + text + ")")();
 	                // in the optional fourth stage, we recursively walk the new structure, passing
 	                // each name/value pair to a reviver function for possible transformation.
@@ -690,10 +683,9 @@ var GlobalPayments = (function () {
 	    })(Object.freeze);
 	}
 
-	var _this$2 = undefined;
 	if (!Object.prototype.hasOwnProperty) {
 	    Object.prototype.hasOwnProperty = function (prop) {
-	        return typeof _this$2[prop] !== "undefined";
+	        return typeof this[prop] !== "undefined";
 	    };
 	}
 	if (!Object.getOwnPropertyNames) {
@@ -952,12 +944,11 @@ var GlobalPayments = (function () {
 
 	window.Promise = window.Promise || lib;
 
-	var _this$3 = undefined;
 	if (!String.prototype.repeat) {
 	    String.prototype.repeat = function (length) {
 	        var result = "";
 	        for (var i = 0; i < length; i++) {
-	            result += _this$3;
+	            result += this;
 	        }
 	        return result;
 	    };
@@ -1009,7 +1000,7 @@ var GlobalPayments = (function () {
 	    if (data.error && data.reasons) {
 	        return {
 	            error: data.error,
-	            reasons: data.reasons
+	            reasons: data.reasons,
 	        };
 	    }
 	    if (data.action) {
@@ -1018,13 +1009,13 @@ var GlobalPayments = (function () {
 	            case "action-error":
 	                reasons.push({
 	                    code: "INVALID_REQUEST",
-	                    message: data.payload
+	                    message: data.payload,
 	                });
 	                break;
 	            case "hpp-api-timeout-error":
 	                reasons.push({
 	                    code: "API_ERROR",
-	                    message: data.payload
+	                    message: data.payload,
 	                });
 	                break;
 	            default:
@@ -1052,24 +1043,24 @@ var GlobalPayments = (function () {
 	                    }
 	                    reasons.push({
 	                        code: code,
-	                        message: reason.errorMessage
+	                        message: reason.errorMessage,
 	                    });
 	                }
 	                break;
 	        }
 	        return {
 	            error: true,
-	            reasons: reasons
+	            reasons: reasons,
 	        };
 	    }
 	    return {
 	        customerReference: atob(data.SAVED_PAYER_REF),
 	        details: {
 	            cardholderName: atob(data.SAVED_PMT_NAME),
-	            orderId: atob(data.ORDER_ID)
+	            orderId: atob(data.ORDER_ID),
 	        },
 	        paymentReference: atob(data.SAVED_PMT_REF),
-	        requestId: atob(data.PASREF)
+	        requestId: atob(data.PASREF),
 	    };
 	});
 
@@ -1198,9 +1189,9 @@ var GlobalPayments = (function () {
 	}());
 	var postMessage = new PostMessage();
 
-	var _this$4 = undefined;
+	var _this = undefined;
 	var setup = false;
-	var actionSetup = (function () { return __awaiter(_this$4, void 0, void 0, function () {
+	var actionSetup = (function () { return __awaiter(_this, void 0, void 0, function () {
 	    var _this = this;
 	    return __generator(this, function (_a) {
 	        if (setup) {
@@ -1221,7 +1212,7 @@ var GlobalPayments = (function () {
 	                        postMessage.post({
 	                            data: hashed,
 	                            id: data.id,
-	                            type: "gateway:globalpayments:hash-result"
+	                            type: "gateway:globalpayments:hash-result",
 	                        }, data.id);
 	                        _a.label = 2;
 	                    case 2: return [2 /*return*/];
@@ -1242,25 +1233,7 @@ var GlobalPayments = (function () {
 	    return "" + S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4() + ")";
 	});
 
-	var buildUrl = (function (queryString) {
-	    var gateway = getGateway();
-	    if (!gateway) {
-	        return "";
-	    }
-	    var base = gateway.urls.tokenization(gateway.getEnv(options) === "production");
-	    if (!queryString) {
-	        return base;
-	    }
-	    var query = "?";
-	    for (var param in queryString) {
-	        if (queryString.hasOwnProperty(param) && queryString[param]) {
-	            query += param + "=" + encodeURIComponent(queryString[param]) + "&";
-	        }
-	    }
-	    return base + query;
-	});
-
-	var actionOnload = (function () {
+	var actionOnload = (function (url) {
 	    // build request
 	    var orderId = btoa(generateGuid()).substring(0, 22);
 	    var date = new Date();
@@ -1290,14 +1263,14 @@ var GlobalPayments = (function () {
 	        ORDER_ID: orderId,
 	        PAYER_EXIST: (options.customerExists === true && "1") || "0",
 	        TIMESTAMP: timestamp,
-	        VALIDATE_CARD_ONLY: (options.validateOnly === false && "0") || "1"
+	        VALIDATE_CARD_ONLY: (options.validateOnly === false && "0") || "1",
 	    };
 	    if (options.customerExists) {
 	        data.PAYER_REF = options.customerReference; // opt config
 	    }
 	    return getHashResult(data)
 	        .then(function (request) {
-	        submitHppRequest(request);
+	        submitHppRequest(url, request);
 	        return getHppReadyState(orderId);
 	    })
 	        .then(function () { return orderId; });
@@ -1317,13 +1290,13 @@ var GlobalPayments = (function () {
 	    if (!field) {
 	        return Promise.reject({
 	            error: true,
-	            reasons: [{ code: "ERROR", message: "Missing field" }]
+	            reasons: [{ code: "ERROR", message: "Missing field" }],
 	        });
 	    }
 	    postMessage.post({
 	        data: data,
 	        id: field.getAttribute("data-id"),
-	        type: "gateway:globalpayments:hash"
+	        type: "gateway:globalpayments:hash",
 	    }, "parent");
 	    // keep `pm.receive` call in callback version to ensure we receive the
 	    // hash request
@@ -1335,11 +1308,11 @@ var GlobalPayments = (function () {
 	        });
 	    });
 	};
-	var submitHppRequest = function (request) {
+	var submitHppRequest = function (url, request) {
 	    var iframe = createIframe(request.ORDER_ID);
 	    var form = document.createElement("form");
 	    form.method = "POST";
-	    form.action = buildUrl();
+	    form.action = url;
 	    for (var prop in request) {
 	        if (Object.prototype.hasOwnProperty.call(request, prop)) {
 	            var el = document.createElement("input");
@@ -1367,7 +1340,7 @@ var GlobalPayments = (function () {
 	        var timeout = setTimeout(function () {
 	            reject({
 	                error: true,
-	                reasons: [{ code: "TIMEOUT", message: "HPP setup timeout" }]
+	                reasons: [{ code: "TIMEOUT", message: "HPP setup timeout" }],
 	            });
 	        }, 30000);
 	        postMessage.receive(function (message) {
@@ -1380,7 +1353,7 @@ var GlobalPayments = (function () {
 	                else {
 	                    reject({
 	                        error: true,
-	                        reasons: [{ code: "ERROR", message: "HPP setup failure" }]
+	                        reasons: [{ code: "ERROR", message: "HPP setup failure" }],
 	                    });
 	                }
 	            }
@@ -1388,14 +1361,14 @@ var GlobalPayments = (function () {
 	    });
 	};
 
-	var _this$5 = undefined;
-	var actionTokenize = (function (data) { return __awaiter(_this$5, void 0, void 0, function () {
+	var _this$1 = undefined;
+	var actionTokenize = (function (url, data) { return __awaiter(_this$1, void 0, void 0, function () {
 	    var orderId, e_1, iframe, win, month, year, exp, request;
 	    return __generator(this, function (_a) {
 	        switch (_a.label) {
 	            case 0:
 	                _a.trys.push([0, 2, , 3]);
-	                return [4 /*yield*/, actionOnload()];
+	                return [4 /*yield*/, actionOnload(url)];
 	            case 1:
 	                orderId = _a.sent();
 	                return [3 /*break*/, 3];
@@ -1426,8 +1399,8 @@ var GlobalPayments = (function () {
 	                        pas_ccmonth: month,
 	                        pas_ccname: data["card-holder-name"],
 	                        pas_ccnum: data["card-number"].replace(" ", ""),
-	                        pas_ccyear: year
-	                    }
+	                        pas_ccyear: year,
+	                    },
 	                };
 	                // todo: fix postMessage origin
 	                win.postMessage(JSON.stringify(request), "*");
@@ -1451,25 +1424,25 @@ var GlobalPayments = (function () {
 	    if (!data["card-number"]) {
 	        errors.push({
 	            code: "INVALID_CARD_NUMBER",
-	            message: "The card number is invalid."
+	            message: "The card number is invalid.",
 	        });
 	    }
 	    if (!data["card-cvv"]) {
 	        errors.push({
 	            code: "INVALID_CARD_SECURITY_CODE",
-	            message: "The card security code is invalid."
+	            message: "The card security code is invalid.",
 	        });
 	    }
 	    if (!data["card-expiration"]) {
 	        errors.push({
 	            code: "INVALID_CARD_EXPIRATION",
-	            message: "The card expiration is invalid."
+	            message: "The card expiration is invalid.",
 	        });
 	    }
 	    if (!data["card-holder-name"]) {
 	        errors.push({
 	            code: "INVALID_CARD_HOLDER_NAME",
-	            message: "The card holder name is invalid."
+	            message: "The card holder name is invalid.",
 	        });
 	    }
 	    return errors;
@@ -1478,7 +1451,7 @@ var GlobalPayments = (function () {
 	var supports = {
 	    apm: {
 	        androidPay: true,
-	        applePay: true
+	        applePay: true,
 	    },
 	    consumerAuthentication: true,
 	    eCheck: false,
@@ -1487,17 +1460,17 @@ var GlobalPayments = (function () {
 	        cardNotPresent: true,
 	        cardPresent: false,
 	        eCheck: false,
-	        gift: false
-	    }
+	        gift: false,
+	    },
 	};
 	var domains = {
 	    production: "https://pay.realexpayments.com",
-	    sandbox: "https://pay.sandbox.realexpayments.com"
+	    sandbox: "https://pay.sandbox.realexpayments.com",
 	};
 	var urls = {
 	    tokenization: function (prod) {
 	        return (prod ? domains.production : domains.sandbox) + "/pay";
-	    }
+	    },
 	};
 	var getEnv = function () {
 	    var def = "production";
@@ -1507,7 +1480,7 @@ var GlobalPayments = (function () {
 	    normalizeResponse: actionNormalizeResponse,
 	    setup: actionSetup,
 	    tokenize: actionTokenize,
-	    validateData: actionValidateData
+	    validateData: actionValidateData,
 	};
 	var requiredSettings = [
 	    "merchantId",
@@ -1528,7 +1501,7 @@ var GlobalPayments = (function () {
 	    if (data.error && data.reasons) {
 	        return {
 	            error: data.error,
-	            reasons: data.reasons
+	            reasons: data.reasons,
 	        };
 	    }
 	    if (data.error) {
@@ -1537,7 +1510,7 @@ var GlobalPayments = (function () {
 	            case "card.number":
 	                reasons.push({
 	                    code: "INVALID_CARD_NUMBER",
-	                    message: data.error.message
+	                    message: data.error.message,
 	                });
 	                break;
 	            default:
@@ -1545,32 +1518,29 @@ var GlobalPayments = (function () {
 	        }
 	        return {
 	            error: true,
-	            reasons: reasons
+	            reasons: reasons,
 	        };
 	    }
 	    var response = {
-	        paymentReference: data.token_value
+	        paymentReference: data.token_value,
 	    };
 	    if (data.card && data.card.number) {
 	        response.details = {
-	            cardNumber: data.card.number
+	            cardNumber: data.card.number,
 	        };
 	    }
 	    return response;
 	});
 
-	var _this$6 = undefined;
-	var actionTokenize$1 = (function (data) { return __awaiter(_this$6, void 0, void 0, function () {
-	    var url, request, exp, headers, resp, e_1;
+	var _this$2 = undefined;
+	var actionTokenize$1 = (function (url, data) { return __awaiter(_this$2, void 0, void 0, function () {
+	    var request, exp, headers, resp, e_1;
 	    return __generator(this, function (_a) {
 	        switch (_a.label) {
 	            case 0:
-	                url = buildUrl({
-	                    api_key: options.publicApiKey
-	                });
 	                request = {
 	                    object: "token",
-	                    token_type: "supt"
+	                    token_type: "supt",
 	                };
 	                if (data["card-number"]) {
 	                    request.card = request.card || {};
@@ -1605,13 +1575,13 @@ var GlobalPayments = (function () {
 	            case 1:
 	                _a.trys.push([1, 3, , 4]);
 	                headers = {
-	                    "Content-Type": "application/json"
+	                    "Content-Type": "application/json",
 	                };
 	                return [4 /*yield*/, fetch(url, {
 	                        body: JSON.stringify(request),
 	                        credentials: "omit",
 	                        headers: typeof Headers !== "undefined" ? new Headers(headers) : headers,
-	                        method: "POST"
+	                        method: "POST",
 	                    })];
 	            case 2:
 	                resp = _a.sent();
@@ -1620,7 +1590,7 @@ var GlobalPayments = (function () {
 	                e_1 = _a.sent();
 	                return [2 /*return*/, {
 	                        error: true,
-	                        reasons: [{ code: e_1.name, message: e_1.message }]
+	                        reasons: [{ code: e_1.name, message: e_1.message }],
 	                    }];
 	            case 4: return [2 /*return*/];
 	        }
@@ -1633,20 +1603,20 @@ var GlobalPayments = (function () {
 	        if (!data["card-number"]) {
 	            errors.push({
 	                code: "INVALID_CARD_NUMBER",
-	                message: "The card number is invalid."
+	                message: "The card number is invalid.",
 	            });
 	        }
 	        else if (!data["account-number"]) {
 	            errors.push({
 	                code: "INVALID_ACCOUNT_NUMBER",
-	                message: "The account number is invalid"
+	                message: "The account number is invalid",
 	            });
 	        }
 	    }
 	    if (data["account-number"] && !data["routing-number"]) {
 	        errors.push({
 	            code: "INVALID_ROUTING_NUMBER",
-	            message: "The routing number is invalid"
+	            message: "The routing number is invalid",
 	        });
 	    }
 	    return errors;
@@ -1655,7 +1625,7 @@ var GlobalPayments = (function () {
 	var supports$1 = {
 	    apm: {
 	        androidPay: false,
-	        applePay: true
+	        applePay: true,
 	    },
 	    consumerAuthentication: true,
 	    eCheck: true,
@@ -1664,24 +1634,24 @@ var GlobalPayments = (function () {
 	        cardNotPresent: true,
 	        cardPresent: true,
 	        eCheck: true,
-	        gift: true
-	    }
+	        gift: true,
+	    },
 	};
 	var domains$1 = {
 	    production: "https://api.heartlandportico.com",
-	    sandbox: "https://cert.api2.heartlandportico.com"
+	    sandbox: "https://cert.api2.heartlandportico.com",
 	};
 	var urls$1 = {
 	    tokenization: function (prod) {
 	        return prod
 	            ? domains$1.production + "/SecureSubmit.v1/api/token"
 	            : domains$1.sandbox + "/Hps.Exchange.PosGateway.Hpf.v1/api/token";
-	    }
+	    },
 	};
 	var actions$1 = {
 	    normalizeResponse: actionNormalizeResponse$1,
 	    tokenize: actionTokenize$1,
-	    validateData: actionValidateData$1
+	    validateData: actionValidateData$1,
 	};
 	var requiredSettings$1 = ["publicApiKey"];
 	var getEnv$1 = function () {
@@ -1713,7 +1683,7 @@ var GlobalPayments = (function () {
 
 	var availableGateways = {
 	    globalpayments: globalpayments,
-	    heartland: heartland
+	    heartland: heartland,
 	};
 
 	var configHasAllRequiredSettings = function (settings) {
@@ -1900,13 +1870,13 @@ var GlobalPayments = (function () {
 	        padding: "6px 12px",
 	        transition: "border-color ease-in-out .15s,box-shadow ease-in-out .15s",
 	        "vertical-align": "baseline",
-	        width: "100% "
+	        width: "100% ",
 	    },
 	    "#secure-payment-field:focus": {
 	        border: "1px solid #3989e3",
 	        "box-shadow": "none",
 	        height: "50px",
-	        outline: "none"
+	        outline: "none",
 	    },
 	    "#secure-payment-field[type=button]": {
 	        "-moz-user-select": "none",
@@ -1931,114 +1901,114 @@ var GlobalPayments = (function () {
 	        "touch-action": "manipulation",
 	        "user-select": "none",
 	        "vertical-align": "middle",
-	        "white-space": "nowrap"
+	        "white-space": "nowrap",
 	    },
 	    "#secure-payment-field[type=button]:focus": {
 	        "background-color": "#258851",
 	        color: "#ffffff",
-	        outline: "none"
+	        outline: "none",
 	    },
 	    "#secure-payment-field[type=button]:hover": {
-	        "background-color": "#258851"
+	        "background-color": "#258851",
 	    },
 	    ".card-cvv": {
 	        background: "transparent url(" + imageBase + "cvv.png) no-repeat right",
-	        "background-size": "63px 40px"
+	        "background-size": "63px 40px",
 	    },
 	    ".card-cvv.card-type-amex": {
 	        background: "transparent url(" + imageBase + "cvv-amex.png) no-repeat right",
-	        "background-size": "63px 40px"
+	        "background-size": "63px 40px",
 	    },
 	    ".card-number": {
 	        background: "transparent url(" + imageBase + "logo-unknown@2x.png) no-repeat right",
-	        "background-size": "55px 35px"
+	        "background-size": "55px 35px",
 	    },
 	    ".card-number.invalid.card-type-amex": {
 	        background: "transparent url(" + imageBase + "logo-amex@2x.png) no-repeat right",
 	        "background-position-y": "-44px",
-	        "background-size": "50px 90px"
+	        "background-size": "50px 90px",
 	    },
 	    ".card-number.invalid.card-type-discover": {
 	        background: "transparent url(" + imageBase + "logo-discover@2x.png) no-repeat right",
 	        "background-position-y": "-44px",
-	        "background-size": "85px 90px"
+	        "background-size": "85px 90px",
 	    },
 	    ".card-number.invalid.card-type-jcb": {
 	        background: "transparent url(" + imageBase + "logo-jcb@2x.png) no-repeat right",
 	        "background-position-y": "-44px",
-	        "background-size": "55px 94px"
+	        "background-size": "55px 94px",
 	    },
 	    ".card-number.invalid.card-type-mastercard": {
 	        background: "transparent url(" + imageBase + "logo-mastercard@2x.png) no-repeat right",
 	        "background-position-y": "-52px",
-	        "background-size": "62px 105px"
+	        "background-size": "62px 105px",
 	    },
 	    ".card-number.invalid.card-type-visa": {
 	        background: "transparent url(" + imageBase + "logo-visa@2x.png) no-repeat right",
 	        "background-position-y": "-44px",
-	        "background-size": "83px 88px"
+	        "background-size": "83px 88px",
 	    },
 	    ".card-number.valid.card-type-amex": {
 	        background: "transparent url(" + imageBase + "logo-amex@2x.png) no-repeat right top",
-	        "background-size": "50px 90px"
+	        "background-size": "50px 90px",
 	    },
 	    ".card-number.valid.card-type-discover": {
 	        background: "transparent url(" + imageBase + "logo-discover@2x.png) no-repeat right",
 	        "background-position-y": "1px",
-	        "background-size": "85px 90px"
+	        "background-size": "85px 90px",
 	    },
 	    ".card-number.valid.card-type-jcb": {
 	        background: "transparent url(" + imageBase + "logo-jcb@2x.png) no-repeat right top",
 	        "background-position-y": "2px",
-	        "background-size": "55px 94px"
+	        "background-size": "55px 94px",
 	    },
 	    ".card-number.valid.card-type-mastercard": {
 	        background: "transparent url(" + imageBase + "logo-mastercard@2x.png) no-repeat right",
 	        "background-position-y": "-1px",
-	        "background-size": "62px 105px"
+	        "background-size": "62px 105px",
 	    },
 	    ".card-number.valid.card-type-visa": {
 	        background: "transparent url(" + imageBase + "logo-visa@2x.png) no-repeat right top",
-	        "background-size": "82px 86px"
+	        "background-size": "82px 86px",
 	    },
 	    ".card-number::-ms-clear": {
-	        display: "none"
+	        display: "none",
 	    },
 	    "input[placeholder]": {
-	        "letter-spacing": "3px"
-	    }
+	        "letter-spacing": "3px",
+	    },
 	};
 	var parentStyles = {
 	    body: {
-	        "font-family": "sans-serif"
+	        "font-family": "sans-serif",
 	    },
 	    label: {
 	        color: "#555",
 	        "font-size": "13px",
 	        "font-weight": "bold",
 	        "line-height": "1.5",
-	        "text-transform": "uppercase"
+	        "text-transform": "uppercase",
 	    },
 	    "#ss-banner": {
 	        background: "transparent url(" + imageBase + "shield-and-logos@2x.png) no-repeat left center",
 	        "background-size": "280px 34px",
 	        height: "40px",
-	        "margin-bottom": "7px"
+	        "margin-bottom": "7px",
 	    },
 	    div: {
-	        display: "block"
+	        display: "block",
 	    },
 	    iframe: {
-	        width: "300px"
+	        width: "300px",
 	    },
 	    ".form-row": {
-	        "margin-top": "10px"
+	        "margin-top": "10px",
 	    },
 	    ".form-wrapper": {
 	        display: "block",
 	        margin: "10px auto",
-	        width: "300px"
-	    }
+	        width: "300px",
+	    },
 	};
 
 	/// see https://gist.github.com/mudge/5830382
@@ -2099,14 +2069,33 @@ var GlobalPayments = (function () {
 	        }
 	    };
 	    EventEmitter.prototype.once = function (event, listener) {
+	        var that = this;
 	        // tslint:disable-next-line:only-arrow-functions
 	        this.on(event, function g() {
-	            this.off(event, g);
-	            listener.apply(this, arguments);
+	            that.off(event, g);
+	            listener.apply(that, arguments);
 	        });
 	    };
 	    return EventEmitter;
 	}());
+
+	var buildUrl = (function (queryString) {
+	    var gateway = getGateway();
+	    if (!gateway) {
+	        return "";
+	    }
+	    var base = gateway.urls.tokenization(gateway.getEnv(options) === "production");
+	    if (!queryString) {
+	        return base;
+	    }
+	    var query = "?";
+	    for (var param in queryString) {
+	        if (queryString.hasOwnProperty(param) && queryString[param]) {
+	            query += param + "=" + encodeURIComponent(queryString[param]) + "&";
+	        }
+	    }
+	    return base + query;
+	});
 
 	/**
 	 * typeByNumber
@@ -2193,43 +2182,43 @@ var GlobalPayments = (function () {
 	        code: "visa",
 	        format: /(\d{1,4})/g,
 	        length: 16,
-	        regex: /^4/
+	        regex: /^4/,
 	    },
 	    {
 	        code: "mastercard",
 	        format: /(\d{1,4})/g,
 	        length: 16,
-	        regex: /^(5[1-5]|2[2-7])/
+	        regex: /^(5[1-5]|2[2-7])/,
 	    },
 	    {
 	        code: "amex",
 	        format: /(\d{1,4})(\d{1,6})?(\d{1,5})?/,
 	        length: 15,
-	        regex: /^3[47]/
+	        regex: /^3[47]/,
 	    },
 	    {
 	        code: "diners",
 	        format: /(\d{1,4})(\d{1,6})?(\d{1,4})?/,
 	        length: 14,
-	        regex: /^3[0689]/
+	        regex: /^3[0689]/,
 	    },
 	    {
 	        code: "discover",
 	        format: /(\d{1,4})/g,
 	        length: 16,
-	        regex: /^6([045]|22)/
+	        regex: /^6([045]|22)/,
 	    },
 	    {
 	        code: "jcb",
 	        format: /(\d{1,4})/g,
 	        length: 16,
-	        regex: /^35/
+	        regex: /^35/,
 	    },
 	    {
 	        code: "unknown",
 	        format: /(\d{1,4})/g,
 	        length: 19,
-	        regex: /^[0-9]/
+	        regex: /^[0-9]/,
 	    },
 	];
 
@@ -2240,7 +2229,7 @@ var GlobalPayments = (function () {
 	            error: true,
 	            reasons: [
 	                { code: "INVALID_CONFIGURATION", message: "no gateway available" },
-	            ]
+	            ],
 	        });
 	    }
 	    var errors = gateway.actions.validateData(data);
@@ -2248,8 +2237,14 @@ var GlobalPayments = (function () {
 	        return Promise.reject({ error: true, reasons: errors });
 	    }
 	    return new Promise(function (resolve, reject) {
+	        var query;
+	        if (gateway.requiredSettings.indexOf("publicApiKey") !== -1) {
+	            query = {
+	                api_key: options.publicApiKey,
+	            };
+	        }
 	        gateway.actions
-	            .tokenize(data)
+	            .tokenize(buildUrl(query), data)
 	            .then(gateway.actions.normalizeResponse)
 	            .then(function (resp) {
 	            if (resp.error) {
@@ -2577,7 +2572,6 @@ var GlobalPayments = (function () {
 	    return Events;
 	}());
 
-	var _this$7 = undefined;
 	var Card = /** @class */ (function () {
 	    function Card() {
 	    }
@@ -2611,7 +2605,7 @@ var GlobalPayments = (function () {
 	                postMessage.post({
 	                    data: { cardType: type.code },
 	                    id: id,
-	                    type: "ui:iframe-field:card-type"
+	                    type: "ui:iframe-field:card-type",
 	                }, "parent");
 	            }
 	        }
@@ -2811,7 +2805,7 @@ var GlobalPayments = (function () {
 	                postMessage.post({
 	                    data: { valid: true },
 	                    id: id,
-	                    type: "ui:iframe-field:card-number-test"
+	                    type: "ui:iframe-field:card-number-test",
 	                }, "parent");
 	            }
 	        }
@@ -2822,7 +2816,7 @@ var GlobalPayments = (function () {
 	                postMessage.post({
 	                    data: { valid: false },
 	                    id: id,
-	                    type: "ui:iframe-field:card-number-test"
+	                    type: "ui:iframe-field:card-number-test",
 	                }, "parent");
 	            }
 	        }
@@ -2867,7 +2861,7 @@ var GlobalPayments = (function () {
 	                postMessage.post({
 	                    data: { valid: true },
 	                    id: id,
-	                    type: "ui:iframe-field:card-cvv-test"
+	                    type: "ui:iframe-field:card-cvv-test",
 	                }, "parent");
 	            }
 	        }
@@ -2878,7 +2872,7 @@ var GlobalPayments = (function () {
 	                postMessage.post({
 	                    data: { valid: false },
 	                    id: id,
-	                    type: "ui:iframe-field:card-cvv-test"
+	                    type: "ui:iframe-field:card-cvv-test",
 	                }, "parent");
 	            }
 	        }
@@ -2918,7 +2912,7 @@ var GlobalPayments = (function () {
 	                postMessage.post({
 	                    data: { valid: true },
 	                    id: id,
-	                    type: "ui:iframe-field:card-expiration-test"
+	                    type: "ui:iframe-field:card-expiration-test",
 	                }, "parent");
 	            }
 	        }
@@ -2929,7 +2923,7 @@ var GlobalPayments = (function () {
 	                postMessage.post({
 	                    data: { valid: false },
 	                    id: id,
-	                    type: "ui:iframe-field:card-expiration-test"
+	                    type: "ui:iframe-field:card-expiration-test",
 	                }, "parent");
 	            }
 	        }
@@ -2988,8 +2982,8 @@ var GlobalPayments = (function () {
 	}());
 	if (!Array.prototype.indexOf) {
 	    Array.prototype.indexOf = function (obj, start) {
-	        for (var i = start || 0, j = _this$7.length; i < j; i++) {
-	            if (_this$7[i] === obj) {
+	        for (var i = start || 0, j = this.length; i < j; i++) {
+	            if (this[i] === obj) {
 	                return i;
 	            }
 	        }
@@ -3021,7 +3015,7 @@ var GlobalPayments = (function () {
 	                w.dataContents["card-holder-name"],
 	            "card-number": window.name === "card-number" && value,
 	            "routing-number": w.dataContents["routing-number"] !== undefined &&
-	                w.dataContents["routing-number"]
+	                w.dataContents["routing-number"],
 	        })
 	            .then(function (response) {
 	            w.dataContents = undefined;
@@ -3029,7 +3023,7 @@ var GlobalPayments = (function () {
 	            postMessage.post({
 	                data: response,
 	                id: id,
-	                type: "ui:iframe-field:token-success"
+	                type: "ui:iframe-field:token-success",
 	            }, "parent");
 	        })["catch"](function (response) {
 	            w.dataContents = undefined;
@@ -3037,7 +3031,7 @@ var GlobalPayments = (function () {
 	            postMessage.post({
 	                data: response,
 	                id: id,
-	                type: "ui:iframe-field:token-error"
+	                type: "ui:iframe-field:token-error",
 	            }, "parent");
 	        });
 	    }
@@ -3067,7 +3061,7 @@ var GlobalPayments = (function () {
 	    el.focus();
 	    postMessage.post({
 	        id: id,
-	        type: "ui:iframe-field:waiting-for-data"
+	        type: "ui:iframe-field:waiting-for-data",
 	    }, "parent");
 	    Events.addHandler(el, "keydown", function (e) {
 	        if (e.keyCode !== 13) {
@@ -3075,13 +3069,13 @@ var GlobalPayments = (function () {
 	        }
 	        postMessage.post({
 	            id: id,
-	            type: "ui:iframe-field:data-received"
+	            type: "ui:iframe-field:data-received",
 	        }, "parent");
 	        e.preventDefault();
 	        var field = document.getElementById(paymentFieldId + "-data");
 	        var value = field && field.value ? field.value : "";
 	        tokenize({
-	            "card-track": value
+	            "card-track": value,
 	        })
 	            .then(function (response) {
 	            if (button && button.firstChild) {
@@ -3091,7 +3085,7 @@ var GlobalPayments = (function () {
 	            postMessage.post({
 	                data: response,
 	                id: id,
-	                type: "ui:iframe-field:token-success"
+	                type: "ui:iframe-field:token-success",
 	            }, "parent");
 	        })["catch"](function (response) {
 	            if (button && button.firstChild) {
@@ -3101,23 +3095,23 @@ var GlobalPayments = (function () {
 	            postMessage.post({
 	                data: response,
 	                id: id,
-	                type: "ui:iframe-field:token-error"
+	                type: "ui:iframe-field:token-error",
 	            }, "parent");
 	        });
 	    });
 	});
 
-	var _this$8 = undefined;
-	var actionPaymentRequestComplete = (function (id, data) { return __awaiter(_this$8, void 0, void 0, function () {
+	var _this$3 = undefined;
+	var actionPaymentRequestComplete = (function (id, data) { return __awaiter(_this$3, void 0, void 0, function () {
 	    return __generator(this, function (_a) {
 	        if (!window.globalPaymentResponse) {
 	            postMessage.post({
 	                data: {
 	                    code: "ERROR",
-	                    message: "Missing PaymentResponse object"
+	                    message: "Missing PaymentResponse object",
 	                },
 	                id: id,
-	                type: "ui:iframe-field:error"
+	                type: "ui:iframe-field:error",
 	            }, "parent");
 	            return [2 /*return*/];
 	        }
@@ -3126,24 +3120,24 @@ var GlobalPayments = (function () {
 	            .then(function () {
 	            postMessage.post({
 	                id: id,
-	                type: "ui:iframe-field:payment-request-completed"
+	                type: "ui:iframe-field:payment-request-completed",
 	            }, "parent");
 	        })["catch"](function (e) {
 	            postMessage.post({
 	                data: {
 	                    code: "ERROR",
-	                    message: e.message
+	                    message: e.message,
 	                },
 	                id: id,
-	                type: "ui:iframe-field:error"
+	                type: "ui:iframe-field:error",
 	            }, "parent");
 	        });
 	        return [2 /*return*/];
 	    });
 	}); });
 
-	var _this$9 = undefined;
-	var actionPaymentRequestStart = (function (id, data) { return __awaiter(_this$9, void 0, void 0, function () {
+	var _this$4 = undefined;
+	var actionPaymentRequestStart = (function (id, data) { return __awaiter(_this$4, void 0, void 0, function () {
 	    var response, request, e_1, code, token, d, cardNumber, bin, last4, type, e_2;
 	    return __generator(this, function (_a) {
 	        switch (_a.label) {
@@ -3164,10 +3158,10 @@ var GlobalPayments = (function () {
 	                postMessage.post({
 	                    data: {
 	                        code: code,
-	                        message: e_1.message
+	                        message: e_1.message,
 	                    },
 	                    id: id,
-	                    type: "ui:iframe-field:token-error"
+	                    type: "ui:iframe-field:token-error",
 	                }, "parent");
 	                return [2 /*return*/];
 	            case 3:
@@ -3178,7 +3172,7 @@ var GlobalPayments = (function () {
 	                            " / " +
 	                            (response.details.expiryYear || ""),
 	                        "card-holder-name": response.details.cardholderName || "",
-	                        "card-number": response.details.cardNumber || ""
+	                        "card-number": response.details.cardNumber || "",
 	                    })];
 	            case 4:
 	                token = _a.sent();
@@ -3204,7 +3198,7 @@ var GlobalPayments = (function () {
 	                postMessage.post({
 	                    data: token,
 	                    id: id,
-	                    type: "ui:iframe-field:token-success"
+	                    type: "ui:iframe-field:token-success",
 	                }, "parent");
 	                return [3 /*break*/, 6];
 	            case 5:
@@ -3213,7 +3207,7 @@ var GlobalPayments = (function () {
 	                postMessage.post({
 	                    data: e_2,
 	                    id: id,
-	                    type: "ui:iframe-field:token-error"
+	                    type: "ui:iframe-field:token-error",
 	                }, "parent");
 	                return [3 /*break*/, 6];
 	            case 6: return [2 /*return*/];
@@ -3237,10 +3231,10 @@ var GlobalPayments = (function () {
 	        data: {
 	            target: data.data.target,
 	            type: type,
-	            value: value
+	            value: value,
 	        },
 	        id: id,
-	        type: "ui:iframe-field:pass-data"
+	        type: "ui:iframe-field:pass-data",
 	    }, "parent");
 	});
 
@@ -3346,7 +3340,7 @@ var GlobalPayments = (function () {
 	                btoa(JSON.stringify({
 	                    id: _this.id,
 	                    targetOrigin: window.location.href,
-	                    type: _this.type
+	                    type: _this.type,
 	                }));
 	        _this.container = document.querySelector(selector);
 	        if (!_this.container) {
@@ -3355,9 +3349,9 @@ var GlobalPayments = (function () {
 	                reasons: [
 	                    {
 	                        code: "ERROR",
-	                        message: "IframeField: target cannot be found with given selector"
+	                        message: "IframeField: target cannot be found with given selector",
 	                    },
-	                ]
+	                ],
 	            });
 	            return _this;
 	        }
@@ -3378,7 +3372,7 @@ var GlobalPayments = (function () {
 	                    postMessage.post({
 	                        data: options,
 	                        id: _this.id,
-	                        type: "ui:iframe-field:update-options"
+	                        type: "ui:iframe-field:update-options",
 	                    }, _this.id);
 	                    break;
 	                case "resize":
@@ -3388,10 +3382,10 @@ var GlobalPayments = (function () {
 	                    postMessage.post({
 	                        data: {
 	                            type: data.data.type,
-	                            value: data.data.value
+	                            value: data.data.value,
 	                        },
 	                        id: data.data.target,
-	                        type: "ui:iframe-field:accumulate-data"
+	                        type: "ui:iframe-field:accumulate-data",
 	                    }, data.data.target);
 	                    break;
 	                default:
@@ -3411,7 +3405,7 @@ var GlobalPayments = (function () {
 	        postMessage.post({
 	            data: { type: type },
 	            id: id,
-	            type: "ui:iframe-field:register"
+	            type: "ui:iframe-field:register",
 	        }, "parent");
 	        IframeField.triggerResize(id);
 	    };
@@ -3444,7 +3438,7 @@ var GlobalPayments = (function () {
 	            Events.addHandler(input, "click", function () {
 	                postMessage.post({
 	                    id: id,
-	                    type: "ui:iframe-field:click"
+	                    type: "ui:iframe-field:click",
 	                }, "parent");
 	            });
 	        }
@@ -3495,7 +3489,7 @@ var GlobalPayments = (function () {
 	    IframeField.addMessageListener = function (id, type, targetOrigin) {
 	        loadedFrames.parent = {
 	            frame: parent,
-	            url: targetOrigin
+	            url: targetOrigin,
 	        };
 	        postMessage.receive(function (data) {
 	            if (!data.id || (data.id && data.id !== id)) {
@@ -3552,10 +3546,10 @@ var GlobalPayments = (function () {
 	    IframeField.triggerResize = function (id) {
 	        postMessage.post({
 	            data: {
-	                height: document.body.offsetHeight + 1
+	                height: document.body.offsetHeight + 1,
 	            },
 	            id: id,
-	            type: "ui:iframe-field:resize"
+	            type: "ui:iframe-field:resize",
 	        }, "parent");
 	    };
 	    IframeField.prototype.addStylesheet = function (json) {
@@ -3563,34 +3557,34 @@ var GlobalPayments = (function () {
 	        postMessage.post({
 	            data: { css: css },
 	            id: this.id,
-	            type: "ui:iframe-field:add-stylesheet"
+	            type: "ui:iframe-field:add-stylesheet",
 	        }, this.id);
 	    };
 	    IframeField.prototype.setFocus = function () {
 	        postMessage.post({
 	            id: this.id,
-	            type: "ui:iframe-field:set-focus"
+	            type: "ui:iframe-field:set-focus",
 	        }, this.id);
 	    };
 	    IframeField.prototype.setPlaceholder = function (placeholder) {
 	        postMessage.post({
 	            data: { placeholder: placeholder },
 	            id: this.id,
-	            type: "ui:iframe-field:set-placeholder"
+	            type: "ui:iframe-field:set-placeholder",
 	        }, this.id);
 	    };
 	    IframeField.prototype.setText = function (text) {
 	        postMessage.post({
 	            data: { text: text },
 	            id: this.id,
-	            type: "ui:iframe-field:set-text"
+	            type: "ui:iframe-field:set-text",
 	        }, this.id);
 	    };
 	    IframeField.prototype.setValue = function (value) {
 	        postMessage.post({
 	            data: { value: value },
 	            id: this.id,
-	            type: "ui:iframe-field:set-value"
+	            type: "ui:iframe-field:set-value",
 	        }, this.id);
 	    };
 	    IframeField.prototype.makeFrame = function (type, id) {
@@ -3609,11 +3603,11 @@ var GlobalPayments = (function () {
 
 	var fieldStyles$1 = {
 	    blank: {},
-	    "default": fieldStyles
+	    "default": fieldStyles,
 	};
 	var parentStyles$1 = {
 	    blank: {},
-	    "default": parentStyles
+	    "default": parentStyles,
 	};
 	var frameFieldTypes = [
 	    "card-number",
@@ -3765,7 +3759,7 @@ var GlobalPayments = (function () {
 	                postMessage.post({
 	                    data: data,
 	                    id: cardCvv.id,
-	                    type: "ui:iframe-field:set-card-type"
+	                    type: "ui:iframe-field:set-card-type",
 	                }, cardCvv.id);
 	            });
 	        }
@@ -3791,10 +3785,10 @@ var GlobalPayments = (function () {
 	            postMessage.post({
 	                data: {
 	                    fields: fields,
-	                    target: target.id
+	                    target: target.id,
 	                },
 	                id: field.id,
-	                type: "ui:iframe-field:request-data"
+	                type: "ui:iframe-field:request-data",
 	            }, field.id);
 	        }
 	    };
@@ -3814,21 +3808,21 @@ var GlobalPayments = (function () {
 	        "card-cvv": "Card CVV:",
 	        "card-expiration": "Card Expiration:",
 	        "card-holder-name": "Card Holder Name:",
-	        "card-number": "Card Number:"
+	        "card-number": "Card Number:",
 	    },
 	    placeholders: {
 	        "card-cvv": "•••",
 	        "card-expiration": "MM / YYYY",
 	        "card-holder-name": "Jane Smith",
-	        "card-number": "•••• •••• •••• ••••"
+	        "card-number": "•••• •••• •••• ••••",
 	    },
 	    prefix: "credit-card-",
 	    style: "default",
 	    values: {
 	        "card-track": "Read Card",
 	        // tslint:disable-next-line:object-literal-key-quotes
-	        submit: "Submit"
-	    }
+	        submit: "Submit",
+	    },
 	};
 	function form(target, formOptions) {
 	    if (formOptions === void 0) { formOptions = {}; }
@@ -3941,17 +3935,17 @@ var GlobalPayments = (function () {
 	        "account-number": "Account Number:",
 	        "account-type": "Account Type:",
 	        "check-type": "Check Type:",
-	        "routing-number": "Routing Number:"
+	        "routing-number": "Routing Number:",
 	    },
 	    placeholders: {
 	        "account-number": "•••••••••",
-	        "routing-number": "•••••••••"
+	        "routing-number": "•••••••••",
 	    },
 	    prefix: "echeck-",
 	    style: "default",
 	    values: {
-	        submit: "Submit"
-	    }
+	        submit: "Submit",
+	    },
 	};
 	function form$1(target, formOptions) {
 	    if (formOptions === void 0) { formOptions = {}; }
@@ -4049,18 +4043,18 @@ var GlobalPayments = (function () {
 	    labels: {
 	        "card-number": "Card Number:",
 	        // tslint:disable-next-line:object-literal-key-quotes
-	        pin: "PIN:"
+	        pin: "PIN:",
 	    },
 	    placeholders: {
 	        "card-number": "•••• •••• •••• ••••",
 	        // tslint:disable-next-line:object-literal-key-quotes
-	        pin: "••••"
+	        pin: "••••",
 	    },
 	    prefix: "gift-and-loyalty-",
 	    style: "default",
 	    values: {
-	        submit: "Submit"
-	    }
+	        submit: "Submit",
+	    },
 	};
 	function form$2(target, formOptions) {
 	    if (formOptions === void 0) { formOptions = {}; }
@@ -4130,7 +4124,7 @@ var GlobalPayments = (function () {
 	        postMessage.post({
 	            data: { status: status },
 	            id: frameId,
-	            type: "ui:iframe-field:payment-request-complete"
+	            type: "ui:iframe-field:payment-request-complete",
 	        }, frameId);
 	    }
 	});
@@ -4166,13 +4160,13 @@ var GlobalPayments = (function () {
 	            error: true,
 	            reasons: [
 	                { code: "INVALID_CONFIGURATION", message: "Invalid target element" },
-	            ]
+	            ],
 	        });
 	    }
 	    if (typeof PaymentRequest === "undefined") {
 	        return bus.emit("error", {
 	            error: true,
-	            reasons: [{ code: "ERROR", message: "PaymentRequest API not available" }]
+	            reasons: [{ code: "ERROR", message: "PaymentRequest API not available" }],
 	        });
 	    }
 	    var holder = document.createElement("div");
@@ -4185,9 +4179,9 @@ var GlobalPayments = (function () {
 	            reasons: [
 	                {
 	                    code: "INVALID_CONFIGURATION",
-	                    message: "Target element has no parent"
+	                    message: "Target element has no parent",
 	                },
-	            ]
+	            ],
 	        });
 	    }
 	    parent.appendChild(holder);
@@ -4203,10 +4197,10 @@ var GlobalPayments = (function () {
 	            data: {
 	                details: details,
 	                instruments: instruments,
-	                options: options$$1
+	                options: options$$1,
 	            },
 	            id: iframe.id,
-	            type: "ui:iframe-field:payment-request-start"
+	            type: "ui:iframe-field:payment-request-start",
 	        }, iframe.id);
 	    };
 	    if (startOnLoad) {
@@ -4239,7 +4233,7 @@ var GlobalPayments = (function () {
 	        }
 	        result.emit("error", {
 	            error: true,
-	            reasons: [{ code: "PAYMENT_UI_CLOSED", message: "Payment UI closed" }]
+	            reasons: [{ code: "PAYMENT_UI_CLOSED", message: "Payment UI closed" }],
 	        });
 	    });
 	    iframe.on("error", function (e) {
@@ -4248,7 +4242,7 @@ var GlobalPayments = (function () {
 	        }
 	        result.emit("error", {
 	            error: true,
-	            reasons: [e]
+	            reasons: [e],
 	        });
 	    });
 	    return result;
@@ -4301,7 +4295,7 @@ var GlobalPayments = (function () {
 	    // IE8 and polyfills use eval :(
 	    on: function (ev, listener) { return bus.on(ev, listener); },
 	    paymentRequest: paymentRequest,
-	    ui: ui
+	    ui: ui,
 	};
 
 	return index$1;

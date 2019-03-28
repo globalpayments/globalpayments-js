@@ -67,16 +67,17 @@ export default class EventEmitter {
       length = listeners.length;
 
       for (i = 0; i < length; i++) {
-        listeners[i].apply(this, args);
+        listeners[i].apply(this, (args as []));
       }
     }
   }
 
   public once(event: string, listener: IEventListener) {
+    const that = this;
     // tslint:disable-next-line:only-arrow-functions
     this.on(event, function g() {
-      this.off(event, g);
-      listener.apply(this, arguments);
+      that.off(event, g);
+      listener.apply(that, (arguments as any));
     });
   }
 }

@@ -1,6 +1,6 @@
 if (!Object.prototype.hasOwnProperty) {
-  Object.prototype.hasOwnProperty = (prop: string) => {
-    return typeof this[prop] !== "undefined";
+  Object.prototype.hasOwnProperty = function(prop: string) {
+    return typeof (this as any)[prop] !== "undefined";
   };
 }
 
