@@ -41,6 +41,9 @@ export class IframeField extends EventEmitter {
       "parent",
     );
     IframeField.triggerResize(id);
+
+    // Fix iOS issue with cross-origin iframes
+    Events.addHandler(document.body, "touchstart", () => { /** */ });
   }
 
   public static createField(id: string, name: string, type: string) {
