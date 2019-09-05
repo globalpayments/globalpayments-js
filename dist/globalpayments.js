@@ -1830,7 +1830,7 @@ var GlobalPayments = (function () {
 	    return keys;
 	}
 
-	var version = "1.1.0";
+	var version = "1.2.1";
 
 	var assetBaseUrl = (function () {
 	    var result = "https://api2.heartlandportico.com/SecureSubmit.v1/token/gp-" + version + "/";
@@ -1979,32 +1979,32 @@ var GlobalPayments = (function () {
 	    },
 	};
 	var parentStyles = {
-	    body: {
+	    ".secure-payment-form": {
 	        "font-family": "sans-serif",
 	    },
-	    label: {
+	    ".secure-payment-form label": {
 	        color: "#555",
 	        "font-size": "13px",
 	        "font-weight": "bold",
 	        "line-height": "1.5",
 	        "text-transform": "uppercase",
 	    },
-	    "#ss-banner": {
+	    ".secure-payment-form #ss-banner": {
 	        background: "transparent url(" + imageBase + "shield-and-logos@2x.png) no-repeat left center",
 	        "background-size": "280px 34px",
 	        height: "40px",
 	        "margin-bottom": "7px",
 	    },
-	    div: {
+	    ".secure-payment-form div": {
 	        display: "block",
 	    },
-	    iframe: {
+	    ".secure-payment-form iframe": {
 	        width: "300px",
 	    },
-	    ".form-row": {
+	    ".secure-payment-form .form-row": {
 	        "margin-top": "10px",
 	    },
-	    ".form-wrapper": {
+	    ".secure-payment-form .form-wrapper": {
 	        display: "block",
 	        margin: "10px auto",
 	        width: "300px",
@@ -3408,6 +3408,8 @@ var GlobalPayments = (function () {
 	            type: "ui:iframe-field:register",
 	        }, "parent");
 	        IframeField.triggerResize(id);
+	        // Fix iOS issue with cross-origin iframes
+	        Events.addHandler(document.body, "touchstart", function () { });
 	    };
 	    IframeField.createField = function (id, name, type) {
 	        var input = document.createElement(type === "button" ? "button" : "input");
@@ -3833,6 +3835,7 @@ var GlobalPayments = (function () {
 	        }
 	        target = el;
 	    }
+	    target.className = target.className + " secure-payment-form";
 	    var gateway = getGateway();
 	    if (gateway && gateway.getEnv(options) !== "production") {
 	        addSandboxAlert(target);
@@ -3885,6 +3888,7 @@ var GlobalPayments = (function () {
 	        }
 	        target = el;
 	    }
+	    target.className = target.className + " secure-payment-form";
 	    var gateway = getGateway();
 	    if (gateway && gateway.getEnv(options) !== "production") {
 	        addSandboxAlert(target);
@@ -3956,6 +3960,7 @@ var GlobalPayments = (function () {
 	        }
 	        target = el;
 	    }
+	    target.className = target.className + " secure-payment-form";
 	    var gateway = getGateway();
 	    if (gateway && gateway.getEnv(options) !== "production") {
 	        addSandboxAlert(target);
@@ -4065,6 +4070,7 @@ var GlobalPayments = (function () {
 	        }
 	        target = el;
 	    }
+	    target.className = target.className + " secure-payment-form";
 	    var gateway = getGateway();
 	    if (gateway && gateway.getEnv(options) !== "production") {
 	        addSandboxAlert(target);
