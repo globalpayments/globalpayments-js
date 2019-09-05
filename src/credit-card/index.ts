@@ -41,6 +41,8 @@ export function form(
     target = el;
   }
 
+  target.className = target.className + " secure-payment-form";
+
   const gateway = getGateway();
 
   if (gateway && gateway.getEnv(options) !== "production") {
@@ -114,6 +116,8 @@ export function trackReaderForm(
 
     target = el;
   }
+
+  target.className = target.className + " secure-payment-form";
 
   const gateway = getGateway();
 
