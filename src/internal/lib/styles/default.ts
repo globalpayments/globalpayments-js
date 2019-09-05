@@ -139,11 +139,11 @@ export const fieldStyles = {
 };
 
 export const parentStyles = {
-  body: {
+  ".secure-payment-form": {
     "font-family": "sans-serif",
   },
 
-  label: {
+  ".secure-payment-form label": {
     color: "#555",
     "font-size": "13px",
     "font-weight": "bold",
@@ -151,26 +151,26 @@ export const parentStyles = {
     "text-transform": "uppercase",
   },
 
-  "#ss-banner": {
+  ".secure-payment-form #ss-banner": {
     background: `transparent url(${imageBase}shield-and-logos@2x.png) no-repeat left center`,
     "background-size": "280px 34px",
     height: "40px",
     "margin-bottom": "7px",
   },
 
-  div: {
+  ".secure-payment-form div": {
     display: "block",
   },
 
-  iframe: {
+  ".secure-payment-form iframe": {
     width: "300px",
   },
 
-  ".form-row": {
+  ".secure-payment-form .form-row": {
     "margin-top": "10px",
   },
 
-  ".form-wrapper": {
+  ".secure-payment-form .form-wrapper": {
     display: "block",
     margin: "10px auto",
     width: "300px",
