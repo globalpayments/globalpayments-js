@@ -14,6 +14,8 @@ export interface IConfiguration {
   customerReference?: string;
   validateOnly?: boolean;
   env?: string;
+  // genius
+  webApiKey?: string;
 }
 
 export default (options: IConfiguration) => {

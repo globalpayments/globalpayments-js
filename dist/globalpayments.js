@@ -1003,65 +1003,43 @@ var GlobalPayments = (function () {
 	            reasons: data.reasons,
 	        };
 	    }
-	    if (data.action) {
+	    // TODO: parse these properly
+	    if (data.errors) {
 	        var reasons = [];
-	        switch (data.action) {
-	            case "action-error":
-	                reasons.push({
-	                    code: "INVALID_REQUEST",
-	                    message: data.payload,
-	                });
-	                break;
-	            case "hpp-api-timeout-error":
-	                reasons.push({
-	                    code: "API_ERROR",
-	                    message: data.payload,
-	                });
-	                break;
-	            default:
-	                for (var i in data.payload) {
-	                    if (!data.payload.hasOwnProperty(i)) {
-	                        continue;
-	                    }
-	                    var reason = data.payload[i];
-	                    var code = "";
-	                    switch (reason.errorCode) {
-	                        case "INVALID_CARDNUMBER":
-	                            code = "INVALID_CARD_NUMBER";
-	                            break;
-	                        case "INVALID_EXPIRY_DATE":
-	                            code = "INVALID_CARD_EXPIRATION";
-	                            break;
-	                        case "INVALID_SECURITY_CODE":
-	                            code = "INVALID_CARD_SECURITY_CODE";
-	                            break;
-	                        case "INVALID_CARDHOLDER_NAME":
-	                            code = "INVALID_CARD_HOLDER_NAME";
-	                            break;
-	                        default:
-	                            break;
-	                    }
-	                    reasons.push({
-	                        code: code,
-	                        message: reason.errorMessage,
-	                    });
-	                }
-	                break;
+	        for (var i in data.errors) {
+	            if (!data.errors.hasOwnProperty(i)) {
+	                continue;
+	            }
+	            var reason = data.errors[i];
+	            var serverErrorType = reason.code === "SERVER_REQUIRED" ? "missing" : "invalid";
+	            var code = "ERROR";
+	            var message = "An unknown error has occurred. Details: " + reason.error_Code + " - " + reason.reason;
+	            if (reason.reason === "cardnumber") {
+	                code = "INVALID_CARD_NUMBER";
+	                message = "The card number is " + serverErrorType;
+	            }
+	            else if (reason.reason === "expirationdate") {
+	                code = "INVALID_CARD_EXPIRATION";
+	                message = "The card expiration date is " + serverErrorType;
+	            }
+	            else if (reason.reason === "cvv") {
+	                code = "INVALID_CARD_SECURITY_CODE";
+	                message = "The card security code is " + serverErrorType;
+	            }
+	            reasons.push({
+	                code: code,
+	                message: message,
+	            });
 	        }
 	        return {
 	            error: true,
 	            reasons: reasons,
 	        };
 	    }
-	    return {
-	        customerReference: atob(data.SAVED_PAYER_REF),
-	        details: {
-	            cardholderName: atob(data.SAVED_PMT_NAME),
-	            orderId: atob(data.ORDER_ID),
-	        },
-	        paymentReference: atob(data.SAVED_PMT_REF),
-	        requestId: atob(data.PASREF),
+	    var response = {
+	        paymentReference: data.token,
 	    };
+	    return response;
 	});
 
 	/*! *****************************************************************************
@@ -1130,6 +1108,192 @@ var GlobalPayments = (function () {
 	    }
 	}
 
+	var _this = undefined;
+	var actionTokenize = (function (url, data) { return __awaiter(_this, void 0, void 0, function () {
+	    var request, exp, headers, resp, e_1;
+	    return __generator(this, function (_a) {
+	        switch (_a.label) {
+	            case 0:
+	                request = {
+	                    merchantApiKey: data.webApiKey,
+	                };
+	                if (data["card-number"]) {
+	                    request.cardnumber = data["card-number"].replace(/\s/g, "");
+	                }
+	                if (data["card-cvv"]) {
+	                    request.cvv = data["card-cvv"];
+	                }
+	                if (data["card-expiration"] &&
+	                    data["card-expiration"].indexOf(" / ") !== -1) {
+	                    exp = data["card-expiration"].split(" / ");
+	                    request.expirationmonth = exp[0] || "";
+	                    request.expirationyear = (exp[1] || "").substr(2, 2);
+	                }
+	                if (data["card-holder-name"]) {
+	                    request.cardholder = data["card-holder-name"];
+	                }
+	                _a.label = 1;
+	            case 1:
+	                _a.trys.push([1, 3, , 4]);
+	                headers = {
+	                    "Content-Type": "application/json",
+	                };
+	                return [4 /*yield*/, fetch(url, {
+	                        body: JSON.stringify(request),
+	                        credentials: "omit",
+	                        headers: typeof Headers !== "undefined" ? new Headers(headers) : headers,
+	                        method: "POST",
+	                    })];
+	            case 2:
+	                resp = _a.sent();
+	                return [2 /*return*/, resp.json()];
+	            case 3:
+	                e_1 = _a.sent();
+	                return [2 /*return*/, {
+	                        error: true,
+	                        reasons: [{ code: e_1.name, message: e_1.message }],
+	                    }];
+	            case 4: return [2 /*return*/];
+	        }
+	    });
+	}); });
+
+	var actionValidateData = (function (data) {
+	    var errors = [];
+	    if (!data["card-number"] && !data["card-track"] && !data["account-number"]) {
+	        if (!data["card-number"]) {
+	            errors.push({
+	                code: "INVALID_CARD_NUMBER",
+	                message: "The card number is invalid.",
+	            });
+	        }
+	        else if (!data["account-number"]) {
+	            errors.push({
+	                code: "INVALID_ACCOUNT_NUMBER",
+	                message: "The account number is invalid",
+	            });
+	        }
+	    }
+	    if (data["account-number"] && !data["routing-number"]) {
+	        errors.push({
+	            code: "INVALID_ROUTING_NUMBER",
+	            message: "The routing number is invalid",
+	        });
+	    }
+	    return errors;
+	});
+
+	var supports = {
+	    apm: {
+	        androidPay: false,
+	        applePay: false,
+	    },
+	    consumerAuthentication: false,
+	    eCheck: false,
+	    gift: false,
+	    tokenization: {
+	        cardNotPresent: true,
+	        cardPresent: false,
+	        eCheck: false,
+	        gift: false,
+	    },
+	};
+	var domains = {
+	    // Genius Checkout has an automatic sandbox feature for developer / partner accounts
+	    production: "https://ecommerce.merchantware.net",
+	    sandbox: "https://ecommerce.merchantware.net",
+	};
+	var urls = {
+	    tokenization: function (prod) {
+	        return (prod ? domains.production : domains.sandbox) + "/v1/api/tokens";
+	    },
+	};
+	var actions = {
+	    normalizeResponse: actionNormalizeResponse,
+	    tokenize: actionTokenize,
+	    validateData: actionValidateData,
+	};
+	var requiredSettings = ["webApiKey"];
+	var getEnv = function () {
+	    return options.env || "production";
+	};
+
+	var genius = /*#__PURE__*/Object.freeze({
+		supports: supports,
+		urls: urls,
+		actions: actions,
+		requiredSettings: requiredSettings,
+		getEnv: getEnv
+	});
+
+	var actionNormalizeResponse$1 = (function (data) {
+	    if (data.error && data.reasons) {
+	        return {
+	            error: data.error,
+	            reasons: data.reasons,
+	        };
+	    }
+	    if (data.action) {
+	        var reasons = [];
+	        switch (data.action) {
+	            case "action-error":
+	                reasons.push({
+	                    code: "INVALID_REQUEST",
+	                    message: data.payload,
+	                });
+	                break;
+	            case "hpp-api-timeout-error":
+	                reasons.push({
+	                    code: "API_ERROR",
+	                    message: data.payload,
+	                });
+	                break;
+	            default:
+	                for (var i in data.payload) {
+	                    if (!data.payload.hasOwnProperty(i)) {
+	                        continue;
+	                    }
+	                    var reason = data.payload[i];
+	                    var code = "";
+	                    switch (reason.errorCode) {
+	                        case "INVALID_CARDNUMBER":
+	                            code = "INVALID_CARD_NUMBER";
+	                            break;
+	                        case "INVALID_EXPIRY_DATE":
+	                            code = "INVALID_CARD_EXPIRATION";
+	                            break;
+	                        case "INVALID_SECURITY_CODE":
+	                            code = "INVALID_CARD_SECURITY_CODE";
+	                            break;
+	                        case "INVALID_CARDHOLDER_NAME":
+	                            code = "INVALID_CARD_HOLDER_NAME";
+	                            break;
+	                        default:
+	                            break;
+	                    }
+	                    reasons.push({
+	                        code: code,
+	                        message: reason.errorMessage,
+	                    });
+	                }
+	                break;
+	        }
+	        return {
+	            error: true,
+	            reasons: reasons,
+	        };
+	    }
+	    return {
+	        customerReference: atob(data.SAVED_PAYER_REF),
+	        details: {
+	            cardholderName: atob(data.SAVED_PMT_NAME),
+	            orderId: atob(data.ORDER_ID),
+	        },
+	        paymentReference: atob(data.SAVED_PMT_REF),
+	        requestId: atob(data.PASREF),
+	    };
+	});
+
 	var loadedFrames = {};
 
 	var PostMessage = /** @class */ (function () {
@@ -1189,9 +1353,9 @@ var GlobalPayments = (function () {
 	}());
 	var postMessage = new PostMessage();
 
-	var _this = undefined;
+	var _this$1 = undefined;
 	var setup = false;
-	var actionSetup = (function () { return __awaiter(_this, void 0, void 0, function () {
+	var actionSetup = (function () { return __awaiter(_this$1, void 0, void 0, function () {
 	    var _this = this;
 	    return __generator(this, function (_a) {
 	        if (setup) {
@@ -1361,8 +1525,8 @@ var GlobalPayments = (function () {
 	    });
 	};
 
-	var _this$1 = undefined;
-	var actionTokenize = (function (url, data) { return __awaiter(_this$1, void 0, void 0, function () {
+	var _this$2 = undefined;
+	var actionTokenize$1 = (function (url, data) { return __awaiter(_this$2, void 0, void 0, function () {
 	    var orderId, e_1, iframe, win, month, year, exp, request;
 	    return __generator(this, function (_a) {
 	        switch (_a.label) {
@@ -1398,7 +1562,7 @@ var GlobalPayments = (function () {
 	                        pas_cccvc: data["card-cvv"],
 	                        pas_ccmonth: month,
 	                        pas_ccname: data["card-holder-name"],
-	                        pas_ccnum: data["card-number"].replace(" ", ""),
+	                        pas_ccnum: data["card-number"].replace(/\s/g, ""),
 	                        pas_ccyear: year,
 	                    },
 	                };
@@ -1419,7 +1583,7 @@ var GlobalPayments = (function () {
 	    });
 	}); });
 
-	var actionValidateData = (function (data) {
+	var actionValidateData$1 = (function (data) {
 	    var errors = [];
 	    if (!data["card-number"]) {
 	        errors.push({
@@ -1448,7 +1612,7 @@ var GlobalPayments = (function () {
 	    return errors;
 	});
 
-	var supports = {
+	var supports$1 = {
 	    apm: {
 	        androidPay: true,
 	        applePay: true,
@@ -1463,26 +1627,26 @@ var GlobalPayments = (function () {
 	        gift: false,
 	    },
 	};
-	var domains = {
+	var domains$1 = {
 	    production: "https://pay.realexpayments.com",
 	    sandbox: "https://pay.sandbox.realexpayments.com",
 	};
-	var urls = {
+	var urls$1 = {
 	    tokenization: function (prod) {
-	        return (prod ? domains.production : domains.sandbox) + "/pay";
+	        return (prod ? domains$1.production : domains$1.sandbox) + "/pay";
 	    },
 	};
-	var getEnv = function () {
+	var getEnv$1 = function () {
 	    var def = "production";
 	    return options.env || def;
 	};
-	var actions = {
-	    normalizeResponse: actionNormalizeResponse,
+	var actions$1 = {
+	    normalizeResponse: actionNormalizeResponse$1,
 	    setup: actionSetup,
-	    tokenize: actionTokenize,
-	    validateData: actionValidateData,
+	    tokenize: actionTokenize$1,
+	    validateData: actionValidateData$1,
 	};
-	var requiredSettings = [
+	var requiredSettings$1 = [
 	    "merchantId",
 	    "account",
 	    // "hash",
@@ -1490,14 +1654,14 @@ var GlobalPayments = (function () {
 	];
 
 	var globalpayments = /*#__PURE__*/Object.freeze({
-		supports: supports,
-		urls: urls,
-		getEnv: getEnv,
-		actions: actions,
-		requiredSettings: requiredSettings
+		supports: supports$1,
+		urls: urls$1,
+		getEnv: getEnv$1,
+		actions: actions$1,
+		requiredSettings: requiredSettings$1
 	});
 
-	var actionNormalizeResponse$1 = (function (data) {
+	var actionNormalizeResponse$2 = (function (data) {
 	    if (data.error && data.reasons) {
 	        return {
 	            error: data.error,
@@ -1532,8 +1696,8 @@ var GlobalPayments = (function () {
 	    return response;
 	});
 
-	var _this$2 = undefined;
-	var actionTokenize$1 = (function (url, data) { return __awaiter(_this$2, void 0, void 0, function () {
+	var _this$3 = undefined;
+	var actionTokenize$2 = (function (url, data) { return __awaiter(_this$3, void 0, void 0, function () {
 	    var request, exp, headers, resp, e_1;
 	    return __generator(this, function (_a) {
 	        switch (_a.label) {
@@ -1544,7 +1708,7 @@ var GlobalPayments = (function () {
 	                };
 	                if (data["card-number"]) {
 	                    request.card = request.card || {};
-	                    request.card.number = data["card-number"].replace(" ", "");
+	                    request.card.number = data["card-number"].replace(/\s/g, "");
 	                }
 	                if (data["card-cvv"]) {
 	                    request.card = request.card || {};
@@ -1597,7 +1761,7 @@ var GlobalPayments = (function () {
 	    });
 	}); });
 
-	var actionValidateData$1 = (function (data) {
+	var actionValidateData$2 = (function (data) {
 	    var errors = [];
 	    if (!data["card-number"] && !data["card-track"] && !data["account-number"]) {
 	        if (!data["card-number"]) {
@@ -1622,7 +1786,7 @@ var GlobalPayments = (function () {
 	    return errors;
 	});
 
-	var supports$1 = {
+	var supports$2 = {
 	    apm: {
 	        androidPay: false,
 	        applePay: true,
@@ -1637,24 +1801,24 @@ var GlobalPayments = (function () {
 	        gift: true,
 	    },
 	};
-	var domains$1 = {
+	var domains$2 = {
 	    production: "https://api.heartlandportico.com",
 	    sandbox: "https://cert.api2.heartlandportico.com",
 	};
-	var urls$1 = {
+	var urls$2 = {
 	    tokenization: function (prod) {
 	        return prod
-	            ? domains$1.production + "/SecureSubmit.v1/api/token"
-	            : domains$1.sandbox + "/Hps.Exchange.PosGateway.Hpf.v1/api/token";
+	            ? domains$2.production + "/SecureSubmit.v1/api/token"
+	            : domains$2.sandbox + "/Hps.Exchange.PosGateway.Hpf.v1/api/token";
 	    },
 	};
-	var actions$1 = {
-	    normalizeResponse: actionNormalizeResponse$1,
-	    tokenize: actionTokenize$1,
-	    validateData: actionValidateData$1,
+	var actions$2 = {
+	    normalizeResponse: actionNormalizeResponse$2,
+	    tokenize: actionTokenize$2,
+	    validateData: actionValidateData$2,
 	};
-	var requiredSettings$1 = ["publicApiKey"];
-	var getEnv$1 = function () {
+	var requiredSettings$2 = ["publicApiKey"];
+	var getEnv$2 = function () {
 	    var key = options.publicApiKey || "";
 	    var def = "production";
 	    if (!key) {
@@ -1674,14 +1838,15 @@ var GlobalPayments = (function () {
 	};
 
 	var heartland = /*#__PURE__*/Object.freeze({
-		supports: supports$1,
-		urls: urls$1,
-		actions: actions$1,
-		requiredSettings: requiredSettings$1,
-		getEnv: getEnv$1
+		supports: supports$2,
+		urls: urls$2,
+		actions: actions$2,
+		requiredSettings: requiredSettings$2,
+		getEnv: getEnv$2
 	});
 
 	var availableGateways = {
+	    genius: genius,
 	    globalpayments: globalpayments,
 	    heartland: heartland,
 	};
@@ -2235,6 +2400,9 @@ var GlobalPayments = (function () {
 	    var errors = gateway.actions.validateData(data);
 	    if (errors.length > 0) {
 	        return Promise.reject({ error: true, reasons: errors });
+	    }
+	    if (options.webApiKey) {
+	        data.webApiKey = options.webApiKey;
 	    }
 	    return new Promise(function (resolve, reject) {
 	        var query;
@@ -3101,8 +3269,8 @@ var GlobalPayments = (function () {
 	    });
 	});
 
-	var _this$3 = undefined;
-	var actionPaymentRequestComplete = (function (id, data) { return __awaiter(_this$3, void 0, void 0, function () {
+	var _this$4 = undefined;
+	var actionPaymentRequestComplete = (function (id, data) { return __awaiter(_this$4, void 0, void 0, function () {
 	    return __generator(this, function (_a) {
 	        if (!window.globalPaymentResponse) {
 	            postMessage.post({
@@ -3136,8 +3304,8 @@ var GlobalPayments = (function () {
 	    });
 	}); });
 
-	var _this$4 = undefined;
-	var actionPaymentRequestStart = (function (id, data) { return __awaiter(_this$4, void 0, void 0, function () {
+	var _this$5 = undefined;
+	var actionPaymentRequestStart = (function (id, data) { return __awaiter(_this$5, void 0, void 0, function () {
 	    var response, request, e_1, code, token, d, cardNumber, bin, last4, type, e_2;
 	    return __generator(this, function (_a) {
 	        switch (_a.label) {

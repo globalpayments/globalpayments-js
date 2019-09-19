@@ -23,6 +23,10 @@ export default (data: IDictionary) => {
     return Promise.reject({ error: true, reasons: errors });
   }
 
+  if (options.webApiKey) {
+    data.webApiKey = options.webApiKey;
+  }
+
   return new Promise((resolve, reject) => {
     let query: any;
     if (gateway.requiredSettings.indexOf("publicApiKey") !== -1) {
