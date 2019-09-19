@@ -70,6 +70,6 @@ describe("experience - formatting", () => {
     cy.get("#cardExpiration > iframe").then(enter("34"));
     cy.get("#cardExpiration > iframe").then(shouldHaveValue("12 / 34"));
     cy.get("#cardExpiration > iframe").then(enter("{backspace}"));
-    cy.get("#cardExpiration > iframe").then(shouldHaveValue("12 / 3"));
+    cy.get("#cardExpiration > iframe").then(shouldHaveValue("12 / 203"));
   });
 });
