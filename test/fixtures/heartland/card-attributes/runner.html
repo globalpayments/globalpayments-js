@@ -8,6 +8,7 @@
     <script src="/dist/globalpayments.js"></script>
 
     <form id="form" action="/charge" method="get">
+      <div id="cardHolder"></div>
       <div id="cardNumber"></div>
       <div id="cardCvv"></div>
       <div id="cardExpiration"></div>
@@ -43,6 +44,9 @@
             placeholder: "•••",
             target: "#cardCvv",
             value: "123"
+          },
+          "card-holder-name": {
+            target: "#cardHolder"
           },
           "submit": {
             target: "#cardSubmit",

@@ -32,4 +32,12 @@ describe("experience - attributes", () => {
   it("sets initial text", () => {
     cy.get("#cardSubmit > iframe").then(shouldHaveText("Place Order"));
   });
+
+  it("sets initial input types", () => {
+    cy.get("#cardHolder > iframe").then(shouldHaveAttribute("type", "text"));
+    cy.get("#cardNumber > iframe").then(shouldHaveAttribute("type", "tel"));
+    cy.get("#cardExpiration > iframe").then(shouldHaveAttribute("type", "tel"));
+    cy.get("#cardCvv > iframe").then(shouldHaveAttribute("type", "tel"));
+    cy.get("#cardSubmit > iframe").then(shouldHaveAttribute("type", "button"));
+  });
 });
