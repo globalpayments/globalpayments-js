@@ -4,24 +4,24 @@ import { IDictionary } from "../../lib/util";
 export default (data: IDictionary) => {
   const errors: IErrorReason[] = [];
 
-  if (!data["card-number"] && !data["card-track"] && !data["account-number"]) {
-    if (!data["card-number"]) {
-      errors.push({
-        code: "INVALID_CARD_NUMBER",
-        message: "The card number is invalid.",
-      });
-    } else if (!data["account-number"]) {
-      errors.push({
-        code: "INVALID_ACCOUNT_NUMBER",
-        message: "The account number is invalid",
-      });
-    }
+  if (!data["card-number"]) {
+    errors.push({
+      code: "INVALID_CARD_NUMBER",
+      message: "The card number is invalid.",
+    });
   }
 
-  if (data["account-number"] && !data["routing-number"]) {
+  if (!data["card-cvv"]) {
     errors.push({
-      code: "INVALID_ROUTING_NUMBER",
-      message: "The routing number is invalid",
+      code: "INVALID_CARD_SECURITY_CODE",
+      message: "The card security code is invalid.",
+    });
+  }
+
+  if (!data["card-expiration"]) {
+    errors.push({
+      code: "INVALID_CARD_EXPIRATION",
+      message: "The card expiration is invalid.",
     });
   }
 
