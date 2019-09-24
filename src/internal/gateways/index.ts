@@ -2,7 +2,7 @@ import { IDictionary } from "../lib/util";
 import * as genius from "./genius";
 import * as globalpayments from "./globalpayments";
 import * as heartland from "./heartland";
-import * as tsep from "./tsep";
+import * as transit from "./transit";
 
 export interface ICapabilitiesList {
   apm?: {
@@ -85,5 +85,5 @@ export const availableGateways: IGatewayList = {
   genius,
   globalpayments,
   heartland,
-  tsep,
+  transit,
 };
