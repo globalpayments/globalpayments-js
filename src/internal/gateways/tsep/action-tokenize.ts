@@ -114,7 +114,7 @@ export default (url: string, data: IDictionary) => {
           });
       }, 100);
     } catch (e) {
-      return Promise.reject({
+      return reject({
         error: true,
         reasons: [{ code: e.name, message: e.message }],
       });
