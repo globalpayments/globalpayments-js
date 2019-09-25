@@ -31,7 +31,7 @@ export default (url: string, data: IDictionary) => {
     const timeout = setTimeout(() => {
       reject({
         error: true,
-        reasons: [{ code: "TIMEOUT", message: "HPP setup timeout" }],
+        reasons: [{ code: "TIMEOUT", message: "TransIT setup timeout" }],
       });
     }, 30000);
 
