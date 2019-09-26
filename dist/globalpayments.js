@@ -54,7 +54,6 @@ var GlobalPayments = (function () {
 			}
 		});
 	};
-	//# sourceMappingURL=unfetch.es.js.map
 
 	if (!window.fetch) window.fetch = index.default || index;
 
@@ -65,7 +64,6 @@ var GlobalPayments = (function () {
 	        }
 	    };
 	}
-	//# sourceMappingURL=array-foreach-polyfill.js.map
 
 	var toByteArray_1 = toByteArray;
 	var fromByteArray_1 = fromByteArray;
@@ -230,7 +228,6 @@ var GlobalPayments = (function () {
 	}
 	window.btoa = window.btoa || base64encode;
 	window.atob = window.atob || base64decode;
-	//# sourceMappingURL=base64-polyfill.js.map
 
 	/* -----------------------------------------------------------------------------
 	This file is based on or incorporates material from the projects listed below
@@ -653,10 +650,8 @@ var GlobalPayments = (function () {
 	        };
 	    }
 	})();
-	//# sourceMappingURL=json.js.map
 
 	window.JSON = window.JSON || JSON$1;
-	//# sourceMappingURL=json-polyfill.js.map
 
 	// ES5 15.2.3.9
 	// http://es5.github.com/#x15.2.3.9
@@ -687,7 +682,6 @@ var GlobalPayments = (function () {
 	        };
 	    })(Object.freeze);
 	}
-	//# sourceMappingURL=object-freeze-polyfill.js.map
 
 	if (!Object.prototype.hasOwnProperty) {
 	    Object.prototype.hasOwnProperty = function (prop) {
@@ -706,7 +700,6 @@ var GlobalPayments = (function () {
 	        return keys;
 	    };
 	}
-	//# sourceMappingURL=object-getownpropertynames-polyfill.js.map
 
 	// Store setTimeout reference so promise-polyfill will be unaffected by
 	// other code modifying setTimeout (like sinon.useFakeTimers())
@@ -950,7 +943,6 @@ var GlobalPayments = (function () {
 	var lib = Promise$1;
 
 	window.Promise = window.Promise || lib;
-	//# sourceMappingURL=promise-polyfill.js.map
 
 	if (!String.prototype.repeat) {
 	    String.prototype.repeat = function (length) {
@@ -961,7 +953,6 @@ var GlobalPayments = (function () {
 	        return result;
 	    };
 	}
-	//# sourceMappingURL=string-repeat-polyfill.js.map
 
 	/**
 	 * Adds an alert letting the user know they're in sandbox mode
@@ -1002,10 +993,8 @@ var GlobalPayments = (function () {
 	        target.insertBefore(el, target.firstChild);
 	    }
 	}
-	//# sourceMappingURL=add-sandbox-alert.js.map
 
 	var options = {};
-	//# sourceMappingURL=options.js.map
 
 	var actionNormalizeResponse = (function (data) {
 	    if (data.error && data.reasons) {
@@ -1052,7 +1041,6 @@ var GlobalPayments = (function () {
 	    };
 	    return response;
 	});
-	//# sourceMappingURL=action-normalize-response.js.map
 
 	/*! *****************************************************************************
 	Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1169,7 +1157,6 @@ var GlobalPayments = (function () {
 	        }
 	    });
 	}); });
-	//# sourceMappingURL=action-tokenize.js.map
 
 	var actionValidateData = (function (data) {
 	    var errors = [];
@@ -1193,7 +1180,6 @@ var GlobalPayments = (function () {
 	    }
 	    return errors;
 	});
-	//# sourceMappingURL=action-validate-data.js.map
 
 	var supports = {
 	    apm: {
@@ -1229,7 +1215,6 @@ var GlobalPayments = (function () {
 	var getEnv = function () {
 	    return options.env || "production";
 	};
-	//# sourceMappingURL=index.js.map
 
 	var genius = /*#__PURE__*/Object.freeze({
 		supports: supports,
@@ -1306,10 +1291,8 @@ var GlobalPayments = (function () {
 	        requestId: atob(data.PASREF),
 	    };
 	});
-	//# sourceMappingURL=action-normalize-response.js.map
 
 	var loadedFrames = {};
-	//# sourceMappingURL=loaded-frames.js.map
 
 	var PostMessage = /** @class */ (function () {
 	    function PostMessage() {
@@ -1367,7 +1350,6 @@ var GlobalPayments = (function () {
 	    return PostMessage;
 	}());
 	var postMessage = new PostMessage();
-	//# sourceMappingURL=post-message.js.map
 
 	var _this$1 = undefined;
 	var setup = false;
@@ -1402,10 +1384,8 @@ var GlobalPayments = (function () {
 	        return [2 /*return*/];
 	    });
 	}); });
-	//# sourceMappingURL=action-setup.js.map
 
 	var paymentFieldId = "secure-payment-field";
-	//# sourceMappingURL=payment-field-id.js.map
 
 	var generateGuid = (function () {
 	    var S4 = function () {
@@ -1414,7 +1394,6 @@ var GlobalPayments = (function () {
 	    };
 	    return "" + S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4() + ")";
 	});
-	//# sourceMappingURL=generate-guid.js.map
 
 	var actionOnload = (function (url) {
 	    // build request
@@ -1543,7 +1522,6 @@ var GlobalPayments = (function () {
 	        });
 	    });
 	};
-	//# sourceMappingURL=action-onload.js.map
 
 	var _this$2 = undefined;
 	var actionTokenize$1 = (function (url, data) { return __awaiter(_this$2, void 0, void 0, function () {
@@ -1602,7 +1580,6 @@ var GlobalPayments = (function () {
 	        }
 	    });
 	}); });
-	//# sourceMappingURL=action-tokenize.js.map
 
 	var actionValidateData$1 = (function (data) {
 	    var errors = [];
@@ -1632,7 +1609,6 @@ var GlobalPayments = (function () {
 	    }
 	    return errors;
 	});
-	//# sourceMappingURL=action-validate-data.js.map
 
 	var supports$1 = {
 	    apm: {
@@ -1674,7 +1650,6 @@ var GlobalPayments = (function () {
 	    // "hash",
 	    "env",
 	];
-	//# sourceMappingURL=index.js.map
 
 	var globalpayments = /*#__PURE__*/Object.freeze({
 		supports: supports$1,
@@ -1718,7 +1693,6 @@ var GlobalPayments = (function () {
 	    }
 	    return response;
 	});
-	//# sourceMappingURL=action-normalize-response.js.map
 
 	var _this$3 = undefined;
 	var actionTokenize$2 = (function (url, data) { return __awaiter(_this$3, void 0, void 0, function () {
@@ -1784,7 +1758,6 @@ var GlobalPayments = (function () {
 	        }
 	    });
 	}); });
-	//# sourceMappingURL=action-tokenize.js.map
 
 	var actionValidateData$2 = (function (data) {
 	    var errors = [];
@@ -1810,7 +1783,6 @@ var GlobalPayments = (function () {
 	    }
 	    return errors;
 	});
-	//# sourceMappingURL=action-validate-data.js.map
 
 	var supports$2 = {
 	    apm: {
@@ -1862,7 +1834,6 @@ var GlobalPayments = (function () {
 	            return def;
 	    }
 	};
-	//# sourceMappingURL=index.js.map
 
 	var heartland = /*#__PURE__*/Object.freeze({
 		supports: supports$2,
@@ -1895,7 +1866,6 @@ var GlobalPayments = (function () {
 	    };
 	    return response;
 	});
-	//# sourceMappingURL=action-normalize-response.js.map
 
 	var actionTokenize$3 = (function (url, data) {
 	    var getRequest = function () {
@@ -2024,7 +1994,6 @@ var GlobalPayments = (function () {
 	    }
 	    return errors;
 	});
-	//# sourceMappingURL=action-validate-data.js.map
 
 	var supports$3 = {
 	    apm: {
@@ -2061,7 +2030,6 @@ var GlobalPayments = (function () {
 	var getEnv$3 = function () {
 	    return options.env || "production";
 	};
-	//# sourceMappingURL=index.js.map
 
 	var transit = /*#__PURE__*/Object.freeze({
 		supports: supports$3,
@@ -2077,7 +2045,6 @@ var GlobalPayments = (function () {
 	    heartland: heartland,
 	    transit: transit,
 	};
-	//# sourceMappingURL=index.js.map
 
 	var configHasAllRequiredSettings = function (settings) {
 	    var totalSettings = settings.length;
@@ -2102,7 +2069,6 @@ var GlobalPayments = (function () {
 	    }
 	    return undefined;
 	});
-	//# sourceMappingURL=get-gateway.js.map
 
 	/**
 	 * Creates a single object by merging a `source` (default) and `properties`
@@ -2129,7 +2095,6 @@ var GlobalPayments = (function () {
 	    }
 	    return destination;
 	}
-	//# sourceMappingURL=object-assign.js.map
 
 	/**
 	 * addStylesheet
@@ -2224,22 +2189,21 @@ var GlobalPayments = (function () {
 	    }
 	    return keys;
 	}
-	//# sourceMappingURL=styles.js.map
+
+	var version = "1.2.1";
 
 	var assetBaseUrl = (function () {
-	    return "http://localhost:7777/dist/";
-	    // let result = `https://api2.heartlandportico.com/SecureSubmit.v1/token/gp-${version}/`;
-	    // const gateway = getGateway();
-	    // if (!gateway) {
-	    //   return result;
-	    // }
-	    // result =
-	    //   gateway.getEnv(options) === "sandbox"
-	    //     ? `https://hps.github.io/token/gp-${version}/`
-	    //     : result;
-	    // return result;
+	    var result = "https://api2.heartlandportico.com/SecureSubmit.v1/token/gp-" + version + "/";
+	    var gateway = getGateway();
+	    if (!gateway) {
+	        return result;
+	    }
+	    result =
+	        gateway.getEnv(options) === "sandbox"
+	            ? "https://hps.github.io/token/gp-" + version + "/"
+	            : result;
+	    return result;
 	});
-	//# sourceMappingURL=asset-base-url.js.map
 
 	// tslint:disable:object-literal-key-quotes
 	// tslint:disable:object-literal-sort-keys
@@ -2406,7 +2370,6 @@ var GlobalPayments = (function () {
 	        width: "300px",
 	    },
 	};
-	//# sourceMappingURL=default.js.map
 
 	/// see https://gist.github.com/mudge/5830382
 	/* Polyfill indexOf. */
@@ -2475,7 +2438,6 @@ var GlobalPayments = (function () {
 	    };
 	    return EventEmitter;
 	}());
-	//# sourceMappingURL=event-emitter.js.map
 
 	var buildUrl = (function (queryString) {
 	    var gateway = getGateway();
@@ -2494,7 +2456,6 @@ var GlobalPayments = (function () {
 	    }
 	    return base + query;
 	});
-	//# sourceMappingURL=build-tokenization-url.js.map
 
 	/**
 	 * typeByNumber
@@ -2620,7 +2581,6 @@ var GlobalPayments = (function () {
 	        regex: /^[0-9]/,
 	    },
 	];
-	//# sourceMappingURL=card-types.js.map
 
 	var tokenize = (function (data) {
 	    var gateway = getGateway();
@@ -2699,10 +2659,8 @@ var GlobalPayments = (function () {
 	        })["catch"](reject);
 	    });
 	});
-	//# sourceMappingURL=tokenize.js.map
 
 	var bus = new EventEmitter();
-	//# sourceMappingURL=index.js.map
 
 	var internal = /*#__PURE__*/Object.freeze({
 		bus: bus,
@@ -2732,7 +2690,6 @@ var GlobalPayments = (function () {
 	    };
 	    return CardNumber;
 	}());
-	//# sourceMappingURL=card-number.js.map
 
 	var Expiration = /** @class */ (function () {
 	    function Expiration() {
@@ -2773,7 +2730,6 @@ var GlobalPayments = (function () {
 	    };
 	    return Expiration;
 	}());
-	//# sourceMappingURL=expiration.js.map
 
 	var CardNumber$1 = /** @class */ (function () {
 	    function CardNumber() {
@@ -2791,7 +2747,6 @@ var GlobalPayments = (function () {
 	    };
 	    return CardNumber;
 	}());
-	//# sourceMappingURL=card-number.js.map
 
 	var Cvv = /** @class */ (function () {
 	    function Cvv() {
@@ -2814,7 +2769,6 @@ var GlobalPayments = (function () {
 	    };
 	    return Cvv;
 	}());
-	//# sourceMappingURL=cvv.js.map
 
 	var Expiration$1 = /** @class */ (function () {
 	    function Expiration() {
@@ -2857,7 +2811,6 @@ var GlobalPayments = (function () {
 	    };
 	    return Expiration;
 	}());
-	//# sourceMappingURL=expiration.js.map
 
 	var Ev = /** @class */ (function () {
 	    function Ev() {
@@ -2903,7 +2856,6 @@ var GlobalPayments = (function () {
 	    };
 	    return Ev;
 	}());
-	//# sourceMappingURL=ev.js.map
 
 	var Events = /** @class */ (function () {
 	    function Events() {
@@ -2982,7 +2934,6 @@ var GlobalPayments = (function () {
 	    };
 	    return Events;
 	}());
-	//# sourceMappingURL=events.js.map
 
 	var Card = /** @class */ (function () {
 	    function Card() {
@@ -3402,7 +3353,6 @@ var GlobalPayments = (function () {
 	        return -1;
 	    };
 	}
-	//# sourceMappingURL=card.js.map
 
 	var actionAccumulateDataAndTokenize = (function (id, type, data) {
 	    if (type !== "card-number" && type !== "account-number") {
@@ -3449,9 +3399,6 @@ var GlobalPayments = (function () {
 	        });
 	    }
 	});
-	//# sourceMappingURL=action-accumulate-data-and-tokenize.js.map
-
-	//# sourceMappingURL=action-add-stylesheet.js.map
 
 	var actionCardTrackButtonClick = (function (id) {
 	    var el = document.getElementById(paymentFieldId + "-data");
@@ -3516,7 +3463,6 @@ var GlobalPayments = (function () {
 	        });
 	    });
 	});
-	//# sourceMappingURL=action-card-track-button-click.js.map
 
 	var _this$4 = undefined;
 	var actionPaymentRequestComplete = (function (id, data) { return __awaiter(_this$4, void 0, void 0, function () {
@@ -3552,7 +3498,6 @@ var GlobalPayments = (function () {
 	        return [2 /*return*/];
 	    });
 	}); });
-	//# sourceMappingURL=action-payment-request-complete.js.map
 
 	var _this$5 = undefined;
 	var actionPaymentRequestStart = (function (id, data) { return __awaiter(_this$5, void 0, void 0, function () {
@@ -3632,7 +3577,6 @@ var GlobalPayments = (function () {
 	        }
 	    });
 	}); });
-	//# sourceMappingURL=action-payment-request-start.js.map
 
 	var actionRequestData = (function (id, type, data) {
 	    if (!window.dataReceivedFields) {
@@ -3656,7 +3600,6 @@ var GlobalPayments = (function () {
 	        type: "ui:iframe-field:pass-data",
 	    }, "parent");
 	});
-	//# sourceMappingURL=action-request-data.js.map
 
 	var actionSetCardType = (function (cardType) {
 	    var el = document.getElementById(paymentFieldId);
@@ -3678,7 +3621,6 @@ var GlobalPayments = (function () {
 	    }
 	    el.className = classList.join(" ");
 	});
-	//# sourceMappingURL=action-set-card-type.js.map
 
 	var actionSetFocus = (function () {
 	    var el = document.getElementById(paymentFieldId);
@@ -3687,7 +3629,6 @@ var GlobalPayments = (function () {
 	    }
 	    el.focus();
 	});
-	//# sourceMappingURL=action-set-focus.js.map
 
 	/**
 	 * Escapes all potentially dangerous characters, so that the
@@ -3711,7 +3652,6 @@ var GlobalPayments = (function () {
 	        .replace(/</g, "&lt;")
 	        .replace(/>/g, "&gt;");
 	}
-	//# sourceMappingURL=encode-entities.js.map
 
 	var actionSetPlaceholder = (function (placeholder) {
 	    var el = document.getElementById(paymentFieldId);
@@ -3729,7 +3669,6 @@ var GlobalPayments = (function () {
 	        el.setAttribute("placeholder", encodeEntities(placeholder));
 	    }
 	});
-	//# sourceMappingURL=action-set-placeholder.js.map
 
 	var actionSetText = (function (text) {
 	    var el = document.getElementById(paymentFieldId);
@@ -3738,7 +3677,6 @@ var GlobalPayments = (function () {
 	    }
 	    el.textContent = encodeEntities(text);
 	});
-	//# sourceMappingURL=action-set-text.js.map
 
 	var actionSetValue = (function (text) {
 	    var el = document.getElementById(paymentFieldId);
@@ -3747,7 +3685,6 @@ var GlobalPayments = (function () {
 	    }
 	    el.setAttribute("value", encodeEntities(text));
 	});
-	//# sourceMappingURL=action-set-value.js.map
 
 	var IframeField = /** @class */ (function (_super) {
 	    __extends(IframeField, _super);
@@ -4028,7 +3965,6 @@ var GlobalPayments = (function () {
 	    };
 	    return IframeField;
 	}(EventEmitter));
-	//# sourceMappingURL=index.js.map
 
 	var fieldStyles$1 = {
 	    blank: {},
@@ -4231,7 +4167,6 @@ var GlobalPayments = (function () {
 	        throw new Error("No field with the type `" + type + "` is currently available");
 	    }
 	}
-	//# sourceMappingURL=index.js.map
 
 	var defaultOptions = {
 	    labels: {
@@ -4355,7 +4290,6 @@ var GlobalPayments = (function () {
 	    }
 	    return new UIForm(fields, formOptions.style ? fieldStyles$1[formOptions.style] : {});
 	}
-	//# sourceMappingURL=index.js.map
 
 	var creditCard = /*#__PURE__*/Object.freeze({
 		defaultOptions: defaultOptions,
@@ -4467,7 +4401,6 @@ var GlobalPayments = (function () {
 	    }
 	    return new UIForm(fields, formOptions.style ? fieldStyles$1[formOptions.style] : {});
 	}
-	//# sourceMappingURL=index.js.map
 
 	var eCheck = /*#__PURE__*/Object.freeze({
 		defaultOptions: defaultOptions$1,
@@ -4545,7 +4478,6 @@ var GlobalPayments = (function () {
 	    }
 	    return new UIForm(fields, formOptions.style ? fieldStyles$1[formOptions.style] : {});
 	}
-	//# sourceMappingURL=index.js.map
 
 	var giftAndLoyalty = /*#__PURE__*/Object.freeze({
 		defaultOptions: defaultOptions$2,
@@ -4565,7 +4497,6 @@ var GlobalPayments = (function () {
 	        }, frameId);
 	    }
 	});
-	//# sourceMappingURL=complete.js.map
 
 	function defaultInstruments() {
 	    return [{ supportedMethods: ["basic-card"] }];
@@ -4576,7 +4507,6 @@ var GlobalPayments = (function () {
 	function defaultOptions$3() {
 	    return {};
 	}
-	//# sourceMappingURL=defaults.js.map
 
 	var iframeHolderId = "global-pay-payment-request";
 	var PaymentRequestEmitter = /** @class */ (function (_super) {
@@ -4694,9 +4624,8 @@ var GlobalPayments = (function () {
 	        el.parentNode.removeChild(el);
 	    }
 	};
-	//# sourceMappingURL=setup.js.map
 
-	//# sourceMappingURL=index.js.map
+
 
 	var paymentRequest = /*#__PURE__*/Object.freeze({
 		complete: complete,
@@ -4714,12 +4643,10 @@ var GlobalPayments = (function () {
 	        gateway.actions.setup();
 	    }
 	});
-	//# sourceMappingURL=configure.js.map
 
 	function form$3(options) {
 	    return new UIForm(options.fields, options.styles || {});
 	}
-	//# sourceMappingURL=index.js.map
 
 	var ui = /*#__PURE__*/Object.freeze({
 		form: form$3,
@@ -4739,7 +4666,6 @@ var GlobalPayments = (function () {
 	    paymentRequest: paymentRequest,
 	    ui: ui,
 	};
-	//# sourceMappingURL=index.js.map
 
 	return index$1;
 
