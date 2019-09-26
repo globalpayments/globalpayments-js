@@ -2190,7 +2190,7 @@ var GlobalPayments = (function () {
 	    return keys;
 	}
 
-	var version = "1.2.1";
+	var version = "1.3.0";
 
 	var assetBaseUrl = (function () {
 	    var result = "https://api2.heartlandportico.com/SecureSubmit.v1/token/gp-" + version + "/";
@@ -3776,7 +3776,7 @@ var GlobalPayments = (function () {
 	    };
 	    IframeField.createField = function (id, name, type) {
 	        var input = document.createElement(type === "button" ? "button" : "input");
-	        input.setAttribute("type", type === "button" ? "button" : "tel");
+	        input.setAttribute("type", type === "button" ? "button" : (name === "card-holder-name" ? "text" : "tel"));
 	        input.id = paymentFieldId;
 	        input.className = name;
 	        input.setAttribute("data-id", id);
