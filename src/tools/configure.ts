@@ -16,6 +16,10 @@ export interface IConfiguration {
   env?: string;
   // genius
   webApiKey?: string;
+  // tsep
+  deviceId?: string;
+  manifest?: string;
+  tsepHost?: string; // internal. inferred from env
 }
 
 export default (options: IConfiguration) => {

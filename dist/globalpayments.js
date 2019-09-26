@@ -1160,24 +1160,22 @@ var GlobalPayments = (function () {
 
 	var actionValidateData = (function (data) {
 	    var errors = [];
-	    if (!data["card-number"] && !data["card-track"] && !data["account-number"]) {
-	        if (!data["card-number"]) {
-	            errors.push({
-	                code: "INVALID_CARD_NUMBER",
-	                message: "The card number is invalid.",
-	            });
-	        }
-	        else if (!data["account-number"]) {
-	            errors.push({
-	                code: "INVALID_ACCOUNT_NUMBER",
-	                message: "The account number is invalid",
-	            });
-	        }
-	    }
-	    if (data["account-number"] && !data["routing-number"]) {
+	    if (!data["card-number"]) {
 	        errors.push({
-	            code: "INVALID_ROUTING_NUMBER",
-	            message: "The routing number is invalid",
+	            code: "INVALID_CARD_NUMBER",
+	            message: "The card number is invalid.",
+	        });
+	    }
+	    if (!data["card-cvv"]) {
+	        errors.push({
+	            code: "INVALID_CARD_SECURITY_CODE",
+	            message: "The card security code is invalid.",
+	        });
+	    }
+	    if (!data["card-expiration"]) {
+	        errors.push({
+	            code: "INVALID_CARD_EXPIRATION",
+	            message: "The card expiration is invalid.",
 	        });
 	    }
 	    return errors;
@@ -1845,10 +1843,207 @@ var GlobalPayments = (function () {
 		getEnv: getEnv$2
 	});
 
+	var actionNormalizeResponse$3 = (function (data) {
+	    if (data.error && data.reasons) {
+	        return {
+	            error: data.error,
+	            reasons: data.reasons,
+	        };
+	    }
+	    // TODO: parse these properly
+	    if (["FAIL", "FAILURE"].indexOf(data.status) !== -1) {
+	        return {
+	            error: true,
+	            reasons: [{
+	                    code: "ERROR",
+	                    message: data.responseCode + ": " + data.message,
+	                }],
+	        };
+	    }
+	    var response = {
+	        paymentReference: data.tsepToken,
+	        requestId: data.transactionId,
+	    };
+	    return response;
+	});
+
+	var actionTokenize$3 = (function (url, data) {
+	    var getRequest = function () {
+	        var request = {
+	            cvv2: data["card-cvv"],
+	            deviceID: window.getDeviceId(),
+	            manifest: window.getManifest(),
+	            uniqueKeyIdentifier: window.getKeyId(),
+	        };
+	        if (data["card-number"]) {
+	            request.encCardNumber = window.encryptTsepCard(data["card-number"].replace(/\s/g, ""));
+	        }
+	        if (data["card-expiration"] &&
+	            data["card-expiration"].indexOf(" / ") !== -1) {
+	            request.expirationDate = data["card-expiration"].replace(" / ", "/");
+	        }
+	        return request;
+	    };
+	    return new Promise(function (resolve, reject) {
+	        var scriptId = "tsep-entry-script";
+	        var cardId = "tsep-cardNumDiv";
+	        var timeout = setTimeout(function () {
+	            reject({
+	                error: true,
+	                reasons: [{ code: "TIMEOUT", message: "TransIT setup timeout" }],
+	            });
+	        }, 30000);
+	        var cleanup = function () {
+	            clearTimeout(timeout);
+	            [cardId, scriptId].forEach(function (id) {
+	                var el = document.getElementById(id);
+	                if (!el || !el.parentNode) {
+	                    return;
+	                }
+	                el.parentNode.removeChild(el);
+	            });
+	        };
+	        try {
+	            // handle tsep response
+	            window.tsepHandler = function (eventType, eventData) {
+	                // tsep's input fields aren't being used, so this should
+	                // be the only event to capture in order to handle load errors
+	                if (eventType === "ErrorEvent") {
+	                    cleanup();
+	                    reject({ error: true, reasons: [{
+	                                code: "ERROR",
+	                                message: eventData.responseCode + ": " + eventData.message,
+	                            }] });
+	                }
+	            };
+	            // add holder for tsep card number input
+	            var card = document.createElement("div");
+	            card.hidden = true;
+	            card.style.display = "none";
+	            card.id = cardId;
+	            document.body.appendChild(card);
+	            // add new script on page
+	            var script = document.createElement("script");
+	            script.id = scriptId;
+	            script.src = url;
+	            script.defer = true;
+	            script.onload = function (e) {
+	                if (!window.onload) {
+	                    return;
+	                }
+	                window.onload(e);
+	            };
+	            document.body.appendChild(script);
+	            // tsep doesn't expose a way to hook into the library's load event,
+	            // so we create an interval to check manually
+	            var interval_1 = setInterval(function () {
+	                var cardEl = document.getElementById(cardId.substr(0, cardId.length - 3));
+	                // presence of the card element ensures tsep.js is loaded
+	                // presence of `cryptTsep` ensures jsencrypt.js is loaded
+	                if (!cardEl || !window.cryptTsep) {
+	                    return;
+	                }
+	                // tsep has loaded, so continue on after stopping the interval
+	                clearInterval(interval_1);
+	                var headers = {
+	                    "Content-Type": "application/json",
+	                };
+	                fetch(options.tsepHost + "/transit-tsep-web/generateTsepToken", {
+	                    body: JSON.stringify(getRequest()),
+	                    credentials: "omit",
+	                    headers: typeof Headers !== "undefined" ? new Headers(headers) : headers,
+	                    method: "POST",
+	                })
+	                    .then(function (resp) {
+	                    cleanup();
+	                    resolve(resp.json());
+	                })["catch"](function (e) {
+	                    cleanup();
+	                    reject(e);
+	                });
+	            }, 100);
+	        }
+	        catch (e) {
+	            return reject({
+	                error: true,
+	                reasons: [{ code: e.name, message: e.message }],
+	            });
+	        }
+	    });
+	});
+
+	var actionValidateData$3 = (function (data) {
+	    var errors = [];
+	    if (!data["card-number"]) {
+	        errors.push({
+	            code: "INVALID_CARD_NUMBER",
+	            message: "The card number is invalid.",
+	        });
+	    }
+	    if (!data["card-cvv"]) {
+	        errors.push({
+	            code: "INVALID_CARD_SECURITY_CODE",
+	            message: "The card security code is invalid.",
+	        });
+	    }
+	    if (!data["card-expiration"]) {
+	        errors.push({
+	            code: "INVALID_CARD_EXPIRATION",
+	            message: "The card expiration is invalid.",
+	        });
+	    }
+	    return errors;
+	});
+
+	var supports$3 = {
+	    apm: {
+	        androidPay: false,
+	        applePay: false,
+	    },
+	    consumerAuthentication: false,
+	    eCheck: false,
+	    gift: false,
+	    tokenization: {
+	        cardNotPresent: true,
+	        cardPresent: false,
+	        eCheck: false,
+	        gift: false,
+	    },
+	};
+	var domains$3 = {
+	    // Genius Checkout has an automatic sandbox feature for developer / partner accounts
+	    production: "https://gateway.transit-pass.com",
+	    sandbox: "https://stagegw.transnox.com",
+	};
+	var urls$3 = {
+	    tokenization: function (prod) {
+	        options.tsepHost = prod ? domains$3.production : domains$3.sandbox;
+	        return options.tsepHost + "/transit-tsep-web/jsView/" + options.deviceId + "?" + options.manifest;
+	    },
+	};
+	var actions$3 = {
+	    normalizeResponse: actionNormalizeResponse$3,
+	    tokenize: actionTokenize$3,
+	    validateData: actionValidateData$3,
+	};
+	var requiredSettings$3 = ["deviceId", "manifest"];
+	var getEnv$3 = function () {
+	    return options.env || "production";
+	};
+
+	var transit = /*#__PURE__*/Object.freeze({
+		supports: supports$3,
+		urls: urls$3,
+		actions: actions$3,
+		requiredSettings: requiredSettings$3,
+		getEnv: getEnv$3
+	});
+
 	var availableGateways = {
 	    genius: genius,
 	    globalpayments: globalpayments,
 	    heartland: heartland,
+	    transit: transit,
 	};
 
 	var configHasAllRequiredSettings = function (settings) {

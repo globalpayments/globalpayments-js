@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Genius Examples</title>
+    <title>TransIT Examples</title>
   </head>
   <body>
     <script src="/dist/globalpayments.js"></script>
@@ -25,7 +25,9 @@
       };
 
       GlobalPayments.configure({
-        webApiKey: "YU8PX7668FGMSH5L",
+        deviceId: "88700000322602",
+        manifest: "3c26272b6769cfa8b0c3c5a14dda4fc5365ed75c7330233a221a6e82aec667f35513c70862dc34f4ca31de7b4c824e129d23f8bce035fbbaa55aeb9da07b5d90bfe5d53c",
+        env: "sandbox",
       });
 
       const cardForm = GlobalPayments.ui.form({
