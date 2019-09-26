@@ -42,7 +42,7 @@ export default async (url: string, data: IDictionary) => {
       pas_cccvc: data["card-cvv"],
       pas_ccmonth: month,
       pas_ccname: data["card-holder-name"],
-      pas_ccnum: data["card-number"].replace(" ", ""),
+      pas_ccnum: data["card-number"].replace(/\s/g, ""),
       pas_ccyear: year,
     },
   };

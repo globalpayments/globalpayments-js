@@ -8,7 +8,7 @@ export default async (url: string, data: IDictionary) => {
 
   if (data["card-number"]) {
     request.card = request.card || {};
-    request.card.number = data["card-number"].replace(" ", "");
+    request.card.number = data["card-number"].replace(/\s/g, "");
   }
 
   if (data["card-cvv"]) {
