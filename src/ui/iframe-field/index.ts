@@ -50,7 +50,7 @@ export class IframeField extends EventEmitter {
     const input = document.createElement(
       type === "button" ? "button" : "input",
     );
-    input.setAttribute("type", type === "button" ? "button" : "tel");
+    input.setAttribute("type", type === "button" ? "button" : (name === "card-holder-name" ? "text" : "tel"));
     input.id = paymentFieldId;
     input.className = name;
     input.setAttribute("data-id", id);
