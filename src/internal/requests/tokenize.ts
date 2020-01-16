@@ -20,7 +20,20 @@ export default (data: IDictionary) => {
   const errors = gateway.actions.validateData(data);
 
   if (errors.length > 0) {
-    return Promise.reject({ error: true, reasons: errors });
+    if (gateway.requiredSettings.indexOf("X-GP-Api-Key") !== -1) {
+      return Promise.reject({
+        error: {
+          code: "invalid_input",
+          detail: [{
+            data_path: "/card/card_number",
+            description: "Invalid data",
+          }],
+          message: "Invalid input data.",
+        },
+      });
+    } else {
+      return Promise.reject({ error: true, reasons: errors });
+    }
   }
 
   if (options.webApiKey) {
@@ -34,6 +47,7 @@ export default (data: IDictionary) => {
         api_key: options.publicApiKey,
       };
     }
+
     gateway.actions
       .tokenize(buildUrl(query), data)
       .then(gateway.actions.normalizeResponse)
@@ -44,6 +58,11 @@ export default (data: IDictionary) => {
         }
 
         resp = resp as ISuccess;
+
+        if (gateway.requiredSettings.indexOf("X-GP-Api-Key") !== -1) {
+          resolve(resp);
+          return;
+        }
 
         if (data["card-number"]) {
           const cardNumber = data["card-number"].replace(/\D/g, "");

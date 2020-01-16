@@ -2,6 +2,7 @@ import { IDictionary } from "../lib/util";
 import * as genius from "./genius";
 import * as globalpayments from "./globalpayments";
 import * as heartland from "./heartland";
+import * as openedge from "./openedge";
 import * as transit from "./transit";
 
 export interface ICapabilitiesList {
@@ -85,5 +86,6 @@ export const availableGateways: IGatewayList = {
   genius,
   globalpayments,
   heartland,
+  openedge,
   transit,
 };
