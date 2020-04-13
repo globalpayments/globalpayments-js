@@ -68,7 +68,7 @@ export class IframeField extends EventEmitter {
     input.className = name;
     input.setAttribute("data-id", id);
 
-    if (fieldTypeAutocompleteMap[name]) {
+    if (options.enableAutocomplete === true && fieldTypeAutocompleteMap[name]) {
       input.setAttribute("autocomplete", fieldTypeAutocompleteMap[name]);
     }
 
@@ -88,7 +88,7 @@ export class IframeField extends EventEmitter {
 
     IframeField.addFrameFocusEvent();
 
-    if (name === "card-number") {
+    if (options.enableAutocomplete === true && name === "card-number") {
       IframeField.createAutocompleteField(dest, id, "card-cvv", "cardCsc", "cc-csc");
       IframeField.createAutocompleteField(dest, id, "card-expiration", "cardExpiration", "cc-exp");
       IframeField.createAutocompleteField(dest, id, "card-holder-name", "cardHolderName", "cc-name");
