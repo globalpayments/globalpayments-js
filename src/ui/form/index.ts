@@ -215,6 +215,20 @@ export default class UIForm {
     const cardNumber = this.frames["card-number"];
     const cardCvv = this.frames["card-cvv"];
 
+    if (cardNumber) {
+      cardNumber.on("set-autocomplete-value", (data?: any) => {
+        if (!data) {
+          return;
+        }
+
+        const target = this.frames[data.type];
+
+        if (data.type && data.value && target) {
+          target.setValue(data.value);
+        }
+      })
+    }
+
     if (cardNumber && cardCvv) {
       cardNumber.on("card-type", (data?: any) => {
         postMessage.post(
