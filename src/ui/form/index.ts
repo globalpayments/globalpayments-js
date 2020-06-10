@@ -226,7 +226,7 @@ export default class UIForm {
         if (data.type && data.value && target) {
           target.setValue(data.value);
         }
-      })
+      });
     }
 
     if (cardNumber && cardCvv) {

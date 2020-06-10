@@ -1,5 +1,5 @@
 import encodeEntities from "../../internal/lib/encode-entities";
-import Events from '../../internal/lib/events';
+import Events from "../../internal/lib/events";
 import paymentFieldId from "../../internal/lib/payment-field-id";
 
 export default (text: string) => {

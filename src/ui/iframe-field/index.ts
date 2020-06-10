@@ -34,8 +34,9 @@ export class IframeField extends EventEmitter {
     const query = window.location.hash.replace("#", "");
     const data: any = JSON.parse(atob(query));
     const id: string = data.id;
+    const enableAutocomplete = data.enableAutocomplete || false;
 
-    IframeField.createField(id, type, data.type);
+    IframeField.createField(id, type, data.type, enableAutocomplete);
     IframeField.addMessageListener(id, type, data.targetOrigin);
 
     postMessage.post(
@@ -58,8 +59,9 @@ export class IframeField extends EventEmitter {
    * @param id Field ID
    * @param name Field type
    * @param type Type of element
+   * @param enableAutocomplete Whether autocomplete should be enabled
    */
-  public static createField(id: string, name: string, type: string) {
+  public static createField(id: string, name: string, type: string, enableAutocomplete: boolean) {
     const input = document.createElement(
       type === "button" ? "button" : "input",
     );
@@ -68,7 +70,7 @@ export class IframeField extends EventEmitter {
     input.className = name;
     input.setAttribute("data-id", id);
 
-    if (options.enableAutocomplete === true && fieldTypeAutocompleteMap[name]) {
+    if (enableAutocomplete === true && fieldTypeAutocompleteMap[name]) {
       input.setAttribute("autocomplete", fieldTypeAutocompleteMap[name]);
     }
 
@@ -88,7 +90,7 @@ export class IframeField extends EventEmitter {
 
     IframeField.addFrameFocusEvent();
 
-    if (options.enableAutocomplete === true && name === "card-number") {
+    if (enableAutocomplete === true && name === "card-number") {
       IframeField.createAutocompleteField(dest, id, "card-cvv", "cardCsc", "cc-csc");
       IframeField.createAutocompleteField(dest, id, "card-expiration", "cardExpiration", "cc-exp");
       IframeField.createAutocompleteField(dest, id, "card-holder-name", "cardHolderName", "cc-name");
@@ -315,6 +317,7 @@ export class IframeField extends EventEmitter {
       "#" +
       btoa(
         JSON.stringify({
+          enableAutocomplete: options.enableAutocomplete,
           id: this.id,
           targetOrigin: window.location.href,
           type: this.type,
