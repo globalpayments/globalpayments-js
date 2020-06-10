@@ -19,6 +19,7 @@ export const parentStyles = {
 };
 
 export interface IUIFormField {
+  label?: string;
   placeholder?: string;
   target?: string;
   text?: string;
@@ -194,6 +195,9 @@ export default class UIForm {
         }
         if (this.fields[type].value) {
           field.setValue(this.fields[type].value || "");
+        }
+        if (this.fields[type].label) {
+          field.setLabel(this.fields[type].label || "");
         }
         if (this.styles) {
           field.addStylesheet(this.styles);

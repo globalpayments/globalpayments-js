@@ -15,6 +15,7 @@ import actionPaymentRequestStart from "./action-payment-request-start";
 import actionRequestData from "./action-request-data";
 import actionSetCardType from "./action-set-card-type";
 import actionSetFocus from "./action-set-focus";
+import actionSetLabel from "./action-set-label";
 import actionSetPlaceholder from "./action-set-placeholder";
 import actionSetText from "./action-set-text";
 import actionSetValue from "./action-set-value";
@@ -187,6 +188,9 @@ export class IframeField extends EventEmitter {
           actionSetValue(data.data.value);
           IframeField.triggerResize(id);
           break;
+        case "set-label":
+          actionSetLabel(data.data.label);
+          IframeField.triggerResize(id);
         case "update-options":
           for (const prop in data.data) {
             if (data.data.hasOwnProperty(prop)) {
@@ -358,6 +362,17 @@ export class IframeField extends EventEmitter {
         data: { value },
         id: this.id,
         type: "ui:iframe-field:set-value",
+      },
+      this.id,
+    );
+  }
+
+  public setLabel(label: string) {
+    postMessage.post(
+      {
+        data: { label },
+        id: this.id,
+        type: "ui:iframe-field:set-label",
       },
       this.id,
     );
