@@ -10,4 +10,6 @@ export default (text: string) => {
   el.setAttribute("aria-label", encodeEntities(text));
   document.querySelectorAll("main")
     .forEach((e) => e.setAttribute("aria-label", encodeEntities(text)));
+  document.querySelectorAll(`#${paymentFieldId}-label`)
+    .forEach((e) => e.textContent = encodeEntities(text));
 };

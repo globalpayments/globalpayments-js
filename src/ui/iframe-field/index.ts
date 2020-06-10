@@ -78,11 +78,18 @@ export class IframeField extends EventEmitter {
       input.appendChild(document.createTextNode(message));
     }
 
+    const label = document.createElement("label");
+    label.id = paymentFieldId + "-label";
+    label.setAttribute("for", paymentFieldId);
+    label.className = "offscreen";
+
     const dest = document.getElementById(paymentFieldId + "-wrapper");
     if (!dest) {
       return;
     }
+
     dest.insertBefore(input, dest.firstChild);
+    dest.insertBefore(label, dest.firstChild);
 
     IframeField.addFrameFocusEvent();
 
