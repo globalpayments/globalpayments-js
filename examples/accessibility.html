@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+    <title>Genius Checkout Examples</title>
+  </head>
+  <body>
+    <main>
+      <h1>Examples</h1>
+
+      <h2>Credit Card Form</h2>
+
+      <form id="form" action="/charge" method="get">
+        <label>
+          Credit Card Number
+          <div id="cardNumber"></div>
+        </label>
+        <label>
+          Credit Card Security Code
+          <div id="cardCvv"></div>
+        </label>
+        <label>
+          Credit Card Expiration Date
+          <div id="cardExpiration"></div>
+        </label>
+        <label>
+          Credit Card Holder Name
+          <div id="cardHolder"></div>
+        </label>
+        <div id="cardSubmit"></div>
+      </form>
+
+      <h2>PaymentRequest API</h2>
+
+      <div>
+        <button type="button" id="paymentRequestPlainButton" style="display: none">Pay</button>
+      </div>
+    </main>
+
+    <script src="/dist/globalpayments.js"></script>
+    <script>
+      GlobalPayments.configure({
+        language: "en-US",
+        publicApiKey: "pkapi_cert_dNpEYIISXCGDDyKJiV",
+      });
+
+      GlobalPayments.on("error", function (error) {
+        console.error(error);
+      });
+
+      var cardForm = GlobalPayments.ui.form({
+        fields: {
+          "card-number": {
+            label: "Credit Card Number",
+            placeholder: "•••• •••• •••• ••••",
+            target: "#cardNumber"
+          },
+          "card-expiration": {
+            label: "Credit Card Expiration Date",
+            placeholder: "MM / YYYY",
+            target: "#cardExpiration"
+          },
+          "card-cvv": {
+            label: "Credit Card Security Code",
+            placeholder: "•••",
+            target: "#cardCvv"
+          },
+          "card-holder-name": {
+            label: "Credit Card Holder Name",
+            placeholder: "Jane Smith",
+            target: "#cardHolder"
+          },
+          "submit": {
+            label: "Form Submit Button",
+            value: "Submit",
+            target: "#cardSubmit"
+          }
+        }
+      });
+
+      cardForm.on("card-number", "token-success", function (resp) { console.log(resp); });
+      cardForm.on("card-number", "token-error", function (resp) { console.log(resp); });
+
+      var paymentRequestForm = GlobalPayments.paymentRequest.setup("#paymentRequestPlainButton", {
+        total: {
+          label: "Total",
+          amount: { value: 10, currency: "USD" }
+        }
+      });
+
+      paymentRequestForm.on("token-success", function (resp) {
+        console.log(resp);
+        GlobalPayments.paymentRequest.complete("success");
+      });
+      paymentRequestForm.on("token-error", function (resp) { console.log(resp); });
+      paymentRequestForm.on("error", function (resp) { console.log(resp); });
+    </script>
+  </body>
+</html>

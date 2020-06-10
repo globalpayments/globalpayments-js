@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Heartland Examples</title>
+  </head>
+  <body>
+    <script src="/dist/globalpayments.js"></script>
+
+    <main>
+      <h1>Credit Card Form</h1>
+
+      <form id="form" action="/charge" method="get">
+        <label>
+          Credit Card Number
+          <div id="cardNumber"></div>
+        </label>
+        <label>
+          Credit Card Security Code
+          <div id="cardCvv"></div>
+        </label>
+        <label>
+          Credit Card Expiration Date
+          <div id="cardExpiration"></div>
+        </label>
+        <label>
+          Credit Card Holder Name
+          <div id="cardHolder"></div>
+        </label>
+        <div id="cardSubmit"></div>
+      </form>
+    </main>
+
+    <script>
+      const createResults = (resp) => {
+        const el = document.createElement("input");
+        el.id = "testResult";
+        el.type = "hidden";
+        el.value = JSON.stringify(resp);
+        document.body.appendChild(el);
+      };
+
+      GlobalPayments.configure({
+        language: "en-US",
+        publicApiKey: "pkapi_cert_dNpEYIISXCGDDyKJiV",
+      });
+
+      const cardForm = GlobalPayments.ui.form({
+        fields: {
+          "card-number": {
+            label: "Credit Card Number",
+            placeholder: "•••• •••• •••• ••••",
+            target: "#cardNumber"
+          },
+          "card-expiration": {
+            label: "Credit Card Expiration Date",
+            placeholder: "MM / YYYY",
+            target: "#cardExpiration"
+          },
+          "card-cvv": {
+            label: "Credit Card Security Code",
+            placeholder: "•••",
+            target: "#cardCvv"
+          },
+          "card-holder-name": {
+            label: "Credit Card Holder Name",
+            placeholder: "Jane Smith",
+            target: "#cardHolder"
+          },
+          "submit": {
+            label: "Form Submit Button",
+            value: "Submit",
+            target: "#cardSubmit"
+          }
+        }
+      });
+
+      cardForm.on("card-number", "token-success", createResults);
+      cardForm.on("card-number", "token-error", createResults);
+      GlobalPayments.on("error", createResults);
+    </script>
+  </body>
+</html>

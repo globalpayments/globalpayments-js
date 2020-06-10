@@ -19,6 +19,8 @@
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 
+import 'cypress-axe';
+
 Cypress.Screenshot.defaults({
   screenshotOnRunFailure: false,
 });
