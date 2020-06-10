@@ -74,7 +74,7 @@ export default function(
 
   const iframe = new IframeField(
     "payment-request",
-    "#" + holder.id,
+    {target: "#" + holder.id},
     assetBaseUrl() + "field.html",
   );
 

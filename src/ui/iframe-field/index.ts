@@ -24,6 +24,15 @@ export interface IFrameCollection {
   [key: string]: IframeField | undefined;
 }
 
+export interface IUIFormField {
+  label?: string;
+  placeholder?: string;
+  target?: string;
+  text?: string;
+  title?: string;
+  value?: string;
+}
+
 export class IframeField extends EventEmitter {
   public static register(type: string) {
     const query = window.location.hash.replace("#", "");
@@ -224,13 +233,15 @@ export class IframeField extends EventEmitter {
   public type: "button" | "input";
   public url: string;
 
-  constructor(type: string, selector: string, src: string) {
+  constructor(type: string, opts: IUIFormField, src: string) {
     super();
+
+    const selector = opts.target || "";
 
     this.id = btoa(generateGuid());
     this.type = type === "submit" || type === "card-track" ? "button" : "input";
     this.url = src;
-    this.frame = this.makeFrame(type, this.id);
+    this.frame = this.makeFrame(type, this.id, opts);
     this.frame.onload = () => {
       this.emit("load");
     };
@@ -378,10 +389,13 @@ export class IframeField extends EventEmitter {
     );
   }
 
-  private makeFrame(type: string, id: string) {
+  private makeFrame(type: string, id: string, opts: IUIFormField) {
     const frame = document.createElement("iframe");
     frame.id = `secure-payment-field-${type}-${id}`;
     frame.name = type;
+    if (opts.title || opts.label) {
+      frame.title = opts.title || opts.label || "";
+    }
     frame.style.border = "0";
     frame.frameBorder = "0";
     frame.scrolling = "no";

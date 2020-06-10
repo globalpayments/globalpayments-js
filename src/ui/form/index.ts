@@ -6,7 +6,9 @@ import {
 } from "../../internal/lib/styles/default";
 import { IDictionary } from "../../internal/lib/util";
 import { IEventListener } from "../../lib/event-emitter";
-import { IFrameCollection, IframeField } from "../iframe-field";
+import { IFrameCollection, IframeField, IUIFormField } from "../iframe-field";
+
+export { IUIFormField } from "../iframe-field";
 
 export const fieldStyles = {
   blank: {},
@@ -17,14 +19,6 @@ export const parentStyles = {
   blank: {},
   default: defaultParentStyles,
 };
-
-export interface IUIFormField {
-  label?: string;
-  placeholder?: string;
-  target?: string;
-  text?: string;
-  value?: string;
-}
 
 export interface IUIFormOptions {
   labels?: IDictionary;
@@ -177,7 +171,7 @@ export default class UIForm {
 
       const field = (this.frames[type] = new IframeField(
         type,
-        this.fields[type].target || "",
+        this.fields[type],
         assetBaseUrl() + "field.html",
       ));
       this.totalNumberOfFields++;
