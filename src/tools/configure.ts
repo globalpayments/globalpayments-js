@@ -4,6 +4,7 @@ import { IDictionary } from "../internal/lib/util";
 
 export interface IConfiguration {
   [key: string]: any;
+  language?: string;
   // heartland
   publicApiKey?: string;
   // globalpayments

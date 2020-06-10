@@ -39,6 +39,7 @@ export class IframeField extends EventEmitter {
     const data: any = JSON.parse(atob(query));
     const id: string = data.id;
 
+    IframeField.setHtmlLang(data.lang);
     IframeField.createField(id, type, data.type);
     IframeField.addMessageListener(id, type, data.targetOrigin);
 
@@ -54,6 +55,10 @@ export class IframeField extends EventEmitter {
 
     // Fix iOS issue with cross-origin iframes
     Events.addHandler(document.body, "touchstart", () => { /** */ });
+  }
+
+  public static setHtmlLang(lang: string) {
+    document.querySelectorAll("html").forEach((el) => el.lang = lang);
   }
 
   public static createField(id: string, name: string, type: string) {
@@ -251,6 +256,7 @@ export class IframeField extends EventEmitter {
       btoa(
         JSON.stringify({
           id: this.id,
+          lang: options.language || "en",
           targetOrigin: window.location.href,
           type: this.type,
         }),
