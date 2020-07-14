@@ -67,9 +67,9 @@ export default async (url: string, data: IDictionary) => {
     });
     return resp.json();
   } catch (e) {
-    // TODO: needed confirmation
     return {
-      error: { code: e.name, message: e.message },
+      error: true,
+      reasons: [{ code: e.name, message: e.message }],
     };
   }
 };

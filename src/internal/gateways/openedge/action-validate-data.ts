@@ -11,22 +11,14 @@ export default (data: IDictionary) => {
   if (cardNumber.length < 13 || cardNumber.length > 19) {
     errors.push({
       code: "invalid_input",
+      // @ts-ignore
+      detail: [{
+        data_path: "/card/card_number",
+        description: "Invalid data",
+      }],
       message: "Invalid input data.",
     });
-  } /*else if (!data["account-number"]) {
-      errors.push({
-        code: "INVALID_ACCOUNT_NUMBER",
-        message: "The account number is invalid",
-      });
-    }*/
-  // }
-
-/*  if (data["account-number"] && !data["routing-number"]) {
-    errors.push({
-      code: "INVALID_ROUTING_NUMBER",
-      message: "The routing number is invalid",
-    });
-  }*/
+  }
 
   return errors;
 };

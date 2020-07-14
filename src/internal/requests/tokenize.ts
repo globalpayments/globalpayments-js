@@ -20,20 +20,7 @@ export default (data: IDictionary) => {
   const errors = gateway.actions.validateData(data);
 
   if (errors.length > 0) {
-    if (gateway.requiredSettings.indexOf("X-GP-Api-Key") !== -1) {
-      return Promise.reject({
-        error: {
-          code: "invalid_input",
-          detail: [{
-            data_path: "/card/card_number",
-            description: "Invalid data",
-          }],
-          message: "Invalid input data.",
-        },
-      });
-    } else {
-      return Promise.reject({ error: true, reasons: errors });
-    }
+    return Promise.reject({ error: true, reasons: errors });
   }
 
   if (options.webApiKey) {
