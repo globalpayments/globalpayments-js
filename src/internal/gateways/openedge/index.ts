@@ -5,6 +5,7 @@ import { IDictionary } from "../../lib/util";
 import actionNormalizeResponse from "./action-normalize-response";
 import actionTokenize from "./action-tokenize";
 import actionValidateData from "./action-validate-data";
+import getAssetBaseUrl from "./get-asset-base-url";
 
 export const supports = {
   apm: {
@@ -33,8 +34,9 @@ const domains: IDictionary = {
 /* tslint:enable:object-literal-sort-keys */
 
 export const urls = {
+  asset: getAssetBaseUrl,
   tokenization: (prod: boolean) =>
-    `${domains[options["X-GP-Environment"]]}/tokenization/temporary_tokens`,
+    `${domains[getEnv()]}/tokenization/temporary_tokens`,
 };
 
 export const actions: IActions = {

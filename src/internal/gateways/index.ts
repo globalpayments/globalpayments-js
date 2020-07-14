@@ -66,6 +66,7 @@ export interface IActions {
 }
 
 export interface IUrlGenerators {
+  assetBaseUrl?: (result: string) => string;
   tokenization: (prod: boolean) => string;
 }
 
