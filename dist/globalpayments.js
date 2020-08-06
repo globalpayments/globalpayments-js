@@ -1,5 +1,8 @@
-var GlobalPayments = (function () {
-	'use strict';
+(function (global, factory) {
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global = global || self, global.GlobalPayments = factory());
+}(this, function () { 'use strict';
 
 	var index = typeof fetch=='function' ? fetch.bind() : function(url, options) {
 		options = options || {};
@@ -4669,5 +4672,5 @@ var GlobalPayments = (function () {
 
 	return index$1;
 
-}());
+}));
 //# sourceMappingURL=globalpayments.js.map
