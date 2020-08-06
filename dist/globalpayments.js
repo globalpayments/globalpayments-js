@@ -2193,7 +2193,7 @@
 	    return keys;
 	}
 
-	var version = "1.2.1";
+	var version = "1.3.0";
 
 	var assetBaseUrl = (function () {
 	    var result = "https://api2.heartlandportico.com/SecureSubmit.v1/token/gp-" + version + "/";
