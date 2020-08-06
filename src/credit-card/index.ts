@@ -7,10 +7,10 @@ import UIForm, { fieldStyles, IUIFormOptions, parentStyles } from "../ui/form";
 
 export const defaultOptions: IUIFormOptions = {
   labels: {
-    "card-cvv": "Card CVV:",
-    "card-expiration": "Card Expiration:",
-    "card-holder-name": "Card Holder Name:",
-    "card-number": "Card Number:",
+    "card-cvv": "Card CVV",
+    "card-expiration": "Card Expiration",
+    "card-holder-name": "Card Holder Name",
+    "card-number": "Card Number",
   },
   placeholders: {
     "card-cvv": "•••",
@@ -20,6 +20,13 @@ export const defaultOptions: IUIFormOptions = {
   },
   prefix: "credit-card-",
   style: "default",
+  titles: {
+    "card-cvv": "Card CVV Input",
+    "card-expiration": "Card Expiration Input",
+    "card-holder-name": "Card Holder Name Input",
+    "card-number": "Card Number Input",
+    "submit": "Form Submit Button Input",
+  },
   values: {
     "card-track": "Read Card",
     // tslint:disable-next-line:object-literal-key-quotes
@@ -86,6 +93,12 @@ export function form(
     }
     if (formOptions.values && formOptions.values[type]) {
       fields[type].value = formOptions.values[type];
+    }
+    if (formOptions.labels && formOptions.labels[type]) {
+      fields[type].label = formOptions.labels[type];
+    }
+    if (formOptions.titles && formOptions.titles[type]) {
+      fields[type].title = formOptions.titles[type];
     }
   }
 

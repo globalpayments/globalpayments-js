@@ -21,4 +21,19 @@ module.exports = (on, _config) => {
       return args;
     }
   });
+
+  on("task", {
+    log(message) {
+      console.log(message);
+ 
+      return null;
+    },
+    table(message) {
+      if (console.table) {
+        console.table(message);
+      }
+ 
+      return null;
+    }
+  });
 };

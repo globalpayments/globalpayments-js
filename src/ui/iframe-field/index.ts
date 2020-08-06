@@ -15,12 +15,22 @@ import actionPaymentRequestStart from "./action-payment-request-start";
 import actionRequestData from "./action-request-data";
 import actionSetCardType from "./action-set-card-type";
 import actionSetFocus from "./action-set-focus";
+import actionSetLabel from "./action-set-label";
 import actionSetPlaceholder from "./action-set-placeholder";
 import actionSetText from "./action-set-text";
 import actionSetValue from "./action-set-value";
 
 export interface IFrameCollection {
   [key: string]: IframeField | undefined;
+}
+
+export interface IUIFormField {
+  label?: string;
+  placeholder?: string;
+  target?: string;
+  text?: string;
+  title?: string;
+  value?: string;
 }
 
 export const fieldTypeAutocompleteMap: IDictionary = {
@@ -36,6 +46,7 @@ export class IframeField extends EventEmitter {
     const id: string = data.id;
     const enableAutocomplete = data.enableAutocomplete || false;
 
+    IframeField.setHtmlLang(data.lang);
     IframeField.createField(id, type, data.type, enableAutocomplete);
     IframeField.addMessageListener(id, type, data.targetOrigin);
 
@@ -51,6 +62,10 @@ export class IframeField extends EventEmitter {
 
     // Fix iOS issue with cross-origin iframes
     Events.addHandler(document.body, "touchstart", () => { /** */ });
+  }
+
+  public static setHtmlLang(lang: string) {
+    document.querySelectorAll("html").forEach((el) => el.lang = lang);
   }
 
   /**
@@ -82,11 +97,18 @@ export class IframeField extends EventEmitter {
       input.appendChild(document.createTextNode(message));
     }
 
+    const label = document.createElement("label");
+    label.id = paymentFieldId + "-label";
+    label.setAttribute("for", paymentFieldId);
+    label.className = "offscreen";
+
     const dest = document.getElementById(paymentFieldId + "-wrapper");
     if (!dest) {
       return;
     }
+
     dest.insertBefore(input, dest.firstChild);
+    dest.insertBefore(label, dest.firstChild);
 
     IframeField.addFrameFocusEvent();
 
@@ -269,6 +291,9 @@ export class IframeField extends EventEmitter {
           actionSetValue(data.data.value);
           IframeField.triggerResize(id);
           break;
+        case "set-label":
+          actionSetLabel(data.data.label);
+          IframeField.triggerResize(id);
         case "update-options":
           for (const prop in data.data) {
             if (data.data.hasOwnProperty(prop)) {
@@ -302,13 +327,15 @@ export class IframeField extends EventEmitter {
   public type: "button" | "input";
   public url: string;
 
-  constructor(type: string, selector: string, src: string) {
+  constructor(type: string, opts: IUIFormField, src: string) {
     super();
+
+    const selector = opts.target || "";
 
     this.id = btoa(generateGuid());
     this.type = type === "submit" || type === "card-track" ? "button" : "input";
     this.url = src;
-    this.frame = this.makeFrame(type, this.id);
+    this.frame = this.makeFrame(type, this.id, opts);
     this.frame.onload = () => {
       this.emit("load");
     };
@@ -319,6 +346,7 @@ export class IframeField extends EventEmitter {
         JSON.stringify({
           enableAutocomplete: options.enableAutocomplete,
           id: this.id,
+          lang: options.language || "en",
           targetOrigin: window.location.href,
           type: this.type,
         }),
@@ -446,10 +474,28 @@ export class IframeField extends EventEmitter {
     );
   }
 
-  private makeFrame(type: string, id: string) {
+  public setLabel(label: string) {
+    postMessage.post(
+      {
+        data: { label },
+        id: this.id,
+        type: "ui:iframe-field:set-label",
+      },
+      this.id,
+    );
+  }
+
+  public setTitle(title: string) {
+    this.frame.title = title;
+  }
+
+  private makeFrame(type: string, id: string, opts: IUIFormField) {
     const frame = document.createElement("iframe");
     frame.id = `secure-payment-field-${type}-${id}`;
     frame.name = type;
+    if (opts.title || opts.label) {
+      frame.title = opts.title || opts.label || "";
+    }
     frame.style.border = "0";
     frame.frameBorder = "0";
     frame.scrolling = "no";

@@ -159,7 +159,7 @@
         });
       }
 
-      var dropinCardForm = GlobalPayments.creditCard.form('#dropin-card-form', { style: 'default' });
+      var dropinCardForm = GlobalPayments.creditCard.form('#dropin-card-form', { style: 'simple' });
 
       dropinCardForm.on("token-success", function (resp) { console.log(resp); });
 
@@ -183,7 +183,7 @@
       achForm.on("token-success", function (resp) { console.log(resp); });
       achForm.on("token-error", function (resp) { console.log(resp); });
 
-      var dropinAchForm = GlobalPayments.eCheck.form('#dropin-ach-form', { style: 'default' });
+      var dropinAchForm = GlobalPayments.eCheck.form('#dropin-ach-form', { style: 'simple' });
 
       dropinAchForm.on("token-success", function (resp) { console.log(resp); });
 
@@ -203,7 +203,7 @@
       giftForm.on("token-success", function (resp) { console.log(resp); });
       giftForm.on("token-error", function (resp) { console.log(resp); });
 
-      var dropinGiftForm = GlobalPayments.giftAndLoyalty.form('#dropin-gift-form', { style: 'default' });
+      var dropinGiftForm = GlobalPayments.giftAndLoyalty.form('#dropin-gift-form', { style: 'simple' });
 
       dropinGiftForm.on("token-success", function (resp) { console.log(resp); });
 
@@ -234,7 +234,7 @@
       cardTrackForm.on("card-track", "waiting-for-data", function () { console.log("Waiting for track data"); });
       cardTrackForm.on("card-track", "data-received", function () { console.log("Track data received"); });
 
-      var dropinCardTrackForm = GlobalPayments.creditCard.trackReaderForm("#dropin-track-form", { style: 'default' });
+      var dropinCardTrackForm = GlobalPayments.creditCard.trackReaderForm("#dropin-track-form", { style: 'simple' });
 
       dropinCardTrackForm.on("token-success", function (resp) { console.log(resp); });
     </script>

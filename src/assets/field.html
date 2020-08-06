@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>Secure Payment Field</title>
     <style type="text/css">
       html, #secure-payment-field-body,
@@ -18,20 +18,25 @@
         width: 100%;
         flex: 1 1 auto;
       }
-      .autocomplete-hidden {
-        opacity: 0;
+      .offscreen, .autocomplete-hidden {
         height: 1px;
         width: 1px;
         position: absolute;
+      }
+      .offscreen {
+        top: -10em;
+      }
+      .autocomplete-hidden {
+        opacity: 0;
         top: -1px;
       }
     </style>
   </head>
   <body id="secure-payment-field-body">
-    <div id="secure-payment-field-wrapper">
+    <main id="secure-payment-field-wrapper">
       <div class="extra-div-1"></div>
       <div class="extra-div-2"></div>
-    </div>
+    </main>
     <script type="text/javascript" src="/dist/globalpayments.js"></script>
     <script>
       GlobalPayments.ui.IframeField.register(window.name);
