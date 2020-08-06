@@ -402,6 +402,10 @@ export class IframeField extends EventEmitter {
     );
   }
 
+  public setTitle(title: string) {
+    this.frame.title = title;
+  }
+
   private makeFrame(type: string, id: string, opts: IUIFormField) {
     const frame = document.createElement("iframe");
     frame.id = `secure-payment-field-${type}-${id}`;

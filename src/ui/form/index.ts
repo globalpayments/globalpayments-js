@@ -4,6 +4,10 @@ import {
   fieldStyles as defaultFieldStyles,
   parentStyles as defaultParentStyles,
 } from "../../internal/lib/styles/default";
+import {
+  fieldStyles as simpleFieldStyles,
+  parentStyles as simpleParentStyles,
+} from "../../internal/lib/styles/simple";
 import { IDictionary } from "../../internal/lib/util";
 import { IEventListener } from "../../lib/event-emitter";
 import { IFrameCollection, IframeField, IUIFormField } from "../iframe-field";
@@ -13,18 +17,21 @@ export { IUIFormField } from "../iframe-field";
 export const fieldStyles = {
   blank: {},
   default: defaultFieldStyles,
+  simple: simpleFieldStyles,
 };
 
 export const parentStyles = {
   blank: {},
   default: defaultParentStyles,
+  simple: simpleParentStyles,
 };
 
 export interface IUIFormOptions {
   labels?: IDictionary;
   placeholders?: IDictionary;
   prefix?: string;
-  style?: "default" | "blank";
+  style?: "default" | "simple" | "blank";
+  titles?: IDictionary;
   values?: IDictionary;
 }
 
@@ -192,6 +199,9 @@ export default class UIForm {
         }
         if (this.fields[type].label) {
           field.setLabel(this.fields[type].label || "");
+        }
+        if (this.fields[type].title) {
+          field.setTitle(this.fields[type].title || "");
         }
         if (this.styles) {
           field.addStylesheet(this.styles);
