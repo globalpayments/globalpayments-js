@@ -34,6 +34,7 @@ export default (data: IDictionary) => {
         api_key: options.publicApiKey,
       };
     }
+
     gateway.actions
       .tokenize(buildUrl(query), data)
       .then(gateway.actions.normalizeResponse)
@@ -44,6 +45,11 @@ export default (data: IDictionary) => {
         }
 
         resp = resp as ISuccess;
+
+        if (gateway.requiredSettings.indexOf("X-GP-Api-Key") !== -1) {
+          resolve(resp);
+          return;
+        }
 
         if (data["card-number"]) {
           const cardNumber = data["card-number"].replace(/\D/g, "");

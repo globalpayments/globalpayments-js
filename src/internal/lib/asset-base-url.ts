@@ -10,6 +10,10 @@ export default () => {
     return result;
   }
 
+  if (gateway.urls.assetBaseUrl) {
+    return gateway.urls.assetBaseUrl(result);
+  }
+
   result =
     gateway.getEnv(options) === "sandbox"
       ? `https://hps.github.io/token/gp-${version}/`

@@ -33,14 +33,21 @@ export interface IUIFormField {
   value?: string;
 }
 
+export const fieldTypeAutocompleteMap: IDictionary = {
+  "card-cvv": "cc-csc",
+  "card-expiration": "cc-exp",
+  "card-number": "cc-number",
+};
+
 export class IframeField extends EventEmitter {
   public static register(type: string) {
     const query = window.location.hash.replace("#", "");
     const data: any = JSON.parse(atob(query));
     const id: string = data.id;
+    const enableAutocomplete = data.enableAutocomplete || false;
 
     IframeField.setHtmlLang(data.lang);
-    IframeField.createField(id, type, data.type);
+    IframeField.createField(id, type, data.type, enableAutocomplete);
     IframeField.addMessageListener(id, type, data.targetOrigin);
 
     postMessage.post(
@@ -61,7 +68,15 @@ export class IframeField extends EventEmitter {
     document.querySelectorAll("html").forEach((el) => el.lang = lang);
   }
 
-  public static createField(id: string, name: string, type: string) {
+  /**
+   * Creates the inner field within the iframe window and sets
+   * any appropriate attributes, properties, and event handlers.
+   * @param id Field ID
+   * @param name Field type
+   * @param type Type of element
+   * @param enableAutocomplete Whether autocomplete should be enabled
+   */
+  public static createField(id: string, name: string, type: string, enableAutocomplete: boolean) {
     const input = document.createElement(
       type === "button" ? "button" : "input",
     );
@@ -69,6 +84,10 @@ export class IframeField extends EventEmitter {
     input.id = paymentFieldId;
     input.className = name;
     input.setAttribute("data-id", id);
+
+    if (enableAutocomplete === true && fieldTypeAutocompleteMap[name]) {
+      input.setAttribute("autocomplete", fieldTypeAutocompleteMap[name]);
+    }
 
     if (name === "card-track") {
       const message = "Read Card";
@@ -92,6 +111,12 @@ export class IframeField extends EventEmitter {
     dest.insertBefore(label, dest.firstChild);
 
     IframeField.addFrameFocusEvent();
+
+    if (enableAutocomplete === true && name === "card-number") {
+      IframeField.createAutocompleteField(dest, id, "card-cvv", "cardCsc", "cc-csc");
+      IframeField.createAutocompleteField(dest, id, "card-expiration", "cardExpiration", "cc-exp");
+      IframeField.createAutocompleteField(dest, id, "card-holder-name", "cardHolderName", "cc-name");
+    }
 
     if (name === "card-track") {
       Events.addHandler(input, "click", () => {
@@ -126,6 +151,54 @@ export class IframeField extends EventEmitter {
   }
 
   /**
+   * Appends a hidden input to the given destination to accept
+   * full autocomplete/auto-fill data from the browser. The
+   * parent window is also notified of data changes to these
+   * fields in order display the new data to the end-user.
+   *
+   * @param destination Parent node for new element
+   * @param id Field ID
+   * @param type Field type
+   * @param name Field name to be used
+   * @param autocomplete Value for field's autocomplete attribute
+   */
+  public static createAutocompleteField(
+    destination: Node,
+    id: string,
+    type: string,
+    name: string,
+    autocomplete: string,
+  ) {
+    const element = document.createElement("input");
+    element.name = name;
+    element.className = "autocomplete-hidden";
+    element.tabIndex = -1;
+    element.autocomplete = autocomplete;
+    Events.addHandler(element, "input", () => {
+      let value = element && element.value ? element.value : "";
+
+      // this shouldn't happen, but explicitly ignore to prevent
+      // these fields from leaking their data to the parent
+      if (type === "card-number" || type === "account-number") {
+        value = "";
+      }
+
+      postMessage.post(
+        {
+          data: {
+            type,
+            value,
+          },
+          id,
+          type: "ui:iframe-field:set-autocomplete-value",
+        },
+        "parent",
+      );
+    });
+    destination.appendChild(element);
+  }
+
+  /**
    * addFrameFocusEvent
    *
    * Ensures an iframe's document forwards its received focus
@@ -157,11 +230,20 @@ export class IframeField extends EventEmitter {
     }
   }
 
+  /**
+   * Sets the iframe window's postMessage handler in order to
+   * react to parent/sibling events.
+   *
+   * @param id Field ID
+   * @param type Field type
+   * @param targetOrigin Parent window's origin
+   */
   public static addMessageListener(
     id: string,
     type: string,
     targetOrigin: string,
   ) {
+    // update the global statge with information about the parent window
     loadedFrames.parent = {
       frame: parent,
       url: targetOrigin,
@@ -262,6 +344,7 @@ export class IframeField extends EventEmitter {
       "#" +
       btoa(
         JSON.stringify({
+          enableAutocomplete: options.enableAutocomplete,
           id: this.id,
           lang: options.language || "en",
           targetOrigin: window.location.href,

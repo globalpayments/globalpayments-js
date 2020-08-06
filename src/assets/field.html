@@ -18,11 +18,17 @@
         width: 100%;
         flex: 1 1 auto;
       }
-      .offscreen {
+      .offscreen, .autocomplete-hidden {
         height: 1px;
         width: 1px;
         position: absolute;
+      }
+      .offscreen {
         top: -10em;
+      }
+      .autocomplete-hidden {
+        opacity: 0;
+        top: -1px;
       }
     </style>
   </head>

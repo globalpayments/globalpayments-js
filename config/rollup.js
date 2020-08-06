@@ -34,7 +34,7 @@ export default [
     input,
     output: {
       file: "./dist/globalpayments.js",
-      format: "iife",
+      format: "umd",
       name: "GlobalPayments",
       sourcemap: true,
     },
@@ -47,7 +47,7 @@ export default [
     input,
     output: {
       file: "./dist/globalpayments.min.js",
-      format: "iife",
+      format: "umd",
       name: "GlobalPayments",
       sourcemap: true,
     },

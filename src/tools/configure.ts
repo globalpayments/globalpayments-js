@@ -4,6 +4,7 @@ import { IDictionary } from "../internal/lib/util";
 
 export interface IConfiguration {
   [key: string]: any;
+  enableAutocomplete?: boolean;
   language?: string;
   // heartland
   publicApiKey?: string;
