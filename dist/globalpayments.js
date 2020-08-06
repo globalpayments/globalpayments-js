@@ -1847,532 +1847,102 @@
 	});
 
 	var actionNormalizeResponse$3 = (function (data) {
-	    if (data.error && data.reasons) {
-	        return {
-	            error: data.error,
-	            reasons: data.reasons,
-	        };
-	    }
-	    // TODO: parse these properly
-	    if (["FAIL", "FAILURE"].indexOf(data.status) !== -1) {
-	        return {
-	            error: true,
-	            reasons: [{
-	                    code: "ERROR",
-	                    message: data.responseCode + ": " + data.message,
-	                }],
-	        };
-	    }
-	    var response = {
-	        paymentReference: data.tsepToken,
-	        requestId: data.transactionId,
-	    };
-	    return response;
+	    return data;
 	});
 
-	var actionTokenize$3 = (function (url, data) {
-	    var getRequest = function () {
-	        var request = {
-	            cvv2: data["card-cvv"],
-	            deviceID: window.getDeviceId(),
-	            manifest: window.getManifest(),
-	            uniqueKeyIdentifier: window.getKeyId(),
-	        };
-	        if (data["card-number"]) {
-	            request.encCardNumber = window.encryptTsepCard(data["card-number"].replace(/\s/g, ""));
-	        }
-	        if (data["card-expiration"] &&
-	            data["card-expiration"].indexOf(" / ") !== -1) {
-	            request.expirationDate = data["card-expiration"].replace(" / ", "/");
-	        }
-	        return request;
-	    };
-	    return new Promise(function (resolve, reject) {
-	        var scriptId = "tsep-entry-script";
-	        var cardId = "tsep-cardNumDiv";
-	        var timeout = setTimeout(function () {
-	            reject({
-	                error: true,
-	                reasons: [{ code: "TIMEOUT", message: "TransIT setup timeout" }],
-	            });
-	        }, 30000);
-	        var cleanup = function () {
-	            clearTimeout(timeout);
-	            [cardId, scriptId].forEach(function (id) {
-	                var el = document.getElementById(id);
-	                if (!el || !el.parentNode) {
-	                    return;
+	var _this$4 = undefined;
+	var actionTokenize$3 = (function (url, data) { return __awaiter(_this$4, void 0, void 0, function () {
+	    var request, exp, environment, headers, resp, e_1;
+	    return __generator(this, function (_a) {
+	        switch (_a.label) {
+	            case 0:
+	                request = {};
+	                if (data["card-number"]) {
+	                    request.card = request.card || {};
+	                    request.card.card_number = data["card-number"].replace(/\s+/g, "");
 	                }
-	                el.parentNode.removeChild(el);
-	            });
-	        };
-	        try {
-	            // handle tsep response
-	            window.tsepHandler = function (eventType, eventData) {
-	                // tsep's input fields aren't being used, so this should
-	                // be the only event to capture in order to handle load errors
-	                if (eventType === "ErrorEvent") {
-	                    cleanup();
-	                    reject({ error: true, reasons: [{
-	                                code: "ERROR",
-	                                message: eventData.responseCode + ": " + eventData.message,
-	                            }] });
+	                if (data["card-cvv"]) {
+	                    request.card = request.card || {};
+	                    request.card.card_security_code = data["card-cvv"];
 	                }
-	            };
-	            // add holder for tsep card number input
-	            var card = document.createElement("div");
-	            card.hidden = true;
-	            card.style.display = "none";
-	            card.id = cardId;
-	            document.body.appendChild(card);
-	            // add new script on page
-	            var script = document.createElement("script");
-	            script.id = scriptId;
-	            script.src = url;
-	            script.defer = true;
-	            script.onload = function (e) {
-	                if (!window.onload) {
-	                    return;
+	                if (data["card-expiration"] &&
+	                    data["card-expiration"].indexOf(" / ") !== -1) {
+	                    exp = data["card-expiration"].split(" / ");
+	                    request.card = request.card || {};
+	                    request.card.expiry_month = exp[0] || "";
+	                    request.card.expiry_year = exp[1].slice(-2) || "";
 	                }
-	                window.onload(e);
-	            };
-	            document.body.appendChild(script);
-	            // tsep doesn't expose a way to hook into the library's load event,
-	            // so we create an interval to check manually
-	            var interval_1 = setInterval(function () {
-	                var cardEl = document.getElementById(cardId.substr(0, cardId.length - 3));
-	                // presence of the card element ensures tsep.js is loaded
-	                // presence of `cryptTsep` ensures jsencrypt.js is loaded
-	                if (!cardEl || !window.cryptTsep) {
-	                    return;
+	                // TODO: Properly accept encrypted track data
+	                if (data["card-track"]) {
+	                    request.card = request.card || {};
+	                    request.card.track_method = "swipe";
+	                    request.card.track = data["card-track"];
 	                }
-	                // tsep has loaded, so continue on after stopping the interval
-	                clearInterval(interval_1);
-	                var headers = {
+	                if (data["account-number"]) {
+	                    request.ach = request.ach || {};
+	                    request.ach.account_number = data["account-number"];
+	                }
+	                if (data["routing-number"]) {
+	                    request.ach = request.ach || {};
+	                    request.ach.routing_number = data["routing-number"];
+	                }
+	                _a.label = 1;
+	            case 1:
+	                _a.trys.push([1, 3, , 4]);
+	                environment = getGateway().getEnv(options);
+	                environment = environment !== "local" ? environment : "dev";
+	                headers = {
 	                    "Content-Type": "application/json",
+	                    "X-GP-Api-Key": options["X-GP-Api-Key"],
+	                    "X-GP-Environment": "" + environment,
+	                    /* tslint:disable:no-bitwise */
+	                    "X-GP-Request-Id": "PFC-" + "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/gu, function (character) {
+	                        var random = Math.floor(Math.random() * 16);
+	                        var value = character === "x" ? random : (random & 0x3 | 0x8);
+	                        return value.toString(16);
+	                    }),
+	                    /* tslint:enable:no-bitwise */
+	                    "X-GP-Version": "2019-08-22",
 	                };
-	                fetch(options.tsepHost + "/transit-tsep-web/generateTsepToken", {
-	                    body: JSON.stringify(getRequest()),
-	                    credentials: "omit",
-	                    headers: typeof Headers !== "undefined" ? new Headers(headers) : headers,
-	                    method: "POST",
-	                })
-	                    .then(function (resp) {
-	                    cleanup();
-	                    resolve(resp.json());
-	                })["catch"](function (e) {
-	                    cleanup();
-	                    reject(e);
-	                });
-	            }, 100);
-	        }
-	        catch (e) {
-	            return reject({
-	                error: true,
-	                reasons: [{ code: e.name, message: e.message }],
-	            });
+	                return [4 /*yield*/, fetch(url, {
+	                        body: JSON.stringify(request),
+	                        credentials: "omit",
+	                        headers: typeof Headers !== "undefined" ? new Headers(headers) : headers,
+	                        method: "POST",
+	                    })];
+	            case 2:
+	                resp = _a.sent();
+	                return [2 /*return*/, resp.json()];
+	            case 3:
+	                e_1 = _a.sent();
+	                return [2 /*return*/, {
+	                        error: true,
+	                        reasons: [{ code: e_1.name, message: e_1.message }],
+	                    }];
+	            case 4: return [2 /*return*/];
 	        }
 	    });
-	});
+	}); });
 
 	var actionValidateData$3 = (function (data) {
 	    var errors = [];
-	    if (!data["card-number"]) {
+	    var cardNumber = data["card-number"].replace(/\s+/g, "");
+	    // The error message here is irrelevant - actual 'invalid_input' error is generated in tokenize.ts.
+	    // For type compatibility reason, this code is preserved here.
+	    // if (!data["card-number"] && !data["card-track"] && !data["account-number"]) {
+	    if (cardNumber.length < 13 || cardNumber.length > 19) {
 	        errors.push({
-	            code: "INVALID_CARD_NUMBER",
-	            message: "The card number is invalid.",
-	        });
-	    }
-	    if (!data["card-cvv"]) {
-	        errors.push({
-	            code: "INVALID_CARD_SECURITY_CODE",
-	            message: "The card security code is invalid.",
-	        });
-	    }
-	    if (!data["card-expiration"]) {
-	        errors.push({
-	            code: "INVALID_CARD_EXPIRATION",
-	            message: "The card expiration is invalid.",
+	            code: "invalid_input",
+	            // @ts-ignore
+	            detail: [{
+	                    data_path: "/card/card_number",
+	                    description: "Invalid data",
+	                }],
+	            message: "Invalid input data.",
 	        });
 	    }
 	    return errors;
 	});
-
-	var supports$3 = {
-	    apm: {
-	        androidPay: false,
-	        applePay: false,
-	    },
-	    consumerAuthentication: false,
-	    eCheck: false,
-	    gift: false,
-	    tokenization: {
-	        cardNotPresent: true,
-	        cardPresent: false,
-	        eCheck: false,
-	        gift: false,
-	    },
-	};
-	var domains$3 = {
-	    // Genius Checkout has an automatic sandbox feature for developer / partner accounts
-	    production: "https://gateway.transit-pass.com",
-	    sandbox: "https://stagegw.transnox.com",
-	};
-	var urls$3 = {
-	    tokenization: function (prod) {
-	        options.tsepHost = prod ? domains$3.production : domains$3.sandbox;
-	        return options.tsepHost + "/transit-tsep-web/jsView/" + options.deviceId + "?" + options.manifest;
-	    },
-	};
-	var actions$3 = {
-	    normalizeResponse: actionNormalizeResponse$3,
-	    tokenize: actionTokenize$3,
-	    validateData: actionValidateData$3,
-	};
-	var requiredSettings$3 = ["deviceId", "manifest"];
-	var getEnv$3 = function () {
-	    return options.env || "production";
-	};
-
-	var transit = /*#__PURE__*/Object.freeze({
-		supports: supports$3,
-		urls: urls$3,
-		actions: actions$3,
-		requiredSettings: requiredSettings$3,
-		getEnv: getEnv$3
-	});
-
-	var availableGateways = {
-	    genius: genius,
-	    globalpayments: globalpayments,
-	    heartland: heartland,
-	    transit: transit,
-	};
-
-	var configHasAllRequiredSettings = function (settings) {
-	    var totalSettings = settings.length;
-	    var count = 0;
-	    for (var i = 0; i < totalSettings; i++) {
-	        var setting = settings[i];
-	        if (options.hasOwnProperty(setting) && options[setting] !== undefined) {
-	            count++;
-	        }
-	    }
-	    return count === totalSettings;
-	};
-	var getGateway = (function () {
-	    for (var key in availableGateways) {
-	        if (!availableGateways.hasOwnProperty(key)) {
-	            continue;
-	        }
-	        var gateway = availableGateways[key];
-	        if (configHasAllRequiredSettings(gateway.requiredSettings)) {
-	            return gateway;
-	        }
-	    }
-	    return undefined;
-	});
-
-	/**
-	 * Creates a single object by merging a `source` (default) and `properties`
-	 * obtained elsewhere. Any properties in `properties` will overwrite
-	 * matching properties in `source`.
-	 *
-	 * @param source
-	 * @param properties
-	 */
-	function objectAssign(source, properties) {
-	    var destination = {};
-	    if (!source) {
-	        source = {};
-	    }
-	    for (var property in source) {
-	        if (source.hasOwnProperty(property)) {
-	            destination[property] = source[property];
-	        }
-	    }
-	    for (var property in properties) {
-	        if (properties.hasOwnProperty(property)) {
-	            destination[property] = properties[property];
-	        }
-	    }
-	    return destination;
-	}
-
-	/**
-	 * addStylesheet
-	 *
-	 * Creates a `style` node in the DOM with the given `css`.
-	 *
-	 * @param css
-	 * @param id
-	 */
-	function addStylesheet(css, id) {
-	    var el = document.createElement("style");
-	    var elements = document.getElementsByTagName("head");
-	    if (id) {
-	        if (document.getElementById(id)) {
-	            return;
-	        }
-	        el.id = id;
-	    }
-	    el.type = "text/css";
-	    if (el.styleSheet) {
-	        // for IE
-	        el.styleSheet.cssText = css;
-	    }
-	    else {
-	        el.appendChild(document.createTextNode(css));
-	    }
-	    if (elements && elements[0]) {
-	        elements[0].appendChild(el);
-	    }
-	}
-	/**
-	 * json2css
-	 *
-	 * Converts a JSON node to text representing CSS.
-	 *
-	 * @param json
-	 */
-	function json2css(json) {
-	    var css = "";
-	    var attributes = jsonAttributes(json);
-	    var children = jsonChildren(json);
-	    var i;
-	    var j;
-	    var key;
-	    var value;
-	    if (attributes) {
-	        var attributesLength = attributes.length;
-	        for (i = 0; i < attributesLength; i++) {
-	            key = attributes[i];
-	            value = json[key];
-	            if (isArray(value)) {
-	                var arrLength = value.length;
-	                for (j = 0; j < arrLength; j++) {
-	                    css += key + ":" + value[j] + ";";
-	                }
-	            }
-	            else {
-	                css += key + ":" + value + ";";
-	            }
-	        }
-	    }
-	    if (children) {
-	        var childrenLength = children.length;
-	        for (i = 0; i < childrenLength; i++) {
-	            key = children[i];
-	            value = json[key];
-	            css += key + "{" + json2css(value) + "}";
-	        }
-	    }
-	    return css;
-	}
-	function isArray(obj) {
-	    return Object.prototype.toString.call(obj) === "[object Array]";
-	}
-	function jsonAttributes(json) {
-	    var keys = [];
-	    for (var key in json) {
-	        if (json.hasOwnProperty(key) &&
-	            (typeof json[key] === "string" || isArray(json[key]))) {
-	            keys.push(key);
-	        }
-	    }
-	    return keys;
-	}
-	function jsonChildren(json) {
-	    var keys = [];
-	    for (var key in json) {
-	        if (json.hasOwnProperty(key) &&
-	            !(typeof json[key] === "string" || isArray(json[key]))) {
-	            keys.push(key);
-	        }
-	    }
-	    return keys;
-	}
-
-	var version = "1.3.0";
-
-	var assetBaseUrl = (function () {
-	    var result = "https://api2.heartlandportico.com/SecureSubmit.v1/token/gp-" + version + "/";
-	    var gateway = getGateway();
-	    if (!gateway) {
-	        return result;
-	    }
-	    result =
-	        gateway.getEnv(options) === "sandbox"
-	            ? "https://hps.github.io/token/gp-" + version + "/"
-	            : result;
-	    return result;
-	});
-
-	// tslint:disable:object-literal-key-quotes
-	// tslint:disable:object-literal-sort-keys
-	var imageBase = assetBaseUrl() + "images/";
-	var fieldStyles = {
-	    "#secure-payment-field": {
-	        "-o-transition": "border-color ease-in-out .15s,box-shadow ease-in-out .15s",
-	        "-webkit-box-shadow": "inset 0 1px 1px rgba(0,0,0,.075)",
-	        "-webkit-transition": "border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s",
-	        "background-color": "#fff",
-	        border: "1px solid #ccc",
-	        "border-radius": "0px",
-	        "box-shadow": "inset 0 1px 1px rgba(0,0,0,.075)",
-	        "box-sizing": "border-box",
-	        color: "#555",
-	        display: "block",
-	        "font-family": "sans-serif",
-	        "font-size": "14px",
-	        height: "50px",
-	        "line-height": "1.42857143",
-	        margin: "0 .5em 0 0",
-	        "max-width": "100%",
-	        outline: "0",
-	        padding: "6px 12px",
-	        transition: "border-color ease-in-out .15s,box-shadow ease-in-out .15s",
-	        "vertical-align": "baseline",
-	        width: "100% ",
-	    },
-	    "#secure-payment-field:focus": {
-	        border: "1px solid #3989e3",
-	        "box-shadow": "none",
-	        height: "50px",
-	        outline: "none",
-	    },
-	    "#secure-payment-field[type=button]": {
-	        "-moz-user-select": "none",
-	        "-ms-touch-action": "manipulation",
-	        "-ms-user-select": "none",
-	        "-webkit-user-select": "none",
-	        "background-color": "#36b46e",
-	        "background-image": "none",
-	        border: "0px solid transparent",
-	        "box-sizing": "border-box",
-	        color: "#fff",
-	        cursor: "pointer",
-	        display: "inline-block",
-	        "font-family": "sans-serif",
-	        "font-size": "14px",
-	        "font-weight": "400",
-	        "line-height": "1.42857143",
-	        "margin-bottom": "0",
-	        padding: "6px 12px",
-	        "text-align": "center",
-	        "text-transform": "uppercase",
-	        "touch-action": "manipulation",
-	        "user-select": "none",
-	        "vertical-align": "middle",
-	        "white-space": "nowrap",
-	    },
-	    "#secure-payment-field[type=button]:focus": {
-	        "background-color": "#258851",
-	        color: "#ffffff",
-	        outline: "none",
-	    },
-	    "#secure-payment-field[type=button]:hover": {
-	        "background-color": "#258851",
-	    },
-	    ".card-cvv": {
-	        background: "transparent url(" + imageBase + "cvv.png) no-repeat right",
-	        "background-size": "63px 40px",
-	    },
-	    ".card-cvv.card-type-amex": {
-	        background: "transparent url(" + imageBase + "cvv-amex.png) no-repeat right",
-	        "background-size": "63px 40px",
-	    },
-	    ".card-number": {
-	        background: "transparent url(" + imageBase + "logo-unknown@2x.png) no-repeat right",
-	        "background-size": "55px 35px",
-	    },
-	    ".card-number.invalid.card-type-amex": {
-	        background: "transparent url(" + imageBase + "logo-amex@2x.png) no-repeat right",
-	        "background-position-y": "-44px",
-	        "background-size": "50px 90px",
-	    },
-	    ".card-number.invalid.card-type-discover": {
-	        background: "transparent url(" + imageBase + "logo-discover@2x.png) no-repeat right",
-	        "background-position-y": "-44px",
-	        "background-size": "85px 90px",
-	    },
-	    ".card-number.invalid.card-type-jcb": {
-	        background: "transparent url(" + imageBase + "logo-jcb@2x.png) no-repeat right",
-	        "background-position-y": "-44px",
-	        "background-size": "55px 94px",
-	    },
-	    ".card-number.invalid.card-type-mastercard": {
-	        background: "transparent url(" + imageBase + "logo-mastercard@2x.png) no-repeat right",
-	        "background-position-y": "-52px",
-	        "background-size": "62px 105px",
-	    },
-	    ".card-number.invalid.card-type-visa": {
-	        background: "transparent url(" + imageBase + "logo-visa@2x.png) no-repeat right",
-	        "background-position-y": "-44px",
-	        "background-size": "83px 88px",
-	    },
-	    ".card-number.valid.card-type-amex": {
-	        background: "transparent url(" + imageBase + "logo-amex@2x.png) no-repeat right top",
-	        "background-size": "50px 90px",
-	    },
-	    ".card-number.valid.card-type-discover": {
-	        background: "transparent url(" + imageBase + "logo-discover@2x.png) no-repeat right",
-	        "background-position-y": "1px",
-	        "background-size": "85px 90px",
-	    },
-	    ".card-number.valid.card-type-jcb": {
-	        background: "transparent url(" + imageBase + "logo-jcb@2x.png) no-repeat right top",
-	        "background-position-y": "2px",
-	        "background-size": "55px 94px",
-	    },
-	    ".card-number.valid.card-type-mastercard": {
-	        background: "transparent url(" + imageBase + "logo-mastercard@2x.png) no-repeat right",
-	        "background-position-y": "-1px",
-	        "background-size": "62px 105px",
-	    },
-	    ".card-number.valid.card-type-visa": {
-	        background: "transparent url(" + imageBase + "logo-visa@2x.png) no-repeat right top",
-	        "background-size": "82px 86px",
-	    },
-	    ".card-number::-ms-clear": {
-	        display: "none",
-	    },
-	    "input[placeholder]": {
-	        "letter-spacing": "3px",
-	    },
-	};
-	var parentStyles = {
-	    ".secure-payment-form": {
-	        "font-family": "sans-serif",
-	    },
-	    ".secure-payment-form label": {
-	        color: "#555",
-	        "font-size": "13px",
-	        "font-weight": "bold",
-	        "line-height": "1.5",
-	        "text-transform": "uppercase",
-	    },
-	    ".secure-payment-form #ss-banner": {
-	        background: "transparent url(" + imageBase + "shield-and-logos@2x.png) no-repeat left center",
-	        "background-size": "280px 34px",
-	        height: "40px",
-	        "margin-bottom": "7px",
-	    },
-	    ".secure-payment-form div": {
-	        display: "block",
-	    },
-	    ".secure-payment-form iframe": {
-	        width: "300px",
-	    },
-	    ".secure-payment-form .form-row": {
-	        "margin-top": "10px",
-	    },
-	    ".secure-payment-form .form-wrapper": {
-	        display: "block",
-	        margin: "10px auto",
-	        width: "300px",
-	    },
-	};
 
 	/// see https://gist.github.com/mudge/5830382
 	/* Polyfill indexOf. */
@@ -2618,6 +2188,10 @@
 	                return;
 	            }
 	            resp = resp;
+	            if (gateway.requiredSettings.indexOf("X-GP-Api-Key") !== -1) {
+	                resolve(resp);
+	                return;
+	            }
 	            if (data["card-number"]) {
 	                var cardNumber = data["card-number"].replace(/\D/g, "");
 	                var bin = cardNumber.substr(0, 6);
@@ -2672,6 +2246,767 @@
 		options: options,
 		postMessage: postMessage
 	});
+
+	var version = "1.3.0";
+
+	var getAssetBaseUrl = (function (result) {
+	    var gateway = getGateway();
+	    if (!gateway) {
+	        return result;
+	    }
+	    var majorVersion = version.split(".")[0] || version[0];
+	    var env = gateway.getEnv(options);
+	    switch (env) {
+	        case "local":
+	            return "http://localhost:8080/v" + majorVersion + "/";
+	        case "dev":
+	            return "https://js.dev.paygateway.com/secure_payment/v" + majorVersion + "/";
+	        case "pqa":
+	            return "https://js.pqa.paygateway.com/secure_payment/v" + majorVersion + "/";
+	        case "qa":
+	            return "https://js.qa.paygateway.com/secure_payment/v" + majorVersion + "/";
+	        case "test":
+	            return "https://js.test.paygateway.com/secure_payment/v" + majorVersion + "/";
+	        case "prod":
+	            return "https://js.paygateway.com/secure_payment/v" + majorVersion + "/";
+	        case "GP":
+	            return result;
+	        default:
+	            return result;
+	    }
+	});
+
+	var supports$3 = {
+	    apm: {
+	        androidPay: false,
+	        applePay: true,
+	    },
+	    consumerAuthentication: true,
+	    eCheck: true,
+	    gift: true,
+	    tokenization: {
+	        cardNotPresent: true,
+	        cardPresent: true,
+	        eCheck: true,
+	        gift: true,
+	    },
+	};
+	/* tslint:disable:object-literal-sort-keys */
+	var domains$3 = {
+	    local: "https://api-sandbox.dev.paygateway.com",
+	    dev: "https://api.dev.paygateway.com",
+	    pqa: "https://api.dev.paygateway.com",
+	    qa: "https://api.qa.paygateway.com",
+	    test: "https://api.pit.paygateway.com",
+	    prod: "https://api.paygateway.com",
+	};
+	/* tslint:enable:object-literal-sort-keys */
+	var urls$3 = {
+	    asset: getAssetBaseUrl,
+	    tokenization: function (prod) {
+	        return domains$3[getEnv$3()] + "/tokenization/temporary_tokens";
+	    },
+	};
+	var actions$3 = {
+	    normalizeResponse: actionNormalizeResponse$3,
+	    tokenize: actionTokenize$3,
+	    validateData: actionValidateData$3,
+	};
+	var requiredSettings$3 = ["X-GP-Api-Key", "X-GP-Environment"];
+	var getEnv$3 = function () {
+	    return options["X-GP-Environment"] || "local";
+	};
+
+	var openedge = /*#__PURE__*/Object.freeze({
+		supports: supports$3,
+		urls: urls$3,
+		actions: actions$3,
+		requiredSettings: requiredSettings$3,
+		getEnv: getEnv$3
+	});
+
+	var actionNormalizeResponse$4 = (function (data) {
+	    if (data.error && data.reasons) {
+	        return {
+	            error: data.error,
+	            reasons: data.reasons,
+	        };
+	    }
+	    // TODO: parse these properly
+	    if (["FAIL", "FAILURE"].indexOf(data.status) !== -1) {
+	        return {
+	            error: true,
+	            reasons: [{
+	                    code: "ERROR",
+	                    message: data.responseCode + ": " + data.message,
+	                }],
+	        };
+	    }
+	    var response = {
+	        paymentReference: data.tsepToken,
+	        requestId: data.transactionId,
+	    };
+	    return response;
+	});
+
+	var actionTokenize$4 = (function (url, data) {
+	    var getRequest = function () {
+	        var request = {
+	            cvv2: data["card-cvv"],
+	            deviceID: window.getDeviceId(),
+	            manifest: window.getManifest(),
+	            uniqueKeyIdentifier: window.getKeyId(),
+	        };
+	        if (data["card-number"]) {
+	            request.encCardNumber = window.encryptTsepCard(data["card-number"].replace(/\s/g, ""));
+	        }
+	        if (data["card-expiration"] &&
+	            data["card-expiration"].indexOf(" / ") !== -1) {
+	            request.expirationDate = data["card-expiration"].replace(" / ", "/");
+	        }
+	        return request;
+	    };
+	    return new Promise(function (resolve, reject) {
+	        var scriptId = "tsep-entry-script";
+	        var cardId = "tsep-cardNumDiv";
+	        var timeout = setTimeout(function () {
+	            reject({
+	                error: true,
+	                reasons: [{ code: "TIMEOUT", message: "TransIT setup timeout" }],
+	            });
+	        }, 30000);
+	        var cleanup = function () {
+	            clearTimeout(timeout);
+	            [cardId, scriptId].forEach(function (id) {
+	                var el = document.getElementById(id);
+	                if (!el || !el.parentNode) {
+	                    return;
+	                }
+	                el.parentNode.removeChild(el);
+	            });
+	        };
+	        try {
+	            // handle tsep response
+	            window.tsepHandler = function (eventType, eventData) {
+	                // tsep's input fields aren't being used, so this should
+	                // be the only event to capture in order to handle load errors
+	                if (eventType === "ErrorEvent") {
+	                    cleanup();
+	                    reject({ error: true, reasons: [{
+	                                code: "ERROR",
+	                                message: eventData.responseCode + ": " + eventData.message,
+	                            }] });
+	                }
+	            };
+	            // add holder for tsep card number input
+	            var card = document.createElement("div");
+	            card.hidden = true;
+	            card.style.display = "none";
+	            card.id = cardId;
+	            document.body.appendChild(card);
+	            // add new script on page
+	            var script = document.createElement("script");
+	            script.id = scriptId;
+	            script.src = url;
+	            script.defer = true;
+	            script.onload = function (e) {
+	                if (!window.onload) {
+	                    return;
+	                }
+	                window.onload(e);
+	            };
+	            document.body.appendChild(script);
+	            // tsep doesn't expose a way to hook into the library's load event,
+	            // so we create an interval to check manually
+	            var interval_1 = setInterval(function () {
+	                var cardEl = document.getElementById(cardId.substr(0, cardId.length - 3));
+	                // presence of the card element ensures tsep.js is loaded
+	                // presence of `cryptTsep` ensures jsencrypt.js is loaded
+	                if (!cardEl || !window.cryptTsep) {
+	                    return;
+	                }
+	                // tsep has loaded, so continue on after stopping the interval
+	                clearInterval(interval_1);
+	                var headers = {
+	                    "Content-Type": "application/json",
+	                };
+	                fetch(options.tsepHost + "/transit-tsep-web/generateTsepToken", {
+	                    body: JSON.stringify(getRequest()),
+	                    credentials: "omit",
+	                    headers: typeof Headers !== "undefined" ? new Headers(headers) : headers,
+	                    method: "POST",
+	                })
+	                    .then(function (resp) {
+	                    cleanup();
+	                    resolve(resp.json());
+	                })["catch"](function (e) {
+	                    cleanup();
+	                    reject(e);
+	                });
+	            }, 100);
+	        }
+	        catch (e) {
+	            return reject({
+	                error: true,
+	                reasons: [{ code: e.name, message: e.message }],
+	            });
+	        }
+	    });
+	});
+
+	var actionValidateData$4 = (function (data) {
+	    var errors = [];
+	    if (!data["card-number"]) {
+	        errors.push({
+	            code: "INVALID_CARD_NUMBER",
+	            message: "The card number is invalid.",
+	        });
+	    }
+	    if (!data["card-cvv"]) {
+	        errors.push({
+	            code: "INVALID_CARD_SECURITY_CODE",
+	            message: "The card security code is invalid.",
+	        });
+	    }
+	    if (!data["card-expiration"]) {
+	        errors.push({
+	            code: "INVALID_CARD_EXPIRATION",
+	            message: "The card expiration is invalid.",
+	        });
+	    }
+	    return errors;
+	});
+
+	var supports$4 = {
+	    apm: {
+	        androidPay: false,
+	        applePay: false,
+	    },
+	    consumerAuthentication: false,
+	    eCheck: false,
+	    gift: false,
+	    tokenization: {
+	        cardNotPresent: true,
+	        cardPresent: false,
+	        eCheck: false,
+	        gift: false,
+	    },
+	};
+	var domains$4 = {
+	    // Genius Checkout has an automatic sandbox feature for developer / partner accounts
+	    production: "https://gateway.transit-pass.com",
+	    sandbox: "https://stagegw.transnox.com",
+	};
+	var urls$4 = {
+	    tokenization: function (prod) {
+	        options.tsepHost = prod ? domains$4.production : domains$4.sandbox;
+	        return options.tsepHost + "/transit-tsep-web/jsView/" + options.deviceId + "?" + options.manifest;
+	    },
+	};
+	var actions$4 = {
+	    normalizeResponse: actionNormalizeResponse$4,
+	    tokenize: actionTokenize$4,
+	    validateData: actionValidateData$4,
+	};
+	var requiredSettings$4 = ["deviceId", "manifest"];
+	var getEnv$4 = function () {
+	    return options.env || "production";
+	};
+
+	var transit = /*#__PURE__*/Object.freeze({
+		supports: supports$4,
+		urls: urls$4,
+		actions: actions$4,
+		requiredSettings: requiredSettings$4,
+		getEnv: getEnv$4
+	});
+
+	var availableGateways = {
+	    genius: genius,
+	    globalpayments: globalpayments,
+	    heartland: heartland,
+	    openedge: openedge,
+	    transit: transit,
+	};
+
+	var configHasAllRequiredSettings = function (settings) {
+	    var totalSettings = settings.length;
+	    var count = 0;
+	    for (var i = 0; i < totalSettings; i++) {
+	        var setting = settings[i];
+	        if (options.hasOwnProperty(setting) && options[setting] !== undefined) {
+	            count++;
+	        }
+	    }
+	    return count === totalSettings;
+	};
+	var getGateway = (function () {
+	    for (var key in availableGateways) {
+	        if (!availableGateways.hasOwnProperty(key)) {
+	            continue;
+	        }
+	        var gateway = availableGateways[key];
+	        if (configHasAllRequiredSettings(gateway.requiredSettings)) {
+	            return gateway;
+	        }
+	    }
+	    return undefined;
+	});
+
+	/**
+	 * Creates a single object by merging a `source` (default) and `properties`
+	 * obtained elsewhere. Any properties in `properties` will overwrite
+	 * matching properties in `source`.
+	 *
+	 * @param source
+	 * @param properties
+	 */
+	function objectAssign(source, properties) {
+	    var destination = {};
+	    if (!source) {
+	        source = {};
+	    }
+	    for (var property in source) {
+	        if (source.hasOwnProperty(property)) {
+	            destination[property] = source[property];
+	        }
+	    }
+	    for (var property in properties) {
+	        if (properties.hasOwnProperty(property)) {
+	            destination[property] = properties[property];
+	        }
+	    }
+	    return destination;
+	}
+
+	/**
+	 * addStylesheet
+	 *
+	 * Creates a `style` node in the DOM with the given `css`.
+	 *
+	 * @param css
+	 * @param id
+	 */
+	function addStylesheet(css, id) {
+	    var el = document.createElement("style");
+	    var elements = document.getElementsByTagName("head");
+	    if (id) {
+	        if (document.getElementById(id)) {
+	            return;
+	        }
+	        el.id = id;
+	    }
+	    el.type = "text/css";
+	    if (el.styleSheet) {
+	        // for IE
+	        el.styleSheet.cssText = css;
+	    }
+	    else {
+	        el.appendChild(document.createTextNode(css));
+	    }
+	    if (elements && elements[0]) {
+	        elements[0].appendChild(el);
+	    }
+	}
+	/**
+	 * json2css
+	 *
+	 * Converts a JSON node to text representing CSS.
+	 *
+	 * @param json
+	 */
+	function json2css(json) {
+	    var css = "";
+	    var attributes = jsonAttributes(json);
+	    var children = jsonChildren(json);
+	    var i;
+	    var j;
+	    var key;
+	    var value;
+	    if (attributes) {
+	        var attributesLength = attributes.length;
+	        for (i = 0; i < attributesLength; i++) {
+	            key = attributes[i];
+	            value = json[key];
+	            if (isArray(value)) {
+	                var arrLength = value.length;
+	                for (j = 0; j < arrLength; j++) {
+	                    css += key + ":" + value[j] + ";";
+	                }
+	            }
+	            else {
+	                css += key + ":" + value + ";";
+	            }
+	        }
+	    }
+	    if (children) {
+	        var childrenLength = children.length;
+	        for (i = 0; i < childrenLength; i++) {
+	            key = children[i];
+	            value = json[key];
+	            css += key + "{" + json2css(value) + "}";
+	        }
+	    }
+	    return css;
+	}
+	function isArray(obj) {
+	    return Object.prototype.toString.call(obj) === "[object Array]";
+	}
+	function jsonAttributes(json) {
+	    var keys = [];
+	    for (var key in json) {
+	        if (json.hasOwnProperty(key) &&
+	            (typeof json[key] === "string" || isArray(json[key]))) {
+	            keys.push(key);
+	        }
+	    }
+	    return keys;
+	}
+	function jsonChildren(json) {
+	    var keys = [];
+	    for (var key in json) {
+	        if (json.hasOwnProperty(key) &&
+	            !(typeof json[key] === "string" || isArray(json[key]))) {
+	            keys.push(key);
+	        }
+	    }
+	    return keys;
+	}
+
+	var assetBaseUrl = (function () {
+	    var result = "https://api2.heartlandportico.com/SecureSubmit.v1/token/gp-" + version + "/";
+	    var gateway = getGateway();
+	    if (!gateway) {
+	        return result;
+	    }
+	    if (gateway.urls.assetBaseUrl) {
+	        return gateway.urls.assetBaseUrl(result);
+	    }
+	    result =
+	        gateway.getEnv(options) === "sandbox"
+	            ? "https://hps.github.io/token/gp-" + version + "/"
+	            : result;
+	    return result;
+	});
+
+	// tslint:disable:object-literal-key-quotes
+	// tslint:disable:object-literal-sort-keys
+	var imageBase = assetBaseUrl() + "images/";
+	var fieldStyles = {
+	    "#secure-payment-field": {
+	        "-o-transition": "border-color ease-in-out .15s,box-shadow ease-in-out .15s",
+	        "-webkit-box-shadow": "inset 0 1px 1px rgba(0,0,0,.075)",
+	        "-webkit-transition": "border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s",
+	        "background-color": "#fff",
+	        border: "1px solid #ccc",
+	        "border-radius": "0px",
+	        "box-shadow": "inset 0 1px 1px rgba(0,0,0,.075)",
+	        "box-sizing": "border-box",
+	        color: "#555",
+	        display: "block",
+	        "font-family": "sans-serif",
+	        "font-size": "14px",
+	        height: "50px",
+	        "line-height": "1.42857143",
+	        margin: "0 .5em 0 0",
+	        "max-width": "100%",
+	        outline: "0",
+	        padding: "6px 12px",
+	        transition: "border-color ease-in-out .15s,box-shadow ease-in-out .15s",
+	        "vertical-align": "baseline",
+	        width: "100% ",
+	    },
+	    "#secure-payment-field:focus": {
+	        border: "1px solid #3989e3",
+	        "box-shadow": "none",
+	        height: "50px",
+	        outline: "none",
+	    },
+	    "#secure-payment-field[type=button]": {
+	        "-moz-user-select": "none",
+	        "-ms-touch-action": "manipulation",
+	        "-ms-user-select": "none",
+	        "-webkit-user-select": "none",
+	        "background-color": "#36b46e",
+	        "background-image": "none",
+	        border: "0px solid transparent",
+	        "box-sizing": "border-box",
+	        color: "#fff",
+	        cursor: "pointer",
+	        display: "inline-block",
+	        "font-family": "sans-serif",
+	        "font-size": "14px",
+	        "font-weight": "400",
+	        "line-height": "1.42857143",
+	        "margin-bottom": "0",
+	        padding: "6px 12px",
+	        "text-align": "center",
+	        "text-transform": "uppercase",
+	        "touch-action": "manipulation",
+	        "user-select": "none",
+	        "vertical-align": "middle",
+	        "white-space": "nowrap",
+	    },
+	    "#secure-payment-field[type=button]:focus": {
+	        "background-color": "#258851",
+	        color: "#ffffff",
+	        outline: "none",
+	    },
+	    "#secure-payment-field[type=button]:hover": {
+	        "background-color": "#258851",
+	    },
+	    ".card-cvv": {
+	        background: "transparent url(" + imageBase + "cvv.png) no-repeat right",
+	        "background-size": "63px 40px",
+	    },
+	    ".card-cvv.card-type-amex": {
+	        background: "transparent url(" + imageBase + "cvv-amex.png) no-repeat right",
+	        "background-size": "63px 40px",
+	    },
+	    ".card-number": {
+	        background: "transparent url(" + imageBase + "logo-unknown@2x.png) no-repeat right",
+	        "background-size": "55px 35px",
+	    },
+	    ".card-number.invalid.card-type-amex": {
+	        background: "transparent url(" + imageBase + "logo-amex@2x.png) no-repeat right",
+	        "background-position-y": "-44px",
+	        "background-size": "50px 90px",
+	    },
+	    ".card-number.invalid.card-type-discover": {
+	        background: "transparent url(" + imageBase + "logo-discover@2x.png) no-repeat right",
+	        "background-position-y": "-44px",
+	        "background-size": "85px 90px",
+	    },
+	    ".card-number.invalid.card-type-jcb": {
+	        background: "transparent url(" + imageBase + "logo-jcb@2x.png) no-repeat right",
+	        "background-position-y": "-44px",
+	        "background-size": "55px 94px",
+	    },
+	    ".card-number.invalid.card-type-mastercard": {
+	        background: "transparent url(" + imageBase + "logo-mastercard@2x.png) no-repeat right",
+	        "background-position-y": "-52px",
+	        "background-size": "62px 105px",
+	    },
+	    ".card-number.invalid.card-type-visa": {
+	        background: "transparent url(" + imageBase + "logo-visa@2x.png) no-repeat right",
+	        "background-position-y": "-44px",
+	        "background-size": "83px 88px",
+	    },
+	    ".card-number.valid.card-type-amex": {
+	        background: "transparent url(" + imageBase + "logo-amex@2x.png) no-repeat right top",
+	        "background-size": "50px 90px",
+	    },
+	    ".card-number.valid.card-type-discover": {
+	        background: "transparent url(" + imageBase + "logo-discover@2x.png) no-repeat right",
+	        "background-position-y": "1px",
+	        "background-size": "85px 90px",
+	    },
+	    ".card-number.valid.card-type-jcb": {
+	        background: "transparent url(" + imageBase + "logo-jcb@2x.png) no-repeat right top",
+	        "background-position-y": "2px",
+	        "background-size": "55px 94px",
+	    },
+	    ".card-number.valid.card-type-mastercard": {
+	        background: "transparent url(" + imageBase + "logo-mastercard@2x.png) no-repeat right",
+	        "background-position-y": "-1px",
+	        "background-size": "62px 105px",
+	    },
+	    ".card-number.valid.card-type-visa": {
+	        background: "transparent url(" + imageBase + "logo-visa@2x.png) no-repeat right top",
+	        "background-size": "82px 86px",
+	    },
+	    ".card-number::-ms-clear": {
+	        display: "none",
+	    },
+	    "input[placeholder]": {
+	        "letter-spacing": "3px",
+	    },
+	};
+	var parentStyles = {
+	    ".secure-payment-form": {
+	        "font-family": "sans-serif",
+	    },
+	    ".secure-payment-form label": {
+	        color: "#555",
+	        "font-size": "13px",
+	        "font-weight": "bold",
+	        "line-height": "1.5",
+	        "text-transform": "uppercase",
+	    },
+	    ".secure-payment-form #ss-banner": {
+	        background: "transparent url(" + imageBase + "shield-and-logos@2x.png) no-repeat left center",
+	        "background-size": "280px 34px",
+	        height: "40px",
+	        "margin-bottom": "7px",
+	    },
+	    ".secure-payment-form div": {
+	        display: "block",
+	    },
+	    ".secure-payment-form iframe": {
+	        width: "300px",
+	    },
+	    ".secure-payment-form .form-row": {
+	        "margin-top": "10px",
+	    },
+	    ".secure-payment-form .form-wrapper": {
+	        display: "block",
+	        margin: "10px auto",
+	        width: "300px",
+	    },
+	};
+
+	// tslint:disable:object-literal-key-quotes
+	// tslint:disable:object-literal-sort-keys
+	var imageBase$1 = assetBaseUrl() + "images";
+	// @TODO: confirm styles with enterprise repo
+	var fieldStyles$1 = {
+	    "html": {
+	        "font-size": "62.5%",
+	    },
+	    "body": {
+	        "font-size": "1.4rem",
+	    },
+	    "#secure-payment-field-wrapper": {
+	        "postition": "relative",
+	    },
+	    "#secure-payment-field": {
+	        "-o-transition": "border-color ease-in-out .15s,box-shadow ease-in-out .15s",
+	        "-webkit-box-shadow": "inset 0 1px 1px rgba(0,0,0,.075)",
+	        "-webkit-transition": "border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s",
+	        "background-color": "#fff",
+	        "border": "1px solid #cecece",
+	        "border-radius": "2px",
+	        "box-shadow": "none",
+	        "box-sizing": "border-box",
+	        "display": "block",
+	        "font-family": "Roboto, sans-serif",
+	        "font-size": "11px",
+	        "font-smoothing": "antialiased",
+	        "height": "35px",
+	        "margin": "5px 0 10px 0",
+	        "max-width": "100%",
+	        "outline": "0",
+	        "padding": "0 10px",
+	        "transition": "border-color ease-in-out .15s,box-shadow ease-in-out .15s",
+	        "vertical-align": "baseline",
+	        "width": "100%",
+	    },
+	    "#secure-payment-field:focus": {
+	        "border": "1px solid lightblue",
+	        "box-shadow": "0 1px 3px 0 #cecece",
+	        "outline": "none",
+	    },
+	    "#secure-payment-field[type=button]": {
+	        "text-align": "center",
+	        "text-transform": "none",
+	        "white-space": "nowrap",
+	    },
+	    "#secure-payment-field[type=button]:focus": {
+	        "outline": "none",
+	    },
+	    ".card-cvv": {
+	        "background": "transparent url(" + imageBase$1 + "/cvv.png) no-repeat right",
+	        "background-size": "60px",
+	    },
+	    ".card-cvv.card-type-amex": {
+	        "background": "transparent url(" + imageBase$1 + "/cvv-amex.png) no-repeat right",
+	        "background-size": "60px",
+	    },
+	    ".card-number": {
+	        "background": "transparent url(" + imageBase$1 + "/logo-unknown@2x.png) no-repeat right",
+	        "background-size": "52px",
+	    },
+	    ".card-number.invalid.card-type-amex": {
+	        "background": "transparent url(" + imageBase$1 + "/amex-invalid.svg) no-repeat right center",
+	        "background-position-x": "98%",
+	        "background-size": "38px",
+	    },
+	    ".card-number.invalid.card-type-discover": {
+	        "background": "transparent url(" + imageBase$1 + "/discover-invalid.svg) no-repeat right center",
+	        "background-position-x": "98%",
+	        "background-size": "60px",
+	    },
+	    ".card-number.invalid.card-type-jcb": {
+	        "background": "transparent url(" + imageBase$1 + "/jcb-invalid.svg) no-repeat right center",
+	        "background-position-x": "98%",
+	        "background-size": "38px",
+	    },
+	    ".card-number.invalid.card-type-mastercard": {
+	        "background": "transparent url(" + imageBase$1 + "/mastercard-invalid.svg) no-repeat right center",
+	        "background-position-x": "98%",
+	        "background-size": "40px",
+	    },
+	    ".card-number.invalid.card-type-visa": {
+	        "background": "transparent url(" + imageBase$1 + "/visa-invalid.svg) no-repeat center",
+	        "background-position-x": "98%",
+	        "background-size": "50px",
+	    },
+	    ".card-number.valid.card-type-amex": {
+	        "background": "transparent url(" + imageBase$1 + "/amex.svg) no-repeat right center",
+	        "background-position-x": "98%",
+	        "background-size": "38px",
+	    },
+	    ".card-number.valid.card-type-discover": {
+	        "background": "transparent url(" + imageBase$1 + "/discover.svg) no-repeat right center",
+	        "background-position-x": "98%",
+	        "background-size": "60px",
+	    },
+	    ".card-number.valid.card-type-jcb": {
+	        "background": "transparent url(" + imageBase$1 + "/jcb.svg) no-repeat right center",
+	        "background-position-x": "98%",
+	        "background-size": "38px",
+	    },
+	    ".card-number.valid.card-type-mastercard": {
+	        "background": "transparent url(" + imageBase$1 + "/mastercard.svg) no-repeat center",
+	        "background-position-x": "98%",
+	        "background-size": "40px",
+	    },
+	    ".card-number.valid.card-type-visa": {
+	        "background": "transparent url(" + imageBase$1 + "/visa.svg) no-repeat right center",
+	        "background-position-x": "98%",
+	        "background-size": "50px",
+	    },
+	    ".card-number::-ms-clear": {
+	        "display": "none",
+	    },
+	    "input[placeholder]": {
+	        "letter-spacing": ".5px",
+	    },
+	};
+	var parentStyles$1 = {
+	    ".secure-payment-form": {
+	        "font-family": "sans-serif",
+	        width: "300px",
+	    },
+	    ".secure-payment-form label": {
+	        color: "#555",
+	        "font-size": "13px",
+	        "font-weight": "bold",
+	        "line-height": "1.5",
+	        "text-transform": "uppercase",
+	    },
+	    ".secure-payment-form #ss-banner": {
+	        background: "transparent url(" + imageBase$1 + "/shield-and-logos@2x.png) no-repeat left center",
+	        "background-size": "280px 34px",
+	        height: "40px",
+	        "margin-bottom": "7px",
+	    },
+	    ".secure-payment-form div": {
+	        display: "block",
+	    },
+	    ".secure-payment-form iframe": {
+	        "min-height": "3.6rem",
+	    },
+	    ".secure-payment-form .form-row": {
+	        "margin-top": "10px",
+	    },
+	    ".secure-payment-form .form-wrapper": {
+	        display: "block",
+	        margin: "10px auto",
+	    },
+	    ".secure-payment-form input": fieldStyles$1["#secure-payment-field"],
+	    ".secure-payment-form input:focus": fieldStyles$1["#secure-payment-field:focus"],
+	};
 
 	var CardNumber = /** @class */ (function () {
 	    function CardNumber() {
@@ -3467,8 +3802,8 @@
 	    });
 	});
 
-	var _this$4 = undefined;
-	var actionPaymentRequestComplete = (function (id, data) { return __awaiter(_this$4, void 0, void 0, function () {
+	var _this$5 = undefined;
+	var actionPaymentRequestComplete = (function (id, data) { return __awaiter(_this$5, void 0, void 0, function () {
 	    return __generator(this, function (_a) {
 	        if (!window.globalPaymentResponse) {
 	            postMessage.post({
@@ -3502,8 +3837,8 @@
 	    });
 	}); });
 
-	var _this$5 = undefined;
-	var actionPaymentRequestStart = (function (id, data) { return __awaiter(_this$5, void 0, void 0, function () {
+	var _this$6 = undefined;
+	var actionPaymentRequestStart = (function (id, data) { return __awaiter(_this$6, void 0, void 0, function () {
 	    var response, request, e_1, code, token, d, cardNumber, bin, last4, type, e_2;
 	    return __generator(this, function (_a) {
 	        switch (_a.label) {
@@ -3656,6 +3991,18 @@
 	        .replace(/>/g, "&gt;");
 	}
 
+	var actionSetLabel = (function (text) {
+	    var el = document.getElementById(paymentFieldId);
+	    if (!el) {
+	        return;
+	    }
+	    el.setAttribute("aria-label", encodeEntities(text));
+	    document.querySelectorAll("main")
+	        .forEach(function (e) { return e.setAttribute("aria-label", encodeEntities(text)); });
+	    document.querySelectorAll("#" + paymentFieldId + "-label")
+	        .forEach(function (e) { return e.textContent = encodeEntities(text); });
+	});
+
 	var actionSetPlaceholder = (function (placeholder) {
 	    var el = document.getElementById(paymentFieldId);
 	    if (!el) {
@@ -3687,16 +4034,24 @@
 	        return;
 	    }
 	    el.setAttribute("value", encodeEntities(text));
+	    Events.trigger("keyup", el);
+	    Events.trigger("input", el);
 	});
 
+	var fieldTypeAutocompleteMap = {
+	    "card-cvv": "cc-csc",
+	    "card-expiration": "cc-exp",
+	    "card-number": "cc-number",
+	};
 	var IframeField = /** @class */ (function (_super) {
 	    __extends(IframeField, _super);
-	    function IframeField(type, selector, src) {
+	    function IframeField(type, opts, src) {
 	        var _this = _super.call(this) || this;
+	        var selector = opts.target || "";
 	        _this.id = btoa(generateGuid());
 	        _this.type = type === "submit" || type === "card-track" ? "button" : "input";
 	        _this.url = src;
-	        _this.frame = _this.makeFrame(type, _this.id);
+	        _this.frame = _this.makeFrame(type, _this.id, opts);
 	        _this.frame.onload = function () {
 	            _this.emit("load");
 	        };
@@ -3704,7 +4059,9 @@
 	            src +
 	                "#" +
 	                btoa(JSON.stringify({
+	                    enableAutocomplete: options.enableAutocomplete,
 	                    id: _this.id,
+	                    lang: options.language || "en",
 	                    targetOrigin: window.location.href,
 	                    type: _this.type,
 	                }));
@@ -3766,7 +4123,9 @@
 	        var query = window.location.hash.replace("#", "");
 	        var data = JSON.parse(atob(query));
 	        var id = data.id;
-	        IframeField.createField(id, type, data.type);
+	        var enableAutocomplete = data.enableAutocomplete || false;
+	        IframeField.setHtmlLang(data.lang);
+	        IframeField.createField(id, type, data.type, enableAutocomplete);
 	        IframeField.addMessageListener(id, type, data.targetOrigin);
 	        postMessage.post({
 	            data: { type: type },
@@ -3777,12 +4136,26 @@
 	        // Fix iOS issue with cross-origin iframes
 	        Events.addHandler(document.body, "touchstart", function () { });
 	    };
-	    IframeField.createField = function (id, name, type) {
+	    IframeField.setHtmlLang = function (lang) {
+	        document.querySelectorAll("html").forEach(function (el) { return el.lang = lang; });
+	    };
+	    /**
+	     * Creates the inner field within the iframe window and sets
+	     * any appropriate attributes, properties, and event handlers.
+	     * @param id Field ID
+	     * @param name Field type
+	     * @param type Type of element
+	     * @param enableAutocomplete Whether autocomplete should be enabled
+	     */
+	    IframeField.createField = function (id, name, type, enableAutocomplete) {
 	        var input = document.createElement(type === "button" ? "button" : "input");
 	        input.setAttribute("type", type === "button" ? "button" : (name === "card-holder-name" ? "text" : "tel"));
 	        input.id = paymentFieldId;
 	        input.className = name;
 	        input.setAttribute("data-id", id);
+	        if (enableAutocomplete === true && fieldTypeAutocompleteMap[name]) {
+	            input.setAttribute("autocomplete", fieldTypeAutocompleteMap[name]);
+	        }
 	        if (name === "card-track") {
 	            var message = "Read Card";
 	            input.appendChild(document.createTextNode(message));
@@ -3791,12 +4164,22 @@
 	            var message = "Submit";
 	            input.appendChild(document.createTextNode(message));
 	        }
+	        var label = document.createElement("label");
+	        label.id = paymentFieldId + "-label";
+	        label.setAttribute("for", paymentFieldId);
+	        label.className = "offscreen";
 	        var dest = document.getElementById(paymentFieldId + "-wrapper");
 	        if (!dest) {
 	            return;
 	        }
 	        dest.insertBefore(input, dest.firstChild);
+	        dest.insertBefore(label, dest.firstChild);
 	        IframeField.addFrameFocusEvent();
+	        if (enableAutocomplete === true && name === "card-number") {
+	            IframeField.createAutocompleteField(dest, id, "card-cvv", "cardCsc", "cc-csc");
+	            IframeField.createAutocompleteField(dest, id, "card-expiration", "cardExpiration", "cc-exp");
+	            IframeField.createAutocompleteField(dest, id, "card-holder-name", "cardHolderName", "cc-name");
+	        }
 	        if (name === "card-track") {
 	            Events.addHandler(input, "click", function () {
 	                actionCardTrackButtonClick(id);
@@ -3824,6 +4207,42 @@
 	            default:
 	                break;
 	        }
+	    };
+	    /**
+	     * Appends a hidden input to the given destination to accept
+	     * full autocomplete/auto-fill data from the browser. The
+	     * parent window is also notified of data changes to these
+	     * fields in order display the new data to the end-user.
+	     *
+	     * @param destination Parent node for new element
+	     * @param id Field ID
+	     * @param type Field type
+	     * @param name Field name to be used
+	     * @param autocomplete Value for field's autocomplete attribute
+	     */
+	    IframeField.createAutocompleteField = function (destination, id, type, name, autocomplete) {
+	        var element = document.createElement("input");
+	        element.name = name;
+	        element.className = "autocomplete-hidden";
+	        element.tabIndex = -1;
+	        element.autocomplete = autocomplete;
+	        Events.addHandler(element, "input", function () {
+	            var value = element && element.value ? element.value : "";
+	            // this shouldn't happen, but explicitly ignore to prevent
+	            // these fields from leaking their data to the parent
+	            if (type === "card-number" || type === "account-number") {
+	                value = "";
+	            }
+	            postMessage.post({
+	                data: {
+	                    type: type,
+	                    value: value,
+	                },
+	                id: id,
+	                type: "ui:iframe-field:set-autocomplete-value",
+	            }, "parent");
+	        });
+	        destination.appendChild(element);
 	    };
 	    /**
 	     * addFrameFocusEvent
@@ -3854,7 +4273,16 @@
 	            Events.addHandler(document, focusEventName, handler);
 	        }
 	    };
+	    /**
+	     * Sets the iframe window's postMessage handler in order to
+	     * react to parent/sibling events.
+	     *
+	     * @param id Field ID
+	     * @param type Field type
+	     * @param targetOrigin Parent window's origin
+	     */
 	    IframeField.addMessageListener = function (id, type, targetOrigin) {
+	        // update the global statge with information about the parent window
 	        loadedFrames.parent = {
 	            frame: parent,
 	            url: targetOrigin,
@@ -3899,6 +4327,9 @@
 	                    actionSetValue(data.data.value);
 	                    IframeField.triggerResize(id);
 	                    break;
+	                case "set-label":
+	                    actionSetLabel(data.data.label);
+	                    IframeField.triggerResize(id);
 	                case "update-options":
 	                    for (var prop in data.data) {
 	                        if (data.data.hasOwnProperty(prop)) {
@@ -3955,10 +4386,23 @@
 	            type: "ui:iframe-field:set-value",
 	        }, this.id);
 	    };
-	    IframeField.prototype.makeFrame = function (type, id) {
+	    IframeField.prototype.setLabel = function (label) {
+	        postMessage.post({
+	            data: { label: label },
+	            id: this.id,
+	            type: "ui:iframe-field:set-label",
+	        }, this.id);
+	    };
+	    IframeField.prototype.setTitle = function (title) {
+	        this.frame.title = title;
+	    };
+	    IframeField.prototype.makeFrame = function (type, id, opts) {
 	        var frame = document.createElement("iframe");
 	        frame.id = "secure-payment-field-" + type + "-" + id;
 	        frame.name = type;
+	        if (opts.title || opts.label) {
+	            frame.title = opts.title || opts.label || "";
+	        }
 	        frame.style.border = "0";
 	        frame.frameBorder = "0";
 	        frame.scrolling = "no";
@@ -3969,13 +4413,15 @@
 	    return IframeField;
 	}(EventEmitter));
 
-	var fieldStyles$1 = {
+	var fieldStyles$2 = {
 	    blank: {},
 	    "default": fieldStyles,
+	    simple: fieldStyles$1,
 	};
-	var parentStyles$1 = {
+	var parentStyles$2 = {
 	    blank: {},
 	    "default": parentStyles,
+	    simple: parentStyles$1,
 	};
 	var frameFieldTypes = [
 	    "card-number",
@@ -4087,7 +4533,7 @@
 	            if (!this_1.fields[type]) {
 	                return "continue";
 	            }
-	            var field = (this_1.frames[type] = new IframeField(type, this_1.fields[type].target || "", assetBaseUrl() + "field.html"));
+	            var field = (this_1.frames[type] = new IframeField(type, this_1.fields[type], assetBaseUrl() + "field.html"));
 	            this_1.totalNumberOfFields++;
 	            if (field === undefined) {
 	                return "continue";
@@ -4101,6 +4547,12 @@
 	                }
 	                if (_this.fields[type].value) {
 	                    field.setValue(_this.fields[type].value || "");
+	                }
+	                if (_this.fields[type].label) {
+	                    field.setLabel(_this.fields[type].label || "");
+	                }
+	                if (_this.fields[type].title) {
+	                    field.setTitle(_this.fields[type].title || "");
 	                }
 	                if (_this.styles) {
 	                    field.addStylesheet(_this.styles);
@@ -4122,6 +4574,17 @@
 	        }
 	        var cardNumber = this.frames["card-number"];
 	        var cardCvv = this.frames["card-cvv"];
+	        if (cardNumber) {
+	            cardNumber.on("set-autocomplete-value", function (data) {
+	                if (!data) {
+	                    return;
+	                }
+	                var target = _this.frames[data.type];
+	                if (data.type && data.value && target) {
+	                    target.setValue(data.value);
+	                }
+	            });
+	        }
 	        if (cardNumber && cardCvv) {
 	            cardNumber.on("card-type", function (data) {
 	                postMessage.post({
@@ -4173,10 +4636,10 @@
 
 	var defaultOptions = {
 	    labels: {
-	        "card-cvv": "Card CVV:",
-	        "card-expiration": "Card Expiration:",
-	        "card-holder-name": "Card Holder Name:",
-	        "card-number": "Card Number:",
+	        "card-cvv": "Card CVV",
+	        "card-expiration": "Card Expiration",
+	        "card-holder-name": "Card Holder Name",
+	        "card-number": "Card Number",
 	    },
 	    placeholders: {
 	        "card-cvv": "•••",
@@ -4186,6 +4649,13 @@
 	    },
 	    prefix: "credit-card-",
 	    style: "default",
+	    titles: {
+	        "card-cvv": "Card CVV Input",
+	        "card-expiration": "Card Expiration Input",
+	        "card-holder-name": "Card Holder Name Input",
+	        "card-number": "Card Number Input",
+	        "submit": "Form Submit Button Input",
+	    },
 	    values: {
 	        "card-track": "Read Card",
 	        // tslint:disable-next-line:object-literal-key-quotes
@@ -4238,12 +4708,18 @@
 	        if (formOptions.values && formOptions.values[type]) {
 	            fields[type].value = formOptions.values[type];
 	        }
+	        if (formOptions.labels && formOptions.labels[type]) {
+	            fields[type].label = formOptions.labels[type];
+	        }
+	        if (formOptions.titles && formOptions.titles[type]) {
+	            fields[type].title = formOptions.titles[type];
+	        }
 	    }
 	    // add any styles for the parent window
 	    if (formOptions.style) {
-	        addStylesheet(json2css(parentStyles$1[formOptions.style]), "secure-payment-styles-" + formOptions.style);
+	        addStylesheet(json2css(parentStyles$2[formOptions.style]), "secure-payment-styles-" + formOptions.style);
 	    }
-	    return new UIForm(fields, formOptions.style ? fieldStyles$1[formOptions.style] : {});
+	    return new UIForm(fields, formOptions.style ? fieldStyles$2[formOptions.style] : {});
 	}
 	function trackReaderForm(target, formOptions) {
 	    if (formOptions === void 0) { formOptions = {}; }
@@ -4289,9 +4765,9 @@
 	    }
 	    // add any styles for the parent window
 	    if (formOptions.style) {
-	        addStylesheet(json2css(parentStyles$1[formOptions.style]), "secure-payment-styles-" + formOptions.style);
+	        addStylesheet(json2css(parentStyles$2[formOptions.style]), "secure-payment-styles-" + formOptions.style);
 	    }
-	    return new UIForm(fields, formOptions.style ? fieldStyles$1[formOptions.style] : {});
+	    return new UIForm(fields, formOptions.style ? fieldStyles$2[formOptions.style] : {});
 	}
 
 	var creditCard = /*#__PURE__*/Object.freeze({
@@ -4400,9 +4876,9 @@
 	    }
 	    // add any styles for the parent window
 	    if (formOptions.style) {
-	        addStylesheet(json2css(parentStyles$1[formOptions.style]));
+	        addStylesheet(json2css(parentStyles$2[formOptions.style]));
 	    }
-	    return new UIForm(fields, formOptions.style ? fieldStyles$1[formOptions.style] : {});
+	    return new UIForm(fields, formOptions.style ? fieldStyles$2[formOptions.style] : {});
 	}
 
 	var eCheck = /*#__PURE__*/Object.freeze({
@@ -4477,9 +4953,9 @@
 	    }
 	    // add any styles for the parent window
 	    if (formOptions.style) {
-	        addStylesheet(json2css(parentStyles$1[formOptions.style]));
+	        addStylesheet(json2css(parentStyles$2[formOptions.style]));
 	    }
-	    return new UIForm(fields, formOptions.style ? fieldStyles$1[formOptions.style] : {});
+	    return new UIForm(fields, formOptions.style ? fieldStyles$2[formOptions.style] : {});
 	}
 
 	var giftAndLoyalty = /*#__PURE__*/Object.freeze({
@@ -4559,7 +5035,7 @@
 	    parent.appendChild(holder);
 	    // remove the inline display style to reveal
 	    target.style.display = null;
-	    var iframe = new IframeField("payment-request", "#" + holder.id, assetBaseUrl() + "field.html");
+	    var iframe = new IframeField("payment-request", { target: "#" + holder.id }, assetBaseUrl() + "field.html");
 	    instruments = instruments || defaultInstruments();
 	    details = details || defaultDetails();
 	    options$$1 = options$$1 || defaultOptions$3();
@@ -4653,6 +5129,7 @@
 
 	var ui = /*#__PURE__*/Object.freeze({
 		form: form$3,
+		fieldTypeAutocompleteMap: fieldTypeAutocompleteMap,
 		IframeField: IframeField
 	});
 

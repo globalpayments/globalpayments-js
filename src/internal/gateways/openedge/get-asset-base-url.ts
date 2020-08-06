@@ -1,6 +1,6 @@
-import getGateway from "../../lib/get-gateway";
-import version from "../../../lib/version";
 import { options } from "../..";
+import version from "../../../lib/version";
+import getGateway from "../../lib/get-gateway";
 
 export default (result: string) => {
     const gateway = getGateway();
