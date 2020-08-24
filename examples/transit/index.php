@@ -59,7 +59,10 @@
         }
       });
 
-      cardForm.on("card-number", "token-success", function (resp) { console.log(resp); });
+      cardForm.on("card-number", "token-success", function (resp) {
+        console.log(resp);
+        cardForm.frames["card-cvv"].getCvv().then(function (c) { console.log("get-cvv", c); });
+      });
       cardForm.on("card-number", "token-error", function (resp) { console.log(resp); });
 
       var paymentRequestForm = GlobalPayments.paymentRequest.setup("#paymentRequestPlainButton", {
