@@ -24,8 +24,26 @@ describe("heartland - tokenization", () => {
       cy.get("#testResult").then(assertCardTokenSuccess);
     });
 
-    it("fails to tokenize with bad data", () => {
+    it("fails to tokenize with bad data - card number", () => {
       cy.get("#cardNumber > iframe").then(enter("a"));
+      cy.get("#cardSubmit > iframe").then(click());
+
+      cy.get("#testResult").then(assertTokenError);
+    });
+
+    it("fails to tokenize with bad data - expiration month", () => {
+      cy.get("#cardNumber > iframe").then(enter("4111111111111111"));
+      cy.get("#cardCvv > iframe").then(enter("123"));
+      cy.get("#cardExpiration > iframe").then(enter("13 / 2025"));
+      cy.get("#cardSubmit > iframe").then(click());
+
+      cy.get("#testResult").then(assertTokenError);
+    });
+
+    it("fails to tokenize with bad data - expiration year", () => {
+      cy.get("#cardNumber > iframe").then(enter("4111111111111111"));
+      cy.get("#cardCvv > iframe").then(enter("123"));
+      cy.get("#cardExpiration > iframe").then(enter("12 / 1999"));
       cy.get("#cardSubmit > iframe").then(click());
 
       cy.get("#testResult").then(assertTokenError);

@@ -18,6 +18,13 @@ export default (data: IDictionary) => {
           message: data.error.message,
         });
         break;
+      case "card.exp_month":
+      case "card.exp_year":
+        reasons.push({
+          code: "INVALID_CARD_EXPIRATION_DATE",
+          message: data.error.message,
+        });
+        break;
       default:
         break;
     }

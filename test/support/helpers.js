@@ -67,6 +67,8 @@ export const assertTokenError = ($json) => {
   assert.isOk(result);
   assert.isOk(result.error);
   assert.isNotOk(result.paymentReference);
+  assert.isOk(result.reasons);
+  assert.notEqual(result.reasons.length, 0);
 };
 
 export const visit = (runner) => {
