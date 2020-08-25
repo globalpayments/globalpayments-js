@@ -133,12 +133,12 @@
         cardExternalTrigger.addEventListener('click', function (e) {
           e.preventDefault();
 
-          for (const type in cardForm.fields) {
+          for (var type in cardForm.fields) {
             if (type === "submit") {
               continue;
             }
 
-            const field = cardForm.frames[type];
+            var field = cardForm.frames[type];
 
             if (!field) {
               continue;
@@ -148,12 +148,12 @@
               {
                 data: {
                   fields: cardForm.fields,
-                  target: cardForm.frames["card-number"].id,
+                  target: cardForm.frames["card-number"].id
                 },
                 id: field.id,
                 type: "ui:iframe-field:request-data",
               },
-              field.id,
+              field.id
             );
           }
         });

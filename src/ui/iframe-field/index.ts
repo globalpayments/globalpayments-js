@@ -66,7 +66,17 @@ export class IframeField extends EventEmitter {
   }
 
   public static setHtmlLang(lang: string) {
-    document.querySelectorAll("html").forEach((el) => el.lang = lang);
+    const elements = document.querySelectorAll("html");
+
+    if (!elements) {
+      return;
+    }
+
+    // tslint:disable-next-line:prefer-for-of
+    for (let i = 0; i < elements.length; i++) {
+      const el = elements[i];
+      el.lang = lang;
+    }
   }
 
   /**
