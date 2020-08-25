@@ -10,6 +10,7 @@ import generateGuid from "../../lib/generate-guid";
 import actionAccumulateDataAndTokenize from "./action-accumulate-data-and-tokenize";
 import actionAddStylesheet from "./action-add-stylesheet";
 import actionCardTrackButtonClick from "./action-card-track-button-click";
+import actionGetCvv from "./action-get-cvv";
 import actionPaymentRequestComplete from "./action-payment-request-complete";
 import actionPaymentRequestStart from "./action-payment-request-start";
 import actionRequestData from "./action-request-data";
@@ -264,6 +265,9 @@ export class IframeField extends EventEmitter {
           actionAddStylesheet(data.data.css);
           IframeField.triggerResize(id);
           break;
+        case "get-cvv":
+          actionGetCvv(id, type);
+          break;
         case "payment-request-complete":
           actionPaymentRequestComplete(id, data);
           break;
@@ -429,6 +433,31 @@ export class IframeField extends EventEmitter {
       },
       this.id,
     );
+  }
+
+  public getCvv() {
+    postMessage.post(
+      {
+        id: this.id,
+        type: "ui:iframe-field:get-cvv",
+      },
+      this.id,
+    );
+
+    return new Promise((resolve) => {
+      postMessage.receive((data: any) => {
+        if (!data.id || (data.id && data.id !== this.id)) {
+          return;
+        }
+
+        const event: string = data.type.replace("ui:iframe-field:", "");
+
+        if (event === "get-cvv") {
+          resolve(data.data);
+          return;
+        }
+      });
+    });
   }
 
   public setFocus() {
