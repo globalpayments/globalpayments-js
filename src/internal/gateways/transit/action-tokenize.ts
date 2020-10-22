@@ -1,7 +1,7 @@
 import { options } from "../../lib/options";
 import { IDictionary } from "../../lib/util";
 
-export default (url: string, data: IDictionary) => {
+export default (url: string, enbv: string, data: IDictionary) => {
   const getRequest = () => {
     const request: any = {
       cvv2: data["card-cvv"],

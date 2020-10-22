@@ -61,7 +61,7 @@ export interface IErrorReason {
 export interface IActions {
   normalizeResponse: (data: IDictionary) => ISuccess | IError;
   setup?: () => any;
-  tokenize: (url: string, data: IDictionary) => Promise<any>;
+  tokenize: (url: string, env: string, data: IDictionary) => Promise<any>;
   validateData: (data: IDictionary) => IErrorReason[];
 }
 

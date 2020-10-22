@@ -36,7 +36,7 @@ export default (data: IDictionary) => {
     }
 
     gateway.actions
-      .tokenize(buildUrl(query), data)
+      .tokenize(buildUrl(query), options.env || "", data)
       .then(gateway.actions.normalizeResponse)
       .then((resp: IError | ISuccess) => {
         if ((resp as IError).error) {

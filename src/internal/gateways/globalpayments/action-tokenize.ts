@@ -3,7 +3,7 @@ import { IDictionary } from "../../lib/util";
 
 import actionOnload from "./action-onload";
 
-export default async (url: string, data: IDictionary) => {
+export default async (url: string, env: string, data: IDictionary) => {
   let orderId: string;
   try {
     orderId = await actionOnload(url);

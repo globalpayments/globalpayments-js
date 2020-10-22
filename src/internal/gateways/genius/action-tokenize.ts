@@ -1,6 +1,6 @@
 import { IDictionary } from "../../lib/util";
 
-export default async (url: string, data: IDictionary) => {
+export default async (url: string, env: string, data: IDictionary) => {
   const request: any = {
     merchantApiKey: data.webApiKey,
   };
