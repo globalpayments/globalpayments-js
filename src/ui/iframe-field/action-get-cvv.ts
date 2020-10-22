@@ -1,4 +1,4 @@
-import { postMessage, options } from "../../internal";
+import { options, postMessage } from "../../internal";
 import paymentFieldId from "../../internal/lib/payment-field-id";
 
 export default (id: string, type: string) => {
