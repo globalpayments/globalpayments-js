@@ -47,6 +47,10 @@ export const getEnv = () => {
   const key: string = options.publicApiKey || "";
   const def = "production";
 
+  if (options.env && options.env === "local") {
+    return options.env;
+  }
+
   if (!key) {
     return def;
   }
