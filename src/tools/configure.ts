@@ -4,6 +4,10 @@ import { IDictionary } from "../internal/lib/util";
 
 export interface IConfiguration {
   [key: string]: any;
+  binCheck?: {
+    hsaFsa?: boolean;
+    surcharge?: boolean;
+  };
   enableAutocomplete?: boolean;
   language?: string;
   // heartland

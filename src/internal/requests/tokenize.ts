@@ -27,6 +27,24 @@ export default (data: IDictionary) => {
     data.webApiKey = options.webApiKey;
   }
 
+  if (
+    gateway.supports.binCheck &&
+    gateway.supports.binCheck.hsaFsa &&
+    options.binCheck &&
+    options.binCheck.hsaFsa
+  ) {
+    data["bin-check-hsafsa"] = true;
+  }
+
+  if (
+    gateway.supports.binCheck &&
+    gateway.supports.binCheck.surcharge &&
+    options.binCheck &&
+    options.binCheck.surcharge
+  ) {
+    data["bin-check-surcharge"] = true;
+  }
+
   return new Promise((resolve, reject) => {
     let query: any;
     if (gateway.requiredSettings.indexOf("publicApiKey") !== -1) {

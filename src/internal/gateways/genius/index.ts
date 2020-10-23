@@ -7,12 +7,10 @@ import actionValidateData from "./action-validate-data";
 
 export const supports = {
   apm: {
-    androidPay: false,
     applePay: false,
+    googlePay: false,
   },
   consumerAuthentication: false,
-  eCheck: false,
-  gift: false,
   tokenization: {
     cardNotPresent: true,
     cardPresent: false,

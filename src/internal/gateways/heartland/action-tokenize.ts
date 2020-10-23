@@ -43,6 +43,14 @@ export default async (url: string, env: string, data: IDictionary) => {
     request.ach.routing_number = data["routing-number"];
   }
 
+  if (data["bin-check-hsafsa"]) {
+    request.fsahsa_req = "Y";
+  }
+
+  if (data["bin-check-surcharge"]) {
+    request.surchargeable_req = "Y";
+  }
+
   try {
     const headers = {
       "Content-Type": "application/json",

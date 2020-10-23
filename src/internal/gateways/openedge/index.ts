@@ -9,12 +9,10 @@ import getEnv from "./get-env";
 
 export const supports = {
   apm: {
-    androidPay: false,
     applePay: true,
+    googlePay: false,
   },
   consumerAuthentication: true,
-  eCheck: true,
-  gift: true,
   tokenization: {
     cardNotPresent: true,
     cardPresent: true,
