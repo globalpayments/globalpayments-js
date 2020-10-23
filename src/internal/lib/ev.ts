@@ -4,7 +4,7 @@ export default class Ev {
     eventName: string,
     callback: EventListener,
   ) {
-    if (document.addEventListener) {
+    if (document.addEventListener !== undefined) {
       node.addEventListener(eventName, callback, false);
     } else {
       if (node === document) {
@@ -22,7 +22,7 @@ export default class Ev {
     }
   }
   public static trigger(node: EventTarget, eventName: string) {
-    if (document.createEvent) {
+    if (document.createEvent !== undefined) {
       const event = document.createEvent("Event");
       event.initEvent(eventName, true, true);
       node.dispatchEvent(event);
@@ -31,7 +31,7 @@ export default class Ev {
     }
   }
   public static ignore(eventName: string, callback: EventListener) {
-    if (document.removeEventListener) {
+    if (document.removeEventListener !== undefined) {
       document.removeEventListener(eventName, callback, false);
     } else {
       (document.documentElement as any).detachEvent(

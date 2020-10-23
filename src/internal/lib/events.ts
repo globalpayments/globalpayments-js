@@ -26,7 +26,7 @@ export default class Events {
       return;
     }
 
-    if (document.addEventListener) {
+    if (document.addEventListener !== undefined) {
       node.addEventListener(event, callback as EventListener, false);
     } else {
       Ev.listen(node, event, callback as EventListener);
@@ -58,7 +58,7 @@ export default class Events {
       return;
     }
 
-    if (document.removeEventListener) {
+    if (document.removeEventListener !== undefined) {
       node.removeEventListener(event, callback, false);
     } else {
       Ev.ignore(event, callback);

@@ -2,7 +2,6 @@ import version from "../../../lib/version";
 import getEnv from "./get-env";
 
 export default (result: string) => {
-
     const majorVersion = version.split(".")[0] || version[0];
 
     switch (getEnv()) {

@@ -34,7 +34,7 @@ const domains: IDictionary = {
 /* tslint:enable:object-literal-sort-keys */
 
 export const urls = {
-  asset: getAssetBaseUrl,
+  assetBaseUrl: getAssetBaseUrl,
   tokenization: (prod: boolean) =>
     `${domains[getEnv()]}/tokenization/temporary_tokens`,
 };
