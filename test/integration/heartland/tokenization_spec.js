@@ -50,6 +50,25 @@ describe("heartland - tokenization", () => {
     });
   });
 
+  describe("card-bin-checks", () => {
+    beforeEach(() => {
+      visit("heartland/card-bin-checks");
+    });
+
+    it("can check surcharge capability", () => {
+      cy.get("#cardNumber > iframe").then(enter("6011000990156527"));
+      cy.get("#cardExpiration > iframe").then(enter("12 / 2025"));
+      cy.get("#cardCvv > iframe").then(enter("123"));
+      cy.get("#cardSubmit > iframe").then(click());
+
+      cy.get("#testResult").then(assertCardTokenSuccess);
+      cy.get("#testResult").then(($json) => {
+        const result = JSON.parse($json.val());
+        assert.isOk(result.details.canSurcharge);
+      })
+    });
+  });
+
   describe("card-dropin", () => {
     beforeEach(() => {
       visit("heartland/card-dropin");
