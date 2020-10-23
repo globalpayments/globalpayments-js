@@ -1,4 +1,5 @@
 import { IDictionary } from "../lib/util";
+import * as billpay from "./billpay";
 import * as genius from "./genius";
 import * as globalpayments from "./globalpayments";
 import * as heartland from "./heartland";
@@ -88,6 +89,7 @@ export interface IGatewayList {
 }
 
 export const availableGateways: IGatewayList = {
+  billpay,
   genius,
   globalpayments,
   heartland,

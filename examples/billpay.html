@@ -1,0 +1,181 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+    <title>BillPay Examples</title>
+  </head>
+  <body>
+    <h1>Examples</h1>
+
+    <h2>Credit Card Form</h2>
+
+    <form id="card-form" action="/charge" method="get">
+      <div id="cardNumber"></div>
+      <div id="cardCvv"></div>
+      <div id="cardExpiration"></div>
+      <div id="cardSubmit"></div>
+      <button id="cardExternalTrigger" type="button">Trigger tokenization</button>
+    </form>
+
+    <h2>Drop-in Credit Card Form</h2>
+
+    <p>Uses the ready-to-use credit card form with the default style.</p>
+
+    <aside>
+      <p>Note: The card holder field is purely a pass-through for this gateway.</p>
+    </aside>
+
+    <form id="dropin-card-form" action="/charge" method="get">
+    </form>
+
+    <h2>ACH/eCheck Form</h2>
+
+    <form id="ach-form" action="/charge" method="get">
+      <div id="accountNumber"></div>
+      <div id="routingNumber"></div>
+      <div id="checkType">
+        <select>
+          <option> -- Check Type -- </option>
+          <option>Checking</option>
+          <option>Savings</option>
+        </select>
+      </div>
+      <div id="accountType">
+        <select>
+          <option> -- Account Type -- </option>
+          <option>Personal</option>
+          <option>Business</option>
+        </select>
+      </div>
+      <div id="achSubmit"></div>
+    </form>
+
+    <h2>Drop-in ACH/eCheck Form</h2>
+
+    <p>Uses the ready-to-use ACH/eCheck form with the default style.</p>
+
+    <form id="dropin-ach-form" action="/charge" method="get">
+    </form>
+
+    <h2>PaymentRequest API</h2>
+
+    <div>
+      <button type="button" id="paymentRequestPlainButton" style="display: none">Pay</button>
+    </div>
+
+    <script src="/dist/globalpayments.js"></script>
+    <script>
+      GlobalPayments.configure({
+        merchantName: "IntegrationTesting",
+        env: "local",
+      });
+
+      GlobalPayments.on("error", function (error) {
+        console.error(error);
+      });
+
+      window.cardForm = GlobalPayments.ui.form({
+        fields: {
+          "card-number": {
+            placeholder: "•••• •••• •••• ••••",
+            target: "#cardNumber"
+          },
+          "card-expiration": {
+            placeholder: "MM / YYYY",
+            target: "#cardExpiration"
+          },
+          "card-cvv": {
+            placeholder: "•••",
+            target: "#cardCvv"
+          },
+          "submit": {
+            value: "Submit",
+            target: "#cardSubmit"
+          }
+        }
+      });
+
+      cardForm.on("card-number", "register", function () { console.log("Registration of Card Number occurred"); });
+      cardForm.on("token-success", function (resp) {
+        console.log(resp);
+        cardForm.frames["card-cvv"].getCvv().then(function (c) { console.log("get-cvv", c); });
+      });
+      cardForm.on("token-error", function (resp) { console.log(resp); });
+
+      var cardExternalTrigger = document.getElementById('cardExternalTrigger');
+
+      if (cardExternalTrigger) {
+        cardExternalTrigger.addEventListener('click', function (e) {
+          e.preventDefault();
+
+          for (var type in cardForm.fields) {
+            if (type === "submit") {
+              continue;
+            }
+
+            var field = cardForm.frames[type];
+
+            if (!field) {
+              continue;
+            }
+
+            GlobalPayments.internal.postMessage.post(
+              {
+                data: {
+                  fields: cardForm.fields,
+                  target: cardForm.frames["card-number"].id
+                },
+                id: field.id,
+                type: "ui:iframe-field:request-data",
+              },
+              field.id
+            );
+          }
+        });
+      }
+
+      var dropinCardForm = GlobalPayments.creditCard.form('#dropin-card-form', { style: 'simple' });
+
+      dropinCardForm.on("token-success", function (resp) { console.log(resp); });
+
+      var achForm = GlobalPayments.ui.form({
+        fields: {
+          "account-number": {
+            placeholder: "Account Number",
+            target: "#accountNumber"
+          },
+          "routing-number": {
+            placeholder: "•••••••••",
+            target: "#routingNumber"
+          },
+          "submit": {
+            value: "Submit",
+            target: "#achSubmit"
+          }
+        }
+      });
+
+      achForm.on("token-success", function (resp) { console.log(resp); });
+      achForm.on("token-error", function (resp) { console.log(resp); });
+
+      var dropinAchForm = GlobalPayments.eCheck.form('#dropin-ach-form', { style: 'simple' });
+
+      dropinAchForm.on("token-success", function (resp) { console.log(resp); });
+
+      var paymentRequestForm = GlobalPayments.paymentRequest.setup("#paymentRequestPlainButton", {
+        total: {
+          label: "Total",
+          amount: { value: 10, currency: "USD" }
+        }
+      });
+
+      paymentRequestForm.on("token-success", function (resp) {
+        console.log(resp);
+        GlobalPayments.paymentRequest.complete("success");
+      });
+      paymentRequestForm.on("token-error", function (resp) { console.log(resp); });
+      paymentRequestForm.on("error", function (resp) { console.log(resp); });
+    </script>
+  </body>
+</html>

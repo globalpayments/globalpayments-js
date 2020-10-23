@@ -16,10 +16,11 @@ export default (id: string, type: string) => {
   }
 
   const isTransit = options.deviceId && options.manifest;
+  const isBillPay = options.merchantName;
 
   postMessage.post(
     {
-      data: isTransit ? (el as HTMLInputElement).value : null,
+      data: isTransit || isBillPay ? (el as HTMLInputElement).value : null,
       id,
       type: "ui:iframe-field:get-cvv",
     },
