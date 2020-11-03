@@ -2,7 +2,7 @@ export interface ICardType {
   code: string;
   regex: RegExp;
   format: RegExp;
-  length: number;
+  lengths: number[];
 }
 
 /**
@@ -104,43 +104,43 @@ const cardTypes: ICardType[] = [
   {
     code: "visa",
     format: /(\d{1,4})/g,
-    length: 16,
+    lengths: [16, 18, 19],
     regex: /^4/,
   },
   {
     code: "mastercard",
     format: /(\d{1,4})/g,
-    length: 16,
+    lengths: [16],
     regex: /^(5[1-5]|2[2-7])/,
   },
   {
     code: "amex",
     format: /(\d{1,4})(\d{1,6})?(\d{1,5})?/,
-    length: 15,
+    lengths: [15],
     regex: /^3[47]/,
   },
   {
     code: "diners",
     format: /(\d{1,4})(\d{1,6})?(\d{1,4})?/,
-    length: 14,
+    lengths: [14, 16, 19],
     regex: /^3[0689]/,
   },
   {
     code: "discover",
     format: /(\d{1,4})/g,
-    length: 16,
+    lengths: [16, 19],
     regex: /^6([045]|22)/,
   },
   {
     code: "jcb",
     format: /(\d{1,4})/g,
-    length: 16,
+    lengths: [16, 17, 18, 19],
     regex: /^35/,
   },
   {
     code: "unknown",
     format: /(\d{1,4})/g,
-    length: 19,
+    lengths: [19],
     regex: /^[0-9]/,
   },
 ];
