@@ -174,8 +174,6 @@ export default class Card {
 
     const maxValue = (max: number, curr: number) => Math.max(max, curr);
 
-    // tslint:disable-next-line:no-console
-    console.log(cardType ? cardType.lengths.reduce(maxValue) : 19);
     if (value.replace(/\D/g, "").length >= (cardType ? cardType.lengths.reduce(maxValue) : 19)) {
       e.preventDefault ? e.preventDefault() : (e.returnValue = false);
     }
