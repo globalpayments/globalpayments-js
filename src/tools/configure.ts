@@ -26,6 +26,8 @@ export interface IConfiguration {
   deviceId?: string;
   manifest?: string;
   tsepHost?: string; // internal. inferred from env
+  // billpay
+  merchantName?: string;
 }
 
 export default (options: IConfiguration) => {
