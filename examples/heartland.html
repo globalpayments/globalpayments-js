@@ -96,6 +96,10 @@
     <script>
       GlobalPayments.configure({
         publicApiKey: "pkapi_cert_dNpEYIISXCGDDyKJiV",
+        binCheck: {
+          hsaFsa: true,
+          surcharge: true,
+        }
       });
 
       GlobalPayments.on("error", function (error) {

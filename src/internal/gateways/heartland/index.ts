@@ -7,12 +7,14 @@ import actionValidateData from "./action-validate-data";
 
 export const supports = {
   apm: {
-    androidPay: false,
     applePay: true,
+    googlePay: false,
+  },
+  binCheck: {
+    hsaFsa: true,
+    surcharge: true,
   },
   consumerAuthentication: true,
-  eCheck: true,
-  gift: true,
   tokenization: {
     cardNotPresent: true,
     cardPresent: true,
@@ -44,6 +46,10 @@ export const requiredSettings = ["publicApiKey"];
 export const getEnv = () => {
   const key: string = options.publicApiKey || "";
   const def = "production";
+
+  if (options.env && options.env === "local") {
+    return options.env;
+  }
 
   if (!key) {
     return def;

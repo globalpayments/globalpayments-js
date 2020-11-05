@@ -14,9 +14,16 @@ export default () => {
     return gateway.urls.assetBaseUrl(result);
   }
 
-  result =
-    gateway.getEnv(options) === "sandbox"
-      ? `https://hps.github.io/token/gp-${version}/`
-      : result;
+  switch (gateway.getEnv(options)) {
+    case "local":
+      result = "http://localhost:7777/dist/";
+      break;
+    case "sandbox":
+      result = `https://hps.github.io/token/gp-${version}/`;
+      break;
+    default:
+      break;
+  }
+
   return result;
 };

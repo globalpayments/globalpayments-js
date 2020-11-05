@@ -7,13 +7,15 @@ import * as transit from "./transit";
 
 export interface ICapabilitiesList {
   apm?: {
-    androidPay?: boolean;
     applePay?: boolean;
+    googlePay?: boolean;
+  };
+  binCheck?: {
+    hsaFsa?: boolean;
+    surcharge?: boolean;
   };
   consumerAuthentication?: boolean;
-  eCheck?: boolean;
   env?: string;
-  gift?: boolean;
   tokenization?: {
     cardNotPresent?: boolean;
     cardPresent?: boolean;
@@ -27,6 +29,7 @@ export interface ISuccess {
     accountNumber?: string;
     accountLast4?: string;
     billingAddress?: PaymentAddress;
+    canSurcharge?: boolean;
     cardBin?: string;
     cardLast4?: string;
     cardNumber?: string;
@@ -36,6 +39,7 @@ export interface ISuccess {
     cardholderName?: string;
     expiryMonth?: string;
     expiryYear?: string;
+    isHsaFsa?: boolean;
     orderId?: string;
   };
   methodName?: string;
