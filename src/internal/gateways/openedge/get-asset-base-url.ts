@@ -1,17 +1,10 @@
-import { options } from "../..";
 import version from "../../../lib/version";
-import getGateway from "../../lib/get-gateway";
+import getEnv from "./get-env";
 
 export default (result: string) => {
-    const gateway = getGateway();
-    if (!gateway) {
-      return result;
-    }
-
     const majorVersion = version.split(".")[0] || version[0];
-    const env = gateway.getEnv(options);
 
-    switch (env) {
+    switch (getEnv()) {
       case "local":
         return `http://localhost:8080/v${majorVersion}/`;
       case "dev":

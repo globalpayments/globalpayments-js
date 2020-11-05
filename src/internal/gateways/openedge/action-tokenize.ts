@@ -1,8 +1,7 @@
-import getGateway from "../../lib/get-gateway";
 import { options } from "../../lib/options";
 import { IDictionary } from "../../lib/util";
 
-export default async (url: string, data: IDictionary) => {
+export default async (url: string, env: string, data: IDictionary) => {
   const request: any = {};
 
   if (data["card-number"]) {
@@ -44,8 +43,7 @@ export default async (url: string, data: IDictionary) => {
 
   try {
     // @ts-ignore
-    let environment = getGateway().getEnv(options);
-    environment = environment !== "local" ? environment : "dev";
+    const environment = env !== "local" ? env : "dev";
     const headers = {
       "Content-Type": "application/json",
       "X-GP-Api-Key": options["X-GP-Api-Key"],
