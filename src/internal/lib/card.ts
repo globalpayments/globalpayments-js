@@ -171,7 +171,10 @@ export default class Card {
       // let it happen, don"t do anything
       return;
     }
-    if (value.replace(/\D/g, "").length >= (cardType ? cardType.length : 19)) {
+
+    const maxValue = (max: number, curr: number) => Math.max(max, curr);
+
+    if (value.replace(/\D/g, "").length >= (cardType ? cardType.lengths.reduce(maxValue) : 19)) {
       e.preventDefault ? e.preventDefault() : (e.returnValue = false);
     }
   }
@@ -266,10 +269,6 @@ export default class Card {
       }
     }
 
-    if (cardType && value.length < cardType.length) {
-      classList.push("possibly-valid");
-    }
-
     if (new CardNumberValidator().validate(value)) {
       classList.push("valid");
 
@@ -285,6 +284,12 @@ export default class Card {
         );
       }
     } else {
+      const maxValue = (max: number, curr: number) => Math.max(max, curr);
+
+      if (cardType && value.length < cardType.lengths.reduce(maxValue)) {
+        classList.push("possibly-valid");
+      }
+
       classList.push("invalid");
 
       const id = target.getAttribute("data-id");
