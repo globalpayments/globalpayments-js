@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<button id="start" type="button">Pay</button>
+<div id="acs-iframe-target"></div>
+
+<script src="../../../dist/globalpayments-3dsecure.js"></script>
+<script>
+  const {
+    checkVersion,
+    getBrowserData,
+    initiateAuthentication,
+    AuthenticationSource,
+    AuthenticationRequestType,
+    MessageCategory,
+    ChallengeRequestIndicator,
+    ChallengeWindowSize,
+  } = GlobalPayments.ThreeDSecure;
+
+  document.getElementById('start').addEventListener('click', async (e) => {
+    e.preventDefault();
+    let versionCheckData;
+
+    try {
+      versionCheckData = await checkVersion('/check-3ds-version.php');
+      
+      window.__versionCheckData = versionCheckData;
+    } catch (e) {
+      window.__versionCheckData = {
+        error: true,
+        reasons: e.reasons,
+      };
+    }
+
+    try {
+      const authenticateData = await initiateAuthentication('/initiate-authentication.php', {
+        challengeWindow: {
+          windowSize: ChallengeWindowSize.Windowed600x400,
+          displayMode: 'embedded',
+          target: '#acs-iframe-target',
+        },
+      });
+
+      window.__initiateAuthenticationData = authenticateData;
+    } catch (e) {
+      window.__initiateAuthenticationData = {
+        error: true,
+        reasons: e.reasons,
+      };
+    }
+
+    return false;
+  });
+</script>

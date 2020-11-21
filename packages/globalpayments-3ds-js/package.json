@@ -1,0 +1,39 @@
+{
+  "name": "globalpayments-3ds",
+  "version": "1.0.4",
+  "description": "Helper library for leveraging 3DSecure 2 for Strong Customer Authentication (SCA)",
+  "main": "./dist/globalpayments-3ds.js",
+  "module": "./dist/globalpayments-3ds.esm.js",
+  "types": "./dist/types/index.d.ts",
+  "author": "Heartland Developer Portal <developers@heartland.us>",
+  "license": "GPL-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/globalpayments/globalpayments-3ds-js.git"
+  },
+  "scripts": {
+    "build": "rollup -c config/rollup.js",
+    "format": "prettier --write 'config/**/*' 'src/**/*' 'test/**/*' '!src/assets/**/*' '!test/run.sh' '!test/run.ps1' '!test/fixtures/**/*.html'",
+    "prebuild": "rimraf dist && $npm_execpath run test:lint",
+    "prepare": "$npm_execpath run build",
+    "test": "$npm_execpath run build && $npm_execpath run test:acceptance",
+    "test:lint": "tslint --project tsconfig.json",
+    "test:acceptance": "testcafe 'chrome:headless' 'test/acceptance/**/test-*' --app 'http-server . -s'"
+  },
+  "dependencies": {
+    "globalpayments-lib": "^1.0.0"
+  },
+  "devDependencies": {
+    "http-server": "^0.11.1",
+    "prettier": "^1.17.1",
+    "rimraf": "^2.6.3",
+    "rollup": "^1.11.3",
+    "rollup-plugin-commonjs": "^9.3.4",
+    "rollup-plugin-node-resolve": "^4.2.4",
+    "rollup-plugin-terser": "^4.0.4",
+    "rollup-plugin-typescript2": "^0.21.0",
+    "testcafe": "^1.1.4",
+    "tslint": "^5.16.0",
+    "typescript": "^3.4.5"
+  }
+}

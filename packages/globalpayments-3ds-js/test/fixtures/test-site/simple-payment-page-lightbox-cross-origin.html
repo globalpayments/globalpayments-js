@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Simple Payment Page</title>
+</head>
+<body>
+  <div>
+    <input id="card-number" value="4012001037141112">
+  </div>
+  <div>
+    <input id="card-exp-month" value="12">
+  </div>
+  <div>
+    <input id="card-exp-year" value="2025">
+  </div>
+  <div>
+    <input id="card-cvn" value="123">
+  </div>
+  <div>
+    <input id="card-holder-name" value="James Mason">
+  </div>
+  <div>
+    <button id="start" type="button">Pay</button>
+  </div>
+
+  <script src="../../../dist/globalpayments-3dsecure.js"></script>
+  <script>
+    const {
+      checkVersion,
+      getBrowserData,
+      initiateAuthentication,
+      AuthenticationSource,
+      AuthenticationRequestType,
+      MessageCategory,
+      ChallengeRequestIndicator,
+      ChallengeWindowSize,
+    } = GlobalPayments.ThreeDSecure;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const checkVersionButton = document.getElementById('start');
+      if (!checkVersionButton) {
+        return;
+      }
+
+      checkVersionButton.addEventListener('click', async (e) => {
+        e.preventDefault();
+        let versionCheckData;
+
+        try {
+          versionCheckData = await checkVersion('http://3ds2.localhost/check-3ds-version.php', {
+            merchantId: 'The.Emporium',
+            accountId: 'Entity.Emporium',
+            methodNotificationUrl: 'http://3ds2.localhost/method-notification.php',
+            card: {
+              number: document.getElementById('card-number').value,
+            },
+          });
+          
+          window.__versionCheckData = versionCheckData;
+        } catch (e) {
+          window.__versionCheckData = {
+            error: true,
+            reasons: e.reasons,
+          };
+        }
+
+        try {
+          const authenticateData = await initiateAuthentication('http://3ds2.localhost/initiate-authentication.php', {
+            merchantId: 'The.Emporium',
+            accountId: 'Entity.Emporium',
+            merchantContactUrl: 'http://3ds2.localhost',
+            challengeNotificationUrl: 'http://3ds2.localhost/challenge-notification.php',
+            challengeWindow: {
+              windowSize: ChallengeWindowSize.Windowed600x400,
+              displayMode: "lightbox",
+            },
+            authenticationRequestType: AuthenticationRequestType.PaymentTransaction,
+            serverTransactionId: versionCheckData.serverTransactionId,
+            methodUrlComplete: true, // can we automate?
+            card: { // optional if data available on server-side
+              number: document.getElementById('card-number').value,
+              expMonth: document.getElementById('card-exp-month').value,
+              expYear: document.getElementById('card-exp-year').value,
+              cvn: document.getElementById('card-cvn').value,
+              cardHolderName: document.getElementById('card-holder-name').value
+            },
+            // order: {}, // optional if data available on server-side
+            // payer: {}, // optional if data available on server-side
+          });
+
+          window.__initiateAuthenticationData = authenticateData;
+        } catch (e) {
+          window.__initiateAuthenticationData = {
+            error: true,
+            reasons: e.reasons,
+          };
+        }
+
+        return false;
+      });
+    });
+  </script>
+</body>
+</html>
