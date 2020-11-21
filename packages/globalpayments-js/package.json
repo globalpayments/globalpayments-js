@@ -1,0 +1,45 @@
+{
+  "name": "globalpayments-js",
+  "version": "1.6.0",
+  "author": "Heartland Payment Systems",
+  "license": "GPL-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/globalpayments/globalpayments-js.git"
+  },
+  "typings": "./types/global-type.d.ts",
+  "scripts": {
+    "build": "rollup -c config/rollup.js",
+    "format": "prettier --write 'config/**/*' 'src/**/*' 'test/**/*' '!src/assets/**/*' '!test/run.sh' '!test/run.ps1' '!test/fixtures/**/*.html'",
+    "postbuild": "cp -R src/assets/* dist && node bin/replace-gp-ref.js",
+    "prebuild": "yarn test:lint && node bin/update-version.js",
+    "prepublish": "yarn build",
+    "start": "serve -p 7777",
+    "test": "cypress run",
+    "test:lint": "tslint --project tsconfig.json"
+  },
+  "dependencies": {
+    "base64-js": "^1.3.1",
+    "promise-polyfill": "^7.1.2",
+    "unfetch": "^3.1.2"
+  },
+  "devDependencies": {
+    "@types/base64-js": "^1.3.0",
+    "@types/promise-polyfill": "^6.0.3",
+    "cypress": "^3.8.3",
+    "cypress-axe": "^0.8.1",
+    "prettier": "^1.19.1",
+    "replace-in-file": "^3.4.4",
+    "rimraf": "^2.7.1",
+    "rollup": "^2.30.0",
+    "@rollup/plugin-commonjs": "^15.1.0",
+    "rollup-plugin-multi-entry": "^2.1.0",
+    "rollup-plugin-node-builtins": "^2.1.2",
+    "@rollup/plugin-node-resolve": "^9.0.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-typescript2": "^0.28.0",
+    "serve": "^11.3.2",
+    "tslint": "^5.20.1",
+    "typescript": "^3.9.7"
+  }
+}
