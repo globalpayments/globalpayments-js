@@ -1,0 +1,11 @@
+{
+  "name": "globalpayments-js-loader",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Heartland Developer Portal <developers@heartland.us>",
+  "license": "GPL-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/globalpayments/globalpayments-js.git"
+  }
+}
