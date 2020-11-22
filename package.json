@@ -4,13 +4,15 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^15.1.0",
     "@rollup/plugin-node-resolve": "^9.0.0",
+    "@types/base64-js": "^1.2.5",
+    "@types/promise-polyfill": "^6.0.3",
     "cypress": "^3.8.3",
     "cypress-axe": "^0.8.1",
     "http-server": "^0.11.1",
     "lerna": "^3.22.1",
-    "prettier": "^1.19.1",
+    "prettier": "^1.17.1",
     "replace-in-file": "^3.4.4",
-    "rimraf": "^2.7.1",
+    "rimraf": "^2.6.3",
     "rollup": "^2.30.0",
     "rollup-plugin-commonjs": "^9.3.4",
     "rollup-plugin-multi-entry": "^2.1.0",
@@ -20,12 +22,13 @@
     "rollup-plugin-typescript2": "^0.28.0",
     "serve": "^11.3.2",
     "testcafe": "^1.1.4",
-    "tslint": "^5.20.1",
-    "typescript": "^3.9.7"
+    "tslint": "^5.16.0",
+    "typescript": "^3.4.5"
   },
   "dependencies": {
     "globalpayments-3ds": "file:packages/globalpayments-3ds-js",
     "globalpayments-js": "file:packages/globalpayments-js",
-    "globalpayments-js-loader": "file:packages/globalpayments-js-loader"
+    "globalpayments-js-loader": "file:packages/globalpayments-js-loader",
+    "globalpayments-lib": "file:packages/globalpayments-lib-js"
   }
 }
