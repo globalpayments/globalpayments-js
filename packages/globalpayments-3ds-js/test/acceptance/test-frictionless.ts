@@ -28,7 +28,7 @@ const expectFrictionlessResponseWithStatus = (status: string) => {
 };
 
 fixture("Frictionless - Simple").page(
-  "http://localhost:8080/test/fixtures/test-site/simple-payment-page-lightbox.html",
+  "http://localhost:7778/test/fixtures/test-site/simple-payment-page-lightbox.html",
 );
 
 test.requestHooks(frictionlessAuthenticationSuccessfulMocks)(
@@ -44,14 +44,14 @@ test.requestHooks(frictionlessAuthenticationFailedMocks)(
 test
   .requestHooks(frictionlessAuthenticationSuccessfulCrossOriginMocks)
   .page(
-    "http://localhost:8080/test/fixtures/test-site/simple-payment-page-lightbox-cross-origin.html",
+    "http://localhost:7778/test/fixtures/test-site/simple-payment-page-lightbox-cross-origin.html",
   )(
   "Cross Origin Authentication Successful",
   expectFrictionlessResponseWithStatus("AUTHENTICATION_SUCCESSFUL"),
 );
 
 fixture("Frictionless - Minimal").page(
-  "http://localhost:8080/test/fixtures/test-site/minimal-payment-page-lightbox.html",
+  "http://localhost:7778/test/fixtures/test-site/minimal-payment-page-lightbox.html",
 );
 
 test.requestHooks(frictionlessAuthenticationSuccessfulMocks)(

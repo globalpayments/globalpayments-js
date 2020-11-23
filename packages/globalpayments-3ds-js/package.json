@@ -16,9 +16,10 @@
     "format": "prettier --write 'config/**/*' 'src/**/*' 'test/**/*' '!src/assets/**/*' '!test/run.sh' '!test/run.ps1' '!test/fixtures/**/*.html'",
     "prebuild": "rimraf dist && $npm_execpath run test:lint",
     "prepare": "$npm_execpath run build",
-    "test": "$npm_execpath run build && $npm_execpath run test:acceptance",
+    "test": "start-server-and-test '$npm_execpath run test:serve' http://localhost:7777 '$npm_execpath run test:acceptance'",
     "test:lint": "tslint --project tsconfig.json",
-    "test:acceptance": "testcafe 'chrome:headless' 'test/acceptance/**/test-*' --app 'http-server . -s'"
+    "test:acceptance": "testcafe 'chrome:headless' 'test/acceptance/**/test-*'",
+    "test:serve": "serve -p 7778"
   },
   "dependencies": {
     "globalpayments-lib": "^1.0.0"

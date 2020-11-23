@@ -5,6 +5,6 @@ export default `<script>
       data: {
         threeDSServerTransID: '6d0e33f4-0084-406c-b7a9-765b5f052936',
       }
-    }, 'http://localhost:8080');
+    }, 'http://localhost:7778');
   }
 </script>`;

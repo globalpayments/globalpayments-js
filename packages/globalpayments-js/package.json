@@ -15,9 +15,10 @@
     "postbuild": "cp -R src/assets/* dist && node bin/replace-gp-ref.js",
     "prebuild": "yarn test:lint && node bin/update-version.js",
     "prepublish": "yarn build",
-    "start": "serve -p 7777",
-    "test": "cypress run",
-    "test:lint": "tslint --project tsconfig.json"
+    "test": "start-server-and-test '$npm_execpath run test:serve' http://localhost:7777 '$npm_execpath run test:integration'",
+    "test:integration": "cypress run",
+    "test:lint": "tslint --project tsconfig.json",
+    "test:serve": "serve -p 7777"
   },
   "dependencies": {
     "globalpayments-lib": "^1.0.0"

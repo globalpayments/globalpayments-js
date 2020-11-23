@@ -5,7 +5,7 @@ fixture("Unit - makeRequest");
 
 test
   .page(
-    "http://localhost:8080/test/fixtures/test-site/make-request-success-enrolled.html",
+    "http://localhost:7778/test/fixtures/test-site/make-request-success-enrolled.html",
   )
   .requestHooks(mocks)("Request Successful - Card enrolled", async (t) => {
   await t.click("#start");
@@ -19,7 +19,7 @@ test
 
 test
   .page(
-    "http://localhost:8080/test/fixtures/test-site/make-request-success-not-enrolled.html",
+    "http://localhost:7778/test/fixtures/test-site/make-request-success-not-enrolled.html",
   )
   .requestHooks(mocks)("Request Successful - Card not enrolled", async (t) => {
   await t.click("#start");
@@ -35,7 +35,7 @@ test
 
 test
   .page(
-    "http://localhost:8080/test/fixtures/test-site/make-request-client-error.html",
+    "http://localhost:7778/test/fixtures/test-site/make-request-client-error.html",
   )
   .requestHooks(mocks)("Request results in client error", async (t) => {
   await t.click("#start");
@@ -51,7 +51,7 @@ test
 
 test
   .page(
-    "http://localhost:8080/test/fixtures/test-site/make-request-server-error.html",
+    "http://localhost:7778/test/fixtures/test-site/make-request-server-error.html",
   )
   .requestHooks(mocks)("Request results in server error", async (t) => {
   await t.click("#start");

@@ -54,7 +54,7 @@ const expectMissingEmbeddedChallengeTarget = async (t) => {
 };
 
 fixture("Challenge - Simple - lightbox").page(
-  "http://localhost:8080/test/fixtures/test-site/simple-payment-page-lightbox.html",
+  "http://localhost:7778/test/fixtures/test-site/simple-payment-page-lightbox.html",
 );
 
 test.requestHooks(challengeMocks)(
@@ -63,7 +63,7 @@ test.requestHooks(challengeMocks)(
 );
 
 fixture("Challenge - Minimal - lightbox").page(
-  "http://localhost:8080/test/fixtures/test-site/minimal-payment-page-lightbox.html",
+  "http://localhost:7778/test/fixtures/test-site/minimal-payment-page-lightbox.html",
 );
 
 test.requestHooks(challengeMocks)(
@@ -75,7 +75,7 @@ fixture("Challenge - Simple - embedded - string target");
 
 test
   .page(
-    "http://localhost:8080/test/fixtures/test-site/simple-payment-page-embedded-string-target.html",
+    "http://localhost:7778/test/fixtures/test-site/simple-payment-page-embedded-string-target.html",
   )
   .requestHooks(challengeMocks)(
   "Challenge Prompted - success",
@@ -84,7 +84,7 @@ test
 
 test
   .page(
-    "http://localhost:8080/test/fixtures/test-site/simple-payment-page-embedded-string-target-missing.html",
+    "http://localhost:7778/test/fixtures/test-site/simple-payment-page-embedded-string-target-missing.html",
   )
   .requestHooks(challengeMocks)(
   "Challenge Not Prompted - missing target",
@@ -95,7 +95,7 @@ fixture("Challenge - Minimal - embedded - string target");
 
 test
   .page(
-    "http://localhost:8080/test/fixtures/test-site/minimal-payment-page-embedded-string-target.html",
+    "http://localhost:7778/test/fixtures/test-site/minimal-payment-page-embedded-string-target.html",
   )
   .requestHooks(challengeMocks)(
   "Challenge Prompted - success",
@@ -104,7 +104,7 @@ test
 
 test
   .page(
-    "http://localhost:8080/test/fixtures/test-site/minimal-payment-page-embedded-string-target-missing.html",
+    "http://localhost:7778/test/fixtures/test-site/minimal-payment-page-embedded-string-target-missing.html",
   )
   .requestHooks(challengeMocks)(
   "Challenge Not Prompted - missing target",
@@ -115,7 +115,7 @@ fixture("Challenge - Simple - embedded - DOM target");
 
 test
   .page(
-    "http://localhost:8080/test/fixtures/test-site/simple-payment-page-embedded-dom-target.html",
+    "http://localhost:7778/test/fixtures/test-site/simple-payment-page-embedded-dom-target.html",
   )
   .requestHooks(challengeMocks)(
   "Challenge Prompted - success",
@@ -124,7 +124,7 @@ test
 
 test
   .page(
-    "http://localhost:8080/test/fixtures/test-site/simple-payment-page-embedded-dom-target-missing.html",
+    "http://localhost:7778/test/fixtures/test-site/simple-payment-page-embedded-dom-target-missing.html",
   )
   .requestHooks(challengeMocks)(
   "Challenge Not Prompted - missing target",
@@ -135,7 +135,7 @@ fixture("Challenge - Minimal - embedded - DOM target");
 
 test
   .page(
-    "http://localhost:8080/test/fixtures/test-site/minimal-payment-page-embedded-dom-target.html",
+    "http://localhost:7778/test/fixtures/test-site/minimal-payment-page-embedded-dom-target.html",
   )
   .requestHooks(challengeMocks)(
   "Challenge Prompted - success",
@@ -144,7 +144,7 @@ test
 
 test
   .page(
-    "http://localhost:8080/test/fixtures/test-site/minimal-payment-page-embedded-dom-target-missing.html",
+    "http://localhost:7778/test/fixtures/test-site/minimal-payment-page-embedded-dom-target-missing.html",
   )
   .requestHooks(challengeMocks)(
   "Challenge Not Prompted - missing target",
