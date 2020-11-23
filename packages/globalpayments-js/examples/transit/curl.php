@@ -30,6 +30,7 @@ return function (
   curl_setopt($request, CURLOPT_HTTPHEADER, $headers);
   curl_setopt($request, CURLOPT_PROTOCOLS, CURLPROTO_HTTPS);
   curl_setopt($request, CURLOPT_VERBOSE, false);
+  curl_setopt($request, CURLOPT_ENCODING, '');
   
   $curlResponse = curl_exec($request);
   $curlInfo = curl_getinfo($request);

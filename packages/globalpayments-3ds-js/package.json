@@ -22,6 +22,6 @@
     "test:serve": "serve -p 7778"
   },
   "dependencies": {
-    "globalpayments-lib": "^1.0.0"
+    "globalpayments-lib": "file:../globalpayments-lib-js"
   }
 }

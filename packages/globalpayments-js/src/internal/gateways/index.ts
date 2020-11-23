@@ -2,6 +2,7 @@ import { IDictionary } from "../lib/util";
 import * as billpay from "./billpay";
 import * as genius from "./genius";
 import * as globalpayments from "./globalpayments";
+import * as gpApi from "./gp-api";
 import * as heartland from "./heartland";
 import * as openedge from "./openedge";
 import * as transit from "./transit";
@@ -27,6 +28,8 @@ export interface ICapabilitiesList {
 
 export interface ISuccess {
   details: {
+    accountId?: string;
+    accountName?: string;
     accountNumber?: string;
     accountLast4?: string;
     billingAddress?: PaymentAddress;
@@ -41,7 +44,10 @@ export interface ISuccess {
     expiryMonth?: string;
     expiryYear?: string;
     isHsaFsa?: boolean;
+    merchantId?: string;
+    merchantName?: string;
     orderId?: string;
+    reference?: string;
   };
   methodName?: string;
   payerEmail?: string;
@@ -92,6 +98,7 @@ export const availableGateways: IGatewayList = {
   billpay,
   genius,
   globalpayments,
+  gpApi,
   heartland,
   openedge,
   transit,

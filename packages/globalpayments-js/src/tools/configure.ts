@@ -28,6 +28,11 @@ export interface IConfiguration {
   tsepHost?: string; // internal. inferred from env
   // billpay
   merchantName?: string;
+  // gp-api
+  accessToken?: string;
+  accountName?: string;
+  apiVersion?: string;
+  reference?: string;
 }
 
 export default (options: IConfiguration) => {
