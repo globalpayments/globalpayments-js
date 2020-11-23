@@ -1,3 +1,5 @@
+import { IEventListener } from "globalpayments-lib";
+
 import assetBaseUrl from "../../internal/lib/asset-base-url";
 import { postMessage } from "../../internal/lib/post-message";
 import {
@@ -9,7 +11,6 @@ import {
   parentStyles as simpleParentStyles,
 } from "../../internal/lib/styles/simple";
 import { IDictionary } from "../../internal/lib/util";
-import { IEventListener } from "../../lib/event-emitter";
 import { IFrameCollection, IframeField, IUIFormField } from "../iframe-field";
 
 export { IUIFormField } from "../iframe-field";

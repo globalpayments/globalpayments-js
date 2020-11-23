@@ -1,5 +1,6 @@
+import { generateGuid } from "globalpayments-lib";
+
 import paymentFieldId from "../../../internal/lib/payment-field-id";
-import generateGuid from "../../../lib/generate-guid";
 import { options } from "../../lib/options";
 import { postMessage as pm } from "../../lib/post-message";
 import { IDictionary } from "../../lib/util";

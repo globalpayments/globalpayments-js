@@ -1,5 +1,4 @@
-// force non-ESM to be required
-import "unfetch/polyfill/index.js";
+import "unfetch/polyfill";
 
 import "./array-foreach";
 import "./base64";

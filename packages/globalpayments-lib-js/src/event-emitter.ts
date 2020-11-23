@@ -30,7 +30,7 @@ export interface IEventCollection {
 }
 export type IEventListener = () => void;
 
-export default class EventEmitter {
+export class EventEmitter {
   public events: IEventCollection;
 
   constructor() {

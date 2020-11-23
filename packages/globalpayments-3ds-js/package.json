@@ -21,6 +21,6 @@
     "test:acceptance": "testcafe 'chrome:headless' 'test/acceptance/**/test-*' --app 'http-server . -s'"
   },
   "dependencies": {
-    "globalpayments-lib": "file:../globalpayments-lib-js"
+    "globalpayments-lib": "^1.0.0"
   }
 }

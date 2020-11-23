@@ -1,8 +1,9 @@
+import { EventEmitter, IEventListener } from "globalpayments-lib";
+
 import { bus } from "../internal";
 import assetBaseUrl from "../internal/lib/asset-base-url";
 import Events from "../internal/lib/events";
 import { postMessage } from "../internal/lib/post-message";
-import EventEmitter, { IEventListener } from "../lib/event-emitter";
 import { IframeField } from "../ui/iframe-field";
 import {
   defaultDetails as defaultPaymentRequestDetails,

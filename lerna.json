@@ -3,5 +3,8 @@
     "packages/*"
   ],
   "npmClient": "yarn",
-  "version": "independent"
+  "version": "independent",
+  "command": {
+    "run": { "stream": true }
+  }
 }

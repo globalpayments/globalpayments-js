@@ -1,12 +1,11 @@
+import { EventEmitter, generateGuid } from "globalpayments-lib";
+
 import { bus, loadedFrames, options, postMessage } from "../../internal";
 import Card from "../../internal/lib/card";
 import Events from "../../internal/lib/events";
 import paymentFieldId from "../../internal/lib/payment-field-id";
 import { json2css } from "../../internal/lib/styles";
 import { IDictionary } from "../../internal/lib/util";
-import EventEmitter from "../../lib/event-emitter";
-import generateGuid from "../../lib/generate-guid";
-
 import actionAccumulateDataAndTokenize from "./action-accumulate-data-and-tokenize";
 import actionAddStylesheet from "./action-add-stylesheet";
 import actionCardTrackButtonClick from "./action-card-track-button-click";

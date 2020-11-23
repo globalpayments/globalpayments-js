@@ -1,4 +1,4 @@
-import EventEmitter from "../lib/event-emitter";
+import { EventEmitter } from "globalpayments-lib";
 export * from "./lib/loaded-frames";
 export * from "./lib/options";
 export * from "./lib/post-message";
