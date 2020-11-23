@@ -11,6 +11,7 @@
   "private": true,
   "scripts": {
     "build": "rollup -c config/rollup.js",
+    "cypress:open": "cypress open",
     "format": "prettier --write 'config/**/*' 'src/**/*' 'test/**/*' '!src/assets/**/*' '!test/run.sh' '!test/run.ps1' '!test/fixtures/**/*.html'",
     "postbuild": "cp -R src/assets/* dist && node bin/replace-gp-ref.js",
     "prebuild": "yarn test:lint && node bin/update-version.js",
