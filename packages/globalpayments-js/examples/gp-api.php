@@ -23,35 +23,22 @@ $headers = [ 'X-GP-Version' => '2020-10-22' ];
 
 $response = json_decode($response);
 
-error_log(print_r($response, true));
-
 $accessToken = $response->token ?? '';
 
 ?><!doctype html>
-<html>
+<html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>GP API Examples</title>
   </head>
   <body>
-    <h1>Examples</h1>
+    <main title="GP API Examples">
+      <h1>Examples</h1>
 
-    <h2>Credit Card Form</h2>
-
-    <form id="form" action="/charge" method="get">
-      <div id="cardNumber"></div>
-      <div id="cardCvv"></div>
-      <div id="cardExpiration"></div>
-      <div id="cardHolder"></div>
-      <div id="cardSubmit"></div>
-    </form>
-
-    <h2>PaymentRequest API</h2>
-
-    <div>
-      <button type="button" id="paymentRequestPlainButton" style="display: none">Pay</button>
-    </div>
+      <h2>Credit Card Form</h2>
+      <div id="credit-card-form"></div>
+    </main>
 
     <script src="/dist/globalpayments.js"></script>
     <script>
@@ -64,47 +51,10 @@ $accessToken = $response->token ?? '';
         console.error(error);
       });
 
-      var cardForm = GlobalPayments.ui.form({
-        fields: {
-          "card-number": {
-            placeholder: "•••• •••• •••• ••••",
-            target: "#cardNumber"
-          },
-          "card-expiration": {
-            placeholder: "MM / YYYY",
-            target: "#cardExpiration"
-          },
-          "card-cvv": {
-            placeholder: "•••",
-            target: "#cardCvv"
-          },
-          "card-holder-name": {
-            placeholder: "Jane Smith",
-            target: "#cardHolder"
-          },
-          "submit": {
-            value: "Submit",
-            target: "#cardSubmit"
-          }
-        }
-      });
+      var cardForm = GlobalPayments.creditCard.form('#credit-card-form');
 
       cardForm.on("card-number", "token-success", function (resp) { console.log(resp); });
       cardForm.on("card-number", "token-error", function (resp) { console.log(resp); });
-
-      var paymentRequestForm = GlobalPayments.paymentRequest.setup("#paymentRequestPlainButton", {
-        total: {
-          label: "Total",
-          amount: { value: 10, currency: "USD" }
-        }
-      });
-
-      paymentRequestForm.on("token-success", function (resp) {
-        console.log(resp);
-        GlobalPayments.paymentRequest.complete("success");
-      });
-      paymentRequestForm.on("token-error", function (resp) { console.log(resp); });
-      paymentRequestForm.on("error", function (resp) { console.log(resp); });
     </script>
   </body>
 </html>

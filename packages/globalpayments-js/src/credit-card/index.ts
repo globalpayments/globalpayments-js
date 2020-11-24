@@ -11,6 +11,7 @@ export const defaultOptions: IUIFormOptions = {
     "card-expiration": "Card Expiration",
     "card-holder-name": "Card Holder Name",
     "card-number": "Card Number",
+    "submit": "Submit",
   },
   placeholders: {
     "card-cvv": "•••",
@@ -29,8 +30,7 @@ export const defaultOptions: IUIFormOptions = {
   },
   values: {
     "card-track": "Read Card",
-    // tslint:disable-next-line:object-literal-key-quotes
-    submit: "Submit",
+    "submit": "Submit",
   },
 };
 
@@ -74,9 +74,9 @@ export function form(
 
     const type = fieldTypes[i];
 
-    if (formOptions.labels && formOptions.labels[type]) {
+    if (type !== "submit" && formOptions.labels && formOptions.labels[type]) {
       const label = document.createElement("label");
-      label.setAttribute("for", formOptions.prefix + type);
+      // label.setAttribute("for", formOptions.prefix + type);
       label.appendChild(document.createTextNode(formOptions.labels[type]));
       target.appendChild(label);
     }
