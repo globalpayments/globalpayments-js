@@ -71,7 +71,7 @@ export default function(
   parent.appendChild(holder);
 
   // remove the inline display style to reveal
-  delete (target as HTMLElement).style.display;
+  (target as HTMLElement).style.display = "";
 
   const iframe = new IframeField(
     "payment-request",

@@ -2,33 +2,30 @@
   "name": "root",
   "private": true,
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^15.1.0",
-    "@rollup/plugin-node-resolve": "^9.0.0",
-    "@types/base64-js": "^1.2.5",
+    "@rollup/plugin-commonjs": "^16.0.0",
+    "@rollup/plugin-node-resolve": "^10.0.0",
+    "@types/base64-js": "^1.3.0",
     "@types/promise-polyfill": "^6.0.3",
-    "cypress": "^3.8.3",
-    "cypress-axe": "^0.8.1",
+    "cypress": "^6.0.0",
+    "cypress-axe": "^0.11.0",
     "lerna": "^3.22.1",
-    "prettier": "^1.17.1",
-    "replace-in-file": "^3.4.4",
-    "rimraf": "^2.6.3",
-    "rollup": "^2.30.0",
-    "rollup-plugin-commonjs": "^9.3.4",
-    "rollup-plugin-multi-entry": "^2.1.0",
+    "prettier": "^2.2.0",
+    "replace-in-file": "^6.1.0",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.33.3",
     "rollup-plugin-node-builtins": "^2.1.2",
-    "rollup-plugin-node-resolve": "^4.2.4",
     "rollup-plugin-terser": "^7.0.2",
-    "rollup-plugin-typescript2": "^0.28.0",
+    "rollup-plugin-typescript2": "^0.29.0",
     "serve": "^11.3.2",
     "start-server-and-test": "^1.11.6",
-    "testcafe": "^1.1.4",
-    "tslint": "^5.16.0",
-    "typescript": "^3.4.5"
+    "testcafe": "^1.9.4",
+    "tslint": "^6.1.3",
+    "typescript": "^4.1.2"
   },
   "dependencies": {
-    "globalpayments-3ds": "file:packages/globalpayments-3ds-js",
+    "globalpayments-3ds": "file:packages/globalpayments-3ds",
     "globalpayments-js": "file:packages/globalpayments-js",
     "globalpayments-js-loader": "file:packages/globalpayments-js-loader",
-    "globalpayments-lib": "file:packages/globalpayments-lib-js"
+    "globalpayments-lib": "file:packages/globalpayments-lib"
   }
 }

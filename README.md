@@ -3,10 +3,10 @@
 ## Packages
 
 - [`globalpayments-js`](packages/globalpayments-js) - JavaScript library for web applications to connect to Heartland eCommerce & Global Payments eCommerce tokenization services
-- [`globalpayments-3ds`](packages/globalpayments-3ds-js) - Helper library for leveraging 3DSecure 2 for Strong Customer Authentication (SCA)
+- [`globalpayments-3ds`](packages/globalpayments-3ds) - Helper library for leveraging 3DSecure 2 for Strong Customer Authentication (SCA)
 - [`globalpayments-js-loader`](packages/globalpayments-js-loader) - IN PROGRESS - Helper library for dynamically loading `globalpayments-js` within web applications
 - [`globalpayments-js-web-components`](packages/globalpayments-js-web-components) - IN PROGRESS - Exposes web components / custom elements around `globalpayments-js`
-- [`globalpayments-lib`](packages/globalpayments-lib-js) - Helper library for Global Payments JavaScript libraries
+- [`globalpayments-lib`](packages/globalpayments-lib) - Helper library for Global Payments JavaScript libraries
 
 ##
 

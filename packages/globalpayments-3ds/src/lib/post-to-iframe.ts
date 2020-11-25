@@ -96,7 +96,7 @@ function ensureIframeClosed(timeout: number) {
 
 function getWindowMessageEventHandler(
   resolve: (
-    data: IMessageEventData | PromiseLike<IMessageEventData> | undefined,
+    data: IMessageEventData | PromiseLike<IMessageEventData>,
   ) => void,
   data: IIframeData,
 ) {
