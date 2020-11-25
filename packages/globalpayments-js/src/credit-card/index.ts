@@ -60,10 +60,10 @@ export function form(
 
   // create field targets
   const fieldTypes = [
-    "card-holder-name",
     "card-number",
     "card-expiration",
     "card-cvv",
+    "card-holder-name",
     "submit",
   ];
   const fields: any = {};
@@ -74,19 +74,23 @@ export function form(
 
     const type = fieldTypes[i];
 
+    const wrapper = document.createElement("div");
+    wrapper.className = formOptions.prefix + type;
+    target.appendChild(wrapper);
+
     if (type !== "submit" && formOptions.labels && formOptions.labels[type]) {
       const label = document.createElement("label");
       // label.setAttribute("for", formOptions.prefix + type);
       label.appendChild(document.createTextNode(formOptions.labels[type]));
-      target.appendChild(label);
+      wrapper.appendChild(label);
     }
 
     const el = document.createElement("div");
-    el.id = formOptions.prefix + type;
-    target.appendChild(el);
+    el.className = formOptions.prefix + type + "-target";
+    wrapper.appendChild(el);
 
     fields[type] = {} as any;
-    fields[type].target = "#" + formOptions.prefix + type;
+    fields[type].target = ".secure-payment-form ." + formOptions.prefix + type + "-target";
 
     if (formOptions.placeholders && formOptions.placeholders[type]) {
       fields[type].placeholder = formOptions.placeholders[type];
@@ -109,6 +113,14 @@ export function form(
       `secure-payment-styles-${formOptions.style}`,
     );
   }
+
+  const shield = document.createElement("div");
+  shield.className = formOptions.prefix + "shield";
+  target.appendChild(shield);
+
+  const logo = document.createElement("div");
+  logo.className = formOptions.prefix + "logo";
+  target.appendChild(logo);
 
   return new UIForm(
     fields,

@@ -307,6 +307,7 @@ export class IframeField extends EventEmitter {
         case "set-label":
           actionSetLabel(data.data.label);
           IframeField.triggerResize(id);
+          break;
         case "update-options":
           for (const prop in data.data) {
             if (data.data.hasOwnProperty(prop)) {

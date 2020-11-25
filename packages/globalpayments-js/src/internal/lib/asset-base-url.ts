@@ -3,27 +3,25 @@ import { options } from "../../internal/lib/options";
 import version from "../../lib/version";
 
 export default () => {
-  let result = `https://api2.heartlandportico.com/SecureSubmit.v1/token/gp-${version}/`;
+  const majorVersion = version.split(".")[0] || version[0];
+  const result = `https://js.globalpay.com/v${majorVersion}/`;
 
   const gateway = getGateway();
-  if (!gateway) {
-    return result;
-  }
 
-  if (gateway.urls.assetBaseUrl) {
+  if (gateway && gateway.urls.assetBaseUrl) {
     return gateway.urls.assetBaseUrl(result);
   }
 
-  switch (gateway.getEnv(options)) {
+  switch (options.env) {
     case "local":
-      result = "http://localhost:7777/dist/";
-      break;
+      return `http://localhost:7777/dist/`;
+    case "qa":
+      return `https://js-qa.np-hpp.globalpay.com/v${majorVersion}/`;
     case "sandbox":
-      result = `https://hps.github.io/token/gp-${version}/`;
-      break;
+      return `https://js-cert.globalpay.com/v${majorVersion}/`;
+    case "production":
+      return `https://js.globalpay.com/v${majorVersion}/`;
     default:
-      break;
+      return result;
   }
-
-  return result;
 };

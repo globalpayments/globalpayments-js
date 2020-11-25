@@ -11,7 +11,7 @@ const options = {
 };
 replace(options)
   .then(changedFiles => {
-    console.log('Modified files:', changedFiles.join(', '));
+    console.log('Modified files:', changedFiles.map(f => f.file).join(', '));
   })
   .catch(error => {
     console.error('Error occurred:', error);

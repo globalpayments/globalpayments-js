@@ -7,6 +7,10 @@ import {
   parentStyles as defaultParentStyles,
 } from "../../internal/lib/styles/default";
 import {
+  fieldStyles as gpDefaultFieldStyles,
+  parentStyles as gpDefaultParentStyles,
+} from "../../internal/lib/styles/gp-default";
+import {
   fieldStyles as simpleFieldStyles,
   parentStyles as simpleParentStyles,
 } from "../../internal/lib/styles/simple";
@@ -17,14 +21,16 @@ export { IUIFormField } from "../iframe-field";
 
 export const fieldStyles = {
   blank: {},
-  default: defaultFieldStyles,
-  simple: simpleFieldStyles,
+  default: defaultFieldStyles(assetBaseUrl()),
+  "gp-default": gpDefaultFieldStyles(assetBaseUrl()),
+  simple: simpleFieldStyles(assetBaseUrl()),
 };
 
 export const parentStyles = {
   blank: {},
-  default: defaultParentStyles,
-  simple: simpleParentStyles,
+  default: defaultParentStyles(assetBaseUrl()),
+  "gp-default": gpDefaultParentStyles(assetBaseUrl()),
+  simple: simpleParentStyles(assetBaseUrl()),
 };
 
 export interface IUIFormOptions {

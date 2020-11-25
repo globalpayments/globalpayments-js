@@ -24,7 +24,7 @@ This plugin allows you to use online payments (eCommerce) features of a variety 
 ## Usage
 
 ```html
-<script src="https://api2.heartlandportico.com/SecureSubmit.v1/token/gp-1.6.0/globalpayments.js"></script>
+<script src="https://api2.heartlandportico.com/SecureSubmit.v1/token/gp-1.8.0/globalpayments.js"></script>
 ```
 
 ### Configuration
