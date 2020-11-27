@@ -22,7 +22,7 @@ export function loadLibrary(url) {
     }
 
     if (!url) {
-        url = 'https://api2.heartlandportico.com/securesubmit.v1/token/gp-1.6.0/globalpayments.js';
+        url = 'https://js.globalpay.com/v1/globalpayments.js';
     }
 
     return libraryLoaded = new Promise((resolve) => {
