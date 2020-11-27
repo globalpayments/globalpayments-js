@@ -178,5 +178,9 @@ export const parentStyles = (assetBaseUrl: string) => {
       margin: "10px auto",
       width: "300px",
     },
+
+    ".secure-payment-form .tooltip, .secure-payment-form .tooltip-content": {
+      display: "none",
+    },
   };
 };

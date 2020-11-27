@@ -37,7 +37,7 @@ export interface IUIFormOptions {
   labels?: IDictionary;
   placeholders?: IDictionary;
   prefix?: string;
-  style?: "default" | "simple" | "blank";
+  style?: "default" | "simple" | "blank" | "gp-default";
   titles?: IDictionary;
   values?: IDictionary;
 }

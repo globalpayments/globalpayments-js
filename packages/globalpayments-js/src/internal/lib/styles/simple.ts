@@ -186,5 +186,9 @@ export const parentStyles = (assetBaseUrl: string) => {
 
     ".secure-payment-form input": fieldStyles(assetBaseUrl)["#secure-payment-field"],
     ".secure-payment-form input:focus": fieldStyles(assetBaseUrl)["#secure-payment-field:focus"],
+
+    ".secure-payment-form .tooltip, .secure-payment-form .tooltip-content": {
+      display: "none",
+    },
   };
 };

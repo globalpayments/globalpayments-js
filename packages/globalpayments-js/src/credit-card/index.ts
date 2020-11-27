@@ -89,7 +89,7 @@ export function form(
     el.className = formOptions.prefix + type + "-target";
     wrapper.appendChild(el);
 
-    if (type === "card-cvv") {
+    if (type === "card-cvv" && formOptions.style && formOptions.style !== "blank") {
       createToolTip(el);
     }
 
