@@ -1,28 +1,36 @@
-// @ts-check
+export type CallbackFn = (e?: object) => any;
+export type EventOnCallback = (eventOrTarget: string, callbackOrEvent: string | CallbackFn, callback?: CallbackFn) => any;
+export interface IframeField {
+    on: EventOnCallback;
+}
 
-/**
- * @typedef {{on: (event: string, callback: (e?: object) => any) => any;}} IframeField
- */
+let field: IframeField;
 
-/**
- * @type {IframeField}
- */
-let field;
-
-/**
- * @typedef {{[key: string]: any}} IDictionary
- */
+export type IDictionary = {[key: string]: any};
 
 export class SecurePaymentElement extends HTMLElement {
     /**
+     * RegEx for finding all valid secure payment element names
+     */
+    static FIND_ALL_REGEX = /secure-([\w\-]+)-(field|button)/ig;
+
+    /**
+     * Attribute name for custom iframe styles
+     */
+    static ATTRIBUTE_NAME_STYLES = "gp-style";
+
+    // tslint:disable-next-line:no-empty
+    protected on: EventOnCallback = () => {};
+
+    /**
      * Sets the underlying hosted field.
-     * 
+     *
      * Exposes functionality from the hosted field object to the custom
      * element's JavaScript interface.
-     * 
-     * @param {IframeField} value
+     *
+     * @param value
      */
-    set field(value) {
+    set field(value: IframeField) {
         field = value;
         this.on = field.on.bind(this);
     }
@@ -38,28 +46,28 @@ export class SecurePaymentElement extends HTMLElement {
      * Gets the custom element's pre-defined tag name.
      */
     get tagName() {
-        return '';
+        return "";
     }
 
     /**
      * Gets the hosted field type.
-     * 
+     *
      * Current options are:
-     * 
+     *
      * - `card-number`
      * - `card-expiration`
      * - `card-cvv`
      * - `submit`
      */
     get type() {
-        return '';
+        return "";
     }
 
     /**
-     * @returns {string[]} List of event types supported on the element.
+     * @returns List of event types supported on the element.
      */
     getTargetEvents() {
-        return ['ready'];
+        return ["ready"];
     }
 
     /**
@@ -67,9 +75,9 @@ export class SecurePaymentElement extends HTMLElement {
      * names with their came cased equivalents.
      */
     getAttibutes() {
-        /** @type {IDictionary} */
-        const attributes = {};
+        const attributes: IDictionary = {};
 
+        // tslint:disable-next-line:prefer-for-of
         for (let i = 0; i < this.attributes.length; i++) {
             const att = this.attributes[i];
             attributes[this.kebabCaseToCamelCase(att.name)] = att.value;
@@ -80,7 +88,7 @@ export class SecurePaymentElement extends HTMLElement {
 
     /**
      * Gets hosted fields styles if they have been set on the custom element.
-     * 
+     *
      * @returns An empty object if no styles have been set.
      */
     getStyles() {
@@ -88,7 +96,7 @@ export class SecurePaymentElement extends HTMLElement {
 
         if (this.hasStyles()) {
             try {
-                result = this.scopeInputSelectors(JSON.parse(this.getAttribute(SecurePaymentElement.ATTRIBUTE_NAME_STYLES) || ''));
+                result = this.scopeInputSelectors(JSON.parse(this.getAttribute(SecurePaymentElement.ATTRIBUTE_NAME_STYLES) || ""));
             } catch (e) { /** */ }
         }
 
@@ -105,10 +113,10 @@ export class SecurePaymentElement extends HTMLElement {
     /**
      * Converts kebab case (`kebab-case`) to camel case (`camelCase`).
      *
-     * @param {string} name
+     * @param name
      */
-    kebabCaseToCamelCase(name) {
-        const parts = name.split('-');
+    kebabCaseToCamelCase(name: string) {
+        const parts = name.split("-");
 
         if (parts.length === 1) { return parts[0]; }
 
@@ -117,30 +125,30 @@ export class SecurePaymentElement extends HTMLElement {
             parts[i] = part.substring(0, 1).toUpperCase() + part.substring(1);
         }
 
-        return parts.join('');
+        return parts.join("");
     }
 
     /**
      * Replaces generic CSS selectors (e.g. `input`) with alternatives for the specific
      * input field.
-     * 
+     *
      * When configuring all hosted fields, all CSS is compiled together and sent to each
      * field that is constructed. Scoping CSS selectors prevents unintended side effects.
      *
-     * @param {IDictionary} styles
+     * @param styles
      */
-    scopeInputSelectors(styles) {
+    scopeInputSelectors(styles: IDictionary) {
         /** @type {IDictionary} */
-        const result = {};
+        const result: IDictionary = {};
 
         Object.keys(styles).forEach((key) => {
             let value = styles[key];
 
-            if (typeof value !== 'string') {
+            if (typeof value !== "string") {
                 value = this.scopeInputSelectors(value);
             }
 
-            if (key.indexOf('input') !== -1 || key.indexOf('#secure-payment-field') !== -1) {
+            if (key.indexOf("input") !== -1 || key.indexOf("#secure-payment-field") !== -1) {
                 key = `.${this.type}`;
             }
 
@@ -155,24 +163,15 @@ export class SecurePaymentElement extends HTMLElement {
      * JavaScript library to be dispatched as `CustomEvent`s from this
      * element.
      *
-     * @param {IframeField} source
+     * @param source
      */
-    setupEventListeners(source) {
+    setupEventListeners(source: IframeField) {
         if (!source) {
             return;
         }
 
-        /**
-         * @param {SecurePaymentElement} target
-         * @param {string} event 
-         */
-        const dispatch = (target, event) => {
-            return (
-                /**
-                 * @param {object} [detail]
-                 */
-                (detail) => target.dispatchEvent(new CustomEvent(event, { detail }))
-            );
+        const dispatch = (target: SecurePaymentElement, event: string) => {
+            return (detail?: object) => target.dispatchEvent(new CustomEvent(event, { detail }));
         };
 
         this.getTargetEvents().forEach((event) => source.on(event, dispatch(this, event)));
@@ -181,25 +180,14 @@ export class SecurePaymentElement extends HTMLElement {
     /**
      * Upgrades a property when the custom element is defined.
      *
-     * @param {string} prop Property name
+     * @param prop Property name
      */
-    upgradeProperty(prop) {
+    upgradeProperty(prop: string) {
         if (this.hasOwnProperty(prop)) {
-            /** @type {any} */
-            const self = this;
+            const self: any = this;
             const value = self[prop];
             delete self[prop];
             self[prop] = value;
         }
     }
 }
-
-/**
- * RegEx for finding all valid secure payment element names
- */
-SecurePaymentElement.FIND_ALL_REGEX = /secure-([\w\-]+)-(field|button)/ig;
-
-/**
- * Attribute name for custom iframe styles
- */
-SecurePaymentElement.ATTRIBUTE_NAME_STYLES = 'gp-style';

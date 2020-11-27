@@ -1,8 +1,8 @@
-// @ts-check
-
-import { SecurePaymentElement } from './secure-payment-element.js';
+import { SecurePaymentElement } from "./secure-payment-element.js";
 
 export class SecureCardNumberField extends SecurePaymentElement {
+    static TAG_NAME = "secure-card-number-field";
+
     /**
      * @inheritdoc
      */
@@ -14,10 +14,8 @@ export class SecureCardNumberField extends SecurePaymentElement {
      * @inheritdoc
      */
     get type() {
-        return 'card-number';
+        return "card-number";
     }
 }
-
-SecureCardNumberField.TAG_NAME = 'secure-card-number-field';
 
 customElements.define(SecureCardNumberField.TAG_NAME, SecureCardNumberField);

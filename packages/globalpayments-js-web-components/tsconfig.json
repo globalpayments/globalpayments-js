@@ -1,8 +1,9 @@
 {
     "compilerOptions": {
-        "allowJs": true,
+        "declaration": true,
         "lib": ["DOM", "ES2015"],
-        "noEmit": true,
+        "moduleResolution": "node",
+        "outDir": "lib",
         "strict": true,
         "target": "ES2015"
     },

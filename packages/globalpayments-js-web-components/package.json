@@ -1,0 +1,22 @@
+{
+  "name": "globalpayments-js-web-components",
+  "version": "1.0.0",
+  "main": "./index.js",
+  "author": "Heartland Developer Portal <developers@heartland.us>",
+  "license": "GPL-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/globalpayments/globalpayments-js.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "format": "prettier --write 'src/**/*' 'test/**/*' '!examples/**/*.html'",
+    "prebuild": "yarn test:lint",
+    "prepublish": "yarn build",
+    "test:lint": "tslint --project tsconfig.json",
+    "test:serve": "serve -p 7777"
+  },
+  "dependencies": {
+    "globalpayments-js-loader": "file:../globalpayments-js-loader"
+  }
+}

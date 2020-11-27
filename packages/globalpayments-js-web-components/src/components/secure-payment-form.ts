@@ -1,61 +1,57 @@
-// @ts-check
+import { IDictionary, IframeField, SecurePaymentElement } from "./secure-payment-element";
+import { SecureCardNumberField } from "./secure-card-number-field";
+import { SecureCardExpirationField } from "./secure-card-expiration-field";
+import { SecureCardCvvField } from "./secure-card-cvv-field";
+import { SecureSubmitButton } from "./secure-submit-button";
+import { loadLibrary } from "globalpayments-js-loader";
 
-import { SecurePaymentElement } from './secure-payment-element.js';
-import { SecureCardNumberField } from './secure-card-number-field.js';
-import { SecureCardExpirationField } from './secure-card-expiration-field.js';
-import { SecureCardCvvField } from './secure-card-cvv-field.js';
-import { SecureSubmitButton } from './secure-submit-button.js';
-import { loadLibrary } from '../../globalpayments-js-loader/index.js';
+let GlobalPayments = (window as any).GlobalPayments || {};
 
-/** @typedef { import('./secure-payment-element').IDictionary } IDictionary */
+interface UIForm extends IframeField {
+    ready: (e?: object) => any;
+}
 
-/** @type {any} */
-let GlobalPayments = window.GlobalPayments || {};
-
-/** @type {IDictionary} */
-const fieldTypeTagNameMap = {
-    'card-number': SecureCardNumberField.TAG_NAME,
-    'card-expiration': SecureCardExpirationField.TAG_NAME,
-    'card-cvv': SecureCardCvvField.TAG_NAME,
-    'submit': SecureSubmitButton.TAG_NAME,
+const fieldTypeTagNameMap: IDictionary = {
+    "card-number": SecureCardNumberField.TAG_NAME,
+    "card-expiration": SecureCardExpirationField.TAG_NAME,
+    "card-cvv": SecureCardCvvField.TAG_NAME,
+    "submit": SecureSubmitButton.TAG_NAME,
 };
 
 const fieldTypes = Object.keys(fieldTypeTagNameMap);
 
 export class SecurePaymentForm extends SecurePaymentElement {
+    protected formType: string | undefined;
+    protected shadow: ShadowRoot;
+    protected form: any;
+    protected dropin: boolean;
+    protected elements: {[key: string]: SecurePaymentElement};
+
     /**
      * Element constructor.
-     * 
+     *
      * Creates a shadow root for the element, and configures the Global Payments
      * JavaScript library based on set attributes.
      */
     constructor() {
         super();
 
-        /** @type {string | null} */
-        this.formType = null;
-        /** @type {ShadowRoot} */
-        this.shadow = this.attachShadow({ mode: 'open' });
-        /** @type {any} */
-        this.form = null;
-        /** @type {boolean} */
+        this.shadow = this.attachShadow({ mode: "open" });
         this.dropin = false;
-        /** @type {{[key: string]: SecurePaymentElement}} */
         this.elements = {};
 
-        this.shadow.appendChild(document.createElement('slot'));
+        this.shadow.appendChild(document.createElement("slot"));
         this.configure();
     }
 
     /**
      * Finds all implemented secure payment elements, and creates promises
      * to wait for them to be defined using `customElements.whenDefined`.
-     * 
+     *
      * @returns The promises for custom element definitions
      */
     allNeededElementsDefined() {
-        /** @type {string[]} */
-        const childTags = [];
+        const childTags: string[] = [];
         const matches = this.innerHTML.match(SecurePaymentElement.FIND_ALL_REGEX);
 
         if (!matches) {
@@ -83,7 +79,7 @@ export class SecurePaymentForm extends SecurePaymentElement {
 
         if (options.formType !== undefined) {
             this.formType = options.formType;
-            this.removeAttribute('form-type');
+            this.removeAttribute("form-type");
         }
 
         GlobalPayments.configure(options);
@@ -91,7 +87,7 @@ export class SecurePaymentForm extends SecurePaymentElement {
 
     /**
      * Callback for when the element is attached to the DOM.
-     * 
+     *
      * Renders the form.
      */
     connectedCallback() {
@@ -104,7 +100,7 @@ export class SecurePaymentForm extends SecurePaymentElement {
 
     /**
      * Callback for when the element is attached to the DOM.
-     * 
+     *
      * Disposes the form.
      */
     disconnectedCallback() {
@@ -118,12 +114,11 @@ export class SecurePaymentForm extends SecurePaymentElement {
     /**
      * Extracts field-level options for creating the form with the
      * Global Payments JavaScript library.
-     * 
+     *
      * @returns The form options
      */
     extractOptions() {
-        /** @type {IDictionary} */
-        const fields = {};
+        const fields: IDictionary = {};
         let styles = this.getStyles();
 
         // gather field/style configurations
@@ -151,18 +146,18 @@ export class SecurePaymentForm extends SecurePaymentElement {
 
     /**
      * Grabs the first form child of a given type.
-     * 
+     *
      * To simplify things, integrators implement custom field elements
      * (e.g. `secure-card-number-field`) as children of `secure-payment-form`.
      * This removes the need for custom `id` or `class` attribute values, but
      * the form needs to ensure that only one element of each type is used
      * when configuring the Global Payment JavaScript library.
      *
-     * @param {string} type 
-     * 
+     * @param type
+     *
      * @returns `Element` when a match is found; `null` when no matches
      */
-    findFirstChild(type) {
+    findFirstChild(type: string) {
         if (!fieldTypeTagNameMap[type]) {
             return null;
         }
@@ -180,20 +175,20 @@ export class SecurePaymentForm extends SecurePaymentElement {
      * @inheritdoc
      */
     getTargetEvents() {
-        return Array.of(...super.getTargetEvents(), ...['token-success', 'token-error', 'error']);
+        return Array.of(...super.getTargetEvents(), ...["token-success", "token-error", "error"]);
     }
 
     /**
-     * Gets the `node`'s `nodeName` property in lower case to be used as the
+     * Gets the `node`"s `nodeName` property in lower case to be used as the
      * hosted fields target / query selector.
-     * 
-     * @param {Node} node 
-     * 
+     *
+     * @param node
+     *
      * @returns Name as a string; Empty string if node is `null`/`undefined`
      */
-    nodeAsTarget(node) {
-        const name = (node || /** @type {Node} */ {}).nodeName;
-        return (name || '').toLowerCase();
+    nodeAsTarget(node: Node) {
+        const name = (node || {}).nodeName;
+        return (name || "").toLowerCase();
     }
 
     /**
@@ -215,6 +210,10 @@ export class SecurePaymentForm extends SecurePaymentElement {
 
         // get each hosted field
         for (const type in this.form.frames) {
+            if (!this.form.frames.hasOwnProperty(type)) {
+                continue;
+            }
+
             const frame = this.form.frames[type];
             const element = this.elements[type];
 
@@ -229,38 +228,24 @@ export class SecurePaymentForm extends SecurePaymentElement {
         this.setupEventListeners(this.form);
     }
 
-    /**
-     * @inheritdoc
-     * 
-     * @param {{on: (event: string, callback: (e?: object) => any) => any; ready: (e?: object) => any}} source
-     */
-    setupEventListeners(source) {
+    setupEventListeners(source: UIForm) {
         super.setupEventListeners(source);
 
         // custom form events
-        (/** @type any */ (source)).on('submit', 'click',
-            /**
-             * @param {object} detail
-             */
-            (detail) => this.dispatchEvent(new CustomEvent('submit', { detail }))
+        source.on("submit", "click",
+            (detail?: object) => this.dispatchEvent(new CustomEvent("submit", { detail }))
         );
         source.ready(
-            /**
-             * @param {object} detail
-             */
-            (detail) => this.dispatchEvent(new CustomEvent('ready', { detail }))
+            (detail?: object) => this.dispatchEvent(new CustomEvent("ready", { detail }))
         );
-        GlobalPayments.on('error',
-            /**
-             * @param {object} detail
-             */
-            (detail) => this.dispatchEvent(new CustomEvent('error', { detail }))
+        GlobalPayments.on("error",
+            (detail: object) => this.dispatchEvent(new CustomEvent("error", { detail }))
         );
     }
 
     /**
      * @inheritdoc
-     * 
+     *
      * @returns An empty object if no styles have been set.
      */
     getStyles() {
@@ -268,7 +253,7 @@ export class SecurePaymentForm extends SecurePaymentElement {
 
         if (this.hasStyles()) {
             try {
-                result = JSON.parse(this.getAttribute(SecurePaymentElement.ATTRIBUTE_NAME_STYLES) || '');
+                result = JSON.parse(this.getAttribute(SecurePaymentElement.ATTRIBUTE_NAME_STYLES) || "");
             } catch (e) { /** */ }
         }
 
@@ -276,4 +261,4 @@ export class SecurePaymentForm extends SecurePaymentElement {
     }
 }
 
-customElements.define('secure-payment-form', SecurePaymentForm);
+customElements.define("secure-payment-form", SecurePaymentForm);
