@@ -59,6 +59,7 @@ export const fieldStyles = (assetBaseUrl: string) => {
     },
     "#secure-payment-field[type=button]::before": {
       content: `url("${imageBase}gp-lock.svg")`,
+      "margin-right": "5px",
     },
     ".card-cvv": {
       background: `transparent url(${imageBase}cvv.png) no-repeat right 10px center`,
@@ -97,8 +98,6 @@ export const parentStyles = (assetBaseUrl: string) => {
 
   return {
     ".secure-payment-form": {
-      display: "-ms-flexbox",
-      // @ts-ignore
       display: "flex",
       "-ms-flex-wrap": "wrap",
       "flex-wrap": "wrap",
