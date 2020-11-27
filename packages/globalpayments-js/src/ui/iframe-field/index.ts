@@ -536,6 +536,7 @@ export class IframeField extends EventEmitter {
       frame.title = opts.title || opts.label || "";
     }
     frame.style.border = "0";
+    frame.style.height = "50px";
     frame.frameBorder = "0";
     frame.scrolling = "no";
     frame.setAttribute("allowtransparency", "true");
