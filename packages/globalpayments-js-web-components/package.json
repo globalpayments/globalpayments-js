@@ -1,7 +1,11 @@
 {
   "name": "globalpayments-js-web-components",
   "version": "1.0.0",
-  "main": "./index.js",
+  "type": "module",
+  "main": "./lib/index.js",
+  "module": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "typings": "./lib/index.d.ts",
   "author": "Heartland Developer Portal <developers@heartland.us>",
   "license": "GPL-2.0",
   "repository": {
