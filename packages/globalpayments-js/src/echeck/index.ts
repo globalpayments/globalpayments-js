@@ -128,11 +128,11 @@ export function form(
 
   // add any styles for the parent window
   if (formOptions.style) {
-    addStylesheet(json2css(parentStyles[formOptions.style]));
+    addStylesheet(json2css(parentStyles()[formOptions.style]));
   }
 
   return new UIForm(
     fields,
-    formOptions.style ? fieldStyles[formOptions.style] : {},
+    formOptions.style ? fieldStyles()[formOptions.style] : {},
   );
 }

@@ -89,6 +89,10 @@ export function form(
     el.className = formOptions.prefix + type + "-target";
     wrapper.appendChild(el);
 
+    if (type === "card-cvv") {
+      createToolTip(el);
+    }
+
     fields[type] = {} as any;
     fields[type].target = ".secure-payment-form ." + formOptions.prefix + type + "-target";
 
@@ -109,7 +113,7 @@ export function form(
   // add any styles for the parent window
   if (formOptions.style) {
     addStylesheet(
-      json2css(parentStyles[formOptions.style]),
+      json2css(parentStyles()[formOptions.style]),
       `secure-payment-styles-${formOptions.style}`,
     );
   }
@@ -124,7 +128,7 @@ export function form(
 
   return new UIForm(
     fields,
-    formOptions.style ? fieldStyles[formOptions.style] : {},
+    formOptions.style ? fieldStyles()[formOptions.style] : {},
   );
 }
 
@@ -188,13 +192,30 @@ export function trackReaderForm(
   // add any styles for the parent window
   if (formOptions.style) {
     addStylesheet(
-      json2css(parentStyles[formOptions.style]),
+      json2css(parentStyles()[formOptions.style]),
       `secure-payment-styles-${formOptions.style}`,
     );
   }
 
   return new UIForm(
     fields,
-    formOptions.style ? fieldStyles[formOptions.style] : {},
+    formOptions.style ? fieldStyles()[formOptions.style] : {},
   );
+}
+
+function createToolTip(target: Element) {
+  const tooltip = document.createElement("div");
+  tooltip.className = "tooltip";
+
+  const content = document.createElement("div");
+  content.className = "tooltip-content";
+
+  const title = document.createElement("strong");
+  title.appendChild(document.createTextNode("Security Code"));
+  content.appendChild(title);
+  content.appendChild(document.createElement("br"));
+  content.appendChild(document.createTextNode("The additional 3 digits on the back of your card. For American Express, it is the additional 4 digits on the front of your card."));
+
+  target.appendChild(tooltip);
+  target.appendChild(content);
 }

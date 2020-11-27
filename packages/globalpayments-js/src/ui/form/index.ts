@@ -19,19 +19,19 @@ import { IFrameCollection, IframeField, IUIFormField } from "../iframe-field";
 
 export { IUIFormField } from "../iframe-field";
 
-export const fieldStyles = {
+export const fieldStyles = () => ({
   blank: {},
   default: defaultFieldStyles(assetBaseUrl()),
   "gp-default": gpDefaultFieldStyles(assetBaseUrl()),
   simple: simpleFieldStyles(assetBaseUrl()),
-};
+});
 
-export const parentStyles = {
+export const parentStyles = () => ({
   blank: {},
   default: defaultParentStyles(assetBaseUrl()),
   "gp-default": gpDefaultParentStyles(assetBaseUrl()),
   simple: simpleParentStyles(assetBaseUrl()),
-};
+});
 
 export interface IUIFormOptions {
   labels?: IDictionary;

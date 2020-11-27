@@ -381,7 +381,7 @@ export class IframeField extends EventEmitter {
       return;
     }
 
-    this.container.appendChild(this.frame);
+    this.container.prepend(this.frame);
     this.on("dispose", () => {
       loadedFrames[this.id] = undefined;
       if (this.container) {

@@ -33,7 +33,7 @@ export const fieldStyles = (assetBaseUrl: string) => {
       color: "#394046",
     },
     "#secure-payment-field:focus": {
-      border: "2px solid #2B9AEC",
+      border: "1px solid #2B9AEC",
       outline: "none",
     },
     "#secure-payment-field[type=button]": {
@@ -51,63 +51,40 @@ export const fieldStyles = (assetBaseUrl: string) => {
       "vertical-align": "middle",
     },
     "#secure-payment-field[type=button]:focus": {
-      border: "2px solid #2B9AEC",
+      border: "1px solid #2B9AEC",
       outline: "none",
     },
     "#secure-payment-field[type=button]:hover": {
       "background-color": "#148EE6",
+    },
+    "#secure-payment-field[type=button]::before": {
+      content: `url("${imageBase}gp-lock.svg")`,
     },
     ".card-cvv": {
       background: `transparent url(${imageBase}cvv.png) no-repeat right 10px center`,
       "background-size": "20px",
     },
     ".card-cvv.card-type-amex": {
-      background: `transparent url(${imageBase}cvv-amex.png) no-repeat right 10px center`,
-      "background-size": "20px",
+      "background-image": `url(${imageBase}cvv-amex.png)`,
     },
     ".card-number": {
       background: `transparent url(${imageBase}gp-cc-generic.svg) no-repeat right 10px center`,
       "background-size": "20px",
     },
-    ".card-number.invalid.card-type-amex": {
-      background: `transparent url(${imageBase}gp-cc-amex.svg) no-repeat right 10px center`,
-      "background-size": "20px",
+    ".card-number.card-type-amex": {
+      "background-image": `url(${imageBase}gp-cc-amex.svg)`,
     },
-    ".card-number.invalid.card-type-discover": {
-      background: `transparent url(${imageBase}gp-cc-discover.svg) no-repeat right 10px center`,
-      "background-size": "20px",
+    ".card-number.card-type-discover": {
+      "background-image": `url(${imageBase}gp-cc-discover.svg)`,
     },
-    ".card-number.invalid.card-type-jcb": {
-      background: `transparent url(${imageBase}gp-cc-jcb.svg) no-repeat right 10px center`,
-      "background-size": "20px",
+    ".card-number.card-type-jcb": {
+      "background-image": `url(${imageBase}gp-cc-jcb.svg)`,
     },
-    ".card-number.invalid.card-type-mastercard": {
-      background: `transparent url(${imageBase}gp-cc-mastercard.svg) no-repeat right 10px center`,
-      "background-size": "20px",
+    ".card-number.card-type-mastercard": {
+      "background-image": `url(${imageBase}gp-cc-mastercard.svg)`,
     },
-    ".card-number.invalid.card-type-visa": {
-      background: `transparent url(${imageBase}gp-cc-visa.svg) no-repeat right 10px center`,
-      "background-size": "20px",
-    },
-    ".card-number.valid.card-type-amex": {
-      background: `transparent url(${imageBase}gp-cc-amex.svg) no-repeat right 10px center`,
-      "background-size": "20px",
-    },
-    ".card-number.valid.card-type-discover": {
-      background: `transparent url(${imageBase}gp-cc-discover.svg) no-repeat right 10px center`,
-      "background-size": "20px",
-    },
-    ".card-number.valid.card-type-jcb": {
-      background: `transparent url(${imageBase}gp-cc-jcb.svg) no-repeat right 10px center`,
-      "background-size": "20px",
-    },
-    ".card-number.valid.card-type-mastercard": {
-      background: `transparent url(${imageBase}gp-cc-mastercard.svg) no-repeat right 10px center`,
-      "background-size": "20px",
-    },
-    ".card-number.valid.card-type-visa": {
-      background: `transparent url(${imageBase}gp-cc-visa.svg) no-repeat right 10px center`,
-      "background-size": "20px",
+    ".card-number.card-type-visa": {
+      "background-image": `url(${imageBase}gp-cc-visa.svg)`,
     },
     ".card-number::-ms-clear": {
       display: "none",
@@ -127,6 +104,10 @@ export const parentStyles = (assetBaseUrl: string) => {
       "flex-wrap": "wrap",
     },
 
+    ".secure-payment-form *": {
+      "box-sizing": "border-box",
+    },
+
     ".secure-payment-form label": {
       "margin": "16px 0",
       "display": "block",
@@ -138,14 +119,9 @@ export const parentStyles = (assetBaseUrl: string) => {
       "flex": "100%",
     },
 
-    ".secure-payment-form .credit-card-card-expiration": {
-      "flex": "1 1 auto",
-      "margin-right": "16px",
-    },
-
-    ".secure-payment-form .credit-card-card-cvv": {
-      "flex": "1 1 auto",
-      "margin-left": "16px",
+    ".secure-payment-form .credit-card-card-cvv iframe": {
+      "width": "90%",
+      "float": "left",
     },
 
     ".secure-payment-form .credit-card-shield": {
@@ -169,14 +145,62 @@ export const parentStyles = (assetBaseUrl: string) => {
     },
 
     ".secure-payment-form iframe": {
-      "min-height": "41px",
+      "min-height": "40px",
       "width": "100%",
     },
 
-    ".secure-payment-form .form-row": {
+    ".secure-payment-form .tooltip": {
+      "position": "relative",
+      "width": "10%",
+      "height": "40px",
+      "border": "1px solid #BCBFC8",
+      "border-left": "none",
+      "color": "#474B57",
+      "overflow": "hidden",
+      "background-size": "20px",
+      "background": `transparent url(${imageBase}gp-fa-question-circle.svg) no-repeat center center`,
     },
 
-    ".secure-payment-form .form-wrapper": {
+    ".secure-payment-form .tooltip-content": {
+      "visibility": "hidden",
+      "width": "200px",
+      "background-color": "#fff",
+      "color": "#474B57",
+      "text-align": "left",
+      "border-radius": "3px",
+      "border": "solid 1px #BCBFC8",
+      "padding": "8px 8px",
+      "position": "absolute",
+      "z-index": "99999999",
+      "right": "10%",
+      "opacity": "0",
+      "transition": "opacity 0.3s",
+      "font-size": "0.79em",
+      "font-weight": "400",
+      "margin-top": "-12px",
+      "overflow": "hidden",
+      "box-shadow": "0 3px 6px rgba(0, 0, 0, 0.1)",
+    },
+
+    ".secure-payment-form .tooltip:hover + .tooltip-content": {
+      "visibility": "visible",
+      "opacity": "1",
+    },
+
+    "@media(min-width: 800px)": {
+      ".secure-payment-form .credit-card-card-expiration": {
+        "flex": "1 1 auto",
+        "margin-right": "16px",
+      },
+
+      ".secure-payment-form .credit-card-card-cvv": {
+        "flex": "1 1 auto",
+        "margin-left": "16px",
+      },
+
+      ".secure-payment-form .tooltip-content": {
+        "right": "5%",
+      },
     },
   };
 };
