@@ -18,7 +18,7 @@
   "scripts": {
     "build": "tsc",
     "format": "prettier --write '**/*' 'test/**/*' '!examples/**/*.html'",
-    "prebuild": "rimraf ./globalpayments-js && cp -R ../globalpayments-js/types ./globalpayments-js && yarn test:lint",
+    "prebuild": "yarn test:lint",
     "prepublish": "yarn build",
     "test:lint": "tslint --project tsconfig.json",
     "test:serve": "serve -p 7777"

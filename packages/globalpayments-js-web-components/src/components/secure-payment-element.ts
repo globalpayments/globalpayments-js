@@ -1,5 +1,5 @@
-import { IframeField } from "globalpayments-js-loader/globalpayments-js/ui/iframe-field";
-import UIForm from "globalpayments-js-loader/globalpayments-js/ui/form";
+import { IframeField } from "globalpayments-js/types/ui/iframe-field";
+import UIForm from "globalpayments-js/types/ui/form";
 
 export type CallbackFn = (e?: object) => any;
 export type EventOnCallback = (eventOrTarget: string, callbackOrEvent: CallbackFn, callback?: CallbackFn) => any;

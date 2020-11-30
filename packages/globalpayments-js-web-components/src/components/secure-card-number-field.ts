@@ -19,3 +19,9 @@ export class SecureCardNumberField extends SecurePaymentElement {
 }
 
 customElements.define(SecureCardNumberField.TAG_NAME, SecureCardNumberField);
+
+declare global {
+    interface HTMLElementTagNameMap {
+        "secure-card-number-field": SecureCardNumberField,
+    }
+}

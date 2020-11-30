@@ -1,10 +1,10 @@
-/// <reference types="./globalpayments-js/global-type" />
+/// <reference types="globalpayments-js/types/global-type" />
 
 /**
  * Prevent multiple copies of the Global Payments JavaScript
  * library from being loaded by only using a single Promise.
  */
-let libraryLoaded: Promise<typeof GlobalPayments>;
+let libraryLoaded: Promise<typeof window.GlobalPayments>;
 
 /**
  * Loads the Global Payments JavaScript library asynchronously, using a
@@ -19,17 +19,23 @@ export function loadLibrary(url?: string) {
         return libraryLoaded;
     }
 
+    if (window.GlobalPayments) {
+        return libraryLoaded = Promise.resolve(window.GlobalPayments);
+    }
+
     if (!url) {
         url = "https://js.globalpay.com/v1/globalpayments.js";
     }
 
     return libraryLoaded = new Promise((resolve) => {
-        const script = document.createElement("script");
-        script.defer = true;
-        script.src = url || "";
-        script.onload = () => {
-            resolve((window as any).GlobalPayments);
-        };
-        document.body.appendChild(script);
+        try {
+            const script = document.createElement("script");
+            script.defer = true;
+            script.src = url || "";
+            script.onload = () => {
+                resolve(window.GlobalPayments);
+            };
+            document.body.appendChild(script);
+        } catch (e) { /** */ }
     });
 }

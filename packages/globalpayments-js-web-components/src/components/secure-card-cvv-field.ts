@@ -19,3 +19,9 @@ export class SecureCardCvvField extends SecurePaymentElement {
 }
 
 customElements.define(SecureCardCvvField.TAG_NAME, SecureCardCvvField);
+
+declare global {
+    interface HTMLElementTagNameMap {
+        "secure-card-cvv-field": SecureCardCvvField,
+    }
+}

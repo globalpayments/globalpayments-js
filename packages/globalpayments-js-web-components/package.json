@@ -13,14 +13,15 @@
     "url": "https://github.com/globalpayments/globalpayments-js.git"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "rollup -c ./config/rollup.js",
     "format": "prettier --write 'src/**/*' 'test/**/*' '!examples/**/*.html'",
-    "prebuild": "yarn test:lint",
+    "prebuild": "rimraf lib && yarn test:lint",
     "prepublish": "yarn build",
     "test:lint": "tslint --project tsconfig.json",
     "test:serve": "serve -p 7777"
   },
   "dependencies": {
+    "globalpayments-js": "file:../globalpayments-js",
     "globalpayments-js-loader": "file:../globalpayments-js-loader"
   }
 }

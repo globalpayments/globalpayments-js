@@ -19,3 +19,9 @@ export class SecureCardExpirationField extends SecurePaymentElement {
 }
 
 customElements.define(SecureCardExpirationField.TAG_NAME, SecureCardExpirationField);
+
+declare global {
+    interface HTMLElementTagNameMap {
+        "secure-card-expiration-field": SecureCardExpirationField,
+    }
+}

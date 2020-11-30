@@ -26,3 +26,9 @@ export class SecureSubmitButton extends SecurePaymentElement {
 }
 
 customElements.define(SecureSubmitButton.TAG_NAME, SecureSubmitButton);
+
+declare global {
+    interface HTMLElementTagNameMap {
+        "secure-submit-button": SecureSubmitButton,
+    }
+}

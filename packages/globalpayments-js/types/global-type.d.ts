@@ -1,5 +1,7 @@
 import def from "./index";
 
 declare global {
-    const GlobalPayments: typeof def;
+    interface Window {
+        GlobalPayments: typeof def;
+    }
 }

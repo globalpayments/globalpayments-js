@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+
+<script src="https://js-qa.np-hpp.globalpay.com/v1/globalpayments.min.js"></script>
+<!-- other components are referenced/loaded in `secure-payment-form` -->
+<script type="module" src="../lib/globalpayments-js-web-components.js" defer></script>
+
+<!-- a proper GP API access token should be used here. `abc123` is only here for demo purposes. -->
+<secure-payment-form access-token="abc123" env="qa" theme="gp-default"></secure-payment-form>
+
+<script>
+    document.querySelector('secure-payment-form').addEventListener('ready', (e) => console.log('ready', e));
+    document.querySelector('secure-payment-form').addEventListener('token-success', (e) => console.log('token-success', e));
+    document.querySelector('secure-payment-form').addEventListener('token-error', (e) => console.log('token-error', e));
+    document.querySelector('secure-payment-form').addEventListener('error', (e) => console.log('error', e));
+    document.querySelector('secure-payment-form').addEventListener('submit', (e) => console.log('submit', e));
+</script>

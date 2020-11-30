@@ -1,6 +1,8 @@
+/// <reference types="globalpayments-js/types/global-type" />
+
 import { loadLibrary } from "globalpayments-js-loader";
-import { IframeField } from "globalpayments-js-loader/globalpayments-js/ui";
-import UIForm from "globalpayments-js-loader/globalpayments-js/ui/form";
+import { IframeField } from "globalpayments-js/types/ui";
+import UIForm from "globalpayments-js/types/ui/form";
 
 import { IDictionary, SecurePaymentElement } from "./secure-payment-element";
 import { SecureCardNumberField } from "./secure-card-number-field";
@@ -79,7 +81,7 @@ export class SecurePaymentForm extends SecurePaymentElement {
             this.removeAttribute("form-type");
         }
 
-        GlobalPayments.configure(options);
+        window.GlobalPayments.configure(options);
     }
 
     /**
@@ -112,11 +114,17 @@ export class SecurePaymentForm extends SecurePaymentElement {
      * Extracts field-level options for creating the form with the
      * Global Payments JavaScript library.
      *
+     * @param isDropin
+     *
      * @returns The form options
      */
-    extractOptions() {
+    extractOptions(isDropin = false) {
         const fields: IDictionary = {};
         let styles = this.getStyles();
+
+        if (isDropin) {
+            return {};
+        }
 
         // gather field/style configurations
         fieldTypes.forEach((type) => {
@@ -199,11 +207,17 @@ export class SecurePaymentForm extends SecurePaymentElement {
             return;
         }
 
-        // allow elements to be loaded/defined asynchronously
-        await this.allNeededElementsDefined();
-
         // render the hosted fields
-        this.form = GlobalPayments.ui.form(this.extractOptions());
+        try {
+            // allow elements to be loaded/defined asynchronously
+            await this.allNeededElementsDefined();
+            this.form = window.GlobalPayments.ui.form(this.extractOptions());
+        } catch (e) {
+            this.form = window.GlobalPayments.creditCard.form(this, {
+                // @ts-ignore
+                style: this.getAttribute("theme") || undefined,
+            });
+        }
 
         // get each hosted field
         for (const type in this.form.frames) {
@@ -228,17 +242,17 @@ export class SecurePaymentForm extends SecurePaymentElement {
     setupEventListeners(source: UIForm | IframeField) {
         super.setupEventListeners(source);
 
-        GlobalPayments.on("error",
+        window.GlobalPayments.on("error",
             (detail?: object) => this.dispatchEvent(new CustomEvent("error", { detail }))
         );
 
-        if (source instanceof UIForm) {
-            source.ready(
+        if (typeof (source as UIForm).ready !== "undefined") {
+            (source as UIForm).ready(
                 (detail?: object) => this.dispatchEvent(new CustomEvent("ready", { detail }))
             );
 
             // custom form events
-            source.on("submit", "click",
+            (source as UIForm).on("submit", "click",
                 (detail?: object) => this.dispatchEvent(new CustomEvent("submit", { detail }))
             );
         }
@@ -263,3 +277,9 @@ export class SecurePaymentForm extends SecurePaymentElement {
 }
 
 customElements.define("secure-payment-form", SecurePaymentForm);
+
+declare global {
+    interface HTMLElementTagNameMap {
+        "secure-payment-form": SecurePaymentForm,
+    }
+}
