@@ -1,8 +1,8 @@
+import { IframeField } from "globalpayments-js-loader/globalpayments-js/ui/iframe-field";
+import UIForm from "globalpayments-js-loader/globalpayments-js/ui/form";
+
 export type CallbackFn = (e?: object) => any;
-export type EventOnCallback = (eventOrTarget: string, callbackOrEvent: string | CallbackFn, callback?: CallbackFn) => any;
-export interface IframeField {
-    on: EventOnCallback;
-}
+export type EventOnCallback = (eventOrTarget: string, callbackOrEvent: CallbackFn, callback?: CallbackFn) => any;
 
 let field: IframeField;
 
@@ -165,7 +165,7 @@ export class SecurePaymentElement extends HTMLElement {
      *
      * @param source
      */
-    setupEventListeners(source: IframeField) {
+    setupEventListeners(source: IframeField | UIForm) {
         if (!source) {
             return;
         }

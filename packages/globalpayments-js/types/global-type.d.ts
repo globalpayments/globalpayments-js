@@ -1,4 +1,5 @@
-import def from '../src';
+import def from "./index";
 
-declare const GlobalPayments: typeof def
-export default GlobalPayments;
+declare global {
+    const GlobalPayments: typeof def;
+}

@@ -1,15 +1,12 @@
-import { IDictionary, IframeField, SecurePaymentElement } from "./secure-payment-element";
+import { loadLibrary } from "globalpayments-js-loader";
+import { IframeField } from "globalpayments-js-loader/globalpayments-js/ui";
+import UIForm from "globalpayments-js-loader/globalpayments-js/ui/form";
+
+import { IDictionary, SecurePaymentElement } from "./secure-payment-element";
 import { SecureCardNumberField } from "./secure-card-number-field";
 import { SecureCardExpirationField } from "./secure-card-expiration-field";
 import { SecureCardCvvField } from "./secure-card-cvv-field";
 import { SecureSubmitButton } from "./secure-submit-button";
-import { loadLibrary } from "globalpayments-js-loader";
-
-let GlobalPayments = (window as any).GlobalPayments || {};
-
-interface UIForm extends IframeField {
-    ready: (e?: object) => any;
-}
 
 const fieldTypeTagNameMap: IDictionary = {
     "card-number": SecureCardNumberField.TAG_NAME,
@@ -73,7 +70,7 @@ export class SecurePaymentForm extends SecurePaymentElement {
      * Configures the Global Payments JavaScript library.
      */
     async configure() {
-        GlobalPayments = await loadLibrary();
+        await loadLibrary();
 
         const options = this.getAttibutes();
 
@@ -195,7 +192,7 @@ export class SecurePaymentForm extends SecurePaymentElement {
      * Renders the secure payment form with hosted fields.
      */
     async render() {
-        GlobalPayments = await loadLibrary();
+        await loadLibrary();
 
         if (this.dropin === true) {
             // render drop-in form
@@ -228,19 +225,23 @@ export class SecurePaymentForm extends SecurePaymentElement {
         this.setupEventListeners(this.form);
     }
 
-    setupEventListeners(source: UIForm) {
+    setupEventListeners(source: UIForm | IframeField) {
         super.setupEventListeners(source);
 
-        // custom form events
-        source.on("submit", "click",
-            (detail?: object) => this.dispatchEvent(new CustomEvent("submit", { detail }))
-        );
-        source.ready(
-            (detail?: object) => this.dispatchEvent(new CustomEvent("ready", { detail }))
-        );
         GlobalPayments.on("error",
-            (detail: object) => this.dispatchEvent(new CustomEvent("error", { detail }))
+            (detail?: object) => this.dispatchEvent(new CustomEvent("error", { detail }))
         );
+
+        if (source instanceof UIForm) {
+            source.ready(
+                (detail?: object) => this.dispatchEvent(new CustomEvent("ready", { detail }))
+            );
+
+            // custom form events
+            source.on("submit", "click",
+                (detail?: object) => this.dispatchEvent(new CustomEvent("submit", { detail }))
+            );
+        }
     }
 
     /**

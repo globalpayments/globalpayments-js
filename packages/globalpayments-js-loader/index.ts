@@ -1,8 +1,10 @@
+/// <reference types="./globalpayments-js/global-type" />
+
 /**
  * Prevent multiple copies of the Global Payments JavaScript
  * library from being loaded by only using a single Promise.
  */
-let libraryLoaded: Promise<object>;
+let libraryLoaded: Promise<typeof GlobalPayments>;
 
 /**
  * Loads the Global Payments JavaScript library asynchronously, using a
