@@ -1,7 +1,8 @@
 /// <reference types="globalpayments-js/types/global-type" />
 
 import { loadLibrary } from "globalpayments-js-loader";
-import { IframeField } from "globalpayments-js/types/ui";
+import { IError } from "globalpayments-js/types/internal/gateways";
+import { IframeField, IFrameCollection } from "globalpayments-js/types/ui";
 import UIForm from "globalpayments-js/types/ui/form";
 
 import { IDictionary, SecurePaymentElement } from "./secure-payment-element";
@@ -19,6 +20,15 @@ const fieldTypeTagNameMap: IDictionary = {
 
 const fieldTypes = Object.keys(fieldTypeTagNameMap);
 
+/**
+ * @slot - When the default slot is empty, the drop-in form is rendered.
+ *
+ * @fires ready - Triggered when all form fields have been rendered successfully.
+ * @fires submit - Triggered when submit button is clicked.
+ * @fires token-success - Triggered when a successful token response is received from the configured service.
+ * @fires token-error - Triggered when an errored token response is received from the configured service.
+ * @fires error - Triggered when a general error occurs.
+ */
 export class SecurePaymentForm extends SecurePaymentElement {
     protected formType: string | undefined;
     protected shadow: ShadowRoot;
@@ -44,37 +54,12 @@ export class SecurePaymentForm extends SecurePaymentElement {
     }
 
     /**
-     * Finds all implemented secure payment elements, and creates promises
-     * to wait for them to be defined using `customElements.whenDefined`.
-     *
-     * @returns The promises for custom element definitions
-     */
-    allNeededElementsDefined() {
-        const childTags: string[] = [];
-        const matches = this.innerHTML.match(SecurePaymentElement.FIND_ALL_REGEX);
-
-        if (!matches) {
-            return Promise.reject();
-        }
-
-        matches.forEach((tag) => {
-            if (childTags.indexOf(tag) === -1) {
-                childTags.push(tag);
-            }
-        });
-
-        return Promise.all(childTags.map(
-            (tag) => customElements.whenDefined(tag)
-        ));
-    }
-
-    /**
      * Configures the Global Payments JavaScript library.
      */
     async configure() {
         await loadLibrary();
 
-        const options = this.getAttibutes();
+        const options = this.getAttributes();
 
         if (options.formType !== undefined) {
             this.formType = options.formType;
@@ -111,69 +96,20 @@ export class SecurePaymentForm extends SecurePaymentElement {
     }
 
     /**
-     * Extracts field-level options for creating the form with the
-     * Global Payments JavaScript library.
+     * @inheritdoc
      *
-     * @param isDropin
-     *
-     * @returns The form options
+     * @returns An empty object if no styles have been set.
      */
-    extractOptions(isDropin = false) {
-        const fields: IDictionary = {};
-        let styles = this.getStyles();
+    getStyles() {
+        let result = {};
 
-        if (isDropin) {
-            return {};
+        if (this.hasStyles()) {
+            try {
+                result = JSON.parse(this.getAttribute(SecurePaymentElement.ATTRIBUTE_NAME_STYLES) || "");
+            } catch (e) { /** */ }
         }
 
-        // gather field/style configurations
-        fieldTypes.forEach((type) => {
-            const el = this.findFirstChild(type);
-
-            // no valid child elements for the type
-            if (!el || !(el instanceof SecurePaymentElement) || el.type !== type) {
-                return;
-            }
-
-            this.elements[type] = el;
-
-            fields[type] = Object.assign(el.getAttibutes(), {
-                target: this.nodeAsTarget(el),
-            });
-
-            if (el.hasStyles()) {
-                styles = Object.assign(styles, el.getStyles());
-            }
-        });
-
-        return { fields, styles };
-    }
-
-    /**
-     * Grabs the first form child of a given type.
-     *
-     * To simplify things, integrators implement custom field elements
-     * (e.g. `secure-card-number-field`) as children of `secure-payment-form`.
-     * This removes the need for custom `id` or `class` attribute values, but
-     * the form needs to ensure that only one element of each type is used
-     * when configuring the Global Payment JavaScript library.
-     *
-     * @param type
-     *
-     * @returns `Element` when a match is found; `null` when no matches
-     */
-    findFirstChild(type: string) {
-        if (!fieldTypeTagNameMap[type]) {
-            return null;
-        }
-
-        const elements = this.getElementsByTagName(fieldTypeTagNameMap[type]);
-
-        if (elements.length === 0) {
-            return null;
-        }
-
-        return elements[0];
+        return result;
     }
 
     /**
@@ -181,19 +117,6 @@ export class SecurePaymentForm extends SecurePaymentElement {
      */
     getTargetEvents() {
         return Array.of(...super.getTargetEvents(), ...["token-success", "token-error", "error"]);
-    }
-
-    /**
-     * Gets the `node`"s `nodeName` property in lower case to be used as the
-     * hosted fields target / query selector.
-     *
-     * @param node
-     *
-     * @returns Name as a string; Empty string if node is `null`/`undefined`
-     */
-    nodeAsTarget(node: Node) {
-        const name = (node || {}).nodeName;
-        return (name || "").toLowerCase();
     }
 
     /**
@@ -243,12 +166,12 @@ export class SecurePaymentForm extends SecurePaymentElement {
         super.setupEventListeners(source);
 
         window.GlobalPayments.on("error",
-            (detail?: object) => this.dispatchEvent(new CustomEvent("error", { detail }))
+            (detail?: IError) => this.dispatchEvent(new CustomEvent("error", { detail }))
         );
 
         if (typeof (source as UIForm).ready !== "undefined") {
             (source as UIForm).ready(
-                (detail?: object) => this.dispatchEvent(new CustomEvent("ready", { detail }))
+                (detail?: IFrameCollection) => this.dispatchEvent(new CustomEvent("ready", { detail }))
             );
 
             // custom form events
@@ -259,20 +182,107 @@ export class SecurePaymentForm extends SecurePaymentElement {
     }
 
     /**
-     * @inheritdoc
+     * Finds all implemented secure payment elements, and creates promises
+     * to wait for them to be defined using `customElements.whenDefined`.
      *
-     * @returns An empty object if no styles have been set.
+     * @returns The promises for custom element definitions
      */
-    getStyles() {
-        let result = {};
+    protected allNeededElementsDefined() {
+        const childTags: string[] = [];
+        const matches = this.innerHTML.match(SecurePaymentElement.FIND_ALL_REGEX);
 
-        if (this.hasStyles()) {
-            try {
-                result = JSON.parse(this.getAttribute(SecurePaymentElement.ATTRIBUTE_NAME_STYLES) || "");
-            } catch (e) { /** */ }
+        if (!matches) {
+            return Promise.reject();
         }
 
-        return result;
+        matches.forEach((tag) => {
+            if (childTags.indexOf(tag) === -1) {
+                childTags.push(tag);
+            }
+        });
+
+        return Promise.all(childTags.map(
+            (tag) => customElements.whenDefined(tag)
+        ));
+    }
+
+    /**
+     * Extracts field-level options for creating the form with the
+     * Global Payments JavaScript library.
+     *
+     * @param isDropin
+     *
+     * @returns The form options
+     */
+    protected extractOptions(isDropin = false) {
+        const fields: IDictionary = {};
+        let styles = this.getStyles();
+
+        if (isDropin) {
+            return {};
+        }
+
+        // gather field/style configurations
+        fieldTypes.forEach((type) => {
+            const el = this.findFirstChild(type);
+
+            // no valid child elements for the type
+            if (!el || !(el instanceof SecurePaymentElement) || el.type !== type) {
+                return;
+            }
+
+            this.elements[type] = el;
+
+            fields[type] = Object.assign(el.getAttributes(), {
+                target: this.nodeAsTarget(el),
+            });
+
+            if (el.hasStyles()) {
+                styles = Object.assign(styles, el.getStyles());
+            }
+        });
+
+        return { fields, styles };
+    }
+
+    /**
+     * Grabs the first form child of a given type.
+     *
+     * To simplify things, integrators implement custom field elements
+     * (e.g. `secure-card-number-field`) as children of `secure-payment-form`.
+     * This removes the need for custom `id` or `class` attribute values, but
+     * the form needs to ensure that only one element of each type is used
+     * when configuring the Global Payment JavaScript library.
+     *
+     * @param type
+     *
+     * @returns `Element` when a match is found; `null` when no matches
+     */
+    protected findFirstChild(type: string) {
+        if (!fieldTypeTagNameMap[type]) {
+            return null;
+        }
+
+        const elements = this.getElementsByTagName(fieldTypeTagNameMap[type]);
+
+        if (elements.length === 0) {
+            return null;
+        }
+
+        return elements[0];
+    }
+
+    /**
+     * Gets the `node`"s `nodeName` property in lower case to be used as the
+     * hosted fields target / query selector.
+     *
+     * @param node
+     *
+     * @returns Name as a string; Empty string if node is `null`/`undefined`
+     */
+    protected nodeAsTarget(node: Node) {
+        const name = (node || {}).nodeName;
+        return (name || "").toLowerCase();
     }
 }
 

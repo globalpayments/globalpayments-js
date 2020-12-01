@@ -72,9 +72,9 @@ export class SecurePaymentElement extends HTMLElement {
 
     /**
      * Gets the element's attributes as an object, replacing kebab cased attribute
-     * names with their came cased equivalents.
+     * names with their camel cased equivalents.
      */
-    getAttibutes() {
+    getAttributes() {
         const attributes: IDictionary = {};
 
         // tslint:disable-next-line:prefer-for-of
@@ -111,11 +111,30 @@ export class SecurePaymentElement extends HTMLElement {
     }
 
     /**
+     * Sets up event listeners to forward events from the Global Payments
+     * JavaScript library to be dispatched as `CustomEvent`s from this
+     * element.
+     *
+     * @param source
+     */
+    setupEventListeners(source: IframeField | UIForm) {
+        if (!source) {
+            return;
+        }
+
+        const dispatch = (target: SecurePaymentElement, event: string) => {
+            return (detail?: object) => target.dispatchEvent(new CustomEvent(event, { detail }));
+        };
+
+        this.getTargetEvents().forEach((event) => source.on(event, dispatch(this, event)));
+    }
+
+    /**
      * Converts kebab case (`kebab-case`) to camel case (`camelCase`).
      *
      * @param name
      */
-    kebabCaseToCamelCase(name: string) {
+    protected kebabCaseToCamelCase(name: string) {
         const parts = name.split("-");
 
         if (parts.length === 1) { return parts[0]; }
@@ -137,7 +156,7 @@ export class SecurePaymentElement extends HTMLElement {
      *
      * @param styles
      */
-    scopeInputSelectors(styles: IDictionary) {
+    protected scopeInputSelectors(styles: IDictionary) {
         /** @type {IDictionary} */
         const result: IDictionary = {};
 
@@ -159,30 +178,11 @@ export class SecurePaymentElement extends HTMLElement {
     }
 
     /**
-     * Sets up event listeners to forward events from the Global Payments
-     * JavaScript library to be dispatched as `CustomEvent`s from this
-     * element.
-     *
-     * @param source
-     */
-    setupEventListeners(source: IframeField | UIForm) {
-        if (!source) {
-            return;
-        }
-
-        const dispatch = (target: SecurePaymentElement, event: string) => {
-            return (detail?: object) => target.dispatchEvent(new CustomEvent(event, { detail }));
-        };
-
-        this.getTargetEvents().forEach((event) => source.on(event, dispatch(this, event)));
-    }
-
-    /**
      * Upgrades a property when the custom element is defined.
      *
      * @param prop Property name
      */
-    upgradeProperty(prop: string) {
+    protected upgradeProperty(prop: string) {
         if (this.hasOwnProperty(prop)) {
             const self: any = this;
             const value = self[prop];

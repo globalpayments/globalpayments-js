@@ -2,26 +2,33 @@
   "name": "globalpayments-js-web-components",
   "version": "1.0.0",
   "type": "module",
-  "main": "./lib/index.js",
-  "module": "./lib/index.js",
+  "main": "./lib/globalpayments-js-web-components.js",
+  "module": "./lib/globalpayments-js-web-components.js",
   "types": "./lib/index.d.ts",
   "typings": "./lib/index.d.ts",
   "author": "Heartland Developer Portal <developers@heartland.us>",
   "license": "GPL-2.0",
+  "files": [
+    "lib"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/globalpayments/globalpayments-js.git"
   },
   "scripts": {
-    "build": "rollup -c ./config/rollup.js",
+    "build": "rollup -c ./config/rollup.js && $npm_execpath run build:docs",
+    "build:docs": "wca analyze src --format markdown --outFile custom-elements.md",
     "format": "prettier --write 'src/**/*' 'test/**/*' '!examples/**/*.html'",
     "prebuild": "rimraf lib && yarn test:lint",
-    "prepublish": "yarn build",
+    "prepublish": "$npm_execpath run build",
     "test:lint": "tslint --project tsconfig.json",
     "test:serve": "serve -p 7777"
   },
   "dependencies": {
     "globalpayments-js": "file:../globalpayments-js",
     "globalpayments-js-loader": "file:../globalpayments-js-loader"
+  },
+  "devDependencies": {
+    "web-component-analyzer": "^1.1.6"
   }
 }
