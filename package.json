@@ -20,12 +20,14 @@
     "start-server-and-test": "^1.11.6",
     "testcafe": "^1.9.4",
     "tslint": "^6.1.3",
-    "typescript": "^4.1.2"
+    "typescript": "^4.1.2",
+    "web-component-analyzer": "^1.1.6"
   },
   "dependencies": {
+    "@globalpayments/js": "file:packages/globalpayments-js",
+    "@globalpayments/js-loader": "file:packages/globalpayments-js-loader",
+    "@globalpayments/js-web-components": "file:packages/globalpayments-js-web-components",
     "globalpayments-3ds": "file:packages/globalpayments-3ds",
-    "globalpayments-js": "file:packages/globalpayments-js",
-    "globalpayments-js-loader": "file:packages/globalpayments-js-loader",
     "globalpayments-lib": "file:packages/globalpayments-lib"
   }
 }

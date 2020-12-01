@@ -1,4 +1,4 @@
-/// <reference types="globalpayments-js/types/global-type" />
+/// <reference types="@globalpayments/js" />
 
 /**
  * Prevent multiple copies of the Global Payments JavaScript
@@ -14,7 +14,7 @@ let libraryLoaded: Promise<typeof window.GlobalPayments>;
  *
  * @returns The resolved library
  */
-export function loadLibrary(url?: string) {
+export function loadLibrary(url?: string): Promise<typeof window.GlobalPayments> {
     if (libraryLoaded) {
         return libraryLoaded;
     }

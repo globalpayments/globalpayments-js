@@ -1,11 +1,12 @@
-/// <reference types="globalpayments-js/types/global-type" />
+/// <reference types="@globalpayments/js" />
 
-import { loadLibrary } from "globalpayments-js-loader";
-import { IError } from "globalpayments-js/types/internal/gateways";
-import { IframeField, IFrameCollection } from "globalpayments-js/types/ui";
-import UIForm from "globalpayments-js/types/ui/form";
+import { loadLibrary } from "@globalpayments/js-loader";
+import { IError } from "@globalpayments/js/types/internal/gateways";
+import { IDictionary } from "@globalpayments/js/types/internal/lib/util";
+import { IframeField, IFrameCollection } from "@globalpayments/js/types/ui";
+import UIForm from "@globalpayments/js/types/ui/form";
 
-import { IDictionary, SecurePaymentElement } from "./secure-payment-element";
+import { SecurePaymentElement } from "./secure-payment-element";
 import { SecureCardNumberField } from "./secure-card-number-field";
 import { SecureCardExpirationField } from "./secure-card-expiration-field";
 import { SecureCardCvvField } from "./secure-card-cvv-field";

@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "baseUrl": "./packages",
+        "paths": {
+            "@globalpayments/js": ["globalpayments-js"],
+            "@globalpayments/js-loader": ["globalpayments-js-loader"],
+            "@globalpayments/js-web-components": ["globalpayments-js-web-components"],
+            "globalpayments-3ds": ["globalpayments-3ds"],
+            "globalpayments-lib": ["globalpayments-lib"],
+        }
+    }
+}

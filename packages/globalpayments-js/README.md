@@ -27,6 +27,8 @@ This plugin allows you to use online payments (eCommerce) features of a variety 
 <script src="https://js.globalpay.com/v1/globalpayments.js"></script>
 ```
 
+> Note: Installing via NPM will only provide TypeScript types for type-checking.
+
 ### Configuration
 
 #### Options

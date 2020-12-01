@@ -1,7 +1,8 @@
 {
-  "name": "globalpayments-js-loader",
+  "name": "@globalpayments/js-loader",
   "version": "1.0.0",
   "main": "./index.js",
+  "module": "./index.js",
   "types": "./index.d.ts",
   "typings": "./index.d.ts",
   "author": "Heartland Developer Portal <developers@heartland.us>",
@@ -12,8 +13,7 @@
   },
   "files": [
     "./index.d.ts",
-    "./index.js",
-    "./globalpayments-js"
+    "./index.js"
   ],
   "scripts": {
     "build": "tsc",
@@ -23,7 +23,7 @@
     "test:lint": "tslint --project tsconfig.json",
     "test:serve": "serve -p 7777"
   },
-  "devDependencies": {
-    "globalpayments-js": "file:../globalpayments-js"
+  "dependencies": {
+    "@globalpayments/js": "*"
   }
 }

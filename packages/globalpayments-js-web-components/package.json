@@ -1,5 +1,5 @@
 {
-  "name": "globalpayments-js-web-components",
+  "name": "@globalpayments/js-web-components",
   "version": "1.0.0",
   "type": "module",
   "main": "./lib/globalpayments-js-web-components.js",
@@ -25,10 +25,7 @@
     "test:serve": "serve -p 7777"
   },
   "dependencies": {
-    "globalpayments-js": "file:../globalpayments-js",
-    "globalpayments-js-loader": "file:../globalpayments-js-loader"
-  },
-  "devDependencies": {
-    "web-component-analyzer": "^1.1.6"
+    "@globalpayments/js": "*",
+    "@globalpayments/js-loader": "*"
   }
 }

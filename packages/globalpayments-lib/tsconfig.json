@@ -1,13 +1,12 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "importHelpers": true,
     "lib": ["dom", "esnext"],
     "outDir": "lib",
     "removeComments": false,
     "sourceMap": true,
     "strict": true,
-    "target": "es3"
+    "target": "ES2015"
   },
   "include": [
     "src/**/*"

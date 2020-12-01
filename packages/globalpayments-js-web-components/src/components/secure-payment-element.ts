@@ -1,12 +1,11 @@
-import { IframeField } from "globalpayments-js/types/ui/iframe-field";
-import UIForm from "globalpayments-js/types/ui/form";
+import { IDictionary } from "@globalpayments/js/types/internal/lib/util";
+import { IframeField } from "@globalpayments/js/types/ui/iframe-field";
+import UIForm from "@globalpayments/js/types/ui/form";
 
 export type CallbackFn = (e?: object) => any;
 export type EventOnCallback = (eventOrTarget: string, callbackOrEvent: CallbackFn, callback?: CallbackFn) => any;
 
 let field: IframeField;
-
-export type IDictionary = {[key: string]: any};
 
 export class SecurePaymentElement extends HTMLElement {
     /**
