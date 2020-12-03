@@ -31,5 +31,10 @@
   "dependencies": {
     "@globalpayments/js": "^1.8.1",
     "@globalpayments/js-loader": "^1.8.1"
+  },
+  "devDependencies": {
+    "rimraf": "*",
+    "rollup": "*",
+    "web-component-analyzer": "*"
   }
 }
