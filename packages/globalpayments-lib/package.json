@@ -1,6 +1,6 @@
 {
   "name": "globalpayments-lib",
-  "version": "1.8.3",
+  "version": "1.8.4",
   "description": "Helper library for Global Payments JavaScript libraries",
   "main": "lib/index.js",
   "module": "lib/index.js",
