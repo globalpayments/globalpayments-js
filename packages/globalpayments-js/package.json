@@ -26,6 +26,6 @@
     "test:serve": "serve -p 7777"
   },
   "dependencies": {
-    "globalpayments-lib": "*"
+    "globalpayments-lib": "^1.8.1"
   }
 }
