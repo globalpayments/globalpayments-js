@@ -33,5 +33,6 @@
   "devDependencies": {
     "rimraf": "*",
     "typescript": "*"
-  }
+  },
+  "gitHead": "6ee81ad47c17a59bc1754be4fa15dc501fe5f548"
 }
