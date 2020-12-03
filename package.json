@@ -29,5 +29,8 @@
     "@globalpayments/js-web-components": "file:packages/globalpayments-js-web-components",
     "globalpayments-3ds": "file:packages/globalpayments-3ds",
     "globalpayments-lib": "file:packages/globalpayments-lib"
-  }
+  },
+  "workspaces": [
+    "packages/*"
+  ]
 }
