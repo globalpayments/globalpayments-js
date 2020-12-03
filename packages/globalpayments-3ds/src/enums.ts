@@ -95,6 +95,7 @@ export function colorDepth(value: number) {
       result += "SIXTEEN";
       break;
     case 24:
+    case 30:
       result += "TWENTY_FOUR";
       break;
     case 32:
