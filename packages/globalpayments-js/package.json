@@ -1,6 +1,6 @@
 {
   "name": "@globalpayments/js",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "author": "Heartland Developer Portal <developers@heartland.us>",
   "license": "GPL-2.0",
   "repository": {
@@ -26,7 +26,7 @@
     "test:serve": "serve -p 7777"
   },
   "dependencies": {
-    "globalpayments-lib": "^1.8.1"
+    "globalpayments-lib": "^1.8.2"
   },
   "devDependencies": {
     "rimraf": "*",

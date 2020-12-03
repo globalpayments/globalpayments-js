@@ -1,6 +1,6 @@
 {
   "name": "globalpayments-3ds",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "description": "Helper library for leveraging 3DSecure 2 for Strong Customer Authentication (SCA)",
   "main": "./dist/globalpayments-3ds.js",
   "module": "./dist/globalpayments-3ds.esm.js",
@@ -23,7 +23,7 @@
     "test:serve": "serve -p 7778"
   },
   "dependencies": {
-    "globalpayments-lib": "^1.8.1"
+    "globalpayments-lib": "^1.8.2"
   },
   "devDependencies": {
     "rimraf": "*",
