@@ -7,10 +7,14 @@
     "type": "git",
     "url": "https://github.com/globalpayments/globalpayments-js.git"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "types": "./types/global-type.d.ts",
   "typings": "./types/global-type.d.ts",
   "scripts": {
     "build": "rollup -c config/rollup.js",
+    "clean": "rimraf dist",
     "cypress:open": "cypress open",
     "format": "prettier --write 'config/**/*' 'src/**/*' 'test/**/*' '!src/assets/**/*' '!test/run.sh' '!test/run.ps1' '!test/fixtures/**/*.html'",
     "postbuild": "cp -R src/assets/* dist && node bin/replace-gp-ref.js",

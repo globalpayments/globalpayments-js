@@ -11,12 +11,16 @@
     "type": "git",
     "url": "https://github.com/globalpayments/globalpayments-js.git"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "files": [
     "./index.d.ts",
     "./index.js"
   ],
   "scripts": {
     "build": "tsc",
+    "clean": "rimraf index.d.ts index.js",
     "format": "prettier --write '**/*' 'test/**/*' '!examples/**/*.html'",
     "prebuild": "yarn test:lint",
     "prepublish": "yarn build",

@@ -13,6 +13,7 @@
   },
   "scripts": {
     "build": "rollup -c config/rollup.js",
+    "clean": "rimraf dist",
     "format": "prettier --write 'config/**/*' 'src/**/*' 'test/**/*' '!src/assets/**/*' '!test/run.sh' '!test/run.ps1' '!test/fixtures/**/*.html'",
     "prebuild": "rimraf dist && $npm_execpath run test:lint",
     "prepare": "$npm_execpath run build",
