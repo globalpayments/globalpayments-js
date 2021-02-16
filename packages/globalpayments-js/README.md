@@ -33,25 +33,36 @@ This plugin allows you to use online payments (eCommerce) features of a variety 
 
 #### Options
 
-##### `publicApiKey` - `string`
+##### `publicApiKey` - `string` (Optional)
 
-> Note: Applies to Heartland eCommerce only.
+> Note: Applies to Heartland Online Payments only.
 
 The public API key associated with the merchant account. This API key is tied to a specific merchant/teminal account combination at Heartland and requires a matching secret API key to consume this value.
 
-##### `merchantId` - `string`
+##### `binCheck` - `object` (Optional)
+
+> Note: Applies to Heartland Online Payments only.
+
+Enables a BIN check for various capabilities.
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `hsaFsa` | `boolean` | `false` | Determines if the supplied card is for healthcare use (HSA/FSA). |
+| `surcharge` | `boolean` | `false` | Deterimines if the supplied card can be surcharged. |
+
+##### `merchantId` - `string` (Optional)
 
 > Note: Applies to Global Payments eCommerce only.
 
 The merchant ID value supplied by Global Payments eCommerce.
 
-##### `account` - `string`
+##### `account` - `string` (Optional)
 
 > Note: Applies to Global Payments eCommerce only.
 
 The account ID value supplied by Global Payments eCommerce.
 
-##### `env` - `string`
+##### `env` - `string` (Optional)
 
 Supported values:
 
@@ -60,7 +71,7 @@ Supported values:
 
 > Note: For Heartland eCommerce, this value is inferred from the configured `publicApiKey`.
 
-##### `hash` - `(object) => Promise<object>`
+##### `hash` - `(object) => Promise<object>` (Optional)
 
 > Note: Applies to Global Payments eCommerce only.
 
@@ -140,6 +151,14 @@ The target API version. Default is `2020-10-22`.
 > Note: Applies to GP API only.
 
 The transaction reference for the tokenization request. If not provided, a GUID is created and sent in the request.
+
+##### `enableAutocomplete` - `boolean` (Optional)
+
+Enables autocomplete / autofill features. Default is `false`.
+
+##### `language` - `string` (Optional)
+
+Value for the `html` element's `lang` attribute within the iframes. Default is `en`.
 
 #### Examples
 
