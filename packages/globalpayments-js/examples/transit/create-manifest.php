@@ -71,7 +71,8 @@ return function () {
   $deviceId = '88700000322602';
   $amount = '0';
 
-  $transactionKey = getTransactionKey($merchantId, $userId, $password);
+  // $transactionKey = getTransactionKey($merchantId, $userId, $password);
+  $transactionKey = 'YB25Q6PDAH3VIBO27DJMDIGWDX1J9SR3';
   error_log('transactionKey: ' . $transactionKey);
   $manifest = encryptManifest($merchantId, $deviceId, $amount, $transactionKey);
   error_log('manifest: ' . $manifest);
