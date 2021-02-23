@@ -1,0 +1,10 @@
+.rpt2_cache/
+.vscode/
+dist/
+examples/
+src/
+test/
+!types/
+tsconfig.json
+tslint.json
+yarn.lock

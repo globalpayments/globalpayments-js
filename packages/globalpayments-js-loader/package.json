@@ -1,0 +1,38 @@
+{
+  "name": "@globalpayments/js-loader",
+  "version": "1.8.4",
+  "main": "./index.js",
+  "module": "./index.js",
+  "types": "./index.d.ts",
+  "typings": "./index.d.ts",
+  "author": "Heartland Developer Portal <developers@heartland.us>",
+  "license": "GPL-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/globalpayments/globalpayments-js.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "./index.d.ts",
+    "./index.js"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "rimraf index.d.ts index.js",
+    "format": "prettier --write '**/*' 'test/**/*' '!examples/**/*.html'",
+    "prebuild": "yarn test:lint",
+    "prepublish": "yarn build",
+    "test:lint": "tslint --project tsconfig.json",
+    "test:serve": "serve -p 7777"
+  },
+  "dependencies": {
+    "@globalpayments/js": "^1.8.4"
+  },
+  "devDependencies": {
+    "rimraf": "*",
+    "typescript": "*"
+  },
+  "gitHead": "09776fcfe6140ce5b1ea8fc55fb4867b15565f1d"
+}

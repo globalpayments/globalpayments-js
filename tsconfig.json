@@ -1,20 +1,12 @@
 {
-  "compilerOptions": {
-    "declaration": true,
-    "declarationDir": "./types",
-    "importHelpers": true,
-    "lib": ["dom", "esnext"],
-    "removeComments": false,
-    "sourceMap": true,
-    "strict": true,
-    "target": "es3"
-  },
-  "include": [
-    "src/**/*",
-    "test/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "lib"
-  ]
+    "compilerOptions": {
+        "baseUrl": "./packages",
+        "paths": {
+            "@globalpayments/js": ["globalpayments-js"],
+            "@globalpayments/js-loader": ["globalpayments-js-loader"],
+            "@globalpayments/js-web-components": ["globalpayments-js-web-components"],
+            "globalpayments-3ds": ["globalpayments-3ds"],
+            "globalpayments-lib": ["globalpayments-lib"],
+        }
+    }
 }

@@ -1,0 +1,36 @@
+{
+  "name": "@globalpayments/js",
+  "version": "1.8.4",
+  "author": "Heartland Developer Portal <developers@heartland.us>",
+  "license": "GPL-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/globalpayments/globalpayments-js.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "types": "./types/global-type.d.ts",
+  "typings": "./types/global-type.d.ts",
+  "scripts": {
+    "build": "rollup -c config/rollup.js",
+    "clean": "rimraf dist",
+    "cypress:open": "cypress open",
+    "format": "prettier --write 'config/**/*' 'src/**/*' 'test/**/*' '!src/assets/**/*' '!test/run.sh' '!test/run.ps1' '!test/fixtures/**/*.html'",
+    "postbuild": "cp -R src/assets/* dist && node bin/replace-gp-ref.js",
+    "prebuild": "yarn test:lint && node bin/update-version.js",
+    "prepublish": "yarn build",
+    "test": "start-server-and-test '$npm_execpath run test:serve' http://localhost:7777 '$npm_execpath run test:integration'",
+    "test:integration": "cypress run",
+    "test:lint": "tslint --project tsconfig.json",
+    "test:serve": "serve -p 7777"
+  },
+  "dependencies": {
+    "globalpayments-lib": "^1.8.4"
+  },
+  "devDependencies": {
+    "rimraf": "*",
+    "rollup": "*"
+  },
+  "gitHead": "09776fcfe6140ce5b1ea8fc55fb4867b15565f1d"
+}

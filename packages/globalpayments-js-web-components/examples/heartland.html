@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<script src="https://js-qa.np-hpp.globalpay.com/v1/globalpayments.min.js"></script>
+<!-- other components are referenced/loaded in `secure-payment-form` -->
+<script type="module" src="../lib/globalpayments-js-web-components.js" defer></script>
+
+<secure-payment-form public-api-key="pkapi_cert_jKc1FtuyAydZhZfbB3">
+    <div class="control">
+        <label>
+            card number <br />
+            <secure-card-number-field
+                label="Card Number input"
+                placeholder="•••• •••• •••• ••••"
+                gp-style='{"@media (min-width: 1px)":{"body input":{"color":"blue"}}}'
+                >
+            </secure-card-number-field>
+        </label>
+    </div>
+    <div class="control">
+        <label>
+            card expiration <br />
+            <secure-card-expiration-field
+                label="Card Expiration input"
+                placeholder="MM / YYYY"
+                >
+            </secure-card-expiration-field>
+        </label>
+    </div>
+    <div class="control">
+        <label>
+            card cvv <br />
+            <secure-card-cvv-field
+                label="Card CVV input"
+                placeholder="•••"
+                >
+            </secure-card-cvv-field>
+        </label>
+    </div>
+    <div class="control">
+        <secure-submit-button
+            label="Submit button"
+            text="Pay Now"
+            >
+        </secure-submit-button>
+    </div>
+</secure-payment-form>
+
+<script>
+    document.querySelector('secure-payment-form').addEventListener('ready', (e) => console.log('ready', e));
+    document.querySelector('secure-payment-form').addEventListener('token-success', (e) => console.log('token-success', e));
+    document.querySelector('secure-payment-form').addEventListener('token-error', (e) => console.log('token-error', e));
+    document.querySelector('secure-payment-form').addEventListener('error', (e) => console.log('error', e));
+    document.querySelector('secure-submit-button').addEventListener('click', (e) => console.log('submit click', e));
+</script>

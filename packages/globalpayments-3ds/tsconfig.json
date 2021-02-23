@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "declarationDir": "./dist/types",
+    "importHelpers": true,
+    "lib": ["dom", "esnext"],
+    "removeComments": false,
+    "sourceMap": true,
+    "strict": true,
+    "target": "es3"
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "lib"
+  ]
+}

@@ -1,0 +1,7 @@
+!lib/
+node_modules/
+src/
+!polyfills.js
+.prettierrc
+tsconfig.json
+tslint.json

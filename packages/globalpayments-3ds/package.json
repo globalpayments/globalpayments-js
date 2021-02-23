@@ -1,0 +1,33 @@
+{
+  "name": "globalpayments-3ds",
+  "version": "1.8.4",
+  "description": "Helper library for leveraging 3DSecure 2 for Strong Customer Authentication (SCA)",
+  "main": "./dist/globalpayments-3ds.js",
+  "module": "./dist/globalpayments-3ds.esm.js",
+  "types": "./dist/types/index.d.ts",
+  "author": "Heartland Developer Portal <developers@heartland.us>",
+  "license": "GPL-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/globalpayments/globalpayments-js.git"
+  },
+  "scripts": {
+    "build": "rollup -c config/rollup.js",
+    "clean": "rimraf dist",
+    "format": "prettier --write 'config/**/*' 'src/**/*' 'test/**/*' '!src/assets/**/*' '!test/run.sh' '!test/run.ps1' '!test/fixtures/**/*.html'",
+    "prebuild": "rimraf dist && $npm_execpath run test:lint",
+    "prepare": "$npm_execpath run build",
+    "test": "start-server-and-test '$npm_execpath run test:serve' http://localhost:7777 '$npm_execpath run test:acceptance'",
+    "test:lint": "tslint --project tsconfig.json",
+    "test:acceptance": "testcafe 'chrome:headless' 'test/acceptance/**/test-*'",
+    "test:serve": "serve -p 7778"
+  },
+  "dependencies": {
+    "globalpayments-lib": "^1.8.4"
+  },
+  "devDependencies": {
+    "rimraf": "*",
+    "rollup": "*"
+  },
+  "gitHead": "09776fcfe6140ce5b1ea8fc55fb4867b15565f1d"
+}
