@@ -9,6 +9,7 @@ import {
   AuthenticationRequestType,
   AuthenticationSource,
   ChallengeRequestIndicator,
+  TransactionStatus,
   colorDepth,
   messageCategoryFromAuthenticationRequestType,
 } from "./enums";
@@ -161,7 +162,7 @@ export async function handleInitiateAuthentication(
   data: IInitiateAuthenticationResponseData,
   options: IChallengeWindowOptions,
 ) {
-  if (data.challengeMandated) {
+  if (data.challengeMandated || data.status === TransactionStatus.ChallengeRequired) {
     data.challenge = data.challenge || {};
 
     if (!data.challenge.requestUrl) {
