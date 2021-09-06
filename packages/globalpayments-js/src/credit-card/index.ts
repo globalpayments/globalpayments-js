@@ -34,6 +34,14 @@ export const defaultOptions: IUIFormOptions = {
   },
 };
 
+/**
+ * Allows integrators to create a standard drop-in form for
+ * accepting credit card data.
+ *
+ * @param target Target element to contain the drop-in form
+ * @param formOptions Options for the drop-in form
+ * @returns
+ */
 export function form(
   target: string | HTMLElement,
   formOptions: IUIFormOptions = {},
@@ -132,6 +140,14 @@ export function form(
   );
 }
 
+/**
+ * Allows integrators to create a drop-in form for accepting
+ * track data from a human interface device (HID).
+ *
+ * @param target Target element to contain the drop-in form
+ * @param formOptions Options for the drop-in form
+ * @returns
+ */
 export function trackReaderForm(
   target: string | HTMLElement,
   formOptions: IUIFormOptions = {},

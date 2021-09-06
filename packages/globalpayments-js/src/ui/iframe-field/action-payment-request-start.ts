@@ -3,6 +3,17 @@ import { typeByNumber } from "../../internal/lib/card-types";
 import { IDictionary } from "../../internal/lib/util";
 import tokenize from "../../internal/requests/tokenize";
 
+/**
+ * Initiates a payment card via the PaymentRequest API
+ * to leverage card data stored in a cardholder's
+ * browser, tokenizing it via the configured gateway
+ * implementation. This is triggered in the parent
+ * window, but the PaymentRequest functionality and
+ * data only exists within the hosted field.
+ *
+ * @param id ID of the hosted field
+ * @param data PaymentRequest details
+ */
 export default async (id: string, data: IDictionary) => {
   let response;
   try {
@@ -13,8 +24,12 @@ export default async (id: string, data: IDictionary) => {
     );
 
     response = await request.show();
+    // Store the original response on the hosted field's
+    // window for later completion
     (window as any).globalPaymentResponse = response;
   } catch (e) {
+    // Catch errors thrown when attempting to show the payment card
+    // e.g. when PaymentRequest API isn't supported
     let code = "ERROR";
     if (e.name !== "Error") {
       code = e.name.replace("Error", "_Error").toUpperCase();
@@ -33,6 +48,9 @@ export default async (id: string, data: IDictionary) => {
     return;
   }
 
+  // Once PaymentRequest has been confirmed by the card holder,
+  // we receive the card data and other requested information and
+  // perform the tokenization
   try {
     const token = await tokenize({
       "card-cvv": response.details.cardSecurityCode || "",
@@ -44,6 +62,8 @@ export default async (id: string, data: IDictionary) => {
       "card-number": response.details.cardNumber || "",
     });
 
+    // PaymentRequest API responses aren't direcrlt compatible with
+    // `JSON.stringify`, so we use the `toJSON` method it exposes.
     const d = response.toJSON();
 
     const cardNumber = response.details.cardNumber.replace(/\D/g, "");

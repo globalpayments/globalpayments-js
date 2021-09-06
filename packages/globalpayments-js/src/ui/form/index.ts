@@ -57,12 +57,21 @@ export interface IUIFormFields {
   [key: string]: IUIFormField;
 }
 
+/**
+ * Represents logic surrounding a group of hosted fields.
+ */
 export default class UIForm {
   public frames: IFrameCollection;
   public fields: IUIFormFields;
   public styles: object;
   private totalNumberOfFields = 0;
 
+  /**
+   * Instantiates a new UIForm object for a group of hosted fields
+   *
+   * @param fields Hosted field configuration
+   * @param styles Custom CSS configuration
+   */
   public constructor(fields: IUIFormFields, styles: object) {
     this.frames = {};
     this.fields = fields;
@@ -71,22 +80,36 @@ export default class UIForm {
     this.createFrames();
   }
 
+  /**
+   * Sets an event listener for an event type
+   *
+   * @param fieldTypeOrEventName The field type on which the listener should
+   *          be applied, or the type of event that should trigger the listener
+   * @param eventNameOrListener The type of event that should trigger the
+   *          listener, or the listener function
+   * @param listener The listener function when both field type and event type
+   *          are provided
+   */
   public on(
-    type: string,
-    event: string | IEventListener,
+    fieldTypeOrEventName: string,
+    eventNameOrListener: string | IEventListener,
     listener?: IEventListener,
   ) {
-    if (typeof event === "string" && listener) {
-      checkFieldType(this.frames, type);
-      const field = this.frames[type];
+    // When we're given a specific hosted field, only apply the
+    // event listener to that hosted field
+    if (typeof eventNameOrListener === "string" && listener) {
+      checkFieldType(this.frames, fieldTypeOrEventName);
+      const field = this.frames[fieldTypeOrEventName];
       if (!field) {
         return;
       }
 
-      field.on(event, listener);
+      field.on(eventNameOrListener, listener);
       return this;
     }
 
+    // ... otherwise, apply the event listener to all hosted
+    // fields within the form
     for (const i in frameFieldTypes) {
       if (!frameFieldTypes.hasOwnProperty(i)) {
         continue;
@@ -102,11 +125,16 @@ export default class UIForm {
       if (!field) {
         return;
       }
-      field.on(type, event as IEventListener);
+      field.on(fieldTypeOrEventName, eventNameOrListener as IEventListener);
     }
     return this;
   }
 
+  /**
+   * Appends additional CSS rules to the group of hosted fields
+   *
+   * @param json New CSS rules
+   */
   public addStylesheet(json: IDictionary) {
     for (const i in frameFieldTypes) {
       if (!frameFieldTypes.hasOwnProperty(i)) {
@@ -128,6 +156,12 @@ export default class UIForm {
     return this;
   }
 
+  /**
+   * Sets a special-case event listener that fires when all hosted
+   * fields in a form have registered / loaded
+   *
+   * @param fn The listener function
+   */
   public ready(fn: (fields: IFrameCollection) => void) {
     let registered = 0;
     let ready = false;
@@ -157,6 +191,9 @@ export default class UIForm {
     }
   }
 
+  /**
+   * Deletes all hosted fields within the form
+   */
   public dispose() {
     for (const i in frameFieldTypes) {
       if (!frameFieldTypes.hasOwnProperty(i)) {
@@ -194,6 +231,7 @@ export default class UIForm {
         continue;
       }
 
+      // send all field configuration
       field.on("register", () => {
         if (this.fields[type].placeholder) {
           field.setPlaceholder(this.fields[type].placeholder || "");
@@ -216,6 +254,7 @@ export default class UIForm {
       });
     }
 
+    // support tokenization data flows to `card-number` / `account-number`
     if (this.frames.submit !== undefined) {
       this.frames.submit.on("click", () => {
         const target =
@@ -230,6 +269,7 @@ export default class UIForm {
     const cardNumber = this.frames["card-number"];
     const cardCvv = this.frames["card-cvv"];
 
+    // support autocomplete / auto-fill from `card-number` to other fields
     if (cardNumber) {
       cardNumber.on("set-autocomplete-value", (data?: any) => {
         if (!data) {
@@ -244,6 +284,7 @@ export default class UIForm {
       });
     }
 
+    // pass card type from `card-number` to `card-cvv`
     if (cardNumber && cardCvv) {
       cardNumber.on("card-type", (data?: any) => {
         postMessage.post(

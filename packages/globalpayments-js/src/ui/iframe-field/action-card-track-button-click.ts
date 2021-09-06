@@ -3,6 +3,12 @@ import paymentFieldId from "../../internal/lib/payment-field-id";
 import { postMessage } from "../../internal/lib/post-message";
 import tokenize from "../../internal/requests/tokenize";
 
+/**
+ * Once initiated, the hosted field accepts track data via a
+ * human input device (HID) into a hidden text field
+ *
+ * @param id ID of the hosted field
+ */
 export default (id: string) => {
   let el: HTMLInputElement | null = document.getElementById(
     paymentFieldId + "-data",
@@ -48,6 +54,8 @@ export default (id: string) => {
   );
 
   Events.addHandler(el, "keydown", (e: KeyboardEvent) => {
+    // HID will follow track data with an `<ENTER>` keystroke.
+    // Wait until that keystroke to continue.
     if (e.keyCode !== 13) {
       return;
     }
@@ -67,6 +75,8 @@ export default (id: string) => {
     ) as HTMLInputElement;
     const value = field && field.value ? field.value : "";
 
+    // Once track data has been received by the hosted field,
+    // we perform the tokenization
     tokenize({
       "card-track": value,
     })

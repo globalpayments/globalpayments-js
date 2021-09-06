@@ -2,7 +2,17 @@ import { postMessage as pm } from "../../internal";
 import paymentFieldId from "../../internal/lib/payment-field-id";
 import { IDictionary } from "../../internal/lib/util";
 
+/**
+ * Causes the hosted field to send its data to the `card-number`
+ * field for tokenization when triggered by the
+ * `ui:iframe-field:request-data` event.
+ *
+ * @param id ID of the hosted field
+ * @param type Field type of the hosted field
+ * @param data Information about the recipient hosted field
+ */
 export default (id: string, type: string, data: IDictionary) => {
+  // track list of fields for which we have received data
   if (!(window as any).dataReceivedFields) {
     (window as any).dataReceivedFields = ["submit"];
   }
