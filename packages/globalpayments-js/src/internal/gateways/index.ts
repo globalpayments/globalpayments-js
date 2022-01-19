@@ -71,6 +71,8 @@ export interface IErrorReason {
 
 export interface IActions {
   normalizeResponse: (data: IDictionary) => ISuccess | IError;
+  // Some gateway implementations need to perform specific
+  // window setup to aid functionality.
   setup?: () => any;
   tokenize: (url: string, env: string, data: IDictionary) => Promise<any>;
   validateData: (data: IDictionary) => IErrorReason[];
