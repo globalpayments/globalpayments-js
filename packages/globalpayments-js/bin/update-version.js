@@ -1,6 +1,7 @@
 const replace = require('replace-in-file');
 const options = {
   files: [
+    'src/assets/artifactVersion.txt',
     'src/lib/version.ts',
     'README.md',
   ],
