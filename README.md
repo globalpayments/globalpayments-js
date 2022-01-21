@@ -8,8 +8,6 @@
 - [`globalpayments-3ds`](packages/globalpayments-3ds) - Helper library for leveraging 3DSecure 2 for Strong Customer Authentication (SCA)
 - [`globalpayments-lib`](packages/globalpayments-lib) - Helper library for Global Payments JavaScript libraries
 
-##
-
 ## Development
 
 This monorepo uses [`lerna`](https://github.com/lerna/lerna). Run the below to get started within a new environment:

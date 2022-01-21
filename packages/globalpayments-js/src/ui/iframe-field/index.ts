@@ -39,7 +39,21 @@ export const fieldTypeAutocompleteMap: IDictionary = {
   "card-number": "cc-number",
 };
 
+/**
+ * Represents logic surrounding individual hosted fields.
+ *
+ * Static methods are ran within the iframe / child window.
+ *
+ * Instance methods are ran within the parent window.
+ */
 export class IframeField extends EventEmitter {
+  /**
+   * Sets up the hosted field's iframe for further
+   * processing, and registers the hosted field
+   * with the parent window.
+   *
+   * @param type Field type of the hosted field
+   */
   public static register(type: string) {
     const query = window.location.hash.replace("#", "");
     const data: any = JSON.parse(atob(query));
@@ -64,6 +78,12 @@ export class IframeField extends EventEmitter {
     Events.addHandler(document.body, "touchstart", () => { /** */ });
   }
 
+  /**
+   * Sets the hosted field's `lang` attribute on the `html` element
+   * with the globally configured value.
+   *
+   * @param lang The configured language code
+   */
   public static setHtmlLang(lang: string) {
     const elements = document.querySelectorAll("html");
 
@@ -244,8 +264,8 @@ export class IframeField extends EventEmitter {
    * Sets the iframe window's postMessage handler in order to
    * react to parent/sibling events.
    *
-   * @param id Field ID
-   * @param type Field type
+   * @param id ID of the hosted field
+   * @param type Field type of the hosted field
    * @param targetOrigin Parent window's origin
    */
   public static addMessageListener(
@@ -253,7 +273,7 @@ export class IframeField extends EventEmitter {
     type: string,
     targetOrigin: string,
   ) {
-    // update the global statge with information about the parent window
+    // update the global state with information about the parent window
     loadedFrames.parent = {
       frame: parent,
       url: targetOrigin,
@@ -321,6 +341,12 @@ export class IframeField extends EventEmitter {
     });
   }
 
+  /**
+   * Triggers a resize of the hosted field's iframe element
+   * within the parent window.
+   *
+   * @param id ID of the hosted field
+   */
   public static triggerResize(id: string) {
     postMessage.post(
       {
@@ -341,6 +367,13 @@ export class IframeField extends EventEmitter {
   public type: "button" | "input";
   public url: string;
 
+  /**
+   * Instantiates a new IframeField object for a hosted field
+   *
+   * @param type Field type of the hosted field
+   * @param opts Options for creating the iframe / hosted field
+   * @param src URL for the hosted field's iframe
+   */
   constructor(type: string, opts: IUIFormField, src: string) {
     super();
 
@@ -356,6 +389,7 @@ export class IframeField extends EventEmitter {
     this.frame.src =
       src +
       "#" +
+      // initial data for the iframe
       btoa(
         JSON.stringify({
           enableAutocomplete: options.enableAutocomplete,
@@ -381,7 +415,12 @@ export class IframeField extends EventEmitter {
       return;
     }
 
-    this.container.prepend(this.frame);
+    if (this.container.hasChildNodes()) {
+      this.container.insertBefore(this.frame, this.container);
+    } else {
+      this.container.appendChild(this.frame);
+    }
+
     this.on("dispose", () => {
       loadedFrames[this.id] = undefined;
       if (this.container) {
@@ -389,6 +428,7 @@ export class IframeField extends EventEmitter {
       }
     });
 
+    // handle events coming from the iframe
     postMessage.receive((data: any) => {
       if (!data.id || (data.id && data.id !== this.id)) {
         return;
@@ -422,17 +462,25 @@ export class IframeField extends EventEmitter {
             },
             data.data.target,
           );
-          break;
+          return;
         default:
           break;
       }
 
+      // re-emit event to the integrator
       this.emit(event, data.data);
     });
 
+    // keep an instance of the hosted field for future interaction
+    // with the iframe
     loadedFrames[this.id] = this;
   }
 
+  /**
+   * Appends additional CSS rules to the hosted field
+   *
+   * @param json New CSS rules
+   */
   public addStylesheet(json: IDictionary) {
     const css = json2css(json);
     postMessage.post(
@@ -445,6 +493,17 @@ export class IframeField extends EventEmitter {
     );
   }
 
+  /**
+   * Gets the CVV value from the `card-cvv` hosted field.
+   *
+   * Used by gateway implementations that do not store the CVV
+   * with the token value:
+   *
+   * - TransIT (tsep)
+   * - Heartland Bill pay (billpay)
+   *
+   * @returns A promise that resolves with the CVV value
+   */
   public getCvv() {
     postMessage.post(
       {
@@ -470,6 +529,9 @@ export class IframeField extends EventEmitter {
     });
   }
 
+  /**
+   * Sets input focus on the hosted field
+   */
   public setFocus() {
     postMessage.post(
       {
@@ -480,6 +542,11 @@ export class IframeField extends EventEmitter {
     );
   }
 
+  /**
+   * Sets the placeholder text of a hosted field
+   *
+   * @param placeholder The desired palceholder text
+   */
   public setPlaceholder(placeholder: string) {
     postMessage.post(
       {
@@ -491,6 +558,11 @@ export class IframeField extends EventEmitter {
     );
   }
 
+  /**
+   * Sets the text content of a hosted field
+   *
+   * @param text The desired text value
+   */
   public setText(text: string) {
     postMessage.post(
       {
@@ -502,6 +574,11 @@ export class IframeField extends EventEmitter {
     );
   }
 
+  /**
+   * Sets the value of a hosted field
+   *
+   * @param value The desired input value
+   */
   public setValue(value: string) {
     postMessage.post(
       {
@@ -513,6 +590,11 @@ export class IframeField extends EventEmitter {
     );
   }
 
+  /**
+   * Sets the label of a hosted field
+   *
+   * @param label The desired input label
+   */
   public setLabel(label: string) {
     postMessage.post(
       {
@@ -524,6 +606,11 @@ export class IframeField extends EventEmitter {
     );
   }
 
+  /**
+   * Sets the title of a hosted field
+   *
+   * @param title The desired title
+   */
   public setTitle(title: string) {
     this.frame.title = title;
   }

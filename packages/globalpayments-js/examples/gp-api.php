@@ -44,7 +44,7 @@ $accessToken = $response->token ?? '';
     <script>
       GlobalPayments.configure({
         accessToken: "<?= $accessToken ?>",
-        env: "local",
+        env: "qa",
       });
 
       GlobalPayments.on("error", function (error) {
@@ -53,8 +53,8 @@ $accessToken = $response->token ?? '';
 
       var cardForm = GlobalPayments.creditCard.form('#credit-card-form', { style: "gp-default" });
 
-      cardForm.on("card-number", "token-success", function (resp) { console.log(resp); });
-      cardForm.on("card-number", "token-error", function (resp) { console.log(resp); });
+      cardForm.on("token-success", function (resp) { console.log(resp); });
+      cardForm.on("token-error", function (resp) { console.log(resp); });
     </script>
   </body>
 </html>

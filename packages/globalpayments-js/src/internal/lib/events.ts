@@ -1,5 +1,8 @@
 import Ev from "./ev";
 
+/**
+ * Provides integrators helper functions for working with events.
+ */
 export default class Events {
   /**
    * addHandler

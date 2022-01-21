@@ -52,9 +52,11 @@ Enables a BIN check for various capabilities.
 
 ##### `merchantId` - `string` (Optional)
 
-> Note: Applies to Global Payments eCommerce only.
+> Note: Applies to Global Payments eCommerce and GP API only.
 
-The merchant ID value supplied by Global Payments eCommerce.
+For Global Payments eCommerce integrations, the merchant ID value supplied for the account.
+
+For GP API integrations using multi-merchant support, the merchant ID value for a specific merchant account supported by the partner.
 
 ##### `account` - `string` (Optional)
 

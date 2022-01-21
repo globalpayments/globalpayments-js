@@ -34,11 +34,19 @@ const domains = {
 export const urls = {
   assetBaseUrl: getAssetBaseUrl,
   tokenization: (prod: boolean) => {
+    let domain = prod ? domains.production : domains.sandbox;
+
     if (options.env && options.env === "qa") {
-      return `${domains.qa}/ucp/payment-methods`;
+      domain = domains.qa;
     }
 
-    return `${prod ? domains.production : domains.sandbox}/ucp/payment-methods`;
+    let endpoint = 'payment-methods';
+
+    if (options.merchantId) {
+      endpoint = `merchants/${options.merchantId}/${endpoint}`;
+    }
+
+    return `${domain}/ucp/${endpoint}`;
   },
 };
 
