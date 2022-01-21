@@ -138,28 +138,35 @@
         cardExternalTrigger.addEventListener('click', function (e) {
           e.preventDefault();
 
-          for (var type in cardForm.fields) {
-            if (type === "submit") {
+          // manually include submit button
+          const fields = ['submit'];
+          const target = cardForm.frames['card-number'];
+
+          for (const type in cardForm.frames) {
+            if (cardForm.frames.hasOwnProperty(type)) {
+              fields.push(type);
+            }
+          }
+
+          for (const type in cardForm.frames) {
+            if (!cardForm.frames.hasOwnProperty(type)) {
               continue;
             }
 
-            var field = cardForm.frames[type];
+            const frame = cardForm.frames[type];
 
-            if (!field) {
+            if (!frame) {
               continue;
             }
 
-            GlobalPayments.internal.postMessage.post(
-              {
-                data: {
-                  fields: cardForm.fields,
-                  target: cardForm.frames["card-number"].id
-                },
-                id: field.id,
-                type: "ui:iframe-field:request-data",
+            GlobalPayments.internal.postMessage.post({
+              data: {
+                fields: fields,
+                target: target.id
               },
-              field.id
-            );
+              id: frame.id,
+              type: 'ui:iframe-field:request-data'
+            }, frame.id);
           }
         });
       }

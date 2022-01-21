@@ -416,7 +416,7 @@ export class IframeField extends EventEmitter {
     }
 
     if (this.container.hasChildNodes()) {
-      this.container.insertBefore(this.frame, this.container);
+      this.container.insertBefore(this.frame, this.container.firstChild);
     } else {
       this.container.appendChild(this.frame);
     }
