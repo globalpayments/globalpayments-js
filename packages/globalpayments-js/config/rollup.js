@@ -10,7 +10,7 @@ const plugins = [
     "base64-js": true,
     "promise-polyfill": true,
     "fetch-ie8": true,
-    "unfetch": true,
+    unfetch: true,
   }),
   commonjs(),
   typescript({

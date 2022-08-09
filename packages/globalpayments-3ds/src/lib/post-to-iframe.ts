@@ -82,8 +82,12 @@ function ensureIframeClosed(timeout: number) {
   }
 
   try {
-    Array.prototype.slice.call(document
-        .querySelectorAll(`[target$="-${randomId}"],[id$="-${randomId}"]`))
+    Array.prototype.slice
+      .call(
+        document.querySelectorAll(
+          `[target$="-${randomId}"],[id$="-${randomId}"]`,
+        ),
+      )
       .forEach((element) => {
         if (element.parentNode) {
           element.parentNode.removeChild(element);
@@ -95,9 +99,7 @@ function ensureIframeClosed(timeout: number) {
 }
 
 function getWindowMessageEventHandler(
-  resolve: (
-    data: IMessageEventData | PromiseLike<IMessageEventData>,
-  ) => void,
+  resolve: (data: IMessageEventData | PromiseLike<IMessageEventData>) => void,
   data: IIframeData,
 ) {
   return (e: MessageEvent) => {

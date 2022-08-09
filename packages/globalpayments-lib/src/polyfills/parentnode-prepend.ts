@@ -1,11 +1,11 @@
 // Source: https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/prepend
 ((arr) => {
   arr.forEach((item) => {
-    if (item.hasOwnProperty('prepend')) {
+    if (item.hasOwnProperty("prepend")) {
       return;
     }
 
-    Object.defineProperty(item, 'prepend', {
+    Object.defineProperty(item, "prepend", {
       configurable: true,
       enumerable: true,
       writable: true,
@@ -15,11 +15,13 @@
 
         argArr.forEach((argItem) => {
           const isNode = argItem instanceof Node;
-          docFrag.appendChild(isNode ? argItem : document.createTextNode(String(argItem)));
+          docFrag.appendChild(
+            isNode ? argItem : document.createTextNode(String(argItem)),
+          );
         });
 
         this.insertBefore(docFrag, this.firstChild);
-      }
+      },
     });
   });
 })([Element.prototype, Document.prototype, DocumentFragment.prototype]);

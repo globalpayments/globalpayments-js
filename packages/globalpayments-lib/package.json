@@ -15,7 +15,7 @@
   "scripts": {
     "build": "tsc",
     "clean": "rimraf lib",
-    "format": "prettier --write 'src/**/*' 'test/**/*' '!src/assets/**/*' '!test/run.sh' '!test/run.ps1' '!test/fixtures/**/*.html'",
+    "format": "prettier --write src/**/* !src/assets/**/* !test/run.sh !test/run.ps1 !test/fixtures/**/*.html",
     "prebuild": "rimraf lib && yarn test:lint",
     "prepare": "yarn build",
     "test:lint": "tslint --project tsconfig.json"

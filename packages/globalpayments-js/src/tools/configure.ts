@@ -10,6 +10,9 @@ export interface IConfiguration extends IDictionary {
   // General configuration properties
   enableAutocomplete?: boolean;
   language?: string;
+  enableTwoDigitExpirationYear?: boolean;
+  enableCardFingerPrinting?:boolean;
+  requireCardHolderName?:boolean;
 
   // Specific configuration properties for
   // Portico (heartland)

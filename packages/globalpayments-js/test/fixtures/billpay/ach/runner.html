@@ -1,7 +1,7 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Heartland Examples</title>
   </head>
   <body>
@@ -12,14 +12,14 @@
       <div id="routingNumber"></div>
       <div id="checkType">
         <select>
-          <option> -- Check Type -- </option>
+          <option>-- Check Type --</option>
           <option>Checking</option>
           <option>Savings</option>
         </select>
       </div>
       <div id="accountType">
         <select>
-          <option> -- Account Type -- </option>
+          <option>-- Account Type --</option>
           <option>Personal</option>
           <option>Business</option>
         </select>
@@ -45,17 +45,17 @@
         fields: {
           "account-number": {
             placeholder: "",
-            target: "#accountNumber"
+            target: "#accountNumber",
           },
           "routing-number": {
             placeholder: "•••••••••",
-            target: "#routingNumber"
+            target: "#routingNumber",
           },
-          "submit": {
+          submit: {
             value: "Submit",
-            target: "#achSubmit"
-          }
-        }
+            target: "#achSubmit",
+          },
+        },
       });
 
       achForm.on("account-number", "token-success", createResults);

@@ -1,16 +1,6 @@
 import encodeEntities from "../../internal/lib/encode-entities";
 import paymentFieldId from "../../internal/lib/payment-field-id";
-
-const dotPlaceholders = [
-  "•••• •••• •••• ••••",
-  "···· ···· ···· ····",
-  "•••••••••",
-  "·········",
-  "••••",
-  "····",
-  "•••",
-  "···",
-];
+import dotPlaceholders from "../../internal/lib/dot-placeholders";
 
 /**
  * Sets the placeholder text of a hosted field

@@ -12,10 +12,12 @@ export default (data: IDictionary) => {
     errors.push({
       code: "invalid_input",
       // @ts-ignore
-      detail: [{
-        data_path: "/card/card_number",
-        description: "Invalid data",
-      }],
+      detail: [
+        {
+          data_path: "/card/card_number",
+          description: "Invalid data",
+        },
+      ],
       message: "Invalid input data.",
     });
   }

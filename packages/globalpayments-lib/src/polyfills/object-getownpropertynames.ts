@@ -1,5 +1,5 @@
 if (!Object.prototype.hasOwnProperty) {
-  Object.prototype.hasOwnProperty = function(prop: string) {
+  Object.prototype.hasOwnProperty = function (prop: string) {
     return typeof (this as any)[prop] !== "undefined";
   };
 }

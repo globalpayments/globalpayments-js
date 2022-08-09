@@ -1,15 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Global Payments Examples</title>
   </head>
   <body>
     <script src="/dist/globalpayments.js"></script>
     <script src="/test/fixtures/gp-api/sha512.js"></script>
 
-    <form id="form" action="/charge" method="get">
-    </form>
+    <form id="form" action="/charge" method="get"></form>
 
     <script>
       const createAccessToken = async () => {
@@ -21,27 +20,30 @@
         // requests securely from a server-side integration.
         // !!! Never do this in production. !!!
 
-        const appId = 'q3HGIFtHPt6ivl7JXGNBsXLFpDdsFHoN';
-        const appKey = 'wJUd4vJQfN23sVxG';
-        const nonce = (new Date()).toISOString();
-        const secret = SHA512(nonce + '' + appKey);
+        const appId = "q3HGIFtHPt6ivl7JXGNBsXLFpDdsFHoN";
+        const appKey = "wJUd4vJQfN23sVxG";
+        const nonce = new Date().toISOString();
+        const secret = SHA512(nonce + "" + appKey);
 
-        const resp = await fetch('https://apis-qa.globalpay.com/ucp/accesstoken', {
-          body: JSON.stringify({
-            app_id: appId,
-            secret: secret,
-            grant_type: 'client_credentials',
-            nonce: nonce,
-            interval_to_expire: '1_HOUR',
-            permissions: [ 'PMT_POST_Create_Single' ],
-          }),
-          credentials: 'omit',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-GP-Version': '2020-10-22',
+        const resp = await fetch(
+          "https://apis-qa.globalpay.com/ucp/accesstoken",
+          {
+            body: JSON.stringify({
+              app_id: appId,
+              secret: secret,
+              grant_type: "client_credentials",
+              nonce: nonce,
+              interval_to_expire: "1_HOUR",
+              permissions: ["PMT_POST_Create_Single"],
+            }),
+            credentials: "omit",
+            headers: {
+              "Content-Type": "application/json",
+              "X-GP-Version": "2020-10-22",
+            },
+            method: "POST",
           },
-          method: 'POST',
-        });
+        );
         const json = await resp.json();
         return json.token;
       };
@@ -62,7 +64,7 @@
           env: "qa",
         });
 
-        const cardForm = GlobalPayments.creditCard.form('#form');
+        const cardForm = GlobalPayments.creditCard.form("#form");
 
         cardForm.on("token-success", createResults);
         cardForm.on("token-error", createResults);

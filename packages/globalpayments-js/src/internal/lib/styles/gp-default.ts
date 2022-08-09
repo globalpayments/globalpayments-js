@@ -87,6 +87,9 @@ export const fieldStyles = (assetBaseUrl: string) => {
     ".card-number.card-type-visa": {
       "background-image": `url(${imageBase}gp-cc-visa.svg)`,
     },
+    ".card-number.card-type-diners": {
+      "background-image": `url(${imageBase}gp-cc-diners.svg)`,
+    },
     ".card-number::-ms-clear": {
       display: "none",
     },
@@ -108,97 +111,97 @@ export const parentStyles = (assetBaseUrl: string) => {
     },
 
     ".secure-payment-form label": {
-      "margin": "16px 0",
-      "display": "block",
+      margin: "16px 0",
+      display: "block",
       "font-size": "0.79em",
-      "font-weight": "500"
+      "font-weight": "500",
     },
 
     ".secure-payment-form > div": {
-      "flex": "100%",
+      flex: "100%",
     },
 
     ".secure-payment-form .credit-card-card-cvv iframe": {
-      "width": "90%",
-      "float": "left",
+      width: "90%",
+      float: "left",
     },
 
     ".secure-payment-form .credit-card-shield": {
-      "flex": "1 1 auto",
+      flex: "1 1 auto",
       "margin-right": "16px",
-      "background": `url(${imageBase}gp-secure-ssl-logo.svg) no-repeat left`,
-      "width": "88px",
-      "height": "26px",
+      background: `url(${imageBase}gp-secure-ssl-logo.svg) no-repeat left`,
+      width: "88px",
+      height: "26px",
     },
 
     ".secure-payment-form .credit-card-logo": {
-      "flex": "1 1 auto",
+      flex: "1 1 auto",
       "margin-left": "16px",
-      "background": `url(${imageBase}gp-secure-logo.svg) no-repeat right`,
-      "width": "100px",
-      "height": "23px",
+      background: `url(${imageBase}gp-secure-logo.svg) no-repeat right`,
+      width: "100px",
+      height: "23px",
     },
 
     ".secure-payment-form .credit-card-submit": {
-      "margin": "32px 0 16px 0",
+      margin: "32px 0 16px 0",
     },
 
     ".secure-payment-form iframe": {
       "min-height": "40px",
-      "width": "100%",
+      width: "100%",
     },
 
     ".secure-payment-form .tooltip": {
-      "position": "relative",
-      "width": "10%",
-      "height": "40px",
-      "border": "1px solid #BCBFC8",
+      position: "relative",
+      width: "10%",
+      height: "40px",
+      border: "1px solid #BCBFC8",
       "border-left": "none",
-      "color": "#474B57",
-      "overflow": "hidden",
+      color: "#474B57",
+      overflow: "hidden",
       "background-size": "20px",
-      "background": `transparent url(${imageBase}gp-fa-question-circle.svg) no-repeat center center`,
+      background: `transparent url(${imageBase}gp-fa-question-circle.svg) no-repeat center center`,
     },
 
     ".secure-payment-form .tooltip-content": {
-      "visibility": "hidden",
-      "width": "200px",
+      visibility: "hidden",
+      width: "200px",
       "background-color": "#fff",
-      "color": "#474B57",
+      color: "#474B57",
       "text-align": "left",
       "border-radius": "3px",
-      "border": "solid 1px #BCBFC8",
-      "padding": "8px 8px",
-      "position": "absolute",
+      border: "solid 1px #BCBFC8",
+      padding: "8px 8px",
+      position: "absolute",
       "z-index": "99999999",
-      "right": "10%",
-      "opacity": "0",
-      "transition": "opacity 0.3s",
+      right: "10%",
+      opacity: "0",
+      transition: "opacity 0.3s",
       "font-size": "0.79em",
       "font-weight": "400",
       "margin-top": "-12px",
-      "overflow": "hidden",
+      overflow: "hidden",
       "box-shadow": "0 3px 6px rgba(0, 0, 0, 0.1)",
     },
 
     ".secure-payment-form .tooltip:hover + .tooltip-content": {
-      "visibility": "visible",
-      "opacity": "1",
+      visibility: "visible",
+      opacity: "1",
     },
 
     "@media(min-width: 800px)": {
       ".secure-payment-form .credit-card-card-expiration": {
-        "flex": "1 1 auto",
+        flex: "1 1 auto",
         "margin-right": "16px",
       },
 
       ".secure-payment-form .credit-card-card-cvv": {
-        "flex": "1 1 auto",
+        flex: "1 1 auto",
         "margin-left": "16px",
       },
 
       ".secure-payment-form .tooltip-content": {
-        "right": "5%",
+        right: "5%",
       },
     },
   };

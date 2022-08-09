@@ -14,13 +14,31 @@
   "scripts": {
     "build": "rollup -c config/rollup.js",
     "clean": "rimraf dist",
-    "format": "prettier --write 'config/**/*' 'src/**/*' 'test/**/*' '!src/assets/**/*' '!test/run.sh' '!test/run.ps1' '!test/fixtures/**/*.html'",
-    "prebuild": "rimraf dist && $npm_execpath run test:lint",
-    "prepare": "$npm_execpath run build",
-    "test": "start-server-and-test '$npm_execpath run test:serve' http://localhost:7777 '$npm_execpath run test:acceptance'",
+    "format": "prettier --write config/**/* src/**/* !src/assets/**/* !test/run.sh !test/run.ps1 !test/fixtures/**/*.html",
+    
+    "prebuild": "cross-os cross-prebuild",
+    "prepare": "cross-os cross-prepare",
+    "test": "cross-os cross-test",
+   
+
     "test:lint": "tslint --project tsconfig.json",
     "test:acceptance": "testcafe 'chrome:headless' 'test/acceptance/**/test-*'",
     "test:serve": "serve -p 7778"
+  },
+  "cross-os": {
+    "cross-prebuild": {
+      "linux": "rimraf dist && $npm_execpath run test:lint",
+      "win32": "rimraf dist && node \"%npm_execpath%\" run test:lint"
+    },
+    "cross-prepare": {
+      "win32": "node \"%npm_execpath%\" run build",
+      "linux": "$npm_execpath run build"
+    },
+    "cross-test": {
+      "linux": "start-server-and-test '$npm_execpath run test:serve' http://localhost:7777 '$npm_execpath run test:acceptance'",
+      "win32": "start-server-and-test \"node %npm_execpath% run test:serve\" http://localhost:7777 \"node %npm_execpath% run test:acceptance\""
+    }
+ 
   },
   "dependencies": {
     "globalpayments-lib": "^1.8.5"

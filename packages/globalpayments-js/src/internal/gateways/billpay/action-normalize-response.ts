@@ -10,7 +10,8 @@ export default (data: IDictionary) => {
   }
 
   if (!data.GetTokenResult || !data.GetTokenResult.IsSuccessful) {
-    const message = (data.GetTokenResult || {}).ErrorMessage || "Unexpected error";
+    const message =
+      (data.GetTokenResult || {}).ErrorMessage || "Unexpected error";
     const reasons = [{ code: "INVALID_REQUEST", message }];
 
     return {

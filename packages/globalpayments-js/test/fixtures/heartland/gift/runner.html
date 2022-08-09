@@ -1,7 +1,7 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Heartland Examples</title>
   </head>
   <body>
@@ -32,13 +32,13 @@
         fields: {
           "card-number": {
             placeholder: "•••• •••• •••• ••••",
-            target: "#giftNumber"
+            target: "#giftNumber",
           },
-          "submit": {
+          submit: {
             value: "Submit",
-            target: "#giftSubmit"
-          }
-        }
+            target: "#giftSubmit",
+          },
+        },
       });
 
       giftForm.on("card-number", "token-success", createResults);

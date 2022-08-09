@@ -11,10 +11,12 @@ export default (data: IDictionary) => {
   }
 
   if (data.error_code) {
-    const reasons = [{
-      code: data.error_code,
-      message: data.detailed_error_description,
-    }];
+    const reasons = [
+      {
+        code: data.error_code,
+        message: data.detailed_error_description,
+      },
+    ];
 
     return {
       error: true,

@@ -6,7 +6,6 @@ import ExpirationValidator from "../validators/expiration";
 import { typeByNumber } from "./card-types";
 import Events from "./events";
 import { postMessage } from "./post-message";
-
 export default class Card {
   /**
    * addType
@@ -60,11 +59,19 @@ export default class Card {
    *
    * @param e
    */
-  public static formatNumber(e: Event) {
+  public static formatNumber(e: KeyboardEvent) {
     const target = (e.currentTarget
       ? e.currentTarget
       : e.srcElement) as HTMLInputElement;
     const value = target.value;
+
+    const prevAction = target.getAttribute("data-prev");
+    target.setAttribute("data-prev", "" + e.keyCode);
+
+    // If the previous action was with the backespace key, we should let the cursor on the same place
+    if (prevAction === "8") {
+      return;
+    }
 
     if (value.length === 0) {
       return;
@@ -89,6 +96,11 @@ export default class Card {
       cursor += 1;
     }
 
+    // allow backspace
+    if (e.keyCode === 8) {
+      cursor = target.selectionStart || cursor;
+    }
+
     target.setSelectionRange(cursor, cursor);
   }
 
@@ -107,6 +119,8 @@ export default class Card {
     // allow: delete, backspace
     if (
       [46, 8].indexOf(e.keyCode) !== -1 ||
+      // allow: Ctrl+V
+      (e.keyCode === 86 && e.ctrlKey === true) ||
       // allow: home, end, left, right
       (e.keyCode >= 35 && e.keyCode <= 39)
     ) {
@@ -129,11 +143,13 @@ export default class Card {
         ? e.currentTarget
         : e.srcElement) as HTMLInputElement;
       const value = target.value;
-      // allow: backspace, delete, tab, escape and enter
+      // allow: backspace, delete, tab, escape, ctrl and enter
       if (
         [46, 8, 9, 27, 13, 110].indexOf(e.keyCode) !== -1 ||
         // allow: Ctrl+A
         (e.keyCode === 65 && e.ctrlKey === true) ||
+        // allow: Ctrl+V
+        (e.keyCode === 86 && e.ctrlKey === true) ||
         // allow: home, end, left, right
         (e.keyCode >= 35 && e.keyCode <= 39)
       ) {
@@ -160,11 +176,13 @@ export default class Card {
       : e.srcElement) as HTMLInputElement;
     const value = target.value;
     const cardType = typeByNumber(value);
-    // allow: backspace, delete, tab, escape and enter
+    // allow: backspace, delete, tab, escape, ctrl and enter
     if (
       [46, 8, 9, 27, 13, 110].indexOf(e.keyCode) !== -1 ||
       // allow: Ctrl+A
       (e.keyCode === 65 && e.ctrlKey === true) ||
+      // allow: Ctrl+V
+      (e.keyCode === 86 && e.ctrlKey === true) ||
       // allow: home, end, left, right
       (e.keyCode >= 35 && e.keyCode <= 39)
     ) {
@@ -174,7 +192,10 @@ export default class Card {
 
     const maxValue = (max: number, curr: number) => Math.max(max, curr);
 
-    if (value.replace(/\D/g, "").length >= (cardType ? cardType.lengths.reduce(maxValue) : 19)) {
+    if (
+      value.replace(/\D/g, "").length >=
+      (cardType ? cardType.lengths.reduce(maxValue) : 19)
+    ) {
       e.preventDefault ? e.preventDefault() : (e.returnValue = false);
     }
   }
@@ -188,11 +209,13 @@ export default class Card {
    * @param e
    */
   public static restrictNumeric(e: KeyboardEvent) {
-    // allow: backspace, delete, tab, escape and enter
+    // allow: backspace, delete, tab, escape, ctrl and enter
     if (
       [46, 8, 9, 27, 13, 110].indexOf(e.keyCode) !== -1 ||
       // allow: Ctrl+A
       (e.keyCode === 65 && e.ctrlKey === true) ||
+      // allow: Ctrl+V
+      (e.keyCode === 86 && e.ctrlKey === true) ||
       // allow: home, end, left, right
       (e.keyCode >= 35 && e.keyCode <= 39) ||
       // allow: weird Android/Chrome issue
@@ -203,7 +226,7 @@ export default class Card {
     }
     // ensure that it is a number and stop the keypress
     if (
-      (e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) &&
+      (e.shiftKey || e.keyCode < 48 || e.keyCode > 57) &&
       (e.keyCode < 96 || e.keyCode > 105)
     ) {
       e.preventDefault ? e.preventDefault() : (e.returnValue = false);
@@ -459,9 +482,13 @@ export default class Card {
 
     Events.addHandler(el, "keydown", Card.restrictNumeric);
     Events.addHandler(el, "keydown", Card.restrictCardNumberLength);
-    Events.addHandler(el, "keydown", Card.deleteProperly);
+    Events.addHandler(el, "input", Card.restrictCardNumberLength);
+
+    // value on input it's formatted after being fully entered
+    Events.addHandler(el, "keydown", Card.formatNumber);
     Events.addHandler(el, "keyup", Card.formatNumber);
-    Events.addHandler(el, "input", Card.formatNumber);
+
+    Events.addHandler(el, "keydown", Card.deleteProperly);
     Events.addHandler(el, "input", Card.validateNumber);
     Events.addHandler(el, "input", Card.addType);
   }
@@ -476,7 +503,6 @@ export default class Card {
     if (!el) {
       return;
     }
-
     Events.addHandler(el, "keydown", Card.restrictNumeric);
     Events.addHandler(el, "keydown", Card.restrictLength(9));
     Events.addHandler(el, "keyup", Card.formatExpiration);
@@ -495,7 +521,7 @@ export default class Card {
     if (!el) {
       return;
     }
-
+    el.setAttribute("maxlength", "3");
     Events.addHandler(el, "keydown", Card.restrictNumeric);
     Events.addHandler(el, "keydown", Card.restrictLength(4));
     Events.addHandler(el, "input", Card.validateCvv);
@@ -503,7 +529,7 @@ export default class Card {
 }
 
 if (!Array.prototype.indexOf) {
-  Array.prototype.indexOf = function(obj, start) {
+  Array.prototype.indexOf = function (obj, start) {
     for (let i = start || 0, j = this.length; i < j; i++) {
       if (this[i] === obj) {
         return i;

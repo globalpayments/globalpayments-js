@@ -14,28 +14,32 @@ let libraryLoaded: Promise<typeof window.GlobalPayments>;
  *
  * @returns The resolved library
  */
-export function loadLibrary(url?: string): Promise<typeof window.GlobalPayments> {
-    if (libraryLoaded) {
-        return libraryLoaded;
-    }
+export function loadLibrary(
+  url?: string
+): Promise<typeof window.GlobalPayments> {
+  if (libraryLoaded) {
+    return libraryLoaded;
+  }
 
-    if (window.GlobalPayments) {
-        return libraryLoaded = Promise.resolve(window.GlobalPayments);
-    }
+  if (window.GlobalPayments) {
+    return (libraryLoaded = Promise.resolve(window.GlobalPayments));
+  }
 
-    if (!url) {
-        url = "https://js.globalpay.com/v1/globalpayments.js";
-    }
+  if (!url) {
+    url = "https://js.globalpay.com/v1/globalpayments.js";
+  }
 
-    return libraryLoaded = new Promise((resolve) => {
-        try {
-            const script = document.createElement("script");
-            script.defer = true;
-            script.src = url || "";
-            script.onload = () => {
-                resolve(window.GlobalPayments);
-            };
-            document.body.appendChild(script);
-        } catch (e) { /** */ }
-    });
+  return (libraryLoaded = new Promise((resolve) => {
+    try {
+      const script = document.createElement("script");
+      script.defer = true;
+      script.src = url || "";
+      script.onload = () => {
+        resolve(window.GlobalPayments);
+      };
+      document.body.appendChild(script);
+    } catch (e) {
+      /** */
+    }
+  }));
 }

@@ -13,6 +13,8 @@ export default class CardNumber implements IValidator {
     if (!type) {
       return false;
     }
-    return luhnCheck(cardNumber) && type.lengths.indexOf(cardNumber.length) !== -1;
+    return (
+      luhnCheck(cardNumber) && type.lengths.indexOf(cardNumber.length) !== -1
+    );
   }
 }

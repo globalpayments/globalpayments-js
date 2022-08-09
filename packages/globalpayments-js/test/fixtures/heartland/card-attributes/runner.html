@@ -1,7 +1,7 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Heartland Examples</title>
   </head>
   <body>
@@ -33,26 +33,26 @@
           "card-number": {
             placeholder: "•••• •••• •••• ••••",
             target: "#cardNumber",
-            value: "4111 1111 1111 1111"
+            value: "4111 1111 1111 1111",
           },
           "card-expiration": {
             placeholder: "MM / YYYY",
             target: "#cardExpiration",
-            value: "12 / 2025"
+            value: "12 / 2025",
           },
           "card-cvv": {
             placeholder: "•••",
             target: "#cardCvv",
-            value: "123"
+            value: "123",
           },
           "card-holder-name": {
-            target: "#cardHolder"
+            target: "#cardHolder",
           },
-          "submit": {
+          submit: {
             target: "#cardSubmit",
-            text: "Place Order"
-          }
-        }
+            text: "Place Order",
+          },
+        },
       });
 
       cardForm.on("card-number", "token-success", createResults);

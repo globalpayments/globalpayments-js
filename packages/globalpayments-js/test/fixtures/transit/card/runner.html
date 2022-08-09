@@ -1,7 +1,7 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>TransIT Examples</title>
   </head>
   <body>
@@ -26,7 +26,8 @@
 
       GlobalPayments.configure({
         deviceId: "88700000322602",
-        manifest: "3c26272b6769cfa8b0c3c5a14dda4fc5365ed75c7330233a221a6e82aec667f35513c70862dc34f4ca31de7b4c824e129d23f8bce035fbbaa55aeb9da07b5d90bfe5d53c",
+        manifest:
+          "3c26272b6769cfa8b0c3c5a14dda4fc5365ed75c7330233a221a6e82aec667f35513c70862dc34f4ca31de7b4c824e129d23f8bce035fbbaa55aeb9da07b5d90bfe5d53c",
         env: "sandbox",
       });
 
@@ -34,25 +35,25 @@
         fields: {
           "card-number": {
             placeholder: "•••• •••• •••• ••••",
-            target: "#cardNumber"
+            target: "#cardNumber",
           },
           "card-expiration": {
             placeholder: "MM / YYYY",
-            target: "#cardExpiration"
+            target: "#cardExpiration",
           },
           "card-cvv": {
             placeholder: "•••",
-            target: "#cardCvv"
+            target: "#cardCvv",
           },
           "card-holder-name": {
             placeholder: "Jane Smith",
-            target: "#cardHolder"
+            target: "#cardHolder",
           },
-          "submit": {
+          submit: {
             value: "Submit",
-            target: "#cardSubmit"
-          }
-        }
+            target: "#cardSubmit",
+          },
+        },
       });
 
       cardForm.on("card-number", "token-success", createResults);

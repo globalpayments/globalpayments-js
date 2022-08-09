@@ -162,6 +162,18 @@ Enables autocomplete / autofill features. Default is `false`.
 
 Value for the `html` element's `lang` attribute within the iframes. Default is `en`.
 
+##### `requireCardHolderName` - `boolean` (Optional)
+
+> Note: Applies to GP API only.
+
+Enables a mandatory restriction for card holdername field
+
+##### `enableCardFingerPrinting` - `boolean` (Optional)
+
+> Note: Applies to GP API only.
+
+enables the use of the fingerprint mode with "ALWAYS" value 
+
 #### Examples
 
 ##### Heartland eCommerce

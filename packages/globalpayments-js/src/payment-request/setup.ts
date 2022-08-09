@@ -44,7 +44,7 @@ export class PaymentRequestEmitter extends EventEmitter {
  * @param startOnLoad If true, the payment card will be
  *          shown once the hosted field loads
  */
-export default function(
+export default function (
   selector: string,
   details?: PaymentDetailsInit,
   instruments?: PaymentMethodData[],
@@ -93,7 +93,7 @@ export default function(
 
   const iframe = new IframeField(
     "payment-request",
-    {target: "#" + holder.id},
+    { target: "#" + holder.id },
     assetBaseUrl() + "field.html",
   );
 
