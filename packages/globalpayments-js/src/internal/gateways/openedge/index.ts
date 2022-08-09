@@ -45,4 +45,4 @@ export const actions: IActions = {
 
 export const requiredSettings = ["X-GP-Api-Key", "X-GP-Environment"];
 
-export {getEnv};
+export { getEnv };

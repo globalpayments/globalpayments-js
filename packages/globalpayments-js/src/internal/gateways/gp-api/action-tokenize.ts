@@ -30,7 +30,15 @@ export default async (url: string, env: string, data: IDictionary) => {
     const exp = data["card-expiration"].split(" / ");
     request.card = request.card || {};
     request.card.expiry_month = exp[0] || "";
-    request.card.expiry_year = (exp[1] || "").substr(2, 2);
+    request.card.expiry_year = (exp[1] || "").length === 2 ? (exp[1] || "") : (exp[1] || "").substr(2, 2);
+  }
+
+  if (data["card-holder-name"]) {
+    request.name = data["card-holder-name"];
+  }
+
+  if (options.enableCardFingerPrinting) {
+    request.fingerprint_mode = "ALWAYS"
   }
 
   try {

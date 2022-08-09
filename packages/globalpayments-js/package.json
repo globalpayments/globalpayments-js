@@ -1,6 +1,6 @@
 {
   "name": "@globalpayments/js",
-  "version": "1.8.6",
+  "version": "1.8.7",
   "author": "Heartland Developer Portal <developers@heartland.us>",
   "license": "GPL-2.0",
   "repository": {
@@ -16,17 +16,32 @@
     "build": "rollup -c config/rollup.js",
     "clean": "rimraf dist",
     "cypress:open": "cypress open",
-    "format": "prettier --write 'config/**/*' 'src/**/*' 'test/**/*' '!src/assets/**/*' '!test/run.sh' '!test/run.ps1' '!test/fixtures/**/*.html'",
-    "postbuild": "cp -R src/assets/* dist && node bin/replace-gp-ref.js",
+    "format": "prettier --write config/**/* src/**/* !src/assets/**/* !test/run.sh !test/run.ps1 test/fixtures/**/*.html",
+    
+    "postbuild": "cross-os postbuild-cross",
+
     "prebuild": "yarn test:lint && node bin/update-version.js",
     "prepublish": "yarn build",
-    "test": "start-server-and-test '$npm_execpath run test:serve' http://localhost:7777 '$npm_execpath run test:integration'",
+   
+    "test": "cross-os test-cross",
+  
+
     "test:integration": "cypress run",
     "test:lint": "tslint --project tsconfig.json",
     "test:serve": "serve -p 7777"
   },
+  "cross-os": {
+    "postbuild-cross": {
+      "linux": "cp -R src/assets/* dist && node bin/replace-gp-ref.js",
+      "win32": "xcopy src\\assets dist\\ /e/y/h && node bin/replace-gp-ref.js"
+    },
+    "test-cross": {
+      "linux": "start-server-and-test '$npm_execpath run test:serve' http://localhost:7777 '$npm_execpath run test:integration'",
+      "win32": "start-server-and-test \"node %npm_execpath% run test:serve\" http://localhost:7777 \"node %npm_execpath% run test:integration\""
+    }
+  },
   "dependencies": {
-    "globalpayments-lib": "^1.8.5"
+    "globalpayments-lib": "^1.8.12"
   },
   "devDependencies": {
     "rimraf": "*",

@@ -20,7 +20,7 @@ export default class Expiration implements IFormatter {
       del = " / ";
     } else if (month.length === 2 || del.length > 0) {
       del = " / ";
-    } else if (month.length === 1 && (month !== "0" && month !== "1")) {
+    } else if (month.length === 1 && month !== "0" && month !== "1") {
       del = " / ";
     }
 
@@ -29,11 +29,7 @@ export default class Expiration implements IFormatter {
     }
 
     if (final && year.length === 2) {
-      year =
-        new Date()
-          .getFullYear()
-          .toString()
-          .slice(0, 2) + year;
+      year = new Date().getFullYear().toString().slice(0, 2) + year;
     }
 
     return month + del + year;

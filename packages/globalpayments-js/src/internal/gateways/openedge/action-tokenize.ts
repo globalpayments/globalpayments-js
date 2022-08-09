@@ -49,11 +49,13 @@ export default async (url: string, env: string, data: IDictionary) => {
       "X-GP-Api-Key": options["X-GP-Api-Key"],
       "X-GP-Environment": `${environment}`,
       /* tslint:disable:no-bitwise */
-      "X-GP-Request-Id": "PFC-" + "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (character) => {
-        const random = Math.floor(Math.random() * 16);
-        const value = character === "x" ? random : (random & 0x3 | 0x8);
-        return value.toString(16);
-      }),
+      "X-GP-Request-Id":
+        "PFC-" +
+        "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (character) => {
+          const random = Math.floor(Math.random() * 16);
+          const value = character === "x" ? random : (random & 0x3) | 0x8;
+          return value.toString(16);
+        }),
       /* tslint:enable:no-bitwise */
       "X-GP-Version": "2019-08-22",
     };

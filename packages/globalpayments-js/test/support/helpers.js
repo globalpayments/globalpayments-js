@@ -167,3 +167,43 @@ export const shouldHaveText = (value) => {
       .should("have.text", value);
   };
 };
+
+export const getIframeDocument = (frameName) => {
+  return cy
+  .get(`.${frameName} > iframe`)
+  .its('0.contentDocument').should('exist')
+}
+
+export const getIframeBody = (frameName) => {
+  return getIframeDocument(frameName)
+  .its('body').should('not.be.undefined')
+  .then(cy.wrap)
+}
+
+export const type = (argument, value) => {
+   return argument
+   .find('#secure-payment-field-wrapper')
+   .find('#secure-payment-field')
+   .type(value);
+}
+
+export const cardDropinClick = () => {
+  return getIframeBody('credit-card-submit-target')
+    .find('#secure-payment-field-wrapper')
+    .find('#secure-payment-field')
+    .click();
+}
+
+export const shouldHaveValueCardDropin = (argument, value) => {
+  return argument
+    .find('#secure-payment-field-wrapper')
+    .find('#secure-payment-field')
+    .should('have.value', value);
+}
+
+export const shouldHaveAttributeCardDropin = (argument, attr, value) => {
+  return argument
+  .find('#secure-payment-field-wrapper')
+  .find('#secure-payment-field')
+  .should('have.attr', attr, value)
+};

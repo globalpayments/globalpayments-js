@@ -27,11 +27,7 @@ export default class Expiration implements IValidator {
     }
 
     if (y.length === 2) {
-      y =
-        new Date()
-          .getFullYear()
-          .toString()
-          .slice(0, 2) + y;
+      y = new Date().getFullYear().toString().slice(0, 2) + y;
     }
 
     const month = parseInt(m, 10);

@@ -295,6 +295,17 @@ export default class UIForm {
           },
           cardCvv.id,
         );
+        const maxlength = data.cardType === "amex" ? "4" : "3";
+        postMessage.post(
+          {
+            data: {
+              maxlength,
+            },
+            id: cardCvv.id,
+            type: "ui:iframe-field:change-cvv-settings",
+          },
+          cardCvv.id,
+        );
       });
     }
   }

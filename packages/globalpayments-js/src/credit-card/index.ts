@@ -11,7 +11,7 @@ export const defaultOptions: IUIFormOptions = {
     "card-expiration": "Card Expiration",
     "card-holder-name": "Card Holder Name",
     "card-number": "Card Number",
-    "submit": "Submit",
+    submit: "Submit",
   },
   placeholders: {
     "card-cvv": "•••",
@@ -26,11 +26,11 @@ export const defaultOptions: IUIFormOptions = {
     "card-expiration": "Card Expiration Input",
     "card-holder-name": "Card Holder Name Input",
     "card-number": "Card Number Input",
-    "submit": "Form Submit Button Input",
+    submit: "Form Submit Button Input",
   },
   values: {
     "card-track": "Read Card",
-    "submit": "Submit",
+    submit: "Submit",
   },
 };
 
@@ -59,7 +59,6 @@ export function form(
   target.className = target.className + " secure-payment-form";
 
   const gateway = getGateway();
-
   if (gateway && gateway.getEnv(options) !== "production") {
     addSandboxAlert(target);
   }
@@ -75,6 +74,7 @@ export function form(
     "submit",
   ];
   const fields: any = {};
+
   for (const i in fieldTypes) {
     if (!fieldTypes.hasOwnProperty(i)) {
       continue;
@@ -97,15 +97,23 @@ export function form(
     el.className = formOptions.prefix + type + "-target";
     wrapper.appendChild(el);
 
-    if (type === "card-cvv" && formOptions.style && formOptions.style !== "blank") {
+    if (
+      type === "card-cvv" &&
+      formOptions.style &&
+      formOptions.style !== "blank"
+    ) {
       createToolTip(el);
     }
 
     fields[type] = {} as any;
-    fields[type].target = ".secure-payment-form ." + formOptions.prefix + type + "-target";
+    fields[type].target =
+      ".secure-payment-form ." + formOptions.prefix + type + "-target";
 
     if (formOptions.placeholders && formOptions.placeholders[type]) {
-      fields[type].placeholder = formOptions.placeholders[type];
+      fields[type].placeholder =
+        type === "card-expiration" && options.enableTwoDigitExpirationYear
+          ? "MM / YY"
+          : formOptions.placeholders[type];
     }
     if (formOptions.values && formOptions.values[type]) {
       fields[type].value = formOptions.values[type];
@@ -230,8 +238,11 @@ function createToolTip(target: Element) {
   title.appendChild(document.createTextNode("Security Code"));
   content.appendChild(title);
   content.appendChild(document.createElement("br"));
-  content.appendChild(document.createTextNode("The additional 3 digits on the back of your card. For American Express, it is the additional 4 digits on the front of your card."));
-
+  content.appendChild(
+    document.createTextNode(
+      "The additional 3 digits on the back of your card. For American Express, it is the additional 4 digits on the front of your card.",
+    ),
+  );
   target.appendChild(tooltip);
   target.appendChild(content);
 }

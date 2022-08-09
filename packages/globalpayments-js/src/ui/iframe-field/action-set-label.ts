@@ -15,9 +15,11 @@ export default (text: string) => {
   // Set the label on the input via aria-label
   el.setAttribute("aria-label", encodeEntities(text));
   // ... and on the main landmark via aria-label
-  document.querySelectorAll("main")
+  document
+    .querySelectorAll("main")
     .forEach((e) => e.setAttribute("aria-label", encodeEntities(text)));
   // ... and also on the hidden label element via its text content
-  document.querySelectorAll(`#${paymentFieldId}-label`)
-    .forEach((e) => e.textContent = encodeEntities(text));
+  document
+    .querySelectorAll(`#${paymentFieldId}-label`)
+    .forEach((e) => (e.textContent = encodeEntities(text)));
 };

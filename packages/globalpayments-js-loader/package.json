@@ -21,7 +21,7 @@
   "scripts": {
     "build": "tsc",
     "clean": "rimraf index.d.ts index.js",
-    "format": "prettier --write '**/*' 'test/**/*' '!examples/**/*.html'",
+    "format": "prettier --write **/* !examples/**/*.html",
     "prebuild": "yarn test:lint",
     "prepublish": "yarn build",
     "test:lint": "tslint --project tsconfig.json",

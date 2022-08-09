@@ -176,7 +176,7 @@ export let JSON: any = {};
   }
 
   if (typeof Date.prototype.toJSON !== "function") {
-    Date.prototype.toJSON = function(_KEY?: any) {
+    Date.prototype.toJSON = function (_KEY?: any) {
       return isFinite(this.valueOf())
         ? this.getUTCFullYear() +
             "-" +
@@ -195,7 +195,7 @@ export let JSON: any = {};
 
     const strProto: any = String.prototype;
     const numProto: any = Number.prototype;
-    numProto.JSON = strProto.JSON = (Boolean.prototype as any).toJSON = function(
+    numProto.JSON = strProto.JSON = (Boolean.prototype as any).toJSON = function (
       _KEY?: any,
     ) {
       return this.valueOf();

@@ -12,10 +12,12 @@ export default (data: IDictionary) => {
   if (["FAIL", "FAILURE"].indexOf(data.status) !== -1) {
     return {
       error: true,
-      reasons: [{
-        code: "ERROR",
-        message: `${data.responseCode}: ${data.message}`,
-      }],
+      reasons: [
+        {
+          code: "ERROR",
+          message: `${data.responseCode}: ${data.message}`,
+        },
+      ],
     };
   }
 

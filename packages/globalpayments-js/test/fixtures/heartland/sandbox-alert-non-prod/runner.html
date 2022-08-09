@@ -1,14 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Heartland Examples</title>
   </head>
   <body>
     <script src="/dist/globalpayments.js"></script>
 
-    <form id="form" action="/charge" method="get">
-    </form>
+    <form id="form" action="/charge" method="get"></form>
 
     <script>
       const createResults = (resp) => {
@@ -23,7 +22,7 @@
         publicApiKey: "pkapi_cert_dNpEYIISXCGDDyKJiV",
       });
 
-      const cardForm = GlobalPayments.creditCard.form('#form');
+      const cardForm = GlobalPayments.creditCard.form("#form");
 
       cardForm.on("token-success", createResults);
       cardForm.on("token-error", createResults);

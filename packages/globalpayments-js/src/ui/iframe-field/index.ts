@@ -19,6 +19,7 @@ import actionSetLabel from "./action-set-label";
 import actionSetPlaceholder from "./action-set-placeholder";
 import actionSetText from "./action-set-text";
 import actionSetValue from "./action-set-value";
+import actionSetTypeCvv from "./action-set-type-cvv";
 
 export interface IFrameCollection {
   [key: string]: IframeField | undefined;
@@ -59,7 +60,6 @@ export class IframeField extends EventEmitter {
     const data: any = JSON.parse(atob(query));
     const id: string = data.id;
     const enableAutocomplete = data.enableAutocomplete || false;
-
     IframeField.setHtmlLang(data.lang);
     IframeField.createField(id, type, data.type, enableAutocomplete);
     IframeField.addMessageListener(id, type, data.targetOrigin);
@@ -75,7 +75,9 @@ export class IframeField extends EventEmitter {
     IframeField.triggerResize(id);
 
     // Fix iOS issue with cross-origin iframes
-    Events.addHandler(document.body, "touchstart", () => { /** */ });
+    Events.addHandler(document.body, "touchstart", () => {
+      /** */
+    });
   }
 
   /**
@@ -106,11 +108,23 @@ export class IframeField extends EventEmitter {
    * @param type Type of element
    * @param enableAutocomplete Whether autocomplete should be enabled
    */
-  public static createField(id: string, name: string, type: string, enableAutocomplete: boolean) {
+  public static createField(
+    id: string,
+    name: string,
+    type: string,
+    enableAutocomplete: boolean,
+  ) {
     const input = document.createElement(
       type === "button" ? "button" : "input",
     );
-    input.setAttribute("type", type === "button" ? "button" : (name === "card-holder-name" ? "text" : "tel"));
+    input.setAttribute(
+      "type",
+      type === "button"
+        ? "button"
+        : name === "card-holder-name"
+        ? "text"
+        : "tel",
+    );
     input.id = paymentFieldId;
     input.className = name;
     input.setAttribute("data-id", id);
@@ -143,9 +157,31 @@ export class IframeField extends EventEmitter {
     IframeField.addFrameFocusEvent();
 
     if (enableAutocomplete === true && name === "card-number") {
-      IframeField.createAutocompleteField(dest, id, "card-cvv", "cardCsc", "cc-csc");
-      IframeField.createAutocompleteField(dest, id, "card-expiration", "cardExpiration", "cc-exp");
-      IframeField.createAutocompleteField(dest, id, "card-holder-name", "cardHolderName", "cc-name");
+      IframeField.createAutocompleteField(
+        dest,
+        id,
+        "card-cvv",
+        "cardCsc",
+        "cc-csc",
+      );
+      IframeField.createAutocompleteField(
+        dest,
+        id,
+        "card-expiration",
+        "cardExpiration",
+        "cc-exp",
+      );
+      IframeField.createAutocompleteField(
+        dest,
+        id,
+        "card-holder-name",
+        "cardHolderName",
+        "cc-name",
+      );
+    }
+
+    if (name === "card-number") {
+      input.setAttribute("data-prev", "0");
     }
 
     if (name === "card-track") {
@@ -314,6 +350,10 @@ export class IframeField extends EventEmitter {
           break;
         case "set-placeholder":
           actionSetPlaceholder(data.data.placeholder);
+          IframeField.triggerResize(id);
+          break;
+        case "change-cvv-settings":
+          actionSetTypeCvv(data.data.maxlength);
           IframeField.triggerResize(id);
           break;
         case "set-text":

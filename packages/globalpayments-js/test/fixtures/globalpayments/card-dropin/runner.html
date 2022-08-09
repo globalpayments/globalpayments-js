@@ -1,15 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Global Payments Examples</title>
   </head>
   <body>
     <script src="/dist/globalpayments.js"></script>
     <script src="/test/fixtures/globalpayments/sha1.min.js"></script>
 
-    <form id="form" action="/charge" method="get">
-    </form>
+    <form id="form" action="/charge" method="get"></form>
 
     <script>
       const createResults = (resp) => {
@@ -32,26 +31,26 @@
           // requests securely from a server-side integration.
           // !!! Never do this in production. !!!
 
-          const sharedSecret = 'secret';
+          const sharedSecret = "secret";
 
           const toHash = [
-            request.TIMESTAMP || '',
-            request.MERCHANT_ID || '',
-            request.ORDER_ID || '',
-            '',
-            request.CURRENCY || '',
-            request.PAYER_REF || '',
-            request.PMT_REF || '',
+            request.TIMESTAMP || "",
+            request.MERCHANT_ID || "",
+            request.ORDER_ID || "",
+            "",
+            request.CURRENCY || "",
+            request.PAYER_REF || "",
+            request.PMT_REF || "",
           ];
 
-          request.SHA1HASH = sha1(sha1(toHash.join('.')) + '.' + sharedSecret);
+          request.SHA1HASH = sha1(sha1(toHash.join(".")) + "." + sharedSecret);
 
           return Promise.resolve(request);
         },
         env: "sandbox",
       });
 
-      const cardForm = GlobalPayments.creditCard.form('#form');
+      const cardForm = GlobalPayments.creditCard.form("#form");
 
       cardForm.on("token-success", createResults);
       cardForm.on("token-error", createResults);

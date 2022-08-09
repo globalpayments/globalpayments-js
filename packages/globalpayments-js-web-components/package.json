@@ -19,14 +19,28 @@
     "url": "https://github.com/globalpayments/globalpayments-js.git"
   },
   "scripts": {
-    "build": "rollup -c ./config/rollup.js && $npm_execpath run build:docs",
+
+    "build": "cross-os build-cross",
+  
     "build:docs": "wca analyze src --format markdown --outFile custom-elements.md",
     "clean": "rimraf lib",
-    "format": "prettier --write 'src/**/*' 'test/**/*' '!examples/**/*.html'",
+    "format": "prettier --write src/**/* !examples/**/*.html",
     "prebuild": "rimraf lib && yarn test:lint",
-    "prepublish": "$npm_execpath run build",
+
+    "prepublish": "cross-os prepublish-cross",
+    
     "test:lint": "tslint --project tsconfig.json",
     "test:serve": "serve -p 7777"
+  },
+  "cross-os": {
+    "build-cross": {
+      "linux": "rollup -c ./config/rollup.js && $npm_execpath run build:docs",
+      "win32": "rollup -c ./config/rollup.js && node \"%npm_execpath%\" run build:docs"
+    },
+    "prepublish-cross": {
+      "linux": "$npm_execpath run build",
+      "win32": "node \"%npm_execpath%\" run build"
+    }
   },
   "dependencies": {
     "@globalpayments/js": "^1.8.5",

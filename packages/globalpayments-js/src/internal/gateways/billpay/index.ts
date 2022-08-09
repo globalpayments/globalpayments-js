@@ -19,7 +19,9 @@ const domains = {
 
 export const urls = {
   tokenization: (prod: boolean) =>
-    `${prod ? domains.production : domains.sandbox}/QuickPayService/QuickPayService.svc/GetToken`,
+    `${
+      prod ? domains.production : domains.sandbox
+    }/QuickPayService/QuickPayService.svc/GetToken`,
 };
 
 export const actions: IActions = {

@@ -11,7 +11,9 @@ export default (url: string, enbv: string, data: IDictionary) => {
     };
 
     if (data["card-number"]) {
-      request.encCardNumber = (window as any).encryptTsepCard(data["card-number"].replace(/\s/g, ""));
+      request.encCardNumber = (window as any).encryptTsepCard(
+        data["card-number"].replace(/\s/g, ""),
+      );
     }
 
     if (
@@ -54,10 +56,15 @@ export default (url: string, enbv: string, data: IDictionary) => {
         // be the only event to capture in order to handle load errors
         if (eventType === "ErrorEvent") {
           cleanup();
-          reject({ error: true, reasons: [{
-            code: "ERROR",
-            message: `${eventData.responseCode}: ${eventData.message}`,
-          }]});
+          reject({
+            error: true,
+            reasons: [
+              {
+                code: "ERROR",
+                message: `${eventData.responseCode}: ${eventData.message}`,
+              },
+            ],
+          });
         }
       };
 
@@ -84,7 +91,9 @@ export default (url: string, enbv: string, data: IDictionary) => {
       // tsep doesn't expose a way to hook into the library's load event,
       // so we create an interval to check manually
       const interval = setInterval(() => {
-        const cardEl = document.getElementById(cardId.substr(0, cardId.length - 3)) as HTMLInputElement;
+        const cardEl = document.getElementById(
+          cardId.substr(0, cardId.length - 3),
+        ) as HTMLInputElement;
 
         // presence of the card element ensures tsep.js is loaded
         // presence of `cryptTsep` ensures jsencrypt.js is loaded
@@ -101,7 +110,8 @@ export default (url: string, enbv: string, data: IDictionary) => {
         fetch(`${options.tsepHost}/transit-tsep-web/generateTsepToken`, {
           body: JSON.stringify(getRequest()),
           credentials: "omit",
-          headers: typeof Headers !== "undefined" ? new Headers(headers) : headers,
+          headers:
+            typeof Headers !== "undefined" ? new Headers(headers) : headers,
           method: "POST",
         })
           .then((resp) => {

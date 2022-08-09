@@ -28,9 +28,7 @@ export const isMobileNewTab =
 // Display IFrame on WIndows Phone OS mobile devices
 export const isMobileIFrame = isWindowsMobileOs || isMobileNewTab;
 
-export const randomId = Math.random()
-  .toString(16)
-  .substr(2, 8);
+export const randomId = Math.random().toString(16).substr(2, 8);
 
 export function createLightbox(
   iFrame: HTMLIFrameElement,
@@ -94,8 +92,12 @@ export function createLightbox(
 }
 
 function closeModal() {
-  Array.prototype.slice.call(document
-    .querySelectorAll(`[target$="-${randomId}"],[id$="-${randomId}"]`))
+  Array.prototype.slice
+    .call(
+      document.querySelectorAll(
+        `[target$="-${randomId}"],[id$="-${randomId}"]`,
+      ),
+    )
     .forEach((element) => {
       if (element.parentNode) {
         element.parentNode.removeChild(element);

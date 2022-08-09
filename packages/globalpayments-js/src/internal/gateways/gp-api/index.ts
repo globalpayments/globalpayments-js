@@ -40,7 +40,7 @@ export const urls = {
       domain = domains.qa;
     }
 
-    let endpoint = 'payment-methods';
+    let endpoint = "payment-methods";
 
     if (options.merchantId) {
       endpoint = `merchants/${options.merchantId}/${endpoint}`;
@@ -58,4 +58,4 @@ export const actions: IActions = {
 
 export const requiredSettings = ["accessToken"];
 
-export {getEnv};
+export { getEnv };

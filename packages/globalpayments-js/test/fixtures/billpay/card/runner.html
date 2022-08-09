@@ -1,7 +1,7 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>BillPay Examples</title>
   </head>
   <body>
@@ -33,25 +33,25 @@
         fields: {
           "card-number": {
             placeholder: "•••• •••• •••• ••••",
-            target: "#cardNumber"
+            target: "#cardNumber",
           },
           "card-expiration": {
             placeholder: "MM / YYYY",
-            target: "#cardExpiration"
+            target: "#cardExpiration",
           },
           "card-cvv": {
             placeholder: "•••",
-            target: "#cardCvv"
+            target: "#cardCvv",
           },
           "card-holder-name": {
             placeholder: "Jane Smith",
-            target: "#cardHolder"
+            target: "#cardHolder",
           },
-          "submit": {
+          submit: {
             value: "Submit",
-            target: "#cardSubmit"
-          }
-        }
+            target: "#cardSubmit",
+          },
+        },
       });
 
       cardForm.on("card-number", "token-success", createResults);

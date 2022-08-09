@@ -18,7 +18,8 @@ export default (data: IDictionary) => {
       }
 
       const reason = data.errors[i];
-      const serverErrorType = reason.code === "SERVER_REQUIRED" ? "missing" : "invalid";
+      const serverErrorType =
+        reason.code === "SERVER_REQUIRED" ? "missing" : "invalid";
       let code = "ERROR";
       let message = `An unknown error has occurred. Details: ${reason.error_Code} - ${reason.reason}`;
 

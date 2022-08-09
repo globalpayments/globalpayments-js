@@ -162,7 +162,10 @@ export async function handleInitiateAuthentication(
   data: IInitiateAuthenticationResponseData,
   options: IChallengeWindowOptions,
 ) {
-  if (data.challengeMandated || data.status === TransactionStatus.ChallengeRequired) {
+  if (
+    data.challengeMandated ||
+    data.status === TransactionStatus.ChallengeRequired
+  ) {
     data.challenge = data.challenge || {};
 
     if (!data.challenge.requestUrl) {
