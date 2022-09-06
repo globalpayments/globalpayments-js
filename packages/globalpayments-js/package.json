@@ -41,7 +41,7 @@
     }
   },
   "dependencies": {
-    "globalpayments-lib": "^1.8.12"
+    "globalpayments-lib": "^1.8.5"
   },
   "devDependencies": {
     "rimraf": "*",

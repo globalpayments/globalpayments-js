@@ -15,9 +15,8 @@
     "build": "rollup -c config/rollup.js",
     "clean": "rimraf dist",
     "format": "prettier --write config/**/* src/**/* !src/assets/**/* !test/run.sh !test/run.ps1 !test/fixtures/**/*.html",
-    
-    "prebuild": "cross-os cross-prebuild",
-    "prepare": "cross-os cross-prepare",
+    "prebuild": "rimraf dist && node \"%npm_execpath%\" run test:lint",
+    "prepare": "node \"%npm_execpath%\" run build",
     "test": "cross-os cross-test",
    
 
@@ -38,7 +37,7 @@
       "linux": "start-server-and-test '$npm_execpath run test:serve' http://localhost:7777 '$npm_execpath run test:acceptance'",
       "win32": "start-server-and-test \"node %npm_execpath% run test:serve\" http://localhost:7777 \"node %npm_execpath% run test:acceptance\""
     }
- 
+
   },
   "dependencies": {
     "globalpayments-lib": "^1.8.5"

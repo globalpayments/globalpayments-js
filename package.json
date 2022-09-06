@@ -21,7 +21,8 @@
     "testcafe": "^1.9.4",
     "tslint": "^6.1.3",
     "typescript": "^4.1.2",
-    "web-component-analyzer": "^1.1.6"
+    "web-component-analyzer": "^1.1.6",
+    "cross-os": "^1.4.0"
   },
   "dependencies": {
     "@globalpayments/js": "file:packages/globalpayments-js",
