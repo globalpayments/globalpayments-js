@@ -15,10 +15,11 @@
     "build": "rollup -c config/rollup.js",
     "clean": "rimraf dist",
     "format": "prettier --write config/**/* src/**/* !src/assets/**/* !test/run.sh !test/run.ps1 !test/fixtures/**/*.html",
-    "prebuild": "rimraf dist && node \"%npm_execpath%\" run test:lint",
-    "prepare": "node \"%npm_execpath%\" run build",
+
+    "prebuild": "cross-os cross-prebuild",
+    "prepare": "cross-os cross-prepare",
     "test": "cross-os cross-test",
-   
+
 
     "test:lint": "tslint --project tsconfig.json",
     "test:acceptance": "testcafe 'chrome:headless' 'test/acceptance/**/test-*'",
