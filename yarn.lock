@@ -153,7 +153,7 @@
     "@globalpayments/js-loader" "^1.8.5"
 
 "@globalpayments/js@file:packages/globalpayments-js":
-  version "1.8.5"
+  version "1.8.6"
   dependencies:
     globalpayments-lib "^1.8.5"
 
@@ -3150,6 +3150,11 @@ create-hmac@^1.1.0, create-hmac@^1.1.4, create-hmac@^1.1.7:
     ripemd160 "^2.0.0"
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
+
+cross-os@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/cross-os/-/cross-os-1.4.0.tgz#350f03fccb4bd9178777b6ae20160c1c7c79dbed"
+  integrity sha512-nuARAXqbsizhsqo3qo1bpYW2S6ohxJICjo/5Q/mq5xQ9dn1uWoRQ855DZrBAWgVfg7liPLdatnY2KMZwZYuxsQ==
 
 cross-spawn@^5.0.1:
   version "5.1.0"

@@ -43,6 +43,8 @@ export interface ISuccess {
     cardholderName?: string;
     expiryMonth?: string;
     expiryYear?: string;
+    fingerprint?: string;
+    fingerprintPresenceIndicator?: string;
     isHsaFsa?: boolean;
     merchantId?: string;
     merchantName?: string;

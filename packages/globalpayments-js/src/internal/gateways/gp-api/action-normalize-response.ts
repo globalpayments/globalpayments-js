@@ -28,11 +28,13 @@ export default (data: IDictionary) => {
     details: {
       accountId: data.account_id,
       accountName: data.account_name,
+      fingerprint: data.fingerprint,
+      fingerprintPresenceIndicator: data.fingerprint_presence_indicator,
       merchantId: data.merchant_id,
       merchantName: data.merchant_name,
-      reference: data.reference,
+      reference: data.reference
     },
-    paymentReference: data.id,
+    paymentReference: data.id
   };
 
   if (data.card && data.card.masked_number_last4) {
