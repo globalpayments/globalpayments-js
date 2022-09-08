@@ -45,6 +45,7 @@ $accessToken = $response->token ?? '';
       GlobalPayments.configure({
         accessToken: "<?= $accessToken ?>",
         env: "qa",
+        apiVersion: "2021-03-22"
       });
 
       GlobalPayments.on("error", function (error) {

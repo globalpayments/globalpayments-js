@@ -49,6 +49,7 @@ export const fieldStyles = (assetBaseUrl: string) => {
       height: "48px",
       "text-align": "center",
       "vertical-align": "middle",
+      "text-transform": "uppercase"
     },
     "#secure-payment-field[type=button]:focus": {
       border: "1px solid #2B9AEC",
@@ -98,6 +99,7 @@ export const fieldStyles = (assetBaseUrl: string) => {
 
 export const parentStyles = (assetBaseUrl: string) => {
   const imageBase = assetBaseUrl + "images/";
+  const fontBase = assetBaseUrl + "fonts/";
 
   return {
     ".secure-payment-form": {
@@ -115,7 +117,8 @@ export const parentStyles = (assetBaseUrl: string) => {
       display: "block",
       "font-size": "0.79em",
       "font-weight": "500",
-    },
+      "font-family": "GPCommerce"
+},
 
     ".secure-payment-form > div": {
       flex: "100%",
@@ -187,6 +190,11 @@ export const parentStyles = (assetBaseUrl: string) => {
     ".secure-payment-form .tooltip:hover + .tooltip-content": {
       visibility: "visible",
       opacity: "1",
+    },
+
+    "@font-face": {
+      "font-family": "GPCommerce",
+      src: `url("${fontBase}GPCommerce-Regular.woff2") format("woff2")`,
     },
 
     "@media(min-width: 800px)": {
