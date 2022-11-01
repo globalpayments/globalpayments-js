@@ -14,10 +14,7 @@ export const defaultOptions: IUIFormOptions = {
     submit: "Submit",
   },
   placeholders: {
-    "card-cvv": "•••",
     "card-expiration": "MM / YYYY",
-    "card-holder-name": "Jane Smith",
-    "card-number": "•••• •••• •••• ••••",
   },
   prefix: "credit-card-",
   style: "default",
