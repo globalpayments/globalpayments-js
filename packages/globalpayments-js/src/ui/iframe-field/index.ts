@@ -667,6 +667,7 @@ export class IframeField extends EventEmitter {
     frame.frameBorder = "0";
     frame.scrolling = "no";
     frame.setAttribute("allowtransparency", "true");
+    frame.setAttribute("aria-hidden", "true");
     frame.allowPaymentRequest = true;
     return frame;
   }
