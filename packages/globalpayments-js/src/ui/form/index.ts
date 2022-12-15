@@ -16,6 +16,7 @@ import {
 } from "../../internal/lib/styles/simple";
 import { IDictionary } from "../../internal/lib/util";
 import { IFrameCollection, IframeField, IUIFormField } from "../iframe-field";
+import addClickToPay from "../iframe-field/action-add-click-to-pay";
 
 export { IUIFormField } from "../iframe-field";
 
@@ -43,6 +44,7 @@ export interface IUIFormOptions {
 }
 
 export const frameFieldTypes = [
+  "click-to-pay",
   "card-number",
   "card-expiration",
   "card-cvv",
@@ -268,6 +270,7 @@ export default class UIForm {
 
     const cardNumber = this.frames["card-number"];
     const cardCvv = this.frames["card-cvv"];
+    const ctp = this.frames["click-to-pay"];
 
     // support autocomplete / auto-fill from `card-number` to other fields
     if (cardNumber) {
@@ -308,6 +311,11 @@ export default class UIForm {
         );
       });
     }
+
+    if(ctp) {
+      ctp?.container?.querySelector('iframe')?.remove();
+      addClickToPay(ctp);
+    }
   }
 
   private requestDataFromAll(target: IframeField) {
@@ -318,7 +326,9 @@ export default class UIForm {
         continue;
       }
 
-      fields.push(type);
+      if(type !== "click-to-pay") {
+        fields.push(type);
+      }
     }
 
     for (const type of fields) {
