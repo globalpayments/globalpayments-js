@@ -33,6 +33,17 @@ export interface IConfiguration extends IDictionary {
   env?: string;
 
   // Specific configuration properties for
+  // Digital Wallets
+  clickToPay?: {
+    allowedCardNetworks: string[];
+    canadianDebit?: boolean;
+    ctpClientId: string;
+    currencyCode: string;
+    subtotal: number;
+    wrapper?: boolean;
+  }
+
+  // Specific configuration properties for
   // MerchantWare / Genius Checkout (genius)
   webApiKey?: string;
 

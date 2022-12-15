@@ -11,6 +11,7 @@ export const supports = {
   apm: {
     applePay: false,
     googlePay: false,
+    clickToPay: true,
   },
   binCheck: {
     hsaFsa: false,

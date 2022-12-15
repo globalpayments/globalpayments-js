@@ -64,6 +64,7 @@ export function form(
 
   // create field targets
   const fieldTypes = [
+    "click-to-pay",
     "card-number",
     "card-expiration",
     "card-cvv",
@@ -129,6 +130,18 @@ export function form(
       json2css(parentStyles()[formOptions.style]),
       `secure-payment-styles-${formOptions.style}`,
     );
+  }
+
+  const apm = gateway?.supports.apm!;
+  let apmEnabled = 0;
+  for (const [key, value] of Object.entries(apm)) {
+    if(value === true && options.clickToPay) {
+      apmEnabled ++;
+      const label = document.createElement('div');
+      label.classList.add('other-cards-label');
+      label.innerHTML = '<span>Or enter card details manually</span>';
+      target.children.item(apmEnabled)?.parentNode?.insertBefore(label, target.children.item(apmEnabled + 1));
+    }
   }
 
   const shield = document.createElement("div");

@@ -11,6 +11,7 @@ export interface ICapabilitiesList {
   apm?: {
     applePay?: boolean;
     googlePay?: boolean;
+    clickToPay?: boolean;
   };
   binCheck?: {
     hsaFsa?: boolean;
@@ -50,6 +51,7 @@ export interface ISuccess {
     merchantName?: string;
     orderId?: string;
     reference?: string;
+    apmProvider?: string;
   };
   methodName?: string;
   payerEmail?: string;

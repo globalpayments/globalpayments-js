@@ -45,7 +45,15 @@ $accessToken = $response->token ?? '';
       GlobalPayments.configure({
         accessToken: "<?= $accessToken ?>",
         env: "qa",
-        apiVersion: "2021-03-22"
+        apiVersion: "2021-03-22",
+        clickToPay: {
+            currencyCode: "USD",
+            allowedCardNetworks: ["VISA", "MASTERCARD", "AMEX", "DISCOVER"],
+            subtotal: 2.00,
+            canadianDebit: true,
+            wrapper: false,
+            ctpClientId: "d83e8615-9d0a-46fe-9677-8040887e27fa"
+        }
       });
 
       GlobalPayments.on("error", function (error) {
