@@ -18,7 +18,7 @@
     "cypress:open": "cypress open",
     "format": "prettier --write config/**/* src/**/* !src/assets/**/* !test/run.sh !test/run.ps1 test/fixtures/**/*.html",
     
-    "postbuild": "xcopy src\\assets dist\\ /e/y/h && node bin/replace-gp-ref.js",
+    "postbuild": "cross-os postbuild-cross",
 
     "prebuild": "yarn test:lint && node bin/update-version.js",
     "prepublish": "yarn build",
