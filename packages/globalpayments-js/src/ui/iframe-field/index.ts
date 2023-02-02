@@ -32,6 +32,7 @@ export interface IUIFormField {
   text?: string;
   title?: string;
   value?: string;
+  amount?: string;
 }
 
 export const fieldTypeAutocompleteMap: IDictionary = {

@@ -1,7 +1,7 @@
-import { IEventListener } from "globalpayments-lib";
+import {IEventListener} from "globalpayments-lib";
 
 import assetBaseUrl from "../../internal/lib/asset-base-url";
-import { postMessage } from "../../internal/lib/post-message";
+import {postMessage} from "../../internal/lib/post-message";
 import {
   fieldStyles as defaultFieldStyles,
   parentStyles as defaultParentStyles,
@@ -10,14 +10,11 @@ import {
   fieldStyles as gpDefaultFieldStyles,
   parentStyles as gpDefaultParentStyles,
 } from "../../internal/lib/styles/gp-default";
-import {
-  fieldStyles as simpleFieldStyles,
-  parentStyles as simpleParentStyles,
-} from "../../internal/lib/styles/simple";
-import { IDictionary } from "../../internal/lib/util";
-import { IFrameCollection, IframeField, IUIFormField } from "../iframe-field";
+import {fieldStyles as simpleFieldStyles, parentStyles as simpleParentStyles,} from "../../internal/lib/styles/simple";
+import {IDictionary} from "../../internal/lib/util";
+import {IFrameCollection, IframeField, IUIFormField} from "../iframe-field";
 import addClickToPay from "../iframe-field/action-add-click-to-pay";
-
+import { Apm } from "../../internal/lib/eums";
 export { IUIFormField } from "../iframe-field";
 
 export const fieldStyles = () => ({
@@ -41,10 +38,12 @@ export interface IUIFormOptions {
   style?: "default" | "simple" | "blank" | "gp-default";
   titles?: IDictionary;
   values?: IDictionary;
+  amount?: number;
+  apms?: IDictionary;
 }
 
 export const frameFieldTypes = [
-  "click-to-pay",
+  Apm.ClickToPay,
   "card-number",
   "card-expiration",
   "card-cvv",
@@ -270,7 +269,7 @@ export default class UIForm {
 
     const cardNumber = this.frames["card-number"];
     const cardCvv = this.frames["card-cvv"];
-    const ctp = this.frames["click-to-pay"];
+    const ctp = this.frames[Apm.ClickToPay];
 
     // support autocomplete / auto-fill from `card-number` to other fields
     if (cardNumber) {
@@ -314,7 +313,7 @@ export default class UIForm {
 
     if(ctp) {
       ctp?.container?.querySelector('iframe')?.remove();
-      addClickToPay(ctp);
+      addClickToPay(ctp, this.fields[Apm.ClickToPay]);
     }
   }
 
@@ -326,7 +325,7 @@ export default class UIForm {
         continue;
       }
 
-      if(type !== "click-to-pay") {
+      if(type !== Apm.ClickToPay) {
         fields.push(type);
       }
     }
@@ -353,6 +352,15 @@ export default class UIForm {
         },
         field.id,
       );
+    }
+  }
+
+  public setSubtotalAmount(amount: string){
+    for (const type of frameFieldTypes) {
+      if (!this.fields[type]) {
+        continue;
+      }
+      this.fields[type].amount = amount;
     }
   }
 }

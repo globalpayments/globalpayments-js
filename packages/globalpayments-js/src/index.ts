@@ -2,6 +2,7 @@ import { IEventListener } from "globalpayments-lib";
 import "globalpayments-lib/polyfills";
 
 import * as creditCard from "./credit-card";
+import * as apm from "./apm";
 import * as eCheck from "./echeck";
 import * as giftAndLoyalty from "./gift-and-loyalty";
 import * as internal from "./internal";
@@ -9,6 +10,7 @@ import Events from "./internal/lib/events";
 import * as paymentRequest from "./payment-request";
 import * as configure from "./tools/configure";
 import * as ui from "./ui";
+import * as enums from "./internal/lib/eums";
 
 // Library entry points for integrator use except where noted.
 export default {
@@ -18,8 +20,12 @@ export default {
   configure: configure.default,
   // Allows integrators to create drop-in credit card forms.
   creditCard,
+  // Allows integrators to create drop-in credit digital wallet forms.
+  apm,
   // Allows integrators to create drop-in eCheck/ACH forms.
   eCheck,
+  // Provides integrators helper enums to mitigate any errors on the integrator end.
+  enums,
   // Provides integrators helper functions for working with events.
   events: Events,
   // Allows integrators to create drop-in gift and loyalty forms.

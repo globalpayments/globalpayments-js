@@ -37,6 +37,7 @@ $accessToken = $response->token ?? '';
       <h1>Examples</h1>
 
       <h2>Credit Card Form</h2>
+      <div id="digital-wallet-form"></div>
       <div id="credit-card-form"></div>
     </main>
 
@@ -46,24 +47,31 @@ $accessToken = $response->token ?? '';
         accessToken: "<?= $accessToken ?>",
         env: "qa",
         apiVersion: "2021-03-22",
-        clickToPay: {
+        apms: {
             currencyCode: "USD",
-            allowedCardNetworks: ["VISA", "MASTERCARD", "AMEX", "DISCOVER"],
-            subtotal: 2.00,
-            canadianDebit: true,
-            wrapper: false,
-            ctpClientId: "d83e8615-9d0a-46fe-9677-8040887e27fa"
-        }
+            allowedCardNetworks: [GlobalPayments.enums.CardNetwork.Visa, GlobalPayments.enums.CardNetwork.Mastercard, GlobalPayments.enums.CardNetwork.Amex, GlobalPayments.enums.CardNetwork.Discover],
+            clickToPay: {
+                buttonless: false,
+                canadianDebit: true,
+                cardForm: false,
+                ctpClientId: "d83e8615-9d0a-46fe-9677-8040887e27fa",
+                currencyCode: "EUR",
+                wrapper: false
+            },
+        },
       });
 
       GlobalPayments.on("error", function (error) {
         console.error(error);
       });
-
-      var cardForm = GlobalPayments.creditCard.form('#credit-card-form', { style: "gp-default" });
-
-      cardForm.on("token-success", function (resp) { console.log(resp); });
-      cardForm.on("token-error", function (resp) { console.log(resp); });
+      // APM form for CTP Standalone
+//       var apmForm = GlobalPayments.apm.form('#digital-wallet-form', { amount: "3.4", style: "gp-default", apms: [GlobalPayments.enums.Apm.ClickToPay] });
+//       apmForm.setSubtotalAmount("4.57");
+//          apmForm.on("token-success", function (resp) { console.log(resp); });
+//          apmForm.on("token-error", function (resp) { console.log(resp); });
+      var cardForm = GlobalPayments.creditCard.form('#credit-card-form', { amount: "3.4", style: "gp-default", apms: [GlobalPayments.enums.Apm.ClickToPay] });
+//       cardForm.on("token-success", function (resp) { console.log(resp); });
+//       cardForm.on("token-error", function (resp) { console.log(resp); });
     </script>
   </body>
 </html>
