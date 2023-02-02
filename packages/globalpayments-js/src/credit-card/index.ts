@@ -64,13 +64,17 @@ export function form(
 
   // create field targets
   const fieldTypes = [
-    "click-to-pay",
     "card-number",
     "card-expiration",
     "card-cvv",
     "card-holder-name",
     "submit",
   ];
+
+  if(formOptions.apms) {
+    fieldTypes.unshift(formOptions.apms.toString());
+  }
+
   const fields: any = {};
 
   for (const i in fieldTypes) {
@@ -122,6 +126,17 @@ export function form(
     if (formOptions.titles && formOptions.titles[type]) {
       fields[type].title = formOptions.titles[type];
     }
+    if(formOptions.amount) {
+      fields[type].amount = formOptions.amount;
+    }
+  }
+
+  if(formOptions.apms) {
+    const apmConfigured = formOptions.apms.length;
+    const divider = document.createElement('div');
+    divider.classList.add('other-cards-label');
+    divider.innerHTML = '<span>Or enter card details manually</span>';
+    target.children.item(apmConfigured)?.parentNode?.insertBefore(divider, target.children.item(apmConfigured + 1));
   }
 
   // add any styles for the parent window
@@ -130,18 +145,6 @@ export function form(
       json2css(parentStyles()[formOptions.style]),
       `secure-payment-styles-${formOptions.style}`,
     );
-  }
-
-  const apm = gateway?.supports.apm!;
-  let apmEnabled = 0;
-  for (const [key, value] of Object.entries(apm)) {
-    if(value === true && options.clickToPay) {
-      apmEnabled ++;
-      const label = document.createElement('div');
-      label.classList.add('other-cards-label');
-      label.innerHTML = '<span>Or enter card details manually</span>';
-      target.children.item(apmEnabled)?.parentNode?.insertBefore(label, target.children.item(apmEnabled + 1));
-    }
   }
 
   const shield = document.createElement("div");

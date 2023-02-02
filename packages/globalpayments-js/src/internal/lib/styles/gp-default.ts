@@ -285,7 +285,7 @@ export const parentStyles = (assetBaseUrl: string) => {
       display: "none",
     },
 
-    ".secure-payment-form .ctp-panel .info-tooltip": {
+    ".secure-payment-form .ctp-info-tooltip": {
       width: "16px",
       height: "16px",
       display: "inline-block",
@@ -295,7 +295,7 @@ export const parentStyles = (assetBaseUrl: string) => {
       margin: "0 5px",
     },
 
-    ".secure-payment-form .ctp-panel .info-tooltip-content": {
+    ".secure-payment-form .ctp-info-tooltip-content": {
       visibility: "hidden",
       width: "282px",
       "background-color": "#fff",
@@ -315,25 +315,31 @@ export const parentStyles = (assetBaseUrl: string) => {
       "box-shadow": "0 3px 6px rgba(0, 0, 0, 0.1)",
     },
 
-    ".secure-payment-form .ctp-panel .info-tooltip-content li": {
+    ".secure-payment-form .ctp-info-tooltip .ctp-heading": {
+      "max-width": "350px",
+      margin: "0 auto",
+    },
+
+    ".secure-payment-form .ctp-info-tooltip-content li": {
       padding: "3px 5px 3px 50px",
       "font-size": "12px",
       "line-height": "19px",
+      "list-style": "none",
     },
 
-    ".secure-payment-form .ctp-panel .info-tooltip-content li.smart-checkout": {
+    ".secure-payment-form .ctp-info-tooltip-content li.smart-checkout": {
       background: `transparent url(${imageBase}ctp-shopping-cart.svg) no-repeat left center`,
     },
 
-    ".secure-payment-form .ctp-panel .info-tooltip-content li.faster-checkout": {
+    ".secure-payment-form .ctp-info-tooltip-content li.faster-checkout": {
       background: `transparent url(${imageBase}ctp-check.svg) no-repeat left center`,
     },
 
-    ".secure-payment-form .ctp-panel .info-tooltip-content li.industry-standards": {
+    ".secure-payment-form .ctp-info-tooltip-content li.industry-standards": {
       background: `transparent url(${imageBase}ctp-lock.svg) no-repeat left center`,
     },
 
-    ".secure-payment-form .ctp-panel .info-tooltip .top-arrow": {
+    ".secure-payment-form .ctp-info-tooltip .top-arrow": {
       position: "absolute",
       "margin-top": "-12px",
       background: "#fff",
@@ -349,19 +355,19 @@ export const parentStyles = (assetBaseUrl: string) => {
       "z-index": "9999",
     },
 
-    ".secure-payment-form .ctp-panel .info-tooltip-content li .ctp-icon": {
+    ".secure-payment-form .ctp-info-tooltip-content li .ctp-icon": {
       "background-size": "80%!important",
       width: "20px!important",
       height: "10px!important",
       margin: "0 0 0 2px!important",
     },
 
-    ".secure-payment-form .ctp-panel .info-tooltip-content strong": {
+    ".secure-payment-form .ctp-info-tooltip-content strong": {
       "font-size": "16px",
       "vertical-align": "middle",
     },
 
-    ".secure-payment-form .ctp-panel .info-tooltip:hover .info-tooltip-content": {
+    ".secure-payment-form .ctp-info-tooltip:hover .ctp-info-tooltip-content": {
       visibility: "visible",
       opacity: "1",
     },
@@ -375,7 +381,7 @@ export const parentStyles = (assetBaseUrl: string) => {
       margin: "0 5px",
     },
 
-    ".secure-payment-form .ctp-panel .ctp-button .card-brands": {
+    ".secure-payment-form .ctp-info-tooltip .card-brands": {
       background: `transparent url(${imageBase}card-brands.svg) no-repeat center right`,
       display: "inline-block",
       "vertical-align": "middle",
@@ -447,14 +453,7 @@ export const parentStyles = (assetBaseUrl: string) => {
       margin: "0",
     },
 
-    ".secure-payment-form #ctp-wrapper label#userEmail": {
-      "font-size": "14px",
-      "line-height": "21px",
-      "font-weight": "bold",
-      margin: "0",
-    },
-
-    ".secure-payment-form #ctp-wrapper label#userMobile": {
+    ".secure-payment-form #ctp-wrapper label": {
       "font-size": "14px",
       "line-height": "21px",
       "font-weight": "bold",
@@ -498,11 +497,16 @@ export const parentStyles = (assetBaseUrl: string) => {
 
     ".secure-payment-form #ctp-wrapper .signinlayout": {
       "min-height": "200px",
+      "max-width": "350px",
     },
 
     ".secure-payment-form #ctp-wrapper .logindiv": {
-      "min-height": "200px",
-      padding: "16px",
+      "min-height": "160px",
+      padding: "16px 0",
+    },
+
+    ".secure-payment-form #ctp-wrapper #cancel-link": {
+      "margin-bottom": "16px",
     },
 
     ".secure-payment-form #ctp-wrapper .logindiv .tooltip": {

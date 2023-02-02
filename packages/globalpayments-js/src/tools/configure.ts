@@ -34,13 +34,18 @@ export interface IConfiguration extends IDictionary {
 
   // Specific configuration properties for
   // Digital Wallets
-  clickToPay?: {
-    allowedCardNetworks: string[];
-    canadianDebit?: boolean;
-    ctpClientId: string;
-    currencyCode: string;
-    subtotal: number;
-    wrapper?: boolean;
+  apms?: {
+    allowedCardNetworks?: string[];
+    currencyCode?: string;
+    clickToPay?: {
+      allowedCardNetworks?: string[];
+      canadianDebit?: boolean;
+      ctpClientId: string;
+      currencyCode?: string;
+      subtotal: number;
+      wrapper?: boolean;
+      buttonless: boolean;
+    }
   }
 
   // Specific configuration properties for
