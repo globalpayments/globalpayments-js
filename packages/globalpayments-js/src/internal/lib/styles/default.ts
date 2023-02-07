@@ -310,6 +310,10 @@ export const parentStyles = (assetBaseUrl: string) => {
       margin: "0 auto",
     },
 
+    ".secure-payment-form .ctp-info-tooltip-content ul": {
+      padding: "0",
+    },
+
     ".secure-payment-form .ctp-info-tooltip-content li": {
       padding: "3px 5px 3px 50px",
       "font-size": "12px",
@@ -371,7 +375,7 @@ export const parentStyles = (assetBaseUrl: string) => {
       margin: "0 5px",
     },
 
-    ".secure-payment-form .ctp-info-tooltip .card-brands": {
+    ".secure-payment-form div[class^='ctp'] .card-brands": {
       background: `transparent url(${imageBase}card-brands.svg) no-repeat center right`,
       display: "inline-block",
       "vertical-align": "middle",

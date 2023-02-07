@@ -71,6 +71,8 @@ export function form(
     "submit",
   ];
 
+  const firstFieldCardForm = fieldTypes[0];
+
   if(formOptions.apms) {
     fieldTypes.unshift(formOptions.apms.toString());
   }
@@ -132,11 +134,11 @@ export function form(
   }
 
   if(formOptions.apms) {
-    const apmConfigured = formOptions.apms.length;
+    const firstField = target.querySelector(`[class$="${firstFieldCardForm}"]`);
     const divider = document.createElement('div');
     divider.classList.add('other-cards-label');
     divider.innerHTML = '<span>Or enter card details manually</span>';
-    target.children.item(apmConfigured)?.parentNode?.insertBefore(divider, target.children.item(apmConfigured + 1));
+    target.insertBefore(divider, firstField);
   }
 
   // add any styles for the parent window
