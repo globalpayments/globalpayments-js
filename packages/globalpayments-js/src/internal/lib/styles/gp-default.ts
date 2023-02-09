@@ -37,7 +37,7 @@ export const fieldStyles = (assetBaseUrl: string) => {
       outline: "none",
     },
     "#secure-payment-field[type=button]": {
-      "background-color": "#0074C7",
+      "background-color": "#148EE6",
       color: "white",
       padding: "8px",
       border: "none",
@@ -52,7 +52,7 @@ export const fieldStyles = (assetBaseUrl: string) => {
       "text-transform": "uppercase"
     },
     "#secure-payment-field[type=button]:focus": {
-      border: "1px solid #2B9AEC",
+      border: "2px solid #08385b",
       outline: "none",
     },
     "#secure-payment-field[type=button]:hover": {
@@ -166,6 +166,11 @@ export const parentStyles = (assetBaseUrl: string) => {
       background: `transparent url(${imageBase}gp-fa-question-circle.svg) no-repeat center center`,
     },
 
+    ".secure-payment-form .tooltip:focus": {
+      border: "1px solid #2B9AEC",
+      outline: "none",
+    },
+
     ".secure-payment-form .tooltip-content": {
       visibility: "hidden",
       width: "200px",
@@ -188,6 +193,11 @@ export const parentStyles = (assetBaseUrl: string) => {
     },
 
     ".secure-payment-form .tooltip:hover + .tooltip-content": {
+      visibility: "visible",
+      opacity: "1",
+    },
+
+    ".secure-payment-form .tooltip:focus + .tooltip-content": {
       visibility: "visible",
       opacity: "1",
     },
