@@ -151,6 +151,8 @@ export function form(
 
   const shield = document.createElement("div");
   shield.className = formOptions.prefix + "shield";
+  shield.setAttribute("role", "img");
+  shield.setAttribute("alt", "256-bit SSL encrypted");
   target.appendChild(shield);
 
   const logo = document.createElement("div");
@@ -245,9 +247,14 @@ export function trackReaderForm(
 function createToolTip(target: Element) {
   const tooltip = document.createElement("div");
   tooltip.className = "tooltip";
+  tooltip.tabIndex = 0;
+  tooltip.setAttribute("aria-label", "Information about Security Code");
+  tooltip.setAttribute("aria-describedby", "tooltipContent");
 
   const content = document.createElement("div");
   content.className = "tooltip-content";
+  content.id = "tooltipContent";
+  content.setAttribute("role", "tooltip");
 
   const title = document.createElement("strong");
   title.appendChild(document.createTextNode("Security Code"));
