@@ -45,7 +45,20 @@ export interface IConfiguration extends IDictionary {
       subtotal: number;
       wrapper?: boolean;
       buttonless: boolean;
-    }
+    };
+    googlePay?: {
+      allowedAuthMethods?: string[];
+      allowedCardNetworks?: string[];
+      buttonColor?: string;
+      buttonLocale?: string;
+      buttonSizeMode?: string;
+      buttonType?: string;
+      countryCode?: string;
+      currencyCode?: string;
+      globalPaymentsClientID?: string;
+      merchantId?: string;
+      merchantName?: string;
+    };
   }
 
   // Specific configuration properties for
