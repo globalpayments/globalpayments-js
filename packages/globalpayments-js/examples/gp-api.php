@@ -45,7 +45,7 @@ $accessToken = $response->token ?? '';
     <script>
       GlobalPayments.configure({
         accessToken: "<?= $accessToken ?>",
-        env: "qa",
+        env: "local",
         apiVersion: "2021-03-22",
         apms: {
             currencyCode: "USD",
@@ -58,6 +58,17 @@ $accessToken = $response->token ?? '';
                 currencyCode: "EUR",
                 wrapper: false
             },
+            googlePay: {
+                currencyCode: "USD",
+                countryCode: "US",
+                merchantName: 'Merchant Name',
+                allowedAuthMethods: ["PAN_ONLY"],
+                allowedCardNetworks: ["AMEX", "DISCOVER", "INTERAC", "JCB", "MASTERCARD", "MIR", "VISA"],
+                buttonColor: "black",
+                buttonType: "pay",
+                merchantID: "12345678901234567890",
+                globalPaymentsClientID: "gpapiqa1"
+            },
         },
       });
 
@@ -65,13 +76,21 @@ $accessToken = $response->token ?? '';
         console.error(error);
       });
       // APM form for CTP Standalone
-//       var apmForm = GlobalPayments.apm.form('#digital-wallet-form', { amount: "3.4", style: "gp-default", apms: [GlobalPayments.enums.Apm.ClickToPay] });
+//       var apmForm = GlobalPayments.apm.form('#digital-wallet-form',
+//       { amount: "3.4",
+//         style: "gp-default",
+//         apms: [GlobalPayments.enums.Apm.ClickToPay, GlobalPayments.enums.Apm.GooglePay]
+//       });
 //       apmForm.setSubtotalAmount("4.57");
 //          apmForm.on("token-success", function (resp) { console.log(resp); });
 //          apmForm.on("token-error", function (resp) { console.log(resp); });
-      var cardForm = GlobalPayments.creditCard.form('#credit-card-form', { amount: "3.4", style: "gp-default", apms: [GlobalPayments.enums.Apm.ClickToPay] });
-//       cardForm.on("token-success", function (resp) { console.log(resp); });
-//       cardForm.on("token-error", function (resp) { console.log(resp); });
+      var cardForm = GlobalPayments.creditCard.form('#credit-card-form',
+      { amount: "3.4",
+         style: "gp-default",
+         apms: [GlobalPayments.enums.Apm.ClickToPay, GlobalPayments.enums.Apm.GooglePay]
+      });
+      cardForm.on("token-success", function (resp) { console.log(resp); });
+      cardForm.on("token-error", function (resp) { console.log(resp); });
     </script>
   </body>
 </html>

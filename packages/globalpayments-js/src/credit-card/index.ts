@@ -63,7 +63,7 @@ export function form(
   formOptions = objectAssign(objectAssign({}, defaultOptions), formOptions);
 
   // create field targets
-  const fieldTypes = [
+  let fieldTypes = [
     "card-number",
     "card-expiration",
     "card-cvv",
@@ -74,7 +74,7 @@ export function form(
   const firstFieldCardForm = fieldTypes[0];
 
   if(formOptions.apms) {
-    fieldTypes.unshift(formOptions.apms.toString());
+    fieldTypes = [...formOptions.apms.toString().split(','), ...fieldTypes]
   }
 
   const fields: any = {};

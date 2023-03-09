@@ -205,7 +205,7 @@ export const parentStyles = (assetBaseUrl: string) => {
     ".secure-payment-form .other-cards-label": {
       "border-bottom": "1px solid #BCBFC8",
       "text-align": "center",
-      margin: "20px 0 20px",
+      margin: "40px 0 20px",
       position: "relative",
     },
 

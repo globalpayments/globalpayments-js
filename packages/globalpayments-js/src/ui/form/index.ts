@@ -1,7 +1,7 @@
-import {IEventListener} from "globalpayments-lib";
+import { IEventListener } from "globalpayments-lib";
 
 import assetBaseUrl from "../../internal/lib/asset-base-url";
-import {postMessage} from "../../internal/lib/post-message";
+import { postMessage } from "../../internal/lib/post-message";
 import {
   fieldStyles as defaultFieldStyles,
   parentStyles as defaultParentStyles,
@@ -14,7 +14,9 @@ import {fieldStyles as simpleFieldStyles, parentStyles as simpleParentStyles,} f
 import {IDictionary} from "../../internal/lib/util";
 import {IFrameCollection, IframeField, IUIFormField} from "../iframe-field";
 import addClickToPay from "../iframe-field/action-add-click-to-pay";
+import addGooglePay from "../iframe-field/action-add-google-pay";
 import { Apm } from "../../internal/lib/eums";
+
 export { IUIFormField } from "../iframe-field";
 
 export const fieldStyles = () => ({
@@ -44,6 +46,7 @@ export interface IUIFormOptions {
 
 export const frameFieldTypes = [
   Apm.ClickToPay,
+  Apm.GooglePay,
   "card-number",
   "card-expiration",
   "card-cvv",
@@ -270,6 +273,7 @@ export default class UIForm {
     const cardNumber = this.frames["card-number"];
     const cardCvv = this.frames["card-cvv"];
     const ctp = this.frames[Apm.ClickToPay];
+    const googlePay = this.frames[Apm.GooglePay];
 
     // support autocomplete / auto-fill from `card-number` to other fields
     if (cardNumber) {
@@ -311,6 +315,11 @@ export default class UIForm {
       });
     }
 
+    if(googlePay) {
+      googlePay?.container?.querySelector('iframe')?.remove();
+      addGooglePay(googlePay, this.fields[Apm.GooglePay]);
+    }
+
     if(ctp) {
       ctp?.container?.querySelector('iframe')?.remove();
       addClickToPay(ctp, this.fields[Apm.ClickToPay]);
@@ -325,7 +334,7 @@ export default class UIForm {
         continue;
       }
 
-      if(type !== Apm.ClickToPay) {
+      if(type !== Apm.GooglePay && type !== Apm.ClickToPay) {
         fields.push(type);
       }
     }
