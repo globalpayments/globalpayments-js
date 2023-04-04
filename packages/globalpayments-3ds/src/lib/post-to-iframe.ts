@@ -104,8 +104,13 @@ function getWindowMessageEventHandler(
 ) {
   return (e: MessageEvent) => {
     const origin = data.origin || window.location.origin;
+    let notificationEvent: boolean = false;
 
-    if (origin !== e.origin) {
+    if (e.data && e.data.event) {
+      notificationEvent = (e.data.event === "methodNotification" || e.data.event === "challengeNotification");
+    }
+
+    if (origin !== e.origin || !notificationEvent) {
       return;
     }
 

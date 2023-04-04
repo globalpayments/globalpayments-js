@@ -50,6 +50,15 @@ $accessToken = $response->token ?? '';
         apms: {
             currencyCode: "USD",
             allowedCardNetworks: [GlobalPayments.enums.CardNetwork.Visa, GlobalPayments.enums.CardNetwork.Mastercard, GlobalPayments.enums.CardNetwork.Amex, GlobalPayments.enums.CardNetwork.Discover],
+            applePay: {
+                applePayVersionNumber: 3,
+                currencyCode: "USD",
+                countryCode: "US",
+                merchantName: 'GP Store',
+                merchantIdentifier: "merchant.com.gpapi.sandbox",
+                merchantCapabilities: ['supports3DS'],
+                globalPaymentsClientID: "gpapiqa1"
+            },
             clickToPay: {
                 buttonless: false,
                 canadianDebit: true,
@@ -76,21 +85,15 @@ $accessToken = $response->token ?? '';
         console.error(error);
       });
       // APM form for CTP Standalone
-//       var apmForm = GlobalPayments.apm.form('#digital-wallet-form',
-//       { amount: "3.4",
-//         style: "gp-default",
-//         apms: [GlobalPayments.enums.Apm.ClickToPay, GlobalPayments.enums.Apm.GooglePay]
-//       });
-//       apmForm.setSubtotalAmount("4.57");
-//          apmForm.on("token-success", function (resp) { console.log(resp); });
-//          apmForm.on("token-error", function (resp) { console.log(resp); });
-      var cardForm = GlobalPayments.creditCard.form('#credit-card-form',
+      var apmForm = GlobalPayments.apm.form('#digital-wallet-form',
       { amount: "3.4",
-         style: "gp-default",
-         apms: [GlobalPayments.enums.Apm.ClickToPay, GlobalPayments.enums.Apm.GooglePay]
+        style: "gp-default",
+        apms: [GlobalPayments.enums.Apm.ApplePay]
       });
-      cardForm.on("token-success", function (resp) { console.log(resp); });
-      cardForm.on("token-error", function (resp) { console.log(resp); });
+      apmForm.setSubtotalAmount("4.57");
+         apmForm.on("token-success", function (resp) { console.log(resp); });
+         apmForm.on("token-error", function (resp) { console.log(resp); });
+
     </script>
   </body>
 </html>

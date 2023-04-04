@@ -37,6 +37,20 @@ export interface IConfiguration extends IDictionary {
   apms?: {
     allowedCardNetworks?: string[];
     currencyCode?: string;
+    applePay?: {
+      allowedAuthMethods?: string[];
+      allowedCardNetworks?: string[];
+      applePayVersionNumber?: number;
+      buttonLocale?: string;
+      buttonStyle?: string;
+      buttonType?: string;
+      countryCode?: string;
+      currencyCode?: string;
+      globalPaymentsClientID?: string;
+      merchantCapabilities?: string[];
+      merchantIdentifier?: string;
+      merchantName?: string;
+    };
     clickToPay?: {
       allowedCardNetworks?: string[];
       canadianDebit?: boolean;

@@ -9,7 +9,7 @@ import getEnv from "./get-env";
 
 export const supports = {
   apm: {
-    applePay: false,
+    applePay: true,
     clickToPay: true,
     googlePay: true,
   },
