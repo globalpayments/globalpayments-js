@@ -16,6 +16,7 @@ import {IFrameCollection, IframeField, IUIFormField} from "../iframe-field";
 import addClickToPay from "../iframe-field/action-add-click-to-pay";
 import addGooglePay from "../iframe-field/action-add-google-pay";
 import { Apm } from "../../internal/lib/eums";
+import addApplePay from "../iframe-field/action-add-apple-pay";
 
 export { IUIFormField } from "../iframe-field";
 
@@ -47,6 +48,7 @@ export interface IUIFormOptions {
 export const frameFieldTypes = [
   Apm.ClickToPay,
   Apm.GooglePay,
+  Apm.ApplePay,
   "card-number",
   "card-expiration",
   "card-cvv",
@@ -274,6 +276,7 @@ export default class UIForm {
     const cardCvv = this.frames["card-cvv"];
     const ctp = this.frames[Apm.ClickToPay];
     const googlePay = this.frames[Apm.GooglePay];
+    const applePay = this.frames[Apm.ApplePay];
 
     // support autocomplete / auto-fill from `card-number` to other fields
     if (cardNumber) {
@@ -320,6 +323,11 @@ export default class UIForm {
       addGooglePay(googlePay, this.fields[Apm.GooglePay]);
     }
 
+    if(applePay) {
+      applePay?.container?.querySelector('iframe')?.remove();
+      addApplePay(applePay, this.fields[Apm.ApplePay]);
+    }
+
     if(ctp) {
       ctp?.container?.querySelector('iframe')?.remove();
       addClickToPay(ctp, this.fields[Apm.ClickToPay]);
@@ -334,7 +342,7 @@ export default class UIForm {
         continue;
       }
 
-      if(type !== Apm.GooglePay && type !== Apm.ClickToPay) {
+      if(type !== Apm.GooglePay && type !== Apm.ClickToPay && type !== Apm.ApplePay) {
         fields.push(type);
       }
     }

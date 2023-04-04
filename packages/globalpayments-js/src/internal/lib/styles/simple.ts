@@ -3,6 +3,9 @@
 
 // @TODO: confirm styles with enterprise repo
 
+import getApplePayStyles from './apple-pay/gp-default';
+import getGooglePayStyles from './google-pay/gp-default';
+
 export const fieldStyles = (assetBaseUrl: string) => {
   const imageBase = assetBaseUrl + "images/";
 
@@ -528,5 +531,8 @@ export const parentStyles = (assetBaseUrl: string) => {
     ".secure-payment-form #ctp-wrapper .VerificationLabel label": {
       display: "inline-block",
     },
+
+    ...getApplePayStyles(assetBaseUrl),
+    ...getGooglePayStyles(assetBaseUrl),
   };
 };

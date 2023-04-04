@@ -1,3 +1,6 @@
+import getApplePayStyles from './apple-pay/gp-default';
+import getGooglePayStyles from './google-pay/gp-default';
+
 // tslint:disable:object-literal-key-quotes
 // tslint:disable:object-literal-sort-keys
 
@@ -555,5 +558,8 @@ export const parentStyles = (assetBaseUrl: string) => {
         right: "5%",
       },
     },
+
+    ...getApplePayStyles(assetBaseUrl),
+    ...getGooglePayStyles(assetBaseUrl),
   };
 };
