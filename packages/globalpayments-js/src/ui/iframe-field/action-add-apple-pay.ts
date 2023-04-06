@@ -144,7 +144,7 @@ export default function addApplePay(iframeField: IframeField | undefined, field:
       // This is the first event that Apple triggers.
       // Here you need to validate the Apple Pay Session from your Back-End
       applePaySession.onvalidatemerchant = (event: any) => {
-        const merchantSessionUrl = 'https://gptestcarts.swedencentral.cloudapp.azure.com/jslib/apple-pay/validate-merchant.php';
+        const merchantSessionUrl = options.apms?.applePay?.merchantSessionUrl;
         const headers = {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
@@ -157,7 +157,7 @@ export default function addApplePay(iframeField: IframeField | undefined, field:
         };
 
         try {
-          fetch(merchantSessionUrl, {
+          fetch(merchantSessionUrl!, {
             method: 'POST',
             headers,
             body: JSON.stringify(body)

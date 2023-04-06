@@ -57,6 +57,7 @@ $accessToken = $response->token ?? '';
                 merchantName: 'GP Store',
                 merchantIdentifier: "merchant.com.gpapi.sandbox",
                 merchantCapabilities: ['supports3DS'],
+                merchantSessionUrl: "https://gptestcarts.swedencentral.cloudapp.azure.com/jslib/apple-pay/validate-merchant.php",
                 globalPaymentsClientID: "gpapiqa1"
             },
             clickToPay: {

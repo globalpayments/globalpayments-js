@@ -50,6 +50,7 @@ export interface IConfiguration extends IDictionary {
       merchantCapabilities?: string[];
       merchantIdentifier?: string;
       merchantName?: string;
+      merchantSessionUrl?: string;
     };
     clickToPay?: {
       allowedCardNetworks?: string[];
