@@ -10,23 +10,22 @@ export default function addClickToPay(iframeField: IframeField | undefined, fiel
 
   const allowedCardNetworks = options.apms?.clickToPay?.allowedCardNetworks ? options.apms?.clickToPay?.allowedCardNetworks : options.apms?.allowedCardNetworks;
   const currencyCode = options.apms?.clickToPay?.currencyCode ? options.apms?.clickToPay?.currencyCode : options.apms?.currencyCode;
-  const wrapper = options.apms?.clickToPay?.wrapper;
   const canadianDebit = options.apms?.clickToPay?.canadianDebit;
   const ctpClientId = options.apms?.clickToPay?.ctpClientId!;
   const subtotal = field.amount;
   const amount = subtotal ? parseFloat(subtotal) : 0;
   const missingConfig = [];
 
-  if(!allowedCardNetworks || allowedCardNetworks.length === 0) {
+  if (!allowedCardNetworks || allowedCardNetworks.length === 0) {
     missingConfig.push('allowedCardNetworks');
   }
-  if(!currencyCode) {
+  if (!currencyCode) {
     missingConfig.push('currencyCode');
   }
-  if(amount === 0) {
+  if (amount === 0) {
     missingConfig.push('amount');
   }
-  if(!ctpClientId) {
+  if (!ctpClientId) {
     missingConfig.push('ctpClientId');
   }
 
@@ -41,31 +40,33 @@ export default function addClickToPay(iframeField: IframeField | undefined, fiel
     return bus.emit('error', error);
   }
 
-  addClickToPayCDN();
+  if (options.apms?.clickToPay?.buttonless === true) {
+    addClickToPayCDN();
+  } else {
+    addCTPButton();
+  }
 
-  function addClickToPayCDN() {
+  function addCDN(url: string, onload?: any) {
     const script = document.createElement("script");
-    script.onload = onClickToPayLoaded;
-    script.src = gateway && gateway.getEnv(options) === "production" ? 'https://ctps-cdn.gpapiservices.com/ctp-element.js' : "https://ctpscert-cdn.gpapiservices.com/ctp-element.js";
+    script.onload = onload;
+    script.src = url;
     script.async = true;
     document.body.appendChild(script);
   }
 
+  function addClickToPayCDN() {
+    const url = gateway && gateway.getEnv(options) === "production" ? 'https://ctps-cdn.gpapiservices.com/ctp-element.js' : "https://ctpscert-cdn.gpapiservices.com/ctp-element.js";
+    addCDN(url, onClickToPayLoaded);
+  }
+
   function onClickToPayLoaded() {
-    if(options.apms?.clickToPay?.buttonless === true) {
-      addCTPElement();
-    } else {
-      const ctpPanel = createHtmlElement('div','ctp-panel');
-      const ctpButton = createCTPButton();
-      ctpPanel.appendChild(ctpButton);
-      iframeField?.container?.appendChild(ctpPanel!);
-    }
-    addEventsListeners();
+    addCTPElement();
+    addCTPEventsListeners();
   }
 
   function createHtmlElement(htmlElement: string, className?: string) {
     const htmlDivElement = document.createElement(htmlElement);
-    if(className) {
+    if (className) {
       htmlDivElement.className = className;
     }
 
@@ -75,18 +76,20 @@ export default function addClickToPay(iframeField: IframeField | undefined, fiel
   function createCTPButton() {
     const btn = createHtmlElement('div', 'ctp-button');
     btn.innerHTML = `
-      <div>Checkout with your <span class="ctp-icon"></span>Click to Pay card(s) <br>
-        <span class="card-brands">enabled by </span>
-        <div class="ctp-info-tooltip">
-          <div class="ctp-info-tooltip-content">
-            <span class="top-arrow"></span>
-            <span class="ctp-icon"></span><strong>Click to Pay</strong><br>
-            <span class="card-brands">enabled by </span>
-            <ul>
-              <li class="smart-checkout">For easy and smart checkout, simply click to pay whenever you see the Click to Pay icon <span class="ctp-icon"></span>, and your card is accepted.</li>
-              <li class="faster-checkout">You can choose to be remembered on your device and browser for faster checkout.</li>
-              <li class="industry-standards">Built on industry standards for online transactions and supported by global payment brands.</li>
-            </ul>
+      <div class="ctp-header">
+        <div class="heading">Checkout with your <span class="ctp-icon"></span>Click to Pay card(s) </div>
+        <div class="subheading">enabled by <span class="card-brands"></span>
+          <div class="ctp-info-tooltip">
+            <div class="ctp-info-tooltip-content">
+              <span class="top-arrow"></span>
+              <span class="ctp-icon"></span><strong>Click to Pay</strong>
+              <div class="subheading">enabled by <span class="card-brands"></span></div>
+              <ul>
+                <li class="smart-checkout">For easy and smart checkout, simply click to pay whenever you see the Click to Pay icon <span class="ctp-icon"></span>, and your card is accepted.</li>
+                <li class="faster-checkout">You can choose to be remembered on your device and browser for faster checkout.</li>
+                <li class="industry-standards">Built on industry standards for online transactions and supported by global payment brands.</li>
+              </ul>
+            </div>
           </div>
         </div>
         <span class="right-arrow"></span>
@@ -95,13 +98,29 @@ export default function addClickToPay(iframeField: IframeField | undefined, fiel
     return btn;
   }
 
-  function CtpInfoTooltip() {
+  function addCTPButton() {
+    const ctpPanel = createHtmlElement('div', 'ctp-panel');
+    const ctpButton = createCTPButton();
+    ctpPanel.appendChild(ctpButton);
+    iframeField?.container?.appendChild(ctpPanel!);
+
+    ctpButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const isCTPLoaded = document.querySelectorAll('ctp-element');
+      if(isCTPLoaded.length === 0) {
+        addClickToPayCDN();
+      }
+    });
+  }
+
+  function ctpInfoTooltip() {
     const tooltip = document.createElement('div');
     tooltip.className = "ctp-info-tooltip";
     tooltip.innerHTML = `<div class="ctp-info-tooltip-content">
         <span class="top-arrow"></span>
-        <span class="ctp-icon"></span><strong>Click to Pay</strong><br>
-        <span class="card-brands">enabled by </span>
+        <span class="ctp-icon"></span><strong>Click to Pay</strong>
+        <div class="subheading">enabled by <span class="card-brands"></span></div>
         <ul>
           <li class="smart-checkout">For easy and smart checkout, simply click to pay whenever you see the Click to Pay icon <span class="ctp-icon"></span>, and your card is accepted.</li>
           <li class="faster-checkout">You can choose to be remembered on your device and browser for faster checkout.</li>
@@ -115,7 +134,7 @@ export default function addClickToPay(iframeField: IframeField | undefined, fiel
     const label = document.createElement('div');
     label.className = "ctp-heading";
     label.innerHTML = "Express checkout with Click to Pay";
-    const infoTooltip = CtpInfoTooltip();
+    const infoTooltip = ctpInfoTooltip();
     label.appendChild(infoTooltip);
     parent.prepend(label);
   }
@@ -123,11 +142,11 @@ export default function addClickToPay(iframeField: IframeField | undefined, fiel
   function createCTPElement() {
     const ctpElement = createHtmlElement('ctp-element');
 
-    if(options.apms?.clickToPay?.buttonless === false) {
+    if (options.apms?.clickToPay?.buttonless === false) {
       ctpElement.classList.add('hidden');
     }
     ctpElement.setAttribute('init-prop', ctpClientId);
-    if(Array.isArray(allowedCardNetworks)) {
+    if (Array.isArray(allowedCardNetworks)) {
       ctpElement.setAttribute('card-brands', JSON.stringify(allowedCardNetworks));
     }
     if (typeof currencyCode === "string") {
@@ -137,13 +156,11 @@ export default function addClickToPay(iframeField: IframeField | undefined, fiel
       ctpElement.setAttribute('subtotal', subtotal);
     }
 
-    if (wrapper) {
-      ctpElement.setAttribute('wrapper', wrapper.toString());
+    if (canadianDebit) {
+      ctpElement.setAttribute('canadian-debit', canadianDebit.toString());
     }
 
-    if (canadianDebit) {
-      ctpElement.setAttribute('wrapper', canadianDebit.toString());
-    }
+    ctpElement.setAttribute('wrapper', "false");
 
     return ctpElement;
   }
@@ -152,26 +169,35 @@ export default function addClickToPay(iframeField: IframeField | undefined, fiel
     const ctpElement = createCTPElement();
     if (options.apms?.clickToPay?.buttonless === true) {
       iframeField?.container?.appendChild(ctpElement!);
-      hideCancelLink(ctpElement);
       addCtpHeading(iframeField?.container!);
     } else {
       iframeField?.container?.querySelector('.ctp-panel')?.appendChild(ctpElement!);
       iframeField?.container?.querySelector('ctp-element')?.classList.remove('hidden');
       iframeField?.container?.parentElement?.classList.add('apm-active');
-      const isCardForm = field.target?.split(' ').some(c => c.startsWith('.credit-card'));
-      if(!isCardForm) {
-        hideCancelLink(ctpElement);
+      const isApmForm = field.target?.split(' ').some(c => c.startsWith('#apm'));
+      if (!isApmForm) {
+        ctpElement.setAttribute('wrapper', 'true');
       }
     }
+
+    ctpElement.addEventListener('click', (e: MouseEvent) => {
+      const element = e.target as HTMLElement;
+      if (element.tagName === "BUTTON" || element.tagName === "LABEL") {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    }, false);
+
+    ctpElement.addEventListener('keydown', (e: KeyboardEvent) => {
+      if(e.key === 'Enter') {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    });
   }
 
-  function hideCancelLink(ctpElement: Element) {
-    ctpElement.querySelector("#cancel-link")?.classList.add('hidden');
-  }
-
-  function addEventsListeners() {
-    const ctpButton = iframeField?.container?.querySelector('.ctp-button');
-    window.addEventListener('ctp-callid',  async (e: Event) => {
+  function addCTPEventsListeners() {
+    window.addEventListener('ctp-callid', async (e: Event) => {
       const customEvt = e as CustomEvent;
       if (customEvt.detail?.callid !== undefined) {
         const response: ISuccess = {
@@ -200,10 +226,6 @@ export default function addClickToPay(iframeField: IframeField | undefined, fiel
 
     window.addEventListener('ctp-cancel', async (e: Event) => {
       document.location.reload();
-    });
-
-    ctpButton?.addEventListener('click', () => {
-      addCTPElement();
     });
   }
 }

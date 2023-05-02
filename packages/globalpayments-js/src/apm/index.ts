@@ -87,6 +87,16 @@ export function form(
     addStylesheet(json2css(parentStyles()[formOptions.style]));
   }
 
+  const shield = document.createElement("div");
+  shield.className = formOptions.prefix + "shield";
+  shield.setAttribute("role", "img");
+  shield.setAttribute("alt", "256-bit SSL encrypted");
+  target.appendChild(shield);
+
+  const logo = document.createElement("div");
+  logo.className = formOptions.prefix + "logo";
+  target.appendChild(logo);
+
   return new UIForm(
     fields,
     formOptions.style ? fieldStyles()[formOptions.style] : {},
