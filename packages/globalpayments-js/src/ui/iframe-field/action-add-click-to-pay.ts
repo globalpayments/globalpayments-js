@@ -2,7 +2,6 @@ import {bus, options} from "../../internal";
 import getGateway from "../../internal/lib/get-gateway";
 import {IframeField, IUIFormField} from "../iframe-field";
 import {IError, ISuccess} from "../../internal/gateways";
-import {form} from "../../apm";
 
 export default function addClickToPay(iframeField: IframeField | undefined, field: IUIFormField) {
   const gateway = getGateway();

@@ -4,6 +4,7 @@ import objectAssign from "../internal/lib/object-assign";
 import { options } from "../internal/lib/options";
 import { addStylesheet, json2css } from "../internal/lib/styles";
 import UIForm, { fieldStyles, IUIFormOptions, parentStyles } from "../ui/form";
+import {addFooterIcons} from "../internal/lib/add-footer-icons";
 
 export const defaultOptions: IUIFormOptions = {
   labels: {
@@ -149,15 +150,7 @@ export function form(
     );
   }
 
-  const shield = document.createElement("div");
-  shield.className = formOptions.prefix + "shield";
-  shield.setAttribute("role", "img");
-  shield.setAttribute("alt", "256-bit SSL encrypted");
-  target.appendChild(shield);
-
-  const logo = document.createElement("div");
-  logo.className = formOptions.prefix + "logo";
-  target.appendChild(logo);
+  addFooterIcons(formOptions, target);
 
   return new UIForm(
     fields,

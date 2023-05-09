@@ -74,69 +74,82 @@ export const fieldStyles = (assetBaseUrl: string) => {
       "background-size": "60px",
     },
 
-    ".card-number": {
-      background: `transparent url(${imageBase}/logo-unknown@2x.png) no-repeat right`,
-      "background-size": "52px",
+    "img.card-number": {
+      background: `transparent url(${imageBase}logo-unknown@2x.png) no-repeat`,
+      "background-size": "100%",
+      width: "60px",
+      height: "30px",
+      position: "absolute",
+      right: "0",
+      top: "50%",
+      "margin-top": "-21px",
+      "background-position": "50% 50%"
     },
 
-    ".card-number.invalid.card-type-amex": {
-      background: `transparent url(${imageBase}/amex-invalid.svg) no-repeat right center`,
-      "background-position-x": "98%",
-      "background-size": "38px",
+    "img.card-number[src$='/gp-cc-generic.svg']": {
+      background: `transparent url(${imageBase}logo-mastercard@2x.png) no-repeat`,
+      "background-size": "120%",
+      "background-position-y": "bottom"
     },
 
-    ".card-number.invalid.card-type-discover": {
-      background: `transparent url(${imageBase}/discover-invalid.svg) no-repeat right center`,
-      "background-position-x": "98%",
-      "background-size": "60px",
+    "img.card-number.invalid.card-type-amex": {
+      background: `transparent url(${imageBase}logo-amex@2x.png) no-repeat 100%`,
+      "background-size": "60%",
+      "background-position-y": "88%"
     },
 
-    ".card-number.invalid.card-type-jcb": {
-      background: `transparent url(${imageBase}/jcb-invalid.svg) no-repeat right center`,
-      "background-position-x": "98%",
-      "background-size": "38px",
+    "img.card-number.invalid.card-type-discover": {
+      background: `transparent url(${imageBase}logo-discover@2x.png) no-repeat`,
+      "background-size": "115%",
+      "background-position-y": "88%",
+      width: "80px",
+      right: "5px"
     },
 
-    ".card-number.invalid.card-type-mastercard": {
-      background: `transparent url(${imageBase}/mastercard-invalid.svg) no-repeat right center`,
-      "background-position-x": "98%",
-      "background-size": "40px",
+    "img.card-number.invalid.card-type-jcb": {
+      background: `transparent url(${imageBase}logo-jcb@2x.png) no-repeat 105%`,
+      "background-size": "75%",
+      "background-position-y": "85%"
     },
 
-    ".card-number.invalid.card-type-visa": {
-      background: `transparent url(${imageBase}/visa-invalid.svg) no-repeat center`,
-      "background-position-x": "98%",
-      "background-size": "50px",
+    "img.card-number.invalid.card-type-mastercard": {
+      background: `transparent url(${imageBase}logo-mastercard@2x.png) no-repeat`,
+      "background-size": "100%",
+      "background-position": "6px 99%"
     },
 
-    ".card-number.valid.card-type-amex": {
-      background: `transparent url(${imageBase}/amex.svg) no-repeat right center`,
-      "background-position-x": "98%",
-      "background-size": "38px",
+    "img.card-number.invalid.card-type-visa": {
+      background: `transparent url(${imageBase}logo-visa@2x.png) no-repeat `,
+      "background-size": "120%",
+      "background-position": "-4px 91%"
     },
 
-    ".card-number.valid.card-type-discover": {
-      background: `transparent url(${imageBase}/discover.svg) no-repeat right center`,
-      "background-position-x": "98%",
-      "background-size": "60px",
+    "img.card-number.valid.card-type-amex": {
+      background: `transparent url(${imageBase}logo-amex@2x.png) no-repeat 100%`,
+      "background-size": "60%",
+      "background-position-y": "-3px"
     },
-
-    ".card-number.valid.card-type-jcb": {
-      background: `transparent url(${imageBase}/jcb.svg) no-repeat right center`,
-      "background-position-x": "98%",
-      "background-size": "38px",
+    "img.card-number.valid.card-type-discover": {
+      background: `transparent url(${imageBase}logo-discover@2x.png) no-repeat`,
+      "background-size": "115%",
+      "background-position-y": "-10px",
+      width: "80px",
+      right: "5px"
     },
-
-    ".card-number.valid.card-type-mastercard": {
-      background: `transparent url(${imageBase}/mastercard.svg) no-repeat center`,
-      "background-position-x": "98%",
-      "background-size": "40px",
+    "img.card-number.valid.card-type-jcb": {
+      background: `transparent url(${imageBase}logo-jcb@2x.png) no-repeat 105%`,
+      "background-size": "75%",
+      "background-position-y": "-5px"
     },
-
-    ".card-number.valid.card-type-visa": {
-      background: `transparent url(${imageBase}/visa.svg) no-repeat right center`,
-      "background-position-x": "98%",
-      "background-size": "50px",
+    "img.card-number.valid.card-type-mastercard": {
+      background: `transparent url(${imageBase}logo-mastercard@2x.png) no-repeat`,
+      "background-size": "100%",
+      "background-position": "6px -1px"
+    },
+    "img.card-number.valid.card-type-visa": {
+      background: `transparent url(${imageBase}logo-visa@2x.png) no-repeat`,
+      "background-size": "120%",
+      "background-position": "-4px -4px"
     },
 
     ".card-number::-ms-clear": {
@@ -173,6 +186,62 @@ export const parentStyles = (assetBaseUrl: string) => {
       "margin-bottom": "7px",
     },
 
+    ".secure-payment-form div[class$='-shield']": {
+      flex: "1 1 auto",
+      "margin-right": "16px",
+      float: "left"
+    },
+
+    ".secure-payment-form div[class$='-shield'] .ssl-text-logo": {
+      border: "1px solid #468000",
+      "border-radius": "3px",
+      width: "89px",
+      height: "26px",
+      "text-align": "center",
+      margin: "0"
+    },
+
+    ".secure-payment-form div[class$='-shield'] .ssl-logo_ico": {
+      width: "19px",
+      height: "18px",
+      "margin-top": "1px",
+      "vertical-align": "middle"
+    },
+
+    ".secure-payment-form div[class$='-shield'] .ssl-msg": {
+      "font-size": "8px",
+      "font-weight": "600",
+      "font-family": "Open sans,sans-serif",
+      color: "#468000",
+      "line-height": "9px",
+      display: "inline-block",
+      "vertical-align": "middle",
+      "text-align": "center",
+      "margin-left": "6px",
+      "margin-right": "7px",
+      "margin-top": "1px"
+    },
+
+    ".secure-payment-form div[class$='-logo']": {
+      flex: "1 1 auto",
+      "margin-left": "16px",
+      width: "110px",
+      height: "23px",
+      "text-align": "right",
+      float: "right"
+    },
+
+    ".secure-payment-form div[class$='-logo'] .security-msg": {
+      color: "#707689",
+      "font-size": "8px",
+      display: "inline-block",
+      "vertical-align": "middle",
+      "margin-right": "2px"
+    },
+
+    ".secure-payment-form div[class$='-logo'] img": {
+      "vertical-align": "middle"
+    },
     ".secure-payment-form div": {
       display: "block",
     },

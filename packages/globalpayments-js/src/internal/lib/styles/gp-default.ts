@@ -13,24 +13,33 @@ export const fieldStyles = (assetBaseUrl: string) => {
       "box-sizing": "border-box",
     },
     "::-webkit-input-placeholder": {
-      color: "#9296A5",
+      color: "#767676",
     },
     "::-ms-input-placeholder": {
-      color: "#9296A5",
+      color: "#767676",
     },
     "::-moz-input-placeholder": {
-      color: "#9296A5",
+      color: "#767676",
       opacity: 1,
     },
     ":-moz-input-placeholder": {
       color: "#9296A5",
       opacity: 1,
     },
+    ":-moz-placeholder": { /* Firefox 18- */
+      color: "#767676",
+      opacity: "1",
+    },
+
+    "::-moz-placeholder": {  /* Firefox 19+ */
+      color: "#767676",
+      opacity: "1"
+    },
     "#secure-payment-field": {
       width: "100%",
       height: "40px",
       padding: "12px",
-      border: "1px solid #BCBFC8",
+      border: "1px solid #5a5e6d",
       "border-radius": "0",
       "font-size": "0.89em",
       "font-weight": "400",
@@ -41,7 +50,7 @@ export const fieldStyles = (assetBaseUrl: string) => {
       outline: "none",
     },
     "#secure-payment-field[type=button]": {
-      "background-color": "#148EE6",
+      "background-color": "#0071ba",
       color: "white",
       padding: "8px",
       border: "none",
@@ -60,7 +69,7 @@ export const fieldStyles = (assetBaseUrl: string) => {
       outline: "none",
     },
     "#secure-payment-field[type=button]:hover": {
-      "background-color": "#148EE6",
+      "background-color": "#015a94",
     },
     "#secure-payment-field[type=button]::before": {
       content: `url("${imageBase}gp-lock.svg")`,
@@ -73,26 +82,32 @@ export const fieldStyles = (assetBaseUrl: string) => {
     ".card-cvv.card-type-amex": {
       "background-image": `url(${imageBase}cvv-amex.png)`,
     },
-    ".card-number": {
-      background: `transparent url(${imageBase}gp-cc-generic.svg) no-repeat right 10px center`,
+    "img.card-number": {
+      background: `transparent url(${imageBase}gp-cc-generic.svg) no-repeat right center`,
+      position: "absolute",
+      right: "10px",
+      top: "50%",
+      width: "24px",
+      height: "16px",
+      "margin-top": "-8px",
       "background-size": "20px",
     },
-    ".card-number.card-type-amex": {
+    "img.card-number.card-type-amex": {
       "background-image": `url(${imageBase}gp-cc-amex.svg)`,
     },
-    ".card-number.card-type-discover": {
+    "img.card-number.card-type-discover": {
       "background-image": `url(${imageBase}gp-cc-discover.svg)`,
     },
-    ".card-number.card-type-jcb": {
+    "img.card-number.card-type-jcb": {
       "background-image": `url(${imageBase}gp-cc-jcb.svg)`,
     },
-    ".card-number.card-type-mastercard": {
+    "img.card-number.card-type-mastercard": {
       "background-image": `url(${imageBase}gp-cc-mastercard.svg)`,
     },
-    ".card-number.card-type-visa": {
+    "img.card-number.card-type-visa": {
       "background-image": `url(${imageBase}gp-cc-visa.svg)`,
     },
-    ".card-number.card-type-diners": {
+    "img.card-number.card-type-diners": {
       "background-image": `url(${imageBase}gp-cc-diners.svg)`,
     },
     ".card-number::-ms-clear": {
@@ -122,7 +137,7 @@ export const parentStyles = (assetBaseUrl: string) => {
       "font-size": "0.79em",
       "font-weight": "500",
       "font-family": "GPCommerce"
-},
+    },
 
     ".secure-payment-form > div": {
       flex: "100%",
@@ -133,36 +148,59 @@ export const parentStyles = (assetBaseUrl: string) => {
       float: "left",
     },
 
-    ".secure-payment-form .credit-card-shield": {
+    ".secure-payment-form div[class$='-shield']": {
       flex: "1 1 auto",
-      "margin-right": "16px",
-      background: `url(${imageBase}gp-secure-ssl-logo.svg) no-repeat left`,
-      width: "88px",
-      height: "26px",
+      "margin-right": "16px"
     },
 
-    ".secure-payment-form .apm-shield": {
-      flex: "1 1 auto",
-      "margin-right": "16px",
-      background: `url(${imageBase}gp-secure-ssl-logo.svg) no-repeat left`,
-      width: "88px",
+    ".secure-payment-form div[class$='-shield'] .ssl-text-logo": {
+      border: "1px solid #468000",
+      "border-radius": "3px",
+      width: "89px",
       height: "26px",
+      "text-align": "center",
+      margin: "0"
     },
 
-    ".secure-payment-form .credit-card-logo": {
+    ".secure-payment-form div[class$='-shield'] .ssl-logo_ico": {
+      width: "19px",
+      height: "18px",
+      "margin-top": "1px",
+      "vertical-align": "middle"
+    },
+
+    ".secure-payment-form div[class$='-shield'] .ssl-msg": {
+      "font-size": "8px",
+      "font-weight": "600",
+      "font-family": "Open sans,sans-serif",
+      color: "#468000",
+      "line-height": "9px",
+      display: "inline-block",
+      "vertical-align": "middle",
+      "text-align": "center",
+      "margin-left": "6px",
+      "margin-right": "7px",
+      "margin-top": "1px"
+    },
+
+    ".secure-payment-form div[class$='-logo']": {
       flex: "1 1 auto",
       "margin-left": "16px",
-      background: `url(${imageBase}gp-secure-logo.svg) no-repeat right`,
       width: "100px",
       height: "23px",
+      "text-align": "right"
     },
 
-    ".secure-payment-form .apm-logo": {
-      flex: "1 1 auto",
-      "margin-left": "16px",
-      background: `url(${imageBase}gp-secure-logo.svg) no-repeat right`,
-      width: "100px",
-      height: "23px",
+    ".secure-payment-form div[class$='-logo'] .security-msg": {
+      color: "#707689",
+      "font-size": "8px",
+      display: "inline-block",
+      "vertical-align": "middle",
+      "margin-right": "2px"
+    },
+
+    ".secure-payment-form div[class$='-logo'] img": {
+      "vertical-align": "middle"
     },
 
     ".secure-payment-form .credit-card-submit": {
@@ -178,7 +216,7 @@ export const parentStyles = (assetBaseUrl: string) => {
       position: "relative",
       width: "10%",
       height: "40px",
-      border: "1px solid #BCBFC8",
+      border: "1px solid #5a5e6d",
       "border-left": "none",
       color: "#474B57",
       overflow: "hidden",
@@ -198,7 +236,7 @@ export const parentStyles = (assetBaseUrl: string) => {
       color: "#474B57",
       "text-align": "left",
       "border-radius": "3px",
-      border: "solid 1px #BCBFC8",
+      border: "solid 1px #5a5e6d",
       padding: "8px 8px",
       position: "absolute",
       "z-index": "99999999",
@@ -223,7 +261,7 @@ export const parentStyles = (assetBaseUrl: string) => {
     },
 
     ".secure-payment-form .other-cards-label": {
-      "border-bottom": "1px solid #BCBFC8",
+      "border-bottom": "1px solid #5a5e6d",
       "text-align": "center",
       margin: "40px 0 20px",
       position: "relative",

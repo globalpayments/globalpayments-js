@@ -3,9 +3,11 @@ import ExpirationFormatter from "../formatters/expiration";
 import CardNumberValidator from "../validators/card-number";
 import CvvValidator from "../validators/cvv";
 import ExpirationValidator from "../validators/expiration";
-import { typeByNumber } from "./card-types";
+import {typeByNumber} from "./card-types";
 import Events from "./events";
-import { postMessage } from "./post-message";
+import {postMessage} from "./post-message";
+import getAssetBaseUrl from "../lib/asset-base-url";
+
 export default class Card {
   /**
    * addType
@@ -20,8 +22,11 @@ export default class Card {
       ? e.currentTarget
       : e.srcElement) as HTMLInputElement;
     const type = typeByNumber(target.value);
-    const classList = target.className.split(" ");
+    let classList = target.className.split(" ");
     const length = classList.length;
+    const assetBaseUrl = getAssetBaseUrl();
+    const icon = target.parentNode?.querySelector('img');
+
     let i = 0;
     let c = "";
 
@@ -34,21 +39,32 @@ export default class Card {
 
     if (type) {
       classList.push("card-type-" + type.code);
+      classList = classList.filter((str) => str !== '');
 
       const id = target.getAttribute("data-id");
       if (id) {
         postMessage.post(
           {
-            data: { cardType: type.code },
+            data: {cardType: type.code},
             id,
             type: "ui:iframe-field:card-type",
           },
           "parent",
         );
       }
+
+      if (icon) {
+        // icon.setAttribute('src', `${assetBaseUrl}images/gp-cc-${type.code}.svg`);
+        icon.setAttribute('alt', `${type.code.charAt(0).toUpperCase() + type.code.slice(1)} Card`);
+      }
+    } else {
+      // icon!.setAttribute('src', `${assetBaseUrl}images/gp-cc-generic.svg`);
+      icon!.setAttribute('alt', 'Generic Card');
     }
 
-    target.className = classList.join(" ").replace(/^\s+|\s+$/gm, "");
+    classList = classList.filter((str) => str !== '');
+    icon!.className = classList.join(" ");
+    target.className = classList.join(" ");
   }
 
   /**
@@ -281,7 +297,7 @@ export default class Card {
       : e.srcElement) as HTMLInputElement;
     const value = target.value.replace(/[-\s]/g, "");
     const cardType = typeByNumber(value);
-    const classList = target.className.split(" ");
+    let classList = target.className.split(" ");
     const length = classList.length;
     let c = "";
 
@@ -299,7 +315,7 @@ export default class Card {
       if (id) {
         postMessage.post(
           {
-            data: { valid: true },
+            data: {valid: true},
             id,
             type: "ui:iframe-field:card-number-test",
           },
@@ -319,7 +335,7 @@ export default class Card {
       if (id) {
         postMessage.post(
           {
-            data: { valid: false },
+            data: {valid: false},
             id,
             type: "ui:iframe-field:card-number-test",
           },
@@ -328,7 +344,8 @@ export default class Card {
       }
     }
 
-    target.className = classList.join(" ").replace(/^\s+|\s+$/gm, "");
+    classList = classList.filter((str) => str !== '');
+    target.className = classList.join(" ");
   }
 
   /**
@@ -379,7 +396,7 @@ export default class Card {
       if (id) {
         postMessage.post(
           {
-            data: { valid: true },
+            data: {valid: true},
             id,
             type: "ui:iframe-field:card-cvv-test",
           },
@@ -393,7 +410,7 @@ export default class Card {
       if (id) {
         postMessage.post(
           {
-            data: { valid: false },
+            data: {valid: false},
             id,
             type: "ui:iframe-field:card-cvv-test",
           },
@@ -443,7 +460,7 @@ export default class Card {
       if (id) {
         postMessage.post(
           {
-            data: { valid: true },
+            data: {valid: true},
             id,
             type: "ui:iframe-field:card-expiration-test",
           },

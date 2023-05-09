@@ -1,5 +1,6 @@
 {
   "name": "root",
+  def sdkVersion = '1.0.0',
   "private": true,
   "devDependencies": {
     "@rollup/plugin-commonjs": "^16.0.0",

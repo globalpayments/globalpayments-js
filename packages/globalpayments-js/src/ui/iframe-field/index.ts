@@ -20,6 +20,7 @@ import actionSetPlaceholder from "./action-set-placeholder";
 import actionSetText from "./action-set-text";
 import actionSetValue from "./action-set-value";
 import actionSetTypeCvv from "./action-set-type-cvv";
+import assetBaseUrl from "../../internal/lib/asset-base-url";
 
 export interface IFrameCollection {
   [key: string]: IframeField | undefined;
@@ -39,6 +40,7 @@ export const fieldTypeAutocompleteMap: IDictionary = {
   "card-cvv": "cc-csc",
   "card-expiration": "cc-exp",
   "card-number": "cc-number",
+  "card-holder-name": "cc-name"
 };
 
 /**
@@ -60,7 +62,7 @@ export class IframeField extends EventEmitter {
     const query = window.location.hash.replace("#", "");
     const data: any = JSON.parse(atob(query));
     const id: string = data.id;
-    const enableAutocomplete = data.enableAutocomplete || false;
+    const enableAutocomplete = data.enableAutocomplete || true;
     IframeField.setHtmlLang(data.lang);
     IframeField.createField(id, type, data.type, enableAutocomplete);
     IframeField.addMessageListener(id, type, data.targetOrigin);
@@ -183,6 +185,14 @@ export class IframeField extends EventEmitter {
 
     if (name === "card-number") {
       input.setAttribute("data-prev", "0");
+      const icon = document.createElement('img');
+      icon.className = 'card-number';
+      icon.setAttribute('aria-disabled', 'false');
+      icon.setAttribute('alt', 'Generic Card');
+      // icon.src = `${assetBaseUrl()}images/gp-cc-generic.svg`;
+      icon.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
+      icon.setAttribute('onerror', 'this.onerror=null; this.src="' +`${assetBaseUrl()}images/gp-cc-generic.svg` + '"');
+      dest.insertBefore(icon, input);
     }
 
     if (name === "card-track") {
@@ -668,7 +678,6 @@ export class IframeField extends EventEmitter {
     frame.frameBorder = "0";
     frame.scrolling = "no";
     frame.setAttribute("allowtransparency", "true");
-    frame.setAttribute("aria-hidden", "true");
     frame.allowPaymentRequest = true;
     return frame;
   }
