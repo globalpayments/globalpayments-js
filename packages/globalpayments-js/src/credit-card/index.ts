@@ -1,5 +1,6 @@
 import { addSandboxAlert } from "../internal/lib/add-sandbox-alert";
 import getGateway from "../internal/lib/get-gateway";
+import { INSTALLMENTS_KEY } from "../internal/lib/installments/contracts/constants";
 import objectAssign from "../internal/lib/object-assign";
 import { options } from "../internal/lib/options";
 import { addStylesheet, json2css } from "../internal/lib/styles";
@@ -71,6 +72,9 @@ export function form(
     "card-holder-name",
     "submit",
   ];
+
+  // If installments option is present insert the field between card holder and submit button
+  if (options.installments) fieldTypes.splice(fieldTypes.length-1, 0, INSTALLMENTS_KEY);
 
   const firstFieldCardForm = fieldTypes[0];
 
@@ -258,6 +262,6 @@ function createToolTip(target: Element) {
       "The additional 3 digits on the back of your card. For American Express, it is the additional 4 digits on the front of your card.",
     ),
   );
+  tooltip.appendChild(content);
   target.appendChild(tooltip);
-  target.appendChild(content);
 }

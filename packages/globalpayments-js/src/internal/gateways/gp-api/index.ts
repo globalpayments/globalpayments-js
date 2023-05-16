@@ -4,6 +4,7 @@ import { options } from "../../lib/options";
 import actionNormalizeResponse from "./action-normalize-response";
 import actionTokenize from "./action-tokenize";
 import actionValidateData from "./action-validate-data";
+import actionQueryInstallmentPlans from './action-query-installment-plans';
 import getAssetBaseUrl from "./get-asset-base-url";
 import getEnv from "./get-env";
 
@@ -49,12 +50,27 @@ export const urls = {
 
     return `${domain}/ucp/${endpoint}`;
   },
+  queryInstallmentPlans: (prod: boolean) => {
+    let domain = prod ? domains.production : domains.sandbox;
+
+    if (options.env && (options.env === "qa")) {
+      domain = domains.qa;
+    }
+
+    let endpoint = "installments";
+    if (options.merchantId) {
+      endpoint = `merchants/${options.merchantId}/${endpoint}`;
+    }
+
+    return `${domain}/ucp/${endpoint}`;
+  }
 };
 
 export const actions: IActions = {
   normalizeResponse: actionNormalizeResponse,
   tokenize: actionTokenize,
   validateData: actionValidateData,
+  queryInstallmentPlans: actionQueryInstallmentPlans,
 };
 
 export const requiredSettings = ["accessToken"];

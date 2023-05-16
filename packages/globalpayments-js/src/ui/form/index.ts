@@ -15,8 +15,18 @@ import {IDictionary} from "../../internal/lib/util";
 import {IFrameCollection, IframeField, IUIFormField} from "../iframe-field";
 import addClickToPay from "../iframe-field/action-add-click-to-pay";
 import addGooglePay from "../iframe-field/action-add-google-pay";
-import { Apm } from "../../internal/lib/eums";
 import addApplePay from "../iframe-field/action-add-apple-pay";
+import { Apm } from "../../internal/lib/eums";
+import addInstallments from "../iframe-field/action-add-installments";
+import { InstallmentEvents } from "../../internal/lib/installments/contracts/enums";
+import { options } from "../../internal";
+import { verifyInstallmentAvailability } from "../../internal/lib/installments/contracts/installment-plans-data";
+import { INSTALLMENTS_KEY } from "../../internal/lib/installments/contracts/constants";
+import CardNumberValidator from "../../internal/validators/card-number";
+import CardExpirationValidator from "../../internal/validators/expiration";
+import { InstallmentPaymentData } from "../../internal/lib/installments/installments-handler";
+import addIssuerBanner from "../../internal/lib/installments/components/add-issuer-banner";
+import { getHaveVirginMoneyCreditCardBannerTemplate } from "../../internal/lib/installments/templates/common";
 
 export { IUIFormField } from "../iframe-field";
 
@@ -56,6 +66,7 @@ export const frameFieldTypes = [
   "card-track",
   "account-number",
   "routing-number",
+  INSTALLMENTS_KEY,
   "submit",
 ];
 
@@ -318,6 +329,17 @@ export default class UIForm {
       });
     }
 
+    // Add Installments configs
+    if (options.installments) {
+      const installmentsFrame = this.frames[INSTALLMENTS_KEY];
+      if (installmentsFrame) {
+        installmentsFrame?.container?.querySelector('iframe')?.remove();
+      }
+      addIssuerBanner(installmentsFrame);
+
+      this.configureCardInstallmentsEvents();
+    }
+
     if(googlePay) {
       googlePay?.container?.querySelector('iframe')?.remove();
       addGooglePay(googlePay, this.fields[Apm.GooglePay]);
@@ -334,7 +356,115 @@ export default class UIForm {
     }
   }
 
-  private requestDataFromAll(target: IframeField) {
+  private configureCardInstallmentsEvents(): void {
+    const cardNumber = this.frames["card-number"];
+    const cardExpiration = this.frames["card-expiration"];
+    const cardCvv = this.frames["card-cvv"];
+    if (!cardNumber || !cardExpiration || !cardCvv) return;
+
+    [cardNumber, cardExpiration, cardCvv].forEach(cardField => {
+      cardField.on(InstallmentEvents.CardInstallmentsHide, (_data?: any) => {
+        this.removeInstallmentsPanel();
+      });
+
+      cardField.on(InstallmentEvents.CardInstallmentsRequestStart, (data?: any) => {
+        const { cardNumberValue, cardExpirationValue, cardCvvValue } = this.getInstallmentsCardNeededValues();
+
+        if (!cardNumberValue
+          || !new CardNumberValidator().validate(cardNumberValue)
+          || !cardExpirationValue
+          || !new CardExpirationValidator().validate(cardExpirationValue)
+          || !cardCvvValue
+          // TODO (Installments): Validate CVV
+          ) {
+            return;
+          };
+
+        this.startCardInstallmentDataRequest({
+          id: cardField.id,
+          cardNumber: cardNumberValue,
+          cardExpiration: cardExpirationValue,
+          data
+        });
+      });
+
+      cardField.on(InstallmentEvents.CardInstallmentsRequestCompleted, (installmentPlansData?: any) => {
+        if (!installmentPlansData || installmentPlansData && !verifyInstallmentAvailability(installmentPlansData)) return;
+
+        const installments = this.frames[INSTALLMENTS_KEY];
+        if (installments) {
+          installments?.container?.querySelector('iframe')?.remove();
+          addInstallments(installments, installmentPlansData, (installment) => {
+            const target = this.frames[`card-number`] || this.frames[`account-number`];
+
+            if (!target) return;
+
+            this.requestDataFromAll(target, installment);
+          });
+        }
+      });
+    });
+  }
+
+  private startCardInstallmentDataRequest(args: {id: string, cardNumber:string, cardExpiration: string, data?: any}): void {
+    const {
+      id,
+      cardNumber,
+      cardExpiration,
+      data,
+    } = args;
+
+    const installmentFields = this.fields[INSTALLMENTS_KEY];
+    const amount = installmentFields.amount || 0;
+    const eventType = `ui:iframe-field:${InstallmentEvents.CardInstallmentsRequestStart}`;
+    postMessage.post(
+      {
+        data: {
+          amount,
+          cardNumber,
+          cardExpiration,
+          ...data
+        },
+        id,
+        type: eventType,
+      },
+      id,
+    );
+  }
+
+  private getInstallmentsCardNeededValues(): { cardNumberValue?: string, cardExpirationValue?: string, cardCvvValue?: string } {
+    const cardNumberFrame = this.frames['card-number'];
+    const cardExpirationFrame = this.frames['card-expiration'];
+    const cardCvvFrame = this.frames['card-cvv'];
+
+    const cardNumberValue = cardNumberFrame?.container?.querySelector('iframe')?.contentDocument?.querySelector('input')?.value;
+    const cardExpirationValue = cardExpirationFrame?.container?.querySelector('iframe')?.contentDocument?.querySelector('input')?.value;
+    const cardCvvValue = cardCvvFrame?.container?.querySelector('iframe')?.contentDocument?.querySelector('input')?.value;
+
+    return {
+      cardNumberValue,
+      cardExpirationValue,
+      cardCvvValue,
+    };
+  }
+
+  private removeInstallmentsPanel(): void {
+    const installmentsPanel = document.getElementsByClassName("installment-step-container")[0];
+    if (installmentsPanel) {
+      installmentsPanel.remove();
+    }
+
+    const installmentsIssuerBanner = document.getElementById("virgin-money-credit-card-banner");
+    if (installmentsIssuerBanner) {
+      const content = getHaveVirginMoneyCreditCardBannerTemplate();
+      installmentsIssuerBanner.outerHTML = content.outerHTML;
+    }
+  }
+
+  private requestDataFromAll(
+      target: IframeField,
+      installment?: InstallmentPaymentData
+    ) {
     const fields: string[] = [];
 
     for (const type of frameFieldTypes) {
@@ -342,7 +472,7 @@ export default class UIForm {
         continue;
       }
 
-      if(type !== Apm.GooglePay && type !== Apm.ClickToPay && type !== Apm.ApplePay) {
+      if(type !== Apm.GooglePay && type !== Apm.ClickToPay && type !== Apm.ApplePay && type !== INSTALLMENTS_KEY) {
         fields.push(type);
       }
     }
@@ -363,6 +493,8 @@ export default class UIForm {
           data: {
             fields,
             target: target.id,
+
+            ...(installment ? {installment} : {}),
           },
           id: field.id,
           type: "ui:iframe-field:request-data",

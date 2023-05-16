@@ -1,3 +1,4 @@
+import getInstallmentStyles from './installments/gp-default';
 import getApplePayStyles from './apple-pay/gp-default';
 import getClickToPayStyles from './click-to-pay/gp-default';
 import getGooglePayStyles from './google-pay/gp-default';
@@ -219,7 +220,7 @@ export const parentStyles = (assetBaseUrl: string) => {
       border: "1px solid #5a5e6d",
       "border-left": "none",
       color: "#474B57",
-      overflow: "hidden",
+      float: "right",
       "background-size": "20px",
       background: `transparent url(${imageBase}gp-fa-question-circle.svg) no-repeat center center`,
     },
@@ -240,22 +241,22 @@ export const parentStyles = (assetBaseUrl: string) => {
       padding: "8px 8px",
       position: "absolute",
       "z-index": "99999999",
-      right: "10%",
+      right: "70%",
       opacity: "0",
       transition: "opacity 0.3s",
       "font-size": "0.79em",
       "font-weight": "400",
-      "margin-top": "-12px",
+      "margin-top": "30px",
       overflow: "hidden",
       "box-shadow": "0 3px 6px rgba(0, 0, 0, 0.1)",
     },
 
-    ".secure-payment-form .tooltip:hover + .tooltip-content": {
+    ".secure-payment-form .tooltip:hover > .tooltip-content": {
       visibility: "visible",
       opacity: "1",
     },
 
-    ".secure-payment-form .tooltip:focus + .tooltip-content": {
+    ".secure-payment-form .tooltip:focus > .tooltip-content": {
       visibility: "visible",
       opacity: "1",
     },
@@ -305,12 +306,9 @@ export const parentStyles = (assetBaseUrl: string) => {
         flex: "1 1 auto",
         "margin-left": "16px",
       },
-
-      ".secure-payment-form .tooltip-content": {
-        right: "5%",
-      },
     },
 
+    ...getInstallmentStyles(assetBaseUrl),
     ...getApplePayStyles(assetBaseUrl),
     ...getClickToPayStyles(assetBaseUrl),
     ...getGooglePayStyles(assetBaseUrl),

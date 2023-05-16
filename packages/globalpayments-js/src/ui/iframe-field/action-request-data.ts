@@ -27,12 +27,15 @@ export default (id: string, type: string, data: IDictionary) => {
     value = "";
   }
 
+  const installment = data.data.installment;
+
   pm.post(
     {
       data: {
         target: data.data.target,
         type,
         value,
+        ...(installment ? {installment} : {}),
       },
       id,
       type: "ui:iframe-field:pass-data",

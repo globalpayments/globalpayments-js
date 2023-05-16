@@ -52,6 +52,10 @@ export interface ISuccess {
     orderId?: string;
     reference?: string;
     apmProvider?: string;
+    installment?: {
+      id: string;
+      reference: string;
+    };
   };
   methodName?: string;
   payerEmail?: string;
@@ -80,11 +84,17 @@ export interface IActions {
   setup?: () => any;
   tokenize: (url: string, env: string, data: IDictionary) => Promise<any>;
   validateData: (data: IDictionary) => IErrorReason[];
+
+  // Installments gateway implementation
+  queryInstallmentPlans?: (url: string, env: string, data: IDictionary) => Promise<any>;
 }
 
 export interface IUrlGenerators {
   assetBaseUrl?: (result: string) => string;
   tokenization: (prod: boolean) => string;
+
+  // Installments urls
+  queryInstallmentPlans?: (prod: boolean) => string;
 }
 
 export interface IGatewayModule {

@@ -5,7 +5,9 @@ import CvvValidator from "../validators/cvv";
 import ExpirationValidator from "../validators/expiration";
 import {typeByNumber} from "./card-types";
 import Events from "./events";
-import {postMessage} from "./post-message";
+import { postMessage } from "./post-message";
+import { options } from './options';
+import { InstallmentEvents } from "./installments/contracts/enums";
 import getAssetBaseUrl from "../lib/asset-base-url";
 
 export default class Card {
@@ -138,7 +140,9 @@ export default class Card {
       // allow: Ctrl+V
       (e.keyCode === 86 && e.ctrlKey === true) ||
       // allow: home, end, left, right
-      (e.keyCode >= 35 && e.keyCode <= 39)
+      (e.keyCode >= 35 && e.keyCode <= 39) ||
+      // allow: weird Android/Chrome issue
+      e.keyCode === 229
     ) {
       return;
     }
@@ -487,6 +491,87 @@ export default class Card {
   }
 
   /**
+   * validateInstallments
+   *
+   * Validates a target element"s value based on the
+   * availability of use installment plans.
+   *
+   * @param e
+   */
+  public static validateInstallments(e: Event, fieldType: string) {
+    if (!options.installments) return;
+
+    const target = (e.currentTarget
+      ? e.currentTarget
+      : e.srcElement) as HTMLInputElement;
+    const value = target.value;
+
+    const id = target.getAttribute("data-id");
+    if (!id) return;
+
+    let installmentFieldValid = false;
+
+    if (fieldType === "card-number" ) {
+      installmentFieldValid = new CardNumberValidator().validate(value);
+    }
+    if (fieldType === "card-expiration" ) {
+      installmentFieldValid = new ExpirationValidator().validate(value);
+    }
+    if (fieldType === "card-cvv" ) {
+      const CARD_TYPE_UNKNOWN = "unknown";
+      const CARD_TYPE_CLASS_PREFIX = "card-type-";
+      const classList = target.className.split(" ");
+      const [cardTypeClass] = classList.filter(c => new RegExp(`/${CARD_TYPE_CLASS_PREFIX}\\b`, 'g').test(c));
+      const cardType = cardTypeClass ? cardTypeClass.replace(CARD_TYPE_CLASS_PREFIX, "") : CARD_TYPE_UNKNOWN;
+
+      installmentFieldValid = new CvvValidator().validate(
+        value,
+        cardType === CARD_TYPE_UNKNOWN ? undefined : cardType === "amex",
+      );
+    }
+    if (installmentFieldValid) return;
+
+    const eventType = `ui:iframe-field:${InstallmentEvents.CardInstallmentsHide}`;
+    postMessage.post(
+      {
+        data: { value, id },
+        id,
+        type: eventType,
+      },
+      "parent",
+    );
+  }
+
+  /**
+   * displayInstallmentOptions
+   *
+   * Post an event to start the installment data request
+   *
+   * @param e
+   */
+  public static displayInstallmentOptions(e: Event) {
+    if (!options.installments) return;
+
+    const target = (e.currentTarget
+      ? e.currentTarget
+      : e.srcElement) as HTMLInputElement;
+    const value = target.value;
+
+    const id = target.getAttribute("data-id");
+    if (!id) return;
+
+    const eventType = `ui:iframe-field:${InstallmentEvents.CardInstallmentsRequestStart}`;
+    postMessage.post(
+      {
+        data: { value, id },
+        id,
+        type: eventType,
+      },
+      "parent",
+    );
+  }
+
+  /**
    * attachNumberEvents
    *
    * @param selector
@@ -508,6 +593,8 @@ export default class Card {
     Events.addHandler(el, "keydown", Card.deleteProperly);
     Events.addHandler(el, "input", Card.validateNumber);
     Events.addHandler(el, "input", Card.addType);
+    Events.addHandler(el, "blur", Card.displayInstallmentOptions);
+    Events.addHandler(el, "input", (e: Event) => { Card.validateInstallments(e, "card-number") });
   }
 
   /**
@@ -526,6 +613,8 @@ export default class Card {
     Events.addHandler(el, "blur", Card.formatExpiration);
     Events.addHandler(el, "input", Card.validateExpiration);
     Events.addHandler(el, "blur", Card.validateExpiration);
+    Events.addHandler(el, "blur", Card.displayInstallmentOptions);
+    Events.addHandler(el, "input", (e: Event) => { Card.validateInstallments(e, "card-expiration") });
   }
 
   /**
@@ -542,6 +631,8 @@ export default class Card {
     Events.addHandler(el, "keydown", Card.restrictNumeric);
     Events.addHandler(el, "keydown", Card.restrictLength(4));
     Events.addHandler(el, "input", Card.validateCvv);
+    Events.addHandler(el, "blur", Card.displayInstallmentOptions);
+    Events.addHandler(el, "input", (e: Event) => { Card.validateInstallments(e, "card-cvv") });
   }
 }
 

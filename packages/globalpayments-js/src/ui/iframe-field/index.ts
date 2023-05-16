@@ -20,6 +20,8 @@ import actionSetPlaceholder from "./action-set-placeholder";
 import actionSetText from "./action-set-text";
 import actionSetValue from "./action-set-value";
 import actionSetTypeCvv from "./action-set-type-cvv";
+import actionCardRequestInstallments from "./action-card-request-installments";
+import { InstallmentEvents } from "../../internal/lib/installments/contracts/enums";
 import assetBaseUrl from "../../internal/lib/asset-base-url";
 
 export interface IFrameCollection {
@@ -379,6 +381,9 @@ export class IframeField extends EventEmitter {
           actionSetLabel(data.data.label);
           IframeField.triggerResize(id);
           break;
+        case InstallmentEvents.CardInstallmentsRequestStart:
+          actionCardRequestInstallments(id, data.data);
+          break;
         case "update-options":
           for (const prop in data.data) {
             if (data.data.hasOwnProperty(prop)) {
@@ -502,11 +507,14 @@ export class IframeField extends EventEmitter {
           this.frame.style.height = `${data.data.height}px`;
           break;
         case "pass-data":
+          const installment = data.data.installment;
+
           postMessage.post(
             {
               data: {
                 type: data.data.type,
                 value: data.data.value,
+                ...(installment ? {installment} : {}),
               },
               id: data.data.target,
               type: "ui:iframe-field:accumulate-data",

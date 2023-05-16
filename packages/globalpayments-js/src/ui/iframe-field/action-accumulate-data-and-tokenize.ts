@@ -28,6 +28,8 @@ export default (id: string, type: string, data: IDictionary) => {
 
   (w.dataReceivedFields as string[]).push(data.data.type);
 
+  const installment = data.data.installment;
+
   // proceed with tokenization once we have all expected field data
   if (
     JSON.stringify(w.dataFields.sort()) ===
@@ -51,13 +53,18 @@ export default (id: string, type: string, data: IDictionary) => {
         w.dataContents["routing-number"] !== undefined &&
         w.dataContents["routing-number"],
     })
-      .then((response) => {
+      .then((response: any) => {
         w.dataContents = undefined;
         w.dataReceivedFields = undefined;
 
-        postMessage.post(
-          {
-            data: response,
+        postMessage.post({
+            data: {
+              ...response,
+              details: {
+                ...(response.details),
+                ...(installment ? {installment} : {}),
+              },
+            },
             id,
             type: "ui:iframe-field:token-success",
           },

@@ -47,6 +47,7 @@ export default async (url: string, env: string, data: IDictionary) => {
       "Authorization": `Bearer ${options.accessToken || ""}`,
       "Content-Type": "application/json",
       "X-GP-Version": options.apiVersion || "2020-10-22",
+      // "X-GP-Library": "javascript;version=1.9.13",
     };
     const resp = await fetch(url, {
       body: JSON.stringify(request),

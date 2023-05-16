@@ -96,6 +96,15 @@ export interface IConfiguration extends IDictionary {
   accountName?: string;
   apiVersion?: string;
   reference?: string;
+
+  // Specific configuration properties for
+  // Installments
+  installments?: {
+    channel: string,
+    country: string,
+    mcc: string,
+    currency: string,
+  };
 }
 
 /**
