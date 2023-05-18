@@ -362,13 +362,25 @@ export default class UIForm {
     const cardCvv = this.frames["card-cvv"];
     if (!cardNumber || !cardExpiration || !cardCvv) return;
 
+    const installmentsCardValues: any = {};
+
     [cardNumber, cardExpiration, cardCvv].forEach(cardField => {
       cardField.on(InstallmentEvents.CardInstallmentsHide, (_data?: any) => {
         this.removeInstallmentsPanel();
       });
 
       cardField.on(InstallmentEvents.CardInstallmentsRequestStart, (data?: any) => {
-        const { cardNumberValue, cardExpirationValue, cardCvvValue } = this.getInstallmentsCardNeededValues();
+        if(cardNumber.id === data.id) {
+          installmentsCardValues.cardNumberValue = data.value;
+        }
+        if(cardExpiration.id === data.id) {
+          installmentsCardValues.cardExpirationValue = data.value;
+        }
+        if(cardCvv.id === data.id) {
+          installmentsCardValues.cardCvvValue = data.value;
+        }
+
+        const { cardNumberValue, cardExpirationValue, cardCvvValue } = installmentsCardValues;
 
         if (!cardNumberValue
           || !new CardNumberValidator().validate(cardNumberValue)
@@ -376,9 +388,9 @@ export default class UIForm {
           || !new CardExpirationValidator().validate(cardExpirationValue)
           || !cardCvvValue
           // TODO (Installments): Validate CVV
-          ) {
-            return;
-          };
+        ) {
+          return;
+        };
 
         this.startCardInstallmentDataRequest({
           id: cardField.id,
@@ -432,22 +444,6 @@ export default class UIForm {
     );
   }
 
-  private getInstallmentsCardNeededValues(): { cardNumberValue?: string, cardExpirationValue?: string, cardCvvValue?: string } {
-    const cardNumberFrame = this.frames['card-number'];
-    const cardExpirationFrame = this.frames['card-expiration'];
-    const cardCvvFrame = this.frames['card-cvv'];
-
-    const cardNumberValue = cardNumberFrame?.container?.querySelector('iframe')?.contentDocument?.querySelector('input')?.value;
-    const cardExpirationValue = cardExpirationFrame?.container?.querySelector('iframe')?.contentDocument?.querySelector('input')?.value;
-    const cardCvvValue = cardCvvFrame?.container?.querySelector('iframe')?.contentDocument?.querySelector('input')?.value;
-
-    return {
-      cardNumberValue,
-      cardExpirationValue,
-      cardCvvValue,
-    };
-  }
-
   private removeInstallmentsPanel(): void {
     const installmentsPanel = document.getElementsByClassName("installment-step-container")[0];
     if (installmentsPanel) {
@@ -462,9 +458,9 @@ export default class UIForm {
   }
 
   private requestDataFromAll(
-      target: IframeField,
-      installment?: InstallmentPaymentData
-    ) {
+    target: IframeField,
+    installment?: InstallmentPaymentData
+  ) {
     const fields: string[] = [];
 
     for (const type of frameFieldTypes) {
