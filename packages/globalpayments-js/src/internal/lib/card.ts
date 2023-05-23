@@ -56,16 +56,16 @@ export default class Card {
       }
 
       if (icon) {
-        // icon.setAttribute('src', `${assetBaseUrl}images/gp-cc-${type.code}.svg`);
         icon.setAttribute('alt', `${type.code.charAt(0).toUpperCase() + type.code.slice(1)} Card`);
       }
     } else {
-      // icon!.setAttribute('src', `${assetBaseUrl}images/gp-cc-generic.svg`);
       icon!.setAttribute('alt', 'Generic Card');
     }
 
     classList = classList.filter((str) => str !== '');
-    icon!.className = classList.join(" ");
+    const classListIcon = classList.filter(str => (str !== '' && str !== 'card-number'))
+    icon!.className = classListIcon.join(" ");
+    icon!.classList.add('card-number-icon');
     target.className = classList.join(" ");
   }
 
@@ -491,14 +491,14 @@ export default class Card {
   }
 
   /**
-   * validateInstallments
+   * validateInstallmentFields
    *
    * Validates a target element"s value based on the
    * availability of use installment plans.
    *
    * @param e
    */
-  public static validateInstallments(e: Event, fieldType: string) {
+  public static validateInstallmentFields(e: Event, fieldType: string) {
     if (!options.installments) return;
 
     const target = (e.currentTarget
@@ -543,13 +543,13 @@ export default class Card {
   }
 
   /**
-   * displayInstallmentOptions
+   * postInstallmentFieldValidatedEvent
    *
-   * Post an event to start the installment data request
+   * Post an event when an installment related card field is validated
    *
    * @param e
    */
-  public static displayInstallmentOptions(e: Event) {
+  public static postInstallmentFieldValidatedEvent(e: Event) {
     if (!options.installments) return;
 
     const target = (e.currentTarget
@@ -560,7 +560,7 @@ export default class Card {
     const id = target.getAttribute("data-id");
     if (!id) return;
 
-    const eventType = `ui:iframe-field:${InstallmentEvents.CardInstallmentsRequestStart}`;
+    const eventType = `ui:iframe-field:${InstallmentEvents.CardInstallmentsFieldValidated}`;
     postMessage.post(
       {
         data: { value, id },
@@ -593,8 +593,8 @@ export default class Card {
     Events.addHandler(el, "keydown", Card.deleteProperly);
     Events.addHandler(el, "input", Card.validateNumber);
     Events.addHandler(el, "input", Card.addType);
-    Events.addHandler(el, "blur", Card.displayInstallmentOptions);
-    Events.addHandler(el, "input", (e: Event) => { Card.validateInstallments(e, "card-number") });
+    Events.addHandler(el, "blur", Card.postInstallmentFieldValidatedEvent);
+    Events.addHandler(el, "input", (e: Event) => { Card.validateInstallmentFields(e, "card-number") });
   }
 
   /**
@@ -613,8 +613,8 @@ export default class Card {
     Events.addHandler(el, "blur", Card.formatExpiration);
     Events.addHandler(el, "input", Card.validateExpiration);
     Events.addHandler(el, "blur", Card.validateExpiration);
-    Events.addHandler(el, "blur", Card.displayInstallmentOptions);
-    Events.addHandler(el, "input", (e: Event) => { Card.validateInstallments(e, "card-expiration") });
+    Events.addHandler(el, "blur", Card.postInstallmentFieldValidatedEvent);
+    Events.addHandler(el, "input", (e: Event) => { Card.validateInstallmentFields(e, "card-expiration") });
   }
 
   /**
@@ -631,8 +631,8 @@ export default class Card {
     Events.addHandler(el, "keydown", Card.restrictNumeric);
     Events.addHandler(el, "keydown", Card.restrictLength(4));
     Events.addHandler(el, "input", Card.validateCvv);
-    Events.addHandler(el, "blur", Card.displayInstallmentOptions);
-    Events.addHandler(el, "input", (e: Event) => { Card.validateInstallments(e, "card-cvv") });
+    Events.addHandler(el, "blur", Card.postInstallmentFieldValidatedEvent);
+    Events.addHandler(el, "input", (e: Event) => { Card.validateInstallmentFields(e, "card-cvv") });
   }
 }
 

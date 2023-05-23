@@ -22,8 +22,6 @@ import { InstallmentEvents } from "../../internal/lib/installments/contracts/enu
 import { options } from "../../internal";
 import { verifyInstallmentAvailability } from "../../internal/lib/installments/contracts/installment-plans-data";
 import { INSTALLMENTS_KEY } from "../../internal/lib/installments/contracts/constants";
-import CardNumberValidator from "../../internal/validators/card-number";
-import CardExpirationValidator from "../../internal/validators/expiration";
 import { InstallmentPaymentData } from "../../internal/lib/installments/installments-handler";
 import addIssuerBanner from "../../internal/lib/installments/components/add-issuer-banner";
 import { getHaveVirginMoneyCreditCardBannerTemplate } from "../../internal/lib/installments/templates/common";
@@ -357,50 +355,39 @@ export default class UIForm {
   }
 
   private configureCardInstallmentsEvents(): void {
-    const cardNumber = this.frames["card-number"];
-    const cardExpiration = this.frames["card-expiration"];
-    const cardCvv = this.frames["card-cvv"];
-    if (!cardNumber || !cardExpiration || !cardCvv) return;
+    let installmentRequestInProgress = false;
 
-    const installmentsCardValues: any = {};
+    const cardNumberFrame = this.frames["card-number"];
+    const cardExpirationFrame = this.frames["card-expiration"];
+    const cardCvvFrame = this.frames["card-cvv"];
+    if (!cardNumberFrame || !cardExpirationFrame || !cardCvvFrame) return;
 
-    [cardNumber, cardExpiration, cardCvv].forEach(cardField => {
-      cardField.on(InstallmentEvents.CardInstallmentsHide, (_data?: any) => {
+    [cardNumberFrame, cardExpirationFrame, cardCvvFrame].forEach(cardFieldFrame => {
+      cardFieldFrame.on(InstallmentEvents.CardInstallmentsHide, (_data?: any) => {
         this.removeInstallmentsPanel();
+        installmentRequestInProgress = false;
       });
 
-      cardField.on(InstallmentEvents.CardInstallmentsRequestStart, (data?: any) => {
-        if(cardNumber.id === data.id) {
-          installmentsCardValues.cardNumberValue = data.value;
-        }
-        if(cardExpiration.id === data.id) {
-          installmentsCardValues.cardExpirationValue = data.value;
-        }
-        if(cardCvv.id === data.id) {
-          installmentsCardValues.cardCvvValue = data.value;
-        }
+      cardFieldFrame.on(InstallmentEvents.CardInstallmentsFieldValidated, (_data?: any) => {
+        this.requestInstallmentData();
+      });
 
-        const { cardNumberValue, cardExpirationValue, cardCvvValue } = installmentsCardValues;
+      cardFieldFrame.on(InstallmentEvents.CardInstallmentsRequestStart, (data?: any) => {
+        if (installmentRequestInProgress) return;
+        installmentRequestInProgress = true;
 
-        if (!cardNumberValue
-          || !new CardNumberValidator().validate(cardNumberValue)
-          || !cardExpirationValue
-          || !new CardExpirationValidator().validate(cardExpirationValue)
-          || !cardCvvValue
-          // TODO (Installments): Validate CVV
-        ) {
-          return;
-        };
+        if (!data) return;
 
+        const { cardNumber, cardExpiration } = data;
         this.startCardInstallmentDataRequest({
-          id: cardField.id,
-          cardNumber: cardNumberValue,
-          cardExpiration: cardExpirationValue,
+          id: cardFieldFrame.id,
+          cardNumber,
+          cardExpiration,
           data
         });
       });
 
-      cardField.on(InstallmentEvents.CardInstallmentsRequestCompleted, (installmentPlansData?: any) => {
+      cardFieldFrame.on(InstallmentEvents.CardInstallmentsRequestCompleted, (installmentPlansData?: any) => {
         if (!installmentPlansData || installmentPlansData && !verifyInstallmentAvailability(installmentPlansData)) return;
 
         const installments = this.frames[INSTALLMENTS_KEY];
@@ -414,6 +401,14 @@ export default class UIForm {
             this.requestDataFromAll(target, installment);
           });
         }
+
+        installmentRequestInProgress = false;
+      });
+
+      cardFieldFrame.on(InstallmentEvents.CardInstallmentsRequestFailed, (_data?: any) => {
+        // TBD (Installments): Emit an event? A 'token-error' error? or any installment error type?
+        this.removeInstallmentsPanel();
+        installmentRequestInProgress = false;
       });
     });
   }
@@ -507,6 +502,37 @@ export default class UIForm {
       }
       this.fields[type].amount = amount;
     }
+  }
+
+  private requestInstallmentData() {
+    const target = this.frames[`card-number`] || this.frames[`account-number`];
+    if (!target) return;
+
+    // Required fields to be completed and validated to call the endpoint
+    const fields = [
+      "card-number",
+      "card-expiration",
+      "card-cvv",
+    ];
+
+    fields.forEach((type) => {
+      const field = this.frames[type];
+
+      if (!field) return;
+
+      postMessage.post(
+        {
+          data: {
+            fields,
+            target: target.id,
+
+          },
+          id: field.id,
+          type: `ui:iframe-field:${InstallmentEvents.CardInstallmentsRequestData}`,
+        },
+        field.id,
+      );
+    });
   }
 }
 

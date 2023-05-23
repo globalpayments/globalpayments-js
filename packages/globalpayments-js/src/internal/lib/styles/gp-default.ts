@@ -83,7 +83,7 @@ export const fieldStyles = (assetBaseUrl: string) => {
     ".card-cvv.card-type-amex": {
       "background-image": `url(${imageBase}cvv-amex.png)`,
     },
-    "img.card-number": {
+    "img.card-number-icon": {
       background: `transparent url(${imageBase}gp-cc-generic.svg) no-repeat right center`,
       position: "absolute",
       right: "10px",
@@ -93,22 +93,22 @@ export const fieldStyles = (assetBaseUrl: string) => {
       "margin-top": "-8px",
       "background-size": "20px",
     },
-    "img.card-number.card-type-amex": {
+    "img.card-number-icon.card-type-amex": {
       "background-image": `url(${imageBase}gp-cc-amex.svg)`,
     },
-    "img.card-number.card-type-discover": {
+    "img.card-number-icon.card-type-discover": {
       "background-image": `url(${imageBase}gp-cc-discover.svg)`,
     },
-    "img.card-number.card-type-jcb": {
+    "img.card-number-icon.card-type-jcb": {
       "background-image": `url(${imageBase}gp-cc-jcb.svg)`,
     },
-    "img.card-number.card-type-mastercard": {
+    "img.card-number-icon.card-type-mastercard": {
       "background-image": `url(${imageBase}gp-cc-mastercard.svg)`,
     },
-    "img.card-number.card-type-visa": {
+    "img.card-number-icon.card-type-visa": {
       "background-image": `url(${imageBase}gp-cc-visa.svg)`,
     },
-    "img.card-number.card-type-diners": {
+    "img.card-number-icon.card-type-diners": {
       "background-image": `url(${imageBase}gp-cc-diners.svg)`,
     },
     ".card-number::-ms-clear": {

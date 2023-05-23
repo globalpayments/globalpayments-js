@@ -81,7 +81,7 @@ export const fieldStyles = (assetBaseUrl: string) => {
       background: `transparent url(${imageBase}cvv-amex.png) no-repeat right`,
       "background-size": "63px 40px",
     },
-    "img.card-number": {
+    "img.card-number-icon": {
       background: `transparent url(${imageBase}logo-unknown@2x.png) no-repeat`,
       "background-size": "100%",
       width: "65px",
@@ -92,59 +92,59 @@ export const fieldStyles = (assetBaseUrl: string) => {
       "margin-top": "-20px",
       "background-position": "50% 50%"
     },
-    "img.card-number[src$='/gp-cc-generic.svg']": {
+    "img.card-number-icon[src$='/gp-cc-generic.svg']": {
       background: `transparent url(${imageBase}logo-mastercard@2x.png) no-repeat`,
       "background-size": "120%",
       "background-position-y": "bottom"
     },
-    "img.card-number.invalid.card-type-amex": {
+    "img.card-number-icon.invalid.card-type-amex": {
       background: `transparent url(${imageBase}logo-amex@2x.png) no-repeat 140%`,
       "background-size": "80%",
       "background-position-y": "87%"
     },
-    "img.card-number.invalid.card-type-discover": {
+    "img.card-number-icon.invalid.card-type-discover": {
       background: `transparent url(${imageBase}logo-discover@2x.png) no-repeat`,
       "background-size": "115%",
       "background-position-y": "95%",
       width: "80px"
     },
-    "img.card-number.invalid.card-type-jcb": {
+    "img.card-number-icon.invalid.card-type-jcb": {
       background: `transparent url(${imageBase}logo-jcb@2x.png) no-repeat 175%`,
       "background-size": "90%",
       "background-position-y": "85%"
     },
-    "img.card-number.invalid.card-type-mastercard": {
+    "img.card-number-icon.invalid.card-type-mastercard": {
       background: `transparent url(${imageBase}logo-mastercard@2x.png) no-repeat`,
       "background-size": "120%",
       "background-position-y": "bottom"
     },
-    "img.card-number.invalid.card-type-visa": {
+    "img.card-number-icon.invalid.card-type-visa": {
       background: `transparent url(${imageBase}logo-visa@2x.png) no-repeat `,
       "background-size": "120%",
       "background-position-y": "bottom"
     },
-    "img.card-number.valid.card-type-amex": {
+    "img.card-number-icon.valid.card-type-amex": {
       background: `transparent url(${imageBase}logo-amex@2x.png) no-repeat 140%`,
       "background-size": "80%",
       "background-position-y": "-6px"
     },
-    "img.card-number.valid.card-type-discover": {
+    "img.card-number-icon.valid.card-type-discover": {
       background: `transparent url(${imageBase}logo-discover@2x.png) no-repeat`,
       "background-size": "115%",
       "background-position-y": "-5px",
       width: "80px"
     },
-    "img.card-number.valid.card-type-jcb": {
+    "img.card-number-icon.valid.card-type-jcb": {
       background: `transparent url(${imageBase}logo-jcb@2x.png) no-repeat 175%`,
       "background-size": "90%",
       "background-position-y": "-5px"
     },
-    "img.card-number.valid.card-type-mastercard": {
+    "img.card-number-icon.valid.card-type-mastercard": {
       background: `transparent url(${imageBase}logo-mastercard@2x.png) no-repeat`,
       "background-size": "120%",
       "background-position-y": "-1px"
     },
-    "img.card-number.valid.card-type-visa": {
+    "img.card-number-icon.valid.card-type-visa": {
       background: `transparent url(${imageBase}logo-visa@2x.png) no-repeat`,
       "background-size": "120%",
       "background-position-y": "-1px"

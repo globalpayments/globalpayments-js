@@ -7,12 +7,14 @@ import paymentFieldId from "../../internal/lib/payment-field-id";
 import { json2css } from "../../internal/lib/styles";
 import { IDictionary } from "../../internal/lib/util";
 import actionAccumulateDataAndTokenize from "./action-accumulate-data-and-tokenize";
+import actionAccumulateInstallmentData from "./action-accumulate-installment-data";
 import actionAddStylesheet from "./action-add-stylesheet";
 import actionCardTrackButtonClick from "./action-card-track-button-click";
 import actionGetCvv from "./action-get-cvv";
 import actionPaymentRequestComplete from "./action-payment-request-complete";
 import actionPaymentRequestStart from "./action-payment-request-start";
 import actionRequestData from "./action-request-data";
+import actionRequestInstallmentData from "./action-request-installment-data";
 import actionSetCardType from "./action-set-card-type";
 import actionSetFocus from "./action-set-focus";
 import actionSetLabel from "./action-set-label";
@@ -188,10 +190,9 @@ export class IframeField extends EventEmitter {
     if (name === "card-number") {
       input.setAttribute("data-prev", "0");
       const icon = document.createElement('img');
-      icon.className = 'card-number';
+      icon.className = 'card-number-icon';
       icon.setAttribute('aria-disabled', 'false');
       icon.setAttribute('alt', 'Generic Card');
-      // icon.src = `${assetBaseUrl()}images/gp-cc-generic.svg`;
       icon.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
       icon.setAttribute('onerror', 'this.onerror=null; this.src="' +`${assetBaseUrl()}images/gp-cc-generic.svg` + '"');
       dest.insertBefore(icon, input);
@@ -339,6 +340,9 @@ export class IframeField extends EventEmitter {
         case "accumulate-data":
           actionAccumulateDataAndTokenize(id, type, data);
           break;
+        case InstallmentEvents.CardInstallmentsAccumulateData:
+          actionAccumulateInstallmentData(id, type, data);
+          break;
         case "add-stylesheet":
           actionAddStylesheet(data.data.css);
           IframeField.triggerResize(id);
@@ -354,6 +358,9 @@ export class IframeField extends EventEmitter {
           break;
         case "request-data":
           actionRequestData(id, type, data);
+          break;
+        case InstallmentEvents.CardInstallmentsRequestData:
+          actionRequestInstallmentData(id, type, data);
           break;
         case "set-card-type":
           actionSetCardType(data.data.cardType);
@@ -522,6 +529,19 @@ export class IframeField extends EventEmitter {
             data.data.target,
           );
           return;
+        case InstallmentEvents.CardInstallmentsPassData:
+          postMessage.post(
+            {
+              data: {
+                type: data.data.type,
+                value: data.data.value,
+              },
+              id: data.data.target,
+              type: `ui:iframe-field:${InstallmentEvents.CardInstallmentsAccumulateData}`,
+            },
+            data.data.target,
+          );
+          break;
         default:
           break;
       }
