@@ -96,7 +96,7 @@ export class InstallmentsHandler {
             explorePlans: () => { this.explorePlansHanlder() },
             selectTerm: (i: number) => { this.selectTermHandler(i) },
             changePaymentMethod: () => { this.changePaymentMethodHandler() },
-            pay: (e: Event) => { this.payHandler(e) },
+            pay: () => { this.payHandler() },
 
             updateContainerContent: () => { this.updateContainerContent() },
         };
@@ -115,7 +115,7 @@ export class InstallmentsHandler {
         this.updateContainerContent();
     }
 
-    private payHandler(e: Event): void {
+    private payHandler(): void {
         const selectedTerm = this.installmentPlans.terms[this.selectedTermIndex];
 
         this.tokenizationCallback({
@@ -165,7 +165,7 @@ export interface InstallmentsContext {
     explorePlans: () => void;
     selectTerm: (i: number) => void;
     changePaymentMethod: () => void;
-    pay: (e: Event)=> void;
+    pay: ()=> void;
 
     updateContainerContent: () => void;
 }

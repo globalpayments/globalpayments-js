@@ -169,6 +169,7 @@ export class IframeField extends EventEmitter {
         id,
         "card-cvv",
         "cardCsc",
+        "Card CVV",
         "cc-csc",
       );
       IframeField.createAutocompleteField(
@@ -176,6 +177,7 @@ export class IframeField extends EventEmitter {
         id,
         "card-expiration",
         "cardExpiration",
+        "Card Expiration",
         "cc-exp",
       );
       IframeField.createAutocompleteField(
@@ -183,6 +185,7 @@ export class IframeField extends EventEmitter {
         id,
         "card-holder-name",
         "cardHolderName",
+        "Card Holder Name",
         "cc-name",
       );
     }
@@ -247,6 +250,7 @@ export class IframeField extends EventEmitter {
     id: string,
     type: string,
     name: string,
+    label: string,
     autocomplete: string,
   ) {
     const element = document.createElement("input");
@@ -254,6 +258,8 @@ export class IframeField extends EventEmitter {
     element.className = "autocomplete-hidden";
     element.tabIndex = -1;
     element.autocomplete = autocomplete;
+    element.setAttribute('aria-label', label);
+
     Events.addHandler(element, "input", () => {
       let value = element && element.value ? element.value : "";
 

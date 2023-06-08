@@ -247,6 +247,7 @@ function createToolTip(target: Element) {
   tooltip.tabIndex = 0;
   tooltip.setAttribute("aria-label", "Information about Security Code");
   tooltip.setAttribute("aria-describedby", "tooltipContent");
+  tooltip.setAttribute("role", "button");
 
   const content = document.createElement("div");
   content.className = "tooltip-content";

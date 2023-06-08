@@ -118,7 +118,8 @@ const eventsListeners = (context: InstallmentsContext): InstallmentEventListener
             elementSelector: '#pay-with-instalments',
             eventName: 'click',
             eventHandler: (e: Event) => {
-                context.pay(e);
+                e.preventDefault();
+                context.pay();
             },
         },
         {

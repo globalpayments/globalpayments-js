@@ -50,6 +50,10 @@ export const fieldStyles = (assetBaseUrl: string) => {
       border: "1px solid #2B9AEC",
       outline: "none",
     },
+    "#secure-payment-field:hover": {
+      border: "1px solid #2B9AEC",
+      outline: "none",
+    },
     "#secure-payment-field[type=button]": {
       "background-color": "#0071ba",
       color: "white",
@@ -226,6 +230,11 @@ export const parentStyles = (assetBaseUrl: string) => {
     },
 
     ".secure-payment-form .tooltip:focus": {
+      border: "1px solid #2B9AEC",
+      outline: "none",
+    },
+
+    ".secure-payment-form .tooltip:hover": {
       border: "1px solid #2B9AEC",
       outline: "none",
     },
