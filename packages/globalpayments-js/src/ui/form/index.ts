@@ -25,6 +25,7 @@ import { INSTALLMENTS_KEY } from "../../internal/lib/installments/contracts/cons
 import { InstallmentPaymentData } from "../../internal/lib/installments/installments-handler";
 import addIssuerBanner from "../../internal/lib/installments/components/add-issuer-banner";
 import { getHaveVirginMoneyCreditCardBannerTemplate } from "../../internal/lib/installments/templates/common";
+import { CardFormFieldNames, HostedFieldValidationEvents } from "../../common/enums";
 
 export { IUIFormField } from "../iframe-field";
 
@@ -272,11 +273,10 @@ export default class UIForm {
     // support tokenization data flows to `card-number` / `account-number`
     if (this.frames.submit !== undefined) {
       this.frames.submit.on("click", () => {
-        const target =
-          this.frames[`card-number`] || this.frames[`account-number`];
-
-        if (target) {
-          this.requestDataFromAll(target);
+        if (options.fieldValidation) {
+          this.validateForm(this.frames);
+        } else {
+          this.submitForm();
         }
       });
     }
@@ -288,18 +288,18 @@ export default class UIForm {
     const applePay = this.frames[Apm.ApplePay];
 
     // support autocomplete / auto-fill from `card-number` to other fields
-    if (cardNumber) {
-      cardNumber.on("set-autocomplete-value", (data?: any) => {
-        if (!data) {
-          return;
-        }
+      if (cardNumber) {
+        cardNumber.on("set-autocomplete-value", (data?: any) => {
+          if (!data) {
+            return;
+          }
 
-        const target = this.frames[data.type];
+          const target = this.frames[data.type];
 
-        if (data.type && data.value && target) {
-          target.setValue(data.value);
-        }
-      });
+          if (data.type && data.value && target) {
+            target.setValue(data.value);
+          }
+        });
     }
 
     // pass card type from `card-number` to `card-cvv`
@@ -351,6 +351,11 @@ export default class UIForm {
     if(ctp) {
       ctp?.container?.querySelector('iframe')?.remove();
       addClickToPay(ctp, this.fields[Apm.ClickToPay]);
+    }
+
+    // Hosted Fields validattion
+    if (options.fieldValidation) {
+      this.configureHostedFieldValidations(this.frames);
     }
   }
 
@@ -533,6 +538,78 @@ export default class UIForm {
         field.id,
       );
     });
+  }
+
+  private configureHostedFieldValidations(frames: IFrameCollection): void {
+    const cardNumberFrame = frames[CardFormFieldNames.CardNumber];
+    if (!cardNumberFrame) return;
+
+    const hostedFieldsToValidate = [
+      cardNumberFrame,
+      frames[CardFormFieldNames.CardExpiration],
+      frames[CardFormFieldNames.CardCvv ],
+      frames[CardFormFieldNames.CardHolderName],
+    ];
+
+    hostedFieldsToValidate.forEach(field => {
+      if (!field) return;
+
+      field.on(HostedFieldValidationEvents.ValidationShow, (validationData?: any) => {
+        if (!validationData) return;
+        const { validationMessage } = validationData;
+
+        field.showValidation(validationMessage);
+      });
+
+      field.on(HostedFieldValidationEvents.ValidationHide, (validationData?: any) => {
+        if (!validationData) return;
+
+        field.hideValidation();
+      });
+    });
+
+    cardNumberFrame.on(HostedFieldValidationEvents.ValidateFormValid, (_validationData?: any) => {
+      // Clean up form validation data
+      const w = window as any;
+      delete w.formValidations;
+
+      // Submit the VALID form
+      this.submitForm();
+    });
+  }
+
+  private validateForm(frames: IFrameCollection): void {
+    const accountCardNumberFrameTarget = this.frames[CardFormFieldNames.CardNumber] || this.frames[CardFormFieldNames.CardAccountNumber];
+    if (!accountCardNumberFrameTarget) return;
+
+    const hostedFieldsToValidate = [
+      accountCardNumberFrameTarget,
+      frames[CardFormFieldNames.CardExpiration ],
+      frames[CardFormFieldNames.CardCvv ],
+      frames[CardFormFieldNames.CardHolderName ],
+    ];
+
+    for (const field of hostedFieldsToValidate) {
+      if (!field) return;
+
+      postMessage.post(
+        {
+          data: { target: accountCardNumberFrameTarget.id },
+          id: field.id,
+          type: `ui:iframe-field:${HostedFieldValidationEvents.Validate}`,
+          target: accountCardNumberFrameTarget.id,
+        },
+        field.id,
+      );
+    }
+  }
+
+  private submitForm() {
+    // support tokenization data flows to `card-number` / `account-number`
+    const accountCardNumberFrame = this.frames[CardFormFieldNames.CardNumber] || this.frames[CardFormFieldNames.CardAccountNumber];
+    if (!accountCardNumberFrame) return;
+
+    this.requestDataFromAll(accountCardNumberFrame);
   }
 }
 

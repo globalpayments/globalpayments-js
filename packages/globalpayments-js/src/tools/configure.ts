@@ -105,6 +105,8 @@ export interface IConfiguration extends IDictionary {
     mcc: string,
     currency: string,
   };
+
+  fieldValidation?: boolean
 }
 
 /**

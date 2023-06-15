@@ -9,6 +9,9 @@ import { postMessage } from "./post-message";
 import { options } from './options';
 import { InstallmentEvents } from "./installments/contracts/enums";
 import getAssetBaseUrl from "../lib/asset-base-url";
+import { hideHostedFieldValidation, showHostedFieldValidation } from "../built-in-validations/helpers";
+import { validate } from "../built-in-validations/field-validator";
+import { CardFormFieldNames } from "../../common/enums";
 
 export default class Card {
   /**
@@ -39,11 +42,11 @@ export default class Card {
       }
     }
 
+    const id = target.getAttribute("data-id");
     if (type) {
       classList.push("card-type-" + type.code);
       classList = classList.filter((str) => str !== '');
 
-      const id = target.getAttribute("data-id");
       if (id) {
         postMessage.post(
           {
@@ -57,6 +60,8 @@ export default class Card {
 
       if (icon) {
         icon.setAttribute('alt', `${type.code.charAt(0).toUpperCase() + type.code.slice(1)} Card`);
+      } else {
+        icon!.setAttribute('alt', 'Generic Card');
       }
     } else {
       icon!.setAttribute('alt', 'Generic Card');
@@ -299,6 +304,7 @@ export default class Card {
     const target = (e.currentTarget
       ? e.currentTarget
       : e.srcElement) as HTMLInputElement;
+    const id = target.getAttribute("data-id");
     const value = target.value.replace(/[-\s]/g, "");
     const cardType = typeByNumber(value);
     let classList = target.className.split(" ");
@@ -315,7 +321,6 @@ export default class Card {
     if (new CardNumberValidator().validate(value)) {
       classList.push("valid");
 
-      const id = target.getAttribute("data-id");
       if (id) {
         postMessage.post(
           {
@@ -335,7 +340,6 @@ export default class Card {
 
       classList.push("invalid");
 
-      const id = target.getAttribute("data-id");
       if (id) {
         postMessage.post(
           {
@@ -350,6 +354,11 @@ export default class Card {
 
     classList = classList.filter((str) => str !== '');
     target.className = classList.join(" ");
+
+    // Handle Built-in validations
+    if (!options.fieldValidation) return;
+    if (!id) return;
+    Card.handleHostedFieldValidation(id, CardFormFieldNames.CardNumber, value);
   }
 
   /**
@@ -365,6 +374,7 @@ export default class Card {
     const target = (e.currentTarget
       ? e.currentTarget
       : e.srcElement) as HTMLInputElement;
+    const id = target.getAttribute("data-id");
     const value = target.value;
     const classList = target.className.split(" ");
     const length = classList.length;
@@ -396,7 +406,6 @@ export default class Card {
     ) {
       classList.push("valid");
 
-      const id = target.getAttribute("data-id");
       if (id) {
         postMessage.post(
           {
@@ -410,7 +419,6 @@ export default class Card {
     } else {
       classList.push("invalid");
 
-      const id = target.getAttribute("data-id");
       if (id) {
         postMessage.post(
           {
@@ -424,6 +432,11 @@ export default class Card {
     }
 
     target.className = classList.join(" ").replace(/^\s+|\s+$/gm, "");
+
+    // Handle Built-in validations
+    if (!options.fieldValidation) return;
+    if (!id) return;
+    Card.handleHostedFieldValidation(id, CardFormFieldNames.CardCvv, value, { isAmex });
   }
 
   /**
@@ -439,6 +452,7 @@ export default class Card {
     const target = (e.currentTarget
       ? e.currentTarget
       : e.srcElement) as HTMLInputElement;
+    const id = target.getAttribute("data-id");
     const value = target.value;
     const classList = target.className.split(" ");
     const length = classList.length;
@@ -460,7 +474,6 @@ export default class Card {
     if (new ExpirationValidator().validate(value)) {
       classList.push("valid");
 
-      const id = target.getAttribute("data-id");
       if (id) {
         postMessage.post(
           {
@@ -474,7 +487,6 @@ export default class Card {
     } else {
       classList.push("invalid");
 
-      const id = target.getAttribute("data-id");
       if (id) {
         postMessage.post(
           {
@@ -485,6 +497,40 @@ export default class Card {
           "parent",
         );
       }
+    }
+
+    target.className = classList.join(" ").replace(/^\s+|\s+$/gm, "");
+
+    // Handle Built-in validations
+    if (!options.fieldValidation) return;
+    if (!id) return;
+    Card.handleHostedFieldValidation(id, CardFormFieldNames.CardExpiration, value);
+  }
+
+  /**
+   * validateCardHolderName
+   *
+   * Validates a target element"s value based on the
+   * possible Card Holder name. Adds a class to the target
+   * element to note `valid` or `invalid`.
+   *
+   * @param e
+   */
+  public static validateCardHolderName(e: Event) {
+    // Only if Built-in field validations are enable
+    if (!options.fieldValidation) return;
+
+    const target = (e.currentTarget ? e.currentTarget : e.srcElement) as HTMLInputElement;
+    const id = target.getAttribute("data-id");
+    const value = target.value;
+    const classList = target.className.split(" ");
+
+    if (!id) return;
+    const isValid = Card.handleHostedFieldValidation(id, CardFormFieldNames.CardHolderName, value);
+    if (!isValid) {
+      classList.push("invalid");
+    } else {
+      classList.push("valid");
     }
 
     target.className = classList.join(" ").replace(/^\s+|\s+$/gm, "");
@@ -592,6 +638,7 @@ export default class Card {
 
     Events.addHandler(el, "keydown", Card.deleteProperly);
     Events.addHandler(el, "input", Card.validateNumber);
+    Events.addHandler(el, "blur", Card.validateNumber);
     Events.addHandler(el, "input", Card.addType);
     Events.addHandler(el, "blur", Card.postInstallmentFieldValidatedEvent);
     Events.addHandler(el, "input", (e: Event) => { Card.validateInstallmentFields(e, "card-number") });
@@ -631,8 +678,34 @@ export default class Card {
     Events.addHandler(el, "keydown", Card.restrictNumeric);
     Events.addHandler(el, "keydown", Card.restrictLength(4));
     Events.addHandler(el, "input", Card.validateCvv);
+    Events.addHandler(el, "blur", Card.validateCvv);
     Events.addHandler(el, "blur", Card.postInstallmentFieldValidatedEvent);
     Events.addHandler(el, "input", (e: Event) => { Card.validateInstallmentFields(e, "card-cvv") });
+  }
+
+  /**
+   * attachCardHolderNameEvents
+   *
+   * @param selector
+   */
+  public static attachCardHolderNameEvents(selector: string) {
+    const el = document.querySelector(selector);
+    if (!el) return;
+
+    Events.addHandler(el, "input", Card.validateCardHolderName);
+    Events.addHandler(el, "blur", Card.validateCardHolderName);
+
+  }
+
+  private static handleHostedFieldValidation(id: string, type: string, value: string , extraData?: any): boolean {
+    const validationResult = validate(type, value, extraData);
+    const isValid = validationResult && validationResult.isValid;
+    if (!isValid && validationResult.message) {
+      showHostedFieldValidation(id, validationResult.message);
+    } else {
+      hideHostedFieldValidation(id);
+    }
+    return isValid;
   }
 }
 

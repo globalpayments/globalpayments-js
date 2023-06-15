@@ -4,6 +4,10 @@
 import getApplePayStyles from './apple-pay/gp-default';
 import getClickToPayStyles from './click-to-pay/gp-default';
 import getGooglePayStyles from './google-pay/gp-default';
+import {
+  fieldStyles as getBuiltInValidationFieldStyles,
+} from './built-in-validations/common';
+import { options } from '../options';
 
 export const fieldStyles = (assetBaseUrl: string) => {
   const imageBase = assetBaseUrl + "images/";
@@ -155,6 +159,12 @@ export const fieldStyles = (assetBaseUrl: string) => {
     "input[placeholder]": {
       "letter-spacing": "3px",
     },
+
+    ...(options.fieldValidation ? getBuiltInValidationFieldStyles(assetBaseUrl) : {
+      "img.card-number-icon.invalid": {
+        "margin-top": "-8px",
+      },
+    }),
   };
 };
 

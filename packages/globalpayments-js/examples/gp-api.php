@@ -74,6 +74,7 @@ $accessToken = $response->token ?? '';
       GlobalPayments.on("error", function (error) {
         console.error(error);
       });
+      /*
       // APM form for CTP Standalone
       var apmForm = GlobalPayments.apm.form('#digital-wallet-form',
       { amount: "3.4",
@@ -83,6 +84,16 @@ $accessToken = $response->token ?? '';
       apmForm.setSubtotalAmount("4.57");
          apmForm.on("token-success", function (resp) { console.log(resp); });
          apmForm.on("token-error", function (resp) { console.log(resp); });
+      */
+      var cardForm = GlobalPayments.creditCard.form(
+        '#credit-card-form',
+        {
+          amount: "30000",
+          style: "gp-default",
+          apms: [],
+        });
+      cardForm.on("token-success", function (resp) { console.log(resp); });
+      cardForm.on("token-error", function (resp) { console.log(resp); });
 
     </script>
   </body>

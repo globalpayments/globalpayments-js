@@ -97,7 +97,6 @@ export function form(
 
     if (type !== "submit" && formOptions.labels && formOptions.labels[type]) {
       const label = document.createElement("label");
-      // label.setAttribute("for", formOptions.prefix + type);
       label.appendChild(document.createTextNode(formOptions.labels[type]));
       wrapper.appendChild(label);
     }
