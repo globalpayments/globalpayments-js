@@ -5,8 +5,11 @@
 # Changelog
 
 ## Latest Version
-
-## v1.9.21 (06/15/2023)
 #### Enhancements:
-- [Globalpayments-js] Credit Card form: Hosted Fields - Built-in Field Validation added.
-    - Enable this feature by adding the 'fieldValidation' boolean flag to the GlobalPayments config object.
+- [Globalpayments-3ds][1.8.7] Add the option to send request headers for the checkVersion and initiateAuthentication methods
+- [Globalpayments-3ds][1.8.7] Allow cross-domain communication for the notification endpoints
+- [Globalpayments-js][1.9.22] Add the option to send request headers for the merchantValidationURL on Apple Pay
+
+#### Bug Fixes:
+- [Globalpayments-js][1.9.22] Fixed gap between label and card number field (when using custom styles)
+---

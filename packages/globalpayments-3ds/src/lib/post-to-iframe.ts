@@ -103,14 +103,13 @@ function getWindowMessageEventHandler(
   data: IIframeData,
 ) {
   return (e: MessageEvent) => {
-    const origin = data.origin || window.location.origin;
     let notificationEvent: boolean = false;
 
     if (e.data && e.data.event) {
       notificationEvent = (e.data.event === "methodNotification" || e.data.event === "challengeNotification");
     }
 
-    if (origin !== e.origin || !notificationEvent) {
+    if (!notificationEvent) {
       return;
     }
 

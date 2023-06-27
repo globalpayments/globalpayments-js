@@ -9,16 +9,18 @@ export interface IResponseData {}
 export async function makeRequest(
   endpoint: string,
   data: IRequestData,
+  headers: Record<string, never>,
 ): Promise<IResponseData> {
-  const headers = {
+  const defaultHeaders = {
     "Content-Type": "application/json",
   };
+  const requestHeaders = Object.assign({}, defaultHeaders, headers);
 
   try {
     const rawResponse = await fetch(endpoint, {
       body: JSON.stringify(data),
       credentials: "omit",
-      headers: typeof Headers !== "undefined" ? new Headers(headers) : headers,
+      headers: typeof Headers !== "undefined" ? new Headers(requestHeaders) : requestHeaders,
       method: "POST",
     });
 

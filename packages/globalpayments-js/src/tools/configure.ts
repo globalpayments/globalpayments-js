@@ -51,6 +51,7 @@ export interface IConfiguration extends IDictionary {
       merchantIdentifier?: string;
       merchantName?: string;
       merchantSessionUrl?: string;
+      validateMerchantHeaders?: object;
     };
     clickToPay?: {
       allowedCardNetworks?: string[];
@@ -105,8 +106,6 @@ export interface IConfiguration extends IDictionary {
     mcc: string,
     currency: string,
   };
-
-  fieldValidation?: boolean
 }
 
 /**

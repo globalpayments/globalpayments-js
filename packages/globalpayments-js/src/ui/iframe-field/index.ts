@@ -25,13 +25,6 @@ import actionSetTypeCvv from "./action-set-type-cvv";
 import actionCardRequestInstallments from "./action-card-request-installments";
 import { InstallmentEvents } from "../../internal/lib/installments/contracts/enums";
 import assetBaseUrl from "../../internal/lib/asset-base-url";
-import { createHtmlDivElement, createHtmlSpanElement } from "../../common/html-element";
-
-import { CardFormFieldNames, HostedFieldValidationEvents } from "../../common/enums";
-import actionShowValidation from "./action-show-validation";
-import actionHideValidation from "./action-hide-validation";
-import actionValidateValue from "./action-validate-value";
-import actionValidateForm from "./action-validate-form";
 
 export interface IFrameCollection {
   [key: string]: IframeField | undefined;
@@ -73,7 +66,7 @@ export class IframeField extends EventEmitter {
     const query = window.location.hash.replace("#", "");
     const data: any = JSON.parse(atob(query));
     const id: string = data.id;
-    const enableAutocomplete = data.enableAutocomplete || true;
+    const enableAutocomplete = data.enableAutocomplete !== undefined ? data.enableAutocomplete : true;
     IframeField.setHtmlLang(data.lang);
     IframeField.createField(id, type, data.type, enableAutocomplete);
     IframeField.addMessageListener(id, type, data.targetOrigin);
@@ -235,32 +228,8 @@ export class IframeField extends EventEmitter {
       case "card-cvv":
         Card.attachCvvEvents("#" + input.id);
         break;
-      case CardFormFieldNames.CardHolderName:
-        Card.attachCardHolderNameEvents("#" + input.id);
-        break;
       default:
         break;
-    }
-
-    const hostedFieldsToValidate = [
-      "card-number",
-      "card-expiration",
-      "card-cvv",
-      "card-holder-name",
-    ];
-    if (hostedFieldsToValidate.indexOf(name) !== -1) {
-      const validationMessageDiv = createHtmlDivElement({
-        id: `field-validation-wrapper`,
-        className: 'field-validation-message',
-        attributes: [
-          { style: 'display: none;' },
-        ],
-      });
-      const validationMessageSpan = createHtmlSpanElement({
-        id: `field-validation-message`,
-      });
-      validationMessageDiv.append(validationMessageSpan);
-      dest.append(validationMessageDiv);
     }
   }
 
@@ -435,22 +404,6 @@ export class IframeField extends EventEmitter {
             }
           }
           break;
-
-        case HostedFieldValidationEvents.BuiltInValidationShow:
-          actionShowValidation(data.data.validationMessage, data.data.fieldType);
-          IframeField.triggerResize(id);
-          break;
-        case HostedFieldValidationEvents.BuiltInValidationHide:
-          actionHideValidation(data.data.fieldType);
-          IframeField.triggerResize(id);
-          break;
-        case HostedFieldValidationEvents.Validate:
-          actionValidateValue(id, type, data.data.target);
-          IframeField.triggerResize(id);
-          break;
-        case HostedFieldValidationEvents.ValidateForm:
-          actionValidateForm(id, data);
-          break;
         default:
           break;
       }
@@ -578,16 +531,6 @@ export class IframeField extends EventEmitter {
               },
               id: data.data.target,
               type: "ui:iframe-field:accumulate-data",
-            },
-            data.data.target,
-          );
-          return;
-        case HostedFieldValidationEvents.ValidatePassData:
-          postMessage.post(
-            {
-              data: data.data,
-              id: data.data.target,
-              type: `ui:iframe-field:${HostedFieldValidationEvents.ValidateForm}`,
             },
             data.data.target,
           );
@@ -755,57 +698,6 @@ export class IframeField extends EventEmitter {
    */
   public setTitle(title: string) {
     this.frame.title = title;
-  }
-
-  /**
-   * Show the validation of a hosted field
-   *
-   * @param validationMessage The desired validation message
-   */
-  public showValidation(validationMessage: string) {
-    postMessage.post(
-      {
-        data: {
-          validationMessage,
-          fieldType: this.frame.name,
-        },
-        id: this.id,
-        type: `ui:iframe-field:${HostedFieldValidationEvents.BuiltInValidationShow}`,
-      },
-      this.id,
-    );
-  }
-
-  /**
-   * Hide the validation of a hosted field
-   *
-   */
-  public hideValidation() {
-    postMessage.post(
-      {
-        data: {
-          fieldType: this.frame.name,
-        },
-        id: this.id,
-        type: `ui:iframe-field:${HostedFieldValidationEvents.BuiltInValidationHide}`,
-      },
-      this.id,
-    );
-  }
-
-  /**
-   * Validate hosted field
-   *
-   */
-  public validate() {
-    postMessage.post(
-      {
-        data: { },
-        id: this.id,
-        type: `ui:iframe-field:${HostedFieldValidationEvents.Validate}`,
-      },
-      this.id,
-    );
   }
 
   private makeFrame(type: string, id: string, opts: IUIFormField) {

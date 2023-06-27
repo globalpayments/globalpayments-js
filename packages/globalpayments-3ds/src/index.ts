@@ -51,18 +51,22 @@ export function getBrowserData(): IBrowserData {
  *
  * @param endpoint Merchant integration endpoint responsible for performing the version check
  * @param data Request data to aid in version check request
+ * @param headers The request headers
  * @throws When an error occurred during the request
  */
 export async function checkVersion(
   endpoint: string,
   data?: ICheckVersionRequestData,
+  headers?: Record<string, never>,
 ): Promise<ICheckVersionResponseData> {
   data = data || {};
+  headers = headers || {};
 
   try {
     const response = (await makeRequest(
       endpoint,
       data,
+      headers,
     )) as ICheckVersionResponseData;
 
     return await handle3dsVersionCheck(response, data.methodWindow);
@@ -80,11 +84,13 @@ export async function checkVersion(
  *
  * @param endpoint Merchant integration endpoint responsible for initiating the authentication request
  * @param data Request data to aid in initiating authentication
+ * @param headers The request headers
  * @throws When an error occurred during the request
  */
 export async function initiateAuthentication(
   endpoint: string,
   data: IInitiateAuthenticationRequestData,
+  headers?: Record<string, never>,
 ): Promise<IInitiateAuthenticationResponseData> {
   try {
     data.authenticationSource =
@@ -101,10 +107,12 @@ export async function initiateAuthentication(
       data.challengeRequestIndicator || ChallengeRequestIndicator.NoPreference;
     // still needs ip address and accept header from server-side
     data.browserData = data.browserData || getBrowserData();
+    headers = headers || {};
 
     const response = (await makeRequest(
       endpoint,
       data,
+      headers,
     )) as IInitiateAuthenticationResponseData;
 
     return await handleInitiateAuthentication(response, data.challengeWindow);

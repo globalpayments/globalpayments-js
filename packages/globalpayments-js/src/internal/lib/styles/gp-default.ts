@@ -2,10 +2,6 @@ import getInstallmentStyles from './installments/gp-default';
 import getApplePayStyles from './apple-pay/gp-default';
 import getClickToPayStyles from './click-to-pay/gp-default';
 import getGooglePayStyles from './google-pay/gp-default';
-import {
-  fieldStyles as getBuiltInValidationFieldStyles,
-} from './built-in-validations/common';
-import { options } from '../options';
 
 // tslint:disable:object-literal-key-quotes
 // tslint:disable:object-literal-sort-keys
@@ -93,7 +89,6 @@ export const fieldStyles = (assetBaseUrl: string) => {
     },
     "img.card-number-icon": {
       background: `transparent url(${imageBase}gp-cc-generic.svg) no-repeat right center`,
-      position: "absolute",
       right: "10px",
       top: "50%",
       width: "24px",
@@ -122,12 +117,6 @@ export const fieldStyles = (assetBaseUrl: string) => {
     ".card-number::-ms-clear": {
       display: "none",
     },
-
-    ...(options.fieldValidation ? getBuiltInValidationFieldStyles(assetBaseUrl) : {
-      "img.card-number-icon.invalid": {
-        "margin-top": "-8px",
-      },
-    }),
   };
 };
 

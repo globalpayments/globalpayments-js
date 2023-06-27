@@ -145,10 +145,12 @@ export default function addApplePay(iframeField: IframeField | undefined, field:
       // Here you need to validate the Apple Pay Session from your Back-End
       applePaySession.onvalidatemerchant = (event: any) => {
         const merchantSessionUrl = options.apms?.applePay?.merchantSessionUrl;
-        const headers = {
+        const newHeaders = options.apms?.applePay?.validateMerchantHeaders;
+        const defaultHeaders = {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         };
+        const headers = newHeaders ? Object.assign({}, defaultHeaders, newHeaders) : defaultHeaders;
         const body = {
           initiative_context: window.location.hostname,
           merchantIdentifier: options.apms?.applePay?.merchantIdentifier,
