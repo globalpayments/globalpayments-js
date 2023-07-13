@@ -259,6 +259,7 @@ export class IframeField extends EventEmitter {
     element.tabIndex = -1;
     element.autocomplete = autocomplete;
     element.setAttribute('aria-label', label);
+    element.setAttribute('aria-hidden', "true");
 
     Events.addHandler(element, "input", () => {
       let value = element && element.value ? element.value : "";

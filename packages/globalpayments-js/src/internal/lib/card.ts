@@ -148,7 +148,11 @@ export default class Card {
     ) {
       return;
     }
-    target.value = new ExpirationFormatter().format(value, e.type === "blur");
+
+    // used for triggering the keyup event on safari
+    const isSafari = navigator.userAgent.indexOf('Safari') !== -1 && navigator.userAgent.indexOf('Chrome') === -1;
+
+    target.value = new ExpirationFormatter().format(value, e.type === "blur" || (e.type === "keyup" && target !== document.activeElement && isSafari));
   }
 
   /**

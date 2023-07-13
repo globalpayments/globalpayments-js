@@ -5,6 +5,12 @@
 # Changelog
 
 ## Latest Version
+#### Bug Fixes:
+- [Globalpayments-js][1.9.25] Fixed autofill expiry year to four digits instead of two in Safari
+- [Globalpayments-js][1.9.25] Fixed Autocomplete hidden input fields visibility/detection for accessibility screen readers.
+
+---
+## v1.0.6 (06/27/2023)
 #### Enhancements:
 - [Globalpayments-3ds][1.8.7] Add the option to send request headers for the checkVersion and initiateAuthentication methods
 - [Globalpayments-3ds][1.8.7] Allow cross-domain communication for the notification endpoints
