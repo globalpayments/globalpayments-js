@@ -25,6 +25,7 @@ import actionSetTypeCvv from "./action-set-type-cvv";
 import actionCardRequestInstallments from "./action-card-request-installments";
 import { InstallmentEvents } from "../../internal/lib/installments/contracts/enums";
 import assetBaseUrl from "../../internal/lib/asset-base-url";
+import { CardFormFieldNames } from "../../common/enums";
 
 export interface IFrameCollection {
   [key: string]: IframeField | undefined;
@@ -38,6 +39,7 @@ export interface IUIFormField {
   title?: string;
   value?: string;
   amount?: string;
+  fieldOptions?: any;
 }
 
 export const fieldTypeAutocompleteMap: IDictionary = {
@@ -67,8 +69,9 @@ export class IframeField extends EventEmitter {
     const data: any = JSON.parse(atob(query));
     const id: string = data.id;
     const enableAutocomplete = data.enableAutocomplete !== undefined ? data.enableAutocomplete : true;
+    const fieldOptions = data.fieldOptions;
     IframeField.setHtmlLang(data.lang);
-    IframeField.createField(id, type, data.type, enableAutocomplete);
+    IframeField.createField(id, type, data.type, enableAutocomplete, fieldOptions);
     IframeField.addMessageListener(id, type, data.targetOrigin);
 
     postMessage.post(
@@ -114,12 +117,14 @@ export class IframeField extends EventEmitter {
    * @param name Field type
    * @param type Type of element
    * @param enableAutocomplete Whether autocomplete should be enabled
+   * @param fieldOptions Field Options
    */
   public static createField(
     id: string,
     name: string,
     type: string,
     enableAutocomplete: boolean,
+    fieldOptions?: any
   ) {
     const input = document.createElement(
       type === "button" ? "button" : "input",
@@ -190,11 +195,16 @@ export class IframeField extends EventEmitter {
       );
     }
 
-    if (name === "card-number") {
+    if (name === CardFormFieldNames.CardNumber) {
       input.setAttribute("data-prev", "0");
       const icon = document.createElement('img');
       icon.className = 'card-number-icon';
       icon.setAttribute('aria-disabled', 'false');
+      if (fieldOptions === undefined ||
+          (fieldOptions && (fieldOptions.styleType === undefined || fieldOptions.styleType === "blank"))
+      ) {
+        icon.setAttribute('aria-hidden', "true");
+      }
       icon.setAttribute('alt', 'Generic Card');
       icon.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
       icon.setAttribute('onerror', 'this.onerror=null; this.src="' +`${assetBaseUrl()}images/gp-cc-generic.svg` + '"');
@@ -467,6 +477,7 @@ export class IframeField extends EventEmitter {
           lang: options.language || "en",
           targetOrigin: window.location.href,
           type: this.type,
+          fieldOptions: opts.fieldOptions,
         }),
       );
 

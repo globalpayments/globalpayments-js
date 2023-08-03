@@ -337,6 +337,7 @@ export default function addGooglePay(iframeField: IframeField | undefined, field
         country: paymentAddress.countryCode,
         phone: paymentAddress.phoneNumber,
         postalCode: paymentAddress.postalCode,
+        name: paymentAddress.name
       }
       return paymentShippingAddress;
     } else return '';

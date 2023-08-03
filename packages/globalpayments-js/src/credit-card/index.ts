@@ -6,6 +6,7 @@ import { options } from "../internal/lib/options";
 import { addStylesheet, json2css } from "../internal/lib/styles";
 import UIForm, { fieldStyles, IUIFormOptions, parentStyles } from "../ui/form";
 import {addFooterIcons} from "../internal/lib/add-footer-icons";
+import assetBaseUrl from "../internal/lib/asset-base-url";
 
 export const defaultOptions: IUIFormOptions = {
   labels: {
@@ -114,9 +115,7 @@ export function form(
     }
 
     fields[type] = {} as any;
-    fields[type].target =
-      ".secure-payment-form ." + formOptions.prefix + type + "-target";
-
+    fields[type].target = ".secure-payment-form ." + formOptions.prefix + type + "-target";
     if (formOptions.placeholders && formOptions.placeholders[type]) {
       fields[type].placeholder =
         type === "card-expiration" && options.enableTwoDigitExpirationYear
@@ -135,6 +134,10 @@ export function form(
     if(formOptions.amount) {
       fields[type].amount = formOptions.amount;
     }
+
+    fields[type].fieldOptions = {
+      styleType: formOptions.style,
+    };
   }
 
   if(formOptions.apms) {
@@ -197,6 +200,7 @@ export function trackReaderForm(
   // create field targets
   const fieldTypes = ["card-track"];
   const fields: any = {};
+
   for (const i in fieldTypes) {
     if (!fieldTypes.hasOwnProperty(i)) {
       continue;

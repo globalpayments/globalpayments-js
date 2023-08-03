@@ -5,6 +5,17 @@
 # Changelog
 
 ## Latest Version
+#### Enhancements:
+- [Globalpayments-js][1.9.29] Pass the cardholder Name for the Google Pay and Apple Pay transactions
+
+---
+## v1.0.10 (08/01/2023)
+## Latest Version
+#### Bug Fixes:
+- [Globalpayments-js][1.9.28] Fixed accessibility issue for card number icon when using custom form
+
+---
+## v1.0.6 (07/13/2023)
 #### Bug Fixes:
 - [Globalpayments-js][1.9.25] Fixed autofill expiry year to four digits instead of two in Safari
 - [Globalpayments-js][1.9.25] Fixed Autocomplete hidden input fields visibility/detection for accessibility screen readers.

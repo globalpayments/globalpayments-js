@@ -126,6 +126,7 @@ export default function addApplePay(iframeField: IframeField | undefined, field:
         country: paymentAddress.countryCode,
         phone: paymentAddress.phoneNumber,
         postalCode: paymentAddress.postalCode,
+        name: `${paymentAddress.givenName} ${paymentAddress.familyName}`
       }
       return paymentShippingAddress;
     } else return '';
