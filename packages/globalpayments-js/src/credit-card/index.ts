@@ -2,19 +2,21 @@ import { addSandboxAlert } from "../internal/lib/add-sandbox-alert";
 import getGateway from "../internal/lib/get-gateway";
 import { INSTALLMENTS_KEY } from "../internal/lib/installments/contracts/constants";
 import objectAssign from "../internal/lib/object-assign";
-import { options } from "../internal/lib/options";
+import { options } from "../internal";
 import { addStylesheet, json2css } from "../internal/lib/styles";
 import UIForm, { fieldStyles, IUIFormOptions, parentStyles } from "../ui/form";
-import {addFooterIcons} from "../internal/lib/add-footer-icons";
-import assetBaseUrl from "../internal/lib/asset-base-url";
+import { addFooterIcons } from "../internal/lib/add-footer-icons";
+import translations from "../internal/lib/translations/translations";
+import {translateObj} from "../internal/lib/translate";
+import {getCurrentLanguage} from "../internal/lib/detectLanguage";
 
 export const defaultOptions: IUIFormOptions = {
   labels: {
-    "card-cvv": "Card CVV",
-    "card-expiration": "Card Expiration",
-    "card-holder-name": "Card Holder Name",
-    "card-number": "Card Number",
-    submit: "Submit",
+    "card-cvv": translations.en.labels['card-cvv'],
+    "card-expiration": translations.en.labels['card-expiration'],
+    "card-holder-name": translations.en.labels['card-holder-name'],
+    "card-number": translations.en.labels['card-number'],
+    submit: translations.en.labels.submit,
   },
   placeholders: {
     "card-expiration": "MM / YYYY",
@@ -29,8 +31,8 @@ export const defaultOptions: IUIFormOptions = {
     submit: "Form Submit Button Input",
   },
   values: {
-    "card-track": "Read Card",
-    submit: "Submit",
+    "card-track": translations.en.values['card-track'],
+    submit: translations.en.values.submit,
   },
 };
 
@@ -84,6 +86,11 @@ export function form(
   }
 
   const fields: any = {};
+
+  if (options.language) {
+    formOptions.labels = translateObj(options.language, formOptions.labels);
+    formOptions.values = translateObj(options.language, formOptions.values);
+  }
 
   for (const i in fieldTypes) {
     if (!fieldTypes.hasOwnProperty(i)) {
@@ -140,11 +147,12 @@ export function form(
     };
   }
 
+  const language = getCurrentLanguage();
   if(formOptions.apms) {
     const firstField = target.querySelector(`[class$="${firstFieldCardForm}"]`);
     const divider = document.createElement('div');
     divider.classList.add('other-cards-label');
-    divider.innerHTML = '<span>Or enter card details manually</span>';
+    divider.innerHTML = `<span>${translations[language]['other-cards-label']}</span>`;
     target.insertBefore(divider, firstField);
   }
 
@@ -246,9 +254,11 @@ export function trackReaderForm(
 
 function createToolTip(target: Element) {
   const tooltip = document.createElement("div");
+  const language = getCurrentLanguage();
+
   tooltip.className = "tooltip";
   tooltip.tabIndex = 0;
-  tooltip.setAttribute("aria-label", "Information about Security Code");
+  tooltip.setAttribute("aria-label", translations[language].tooltip['aria-label']);
   tooltip.setAttribute("aria-describedby", "tooltipContent");
   tooltip.setAttribute("role", "button");
 
@@ -258,12 +268,12 @@ function createToolTip(target: Element) {
   content.setAttribute("role", "tooltip");
 
   const title = document.createElement("strong");
-  title.appendChild(document.createTextNode("Security Code"));
+  title.appendChild(document.createTextNode(translations[language].tooltip.title));
   content.appendChild(title);
   content.appendChild(document.createElement("br"));
   content.appendChild(
     document.createTextNode(
-      "The additional 3 digits on the back of your card. For American Express, it is the additional 4 digits on the front of your card.",
+      translations[language].tooltip.text,
     ),
   );
   tooltip.appendChild(content);

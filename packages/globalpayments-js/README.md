@@ -146,7 +146,7 @@ The tokenization account name for the given merchant account. Only required if t
 
 > Note: Applies to GP API only.
 
-The target API version. Default is `2020-10-22`.
+The target API version. Default is `2021-03-22`.
 
 ##### `reference` - `string` (Optional)
 

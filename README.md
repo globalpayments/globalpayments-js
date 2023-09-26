@@ -30,3 +30,12 @@ Scripts can be ran against individual packages as well, e.g.:
 ```
 yarn lerna run --scope=@globalpayments/js test
 ```
+
+## Supported Browsers
+
+The library is supported on the following browsers:
+* Google Chrome
+* Safari
+* Microsoft Edge
+* Opera
+* Mozilla Firefox

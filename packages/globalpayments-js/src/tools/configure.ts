@@ -1,3 +1,4 @@
+import { isIE } from "../common/browser-helpers";
 import getGateway from "../internal/lib/get-gateway";
 import { options as opts } from "../internal/lib/options";
 import { IDictionary } from "../internal/lib/util";
@@ -106,6 +107,10 @@ export interface IConfiguration extends IDictionary {
     mcc: string,
     currency: string,
   };
+
+  // Specific configuration properties for
+  // HF Built-in Validations
+  fieldValidation?: boolean
 }
 
 /**
@@ -116,7 +121,9 @@ export interface IConfiguration extends IDictionary {
 export default (options: IConfiguration) => {
   for (const prop in options) {
     if (options.hasOwnProperty(prop)) {
-      opts[prop] = options[prop];
+
+      // Check for HF Built-in Validations configuration property NOT available for IE.
+      opts[prop] = prop !== "fieldValidation" ? options[prop] : (!isIE && options[prop]);
     }
   }
 

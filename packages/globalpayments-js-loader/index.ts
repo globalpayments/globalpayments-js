@@ -1,4 +1,5 @@
 /// <reference types="@globalpayments/js" />
+import version  from "@globalpayments/js/src/lib/version";
 
 /**
  * Prevent multiple copies of the Global Payments JavaScript
@@ -26,7 +27,7 @@ export function loadLibrary(
   }
 
   if (!url) {
-    url = "https://js.globalpay.com/v1/globalpayments.js";
+    url = `https://js.globalpay.com/${version}/globalpayments.js`;
   }
 
   return (libraryLoaded = new Promise((resolve) => {

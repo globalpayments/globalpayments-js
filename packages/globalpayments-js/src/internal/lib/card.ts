@@ -8,7 +8,11 @@ import Events from "./events";
 import { postMessage } from "./post-message";
 import { options } from './options';
 import { InstallmentEvents } from "./installments/contracts/enums";
-import getAssetBaseUrl from "../lib/asset-base-url";
+
+import { hideHostedFieldValidation, showHostedFieldValidation } from "../built-in-validations/helpers";
+import { validate } from "../built-in-validations/field-validator";
+import { CardFormFieldNames } from "../../common/enums";
+import { isSafari } from "../../common/browser-helpers";
 
 export default class Card {
   /**
@@ -26,8 +30,8 @@ export default class Card {
     const type = typeByNumber(target.value);
     let classList = target.className.split(" ");
     const length = classList.length;
-    const assetBaseUrl = getAssetBaseUrl();
     const icon = target.parentNode?.querySelector('img');
+    const GENERIC_CARD_DESCRIPTION = "Generic Card";
 
     let i = 0;
     let c = "";
@@ -56,12 +60,13 @@ export default class Card {
       }
 
       if (icon) {
-        icon.setAttribute('alt', `${type.code.charAt(0).toUpperCase() + type.code.slice(1)} Card`);
-      } else {
-        icon!.setAttribute('alt', 'Generic Card');
+        const cardTypeDescription = `${type.code.charAt(0).toUpperCase() + type.code.slice(1)} Card`;
+        icon.setAttribute('alt', cardTypeDescription);
+        icon.setAttribute('title', cardTypeDescription);
       }
     } else {
-      icon!.setAttribute('alt', 'Generic Card');
+      icon!.setAttribute('alt', GENERIC_CARD_DESCRIPTION);
+      icon!.setAttribute('title', GENERIC_CARD_DESCRIPTION);
     }
 
     classList = classList.filter((str) => str !== '');
@@ -150,8 +155,6 @@ export default class Card {
     }
 
     // used for triggering the keyup event on safari
-    const isSafari = navigator.userAgent.indexOf('Safari') !== -1 && navigator.userAgent.indexOf('Chrome') === -1;
-
     target.value = new ExpirationFormatter().format(value, e.type === "blur" || (e.type === "keyup" && target !== document.activeElement && isSafari));
   }
 
@@ -235,27 +238,46 @@ export default class Card {
    * @param e
    */
   public static restrictNumeric(e: KeyboardEvent) {
-    // allow: backspace, delete, tab, escape, ctrl and enter
-    if (
-      [46, 8, 9, 27, 13, 110].indexOf(e.keyCode) !== -1 ||
-      // allow: Ctrl+A
-      (e.keyCode === 65 && e.ctrlKey === true) ||
-      // allow: Ctrl+V
-      (e.keyCode === 86 && e.ctrlKey === true) ||
-      // allow: home, end, left, right
-      (e.keyCode >= 35 && e.keyCode <= 39) ||
-      // allow: weird Android/Chrome issue
-      e.keyCode === 229
-    ) {
-      // let it happen, don"t do anything
-      return;
-    }
-    // ensure that it is a number and stop the keypress
-    if (
-      (e.shiftKey || e.keyCode < 48 || e.keyCode > 57) &&
-      (e.keyCode < 96 || e.keyCode > 105)
-    ) {
-      e.preventDefault ? e.preventDefault() : (e.returnValue = false);
+      // allow: backspace, delete, tab, escape, ctrl and enter
+      if (
+        [46, 8, 9, 27, 13, 110].indexOf(e.keyCode) !== -1 ||
+        // allow: Ctrl+A
+        (e.keyCode === 65 && e.ctrlKey === true) ||
+        // allow: Ctrl+V
+        (e.keyCode === 86 && e.ctrlKey === true) ||
+        // allow: home, end, left, right
+        (e.keyCode >= 35 && e.keyCode <= 39) ||
+        // allow: weird Android/Chrome issue
+        e.keyCode === 229
+      ) {
+        // let it happen, don"t do anything
+        return;
+      }
+      // ensure that it is a number and stop the keypress
+      if (
+        (e.shiftKey || e.keyCode < 48 || e.keyCode > 57) &&
+        (e.keyCode < 96 || e.keyCode > 105)
+      ) {
+        e.preventDefault ? e.preventDefault() : (e.returnValue = false);
+      }
+  }
+
+  /**
+   * restrictNumericOnInput
+   *
+   * Restricts input in a target element to only
+   * numeric data for input event type.
+   *
+   * @param e
+   */
+  public static restrictNumericOnInput(e: Event) {
+    if (!options.fieldValidation) return;
+
+    const { value, target } = Card.getFieldEventData(e);
+
+    const integerRegex = /^\d+$/;
+    if (!integerRegex.test(value.replaceAll(' / ', '').replaceAll(' ', ''))) {
+      target.value = "";
     }
   }
 
@@ -319,7 +341,13 @@ export default class Card {
       }
     }
 
-    if (new CardNumberValidator().validate(value)) {
+    let isValid = new CardNumberValidator().validate(value);
+    if (options.fieldValidation) {
+      const validationResult = validate(CardFormFieldNames.CardNumber, value);
+      isValid = isValid && (validationResult && validationResult.isValid);
+    }
+
+    if (isValid) {
       classList.push("valid");
 
       if (id) {
@@ -394,12 +422,16 @@ export default class Card {
       classList.push("possibly-valid");
     }
 
-    if (
-      new CvvValidator().validate(
+    let isValid = new CvvValidator().validate(
         value,
         cardType === "unknown" ? undefined : isAmex,
-      )
-    ) {
+      );
+    if (options.fieldValidation) {
+      const validationResult = validate(CardFormFieldNames.CardCvv, value, { isAmex });
+      isValid = isValid && (validationResult && validationResult.isValid);
+    }
+
+    if (isValid) {
       classList.push("valid");
 
       if (id) {
@@ -462,7 +494,13 @@ export default class Card {
       classList.push("possibly-valid");
     }
 
-    if (new ExpirationValidator().validate(value)) {
+    let isValid = new ExpirationValidator().validate(value);
+    if (options.fieldValidation) {
+      const validationResult = validate(CardFormFieldNames.CardExpiration, value);
+      isValid = isValid && (validationResult && validationResult.isValid);
+    }
+
+    if (isValid) {
       classList.push("valid");
 
       if (id) {
@@ -489,6 +527,33 @@ export default class Card {
         );
       }
     }
+
+    target.className = classList.join(" ").replace(/^\s+|\s+$/gm, "");
+  }
+
+  /**
+   * validateCardHolderName
+   *
+   * Validates a target element"s value based on the
+   * possible Card Holder name. Adds a class to the target
+   * element to note `valid` or `invalid`.
+   *
+   * @param e
+   */
+  public static validateCardHolderName(e: Event) {
+    // Only if Built-in field validations are enable
+    if (!options.fieldValidation) return;
+
+    const target = (e.currentTarget ? e.currentTarget : e.srcElement) as HTMLInputElement;
+    const id = target.getAttribute("data-id");
+    const value = target.value;
+    const classList = target.className.split(" ");
+
+    if (!id) return;
+
+    const isValid = validate(CardFormFieldNames.CardHolderName, value);
+
+    classList.push(isValid ? "valid" : "invalid");
 
     target.className = classList.join(" ").replace(/^\s+|\s+$/gm, "");
   }
@@ -586,6 +651,8 @@ export default class Card {
     }
 
     Events.addHandler(el, "keydown", Card.restrictNumeric);
+    Events.addHandler(el, "input", Card.restrictNumericOnInput);
+
     Events.addHandler(el, "keydown", Card.restrictCardNumberLength);
     Events.addHandler(el, "input", Card.restrictCardNumberLength);
 
@@ -595,9 +662,14 @@ export default class Card {
 
     Events.addHandler(el, "keydown", Card.deleteProperly);
     Events.addHandler(el, "input", Card.validateNumber);
+
     Events.addHandler(el, "input", Card.addType);
+
     Events.addHandler(el, "blur", Card.postInstallmentFieldValidatedEvent);
-    Events.addHandler(el, "input", (e: Event) => { Card.validateInstallmentFields(e, "card-number") });
+    Events.addHandler(el, "input", (e: Event) => { Card.validateInstallmentFields(e, CardFormFieldNames.CardNumber) });
+
+    Events.addHandler(el, "blur", (e: Event) => { Card.focusOutHostedFieldValidationHandler(e, CardFormFieldNames.CardNumber) });
+    Events.addHandler(el, "input", (e: Event) => { Card.focusInHostedFieldValidationHandler(e) });
   }
 
   /**
@@ -611,13 +683,17 @@ export default class Card {
       return;
     }
     Events.addHandler(el, "keydown", Card.restrictNumeric);
+    Events.addHandler(el, "input", Card.restrictNumericOnInput);
     Events.addHandler(el, "keydown", Card.restrictLength(9));
     Events.addHandler(el, "keyup", Card.formatExpiration);
     Events.addHandler(el, "blur", Card.formatExpiration);
     Events.addHandler(el, "input", Card.validateExpiration);
     Events.addHandler(el, "blur", Card.validateExpiration);
     Events.addHandler(el, "blur", Card.postInstallmentFieldValidatedEvent);
-    Events.addHandler(el, "input", (e: Event) => { Card.validateInstallmentFields(e, "card-expiration") });
+    Events.addHandler(el, "input", (e: Event) => { Card.validateInstallmentFields(e, CardFormFieldNames.CardExpiration) });
+
+    Events.addHandler(el, "blur", (e: Event) => { Card.focusOutHostedFieldValidationHandler(e, CardFormFieldNames.CardExpiration) });
+    Events.addHandler(el, "input", (e: Event) => { Card.focusInHostedFieldValidationHandler(e) });
   }
 
   /**
@@ -632,11 +708,88 @@ export default class Card {
     }
     el.setAttribute("maxlength", "3");
     Events.addHandler(el, "keydown", Card.restrictNumeric);
+    Events.addHandler(el, "input", Card.restrictNumericOnInput);
     Events.addHandler(el, "keydown", Card.restrictLength(4));
     Events.addHandler(el, "input", Card.validateCvv);
     Events.addHandler(el, "blur", Card.validateCvv);
     Events.addHandler(el, "blur", Card.postInstallmentFieldValidatedEvent);
-    Events.addHandler(el, "input", (e: Event) => { Card.validateInstallmentFields(e, "card-cvv") });
+    Events.addHandler(el, "input", (e: Event) => { Card.validateInstallmentFields(e, CardFormFieldNames.CardCvv) });
+
+    Events.addHandler(el, "blur", (e: Event) => { Card.focusOutHostedFieldValidationHandler(e, CardFormFieldNames.CardCvv) });
+    Events.addHandler(el, "input", (e: Event) => { Card.focusInHostedFieldValidationHandler(e) });
+  }
+
+  /**
+   * attachCardHolderNameEvents
+   *
+   * @param selector
+   */
+  public static attachCardHolderNameEvents(selector: string) {
+    const el = document.querySelector(selector);
+    if (!el) return;
+
+    Events.addHandler(el, "input", Card.validateCardHolderName);
+    Events.addHandler(el, "blur", Card.validateCardHolderName);
+
+    Events.addHandler(el, "blur", (e: Event) => { Card.focusOutHostedFieldValidationHandler(e, CardFormFieldNames.CardHolderName) });
+    Events.addHandler(el, "input", (e: Event) => { Card.focusInHostedFieldValidationHandler(e) });
+  }
+
+  private static handleHostedFieldValidation(id: string, type: string, value: string , extraData?: any): boolean {
+    const validationResult = validate(type, value, extraData);
+    const isValid = validationResult && validationResult.isValid;
+    if (!isValid && validationResult.message) {
+      showHostedFieldValidation(id, validationResult.message);
+    } else {
+      hideHostedFieldValidation(id);
+    }
+    return isValid;
+  }
+
+  private static focusOutHostedFieldValidationHandler(e: Event, type: string) {
+    // Only if Built-in field validations are enable
+    if (!options.fieldValidation) return;
+
+    const target = (e.currentTarget ? e.currentTarget : e.srcElement) as HTMLInputElement;
+    const id = target.getAttribute("data-id");
+    const value = target.value;
+
+    if (!id) return;
+
+    Card.handleHostedFieldValidation(id, type, value, { isAmex: Card.getCardType(target) === "amex" });
+  }
+
+  private static focusInHostedFieldValidationHandler(e: Event) {
+    // Only if Built-in field validations are enable
+    if (!options.fieldValidation) return;
+
+    const target = (e.currentTarget ? e.currentTarget : e.srcElement) as HTMLInputElement;
+    const id = target.getAttribute("data-id");
+
+    if (!id) return;
+
+    hideHostedFieldValidation(id);
+  }
+
+  private static getFieldEventData(e: Event): { id: string | null, value: string, target: HTMLInputElement } {
+    const target = (e.currentTarget ? e.currentTarget : e.srcElement) as HTMLInputElement;
+
+    return {
+      id: target.getAttribute("data-id"),
+      value: target.value,
+      target,
+    };
+  }
+
+  private static getCardType(target: HTMLInputElement): string {
+    const unknownCardType = "unknown";
+
+    if (!target) return unknownCardType;
+
+    const classList = target.className.split(" ");
+    const cardType = classList.find(x => x.indexOf("card-type-") !== -1)?.replace("card-type-", "");
+
+    return cardType || unknownCardType;
   }
 }
 

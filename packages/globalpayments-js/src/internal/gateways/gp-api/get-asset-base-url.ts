@@ -8,11 +8,11 @@ export default (result: string) => {
     case "local":
       return `http://localhost:7777/dist/`;
     case "qa":
-      return `https://js-qa.np-hpp.globalpay.com/v${majorVersion}/`;
+      return `https://js-qa.np-hpp.globalpay.com/${version}/`;
     case "sandbox":
-      return `https://js-cert.globalpay.com/v${majorVersion}/`;
+      return `https://js-cert.globalpay.com/${version}/`;
     case "production":
-      return `https://js.globalpay.com/v${majorVersion}/`;
+      return `https://js.globalpay.com/${version}/`;
     default:
       return result;
   }

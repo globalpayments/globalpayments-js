@@ -17,7 +17,7 @@ $request = json_encode([
   'permissions' => [ 'PMT_POST_Create_Single' ]
 ]);
 
-$headers = [ 'X-GP-Version' => '2020-10-22' ];
+$headers = [ 'X-GP-Version' => '2021-03-22' ];
 
 [$response,,] = $curl('https://apis-qa.globalpay.com', '/ucp/accesstoken', '', $headers, $request);
 
@@ -47,6 +47,7 @@ $accessToken = $response->token ?? '';
         accessToken: "<?= $accessToken ?>",
         env: "local",
         apiVersion: "2021-03-22",
+        language: "zh",
         apms: {
             currencyCode: "USD",
             allowedCardNetworks: [GlobalPayments.enums.CardNetwork.Visa, GlobalPayments.enums.CardNetwork.Mastercard, GlobalPayments.enums.CardNetwork.Amex, GlobalPayments.enums.CardNetwork.Discover],

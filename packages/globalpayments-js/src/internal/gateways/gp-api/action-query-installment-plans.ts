@@ -30,7 +30,7 @@ function createHeaders() {
     "Accept": "application/json",
     "Authorization": `Bearer ${options.accessToken || ""}`,
     "Content-Type": "application/json",
-    "X-GP-Version": options.apiVersion || "2020-10-22",
+    "X-GP-Version": options.apiVersion || "2021-03-22",
   };
   return typeof Headers !== "undefined" ? new Headers(headers) : headers;
 }

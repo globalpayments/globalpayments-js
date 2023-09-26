@@ -14,7 +14,7 @@ export default function encodeEntities(value: string) {
       const low = v.charCodeAt(1);
       return "&#" + ((hi - 0xd800) * 0x400 + (low - 0xdc00) + 0x10000) + ";";
     })
-    .replace(/([^\#-~é| |!])/g, (v) => {
+    .replace(/([^\#-~àâçéèêëîïôœùûüÀÂÇÉÈÊËÎÏÔŒÙÛÜ| |!])/g, (v) => {
       return "&#" + v.charCodeAt(0) + ";";
     })
     .replace(/</g, "&lt;")

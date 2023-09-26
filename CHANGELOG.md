@@ -6,11 +6,18 @@
 
 ## Latest Version
 #### Enhancements:
+- [Globalpayments-js][1.10.2] Add Hosted fields internationalization support
+- [Globalpayments-js][1.10.2] Add Hosted fields built-in validations (not supported in IE)
+- [Globalpayments-js][1.10.2] Upgrade GP-API version to 2021-03-22
+- [Globalpayments-js][1.10.2] Add french characters as values in the Cardholder Name
+
+---
+## v1.0.11 (09/07/2023)
+#### Enhancements:
 - [Globalpayments-js][1.9.29] Pass the cardholder Name for the Google Pay and Apple Pay transactions
 
 ---
 ## v1.0.10 (08/01/2023)
-## Latest Version
 #### Bug Fixes:
 - [Globalpayments-js][1.9.28] Fixed accessibility issue for card number icon when using custom form
 

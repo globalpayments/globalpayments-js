@@ -6,6 +6,11 @@
 import getApplePayStyles from './apple-pay/gp-default';
 import getClickToPayStyles from "./click-to-pay/gp-default";
 import getGooglePayStyles from './google-pay/gp-default';
+import {
+  fieldStyles as getBuiltInValidationFieldStyles,
+  styles as getBuiltInValidationParentStyles,
+} from './built-in-validations/simple';
+import { options } from '../options';
 
 export const fieldStyles = (assetBaseUrl: string) => {
   const imageBase = assetBaseUrl + "images/";
@@ -158,6 +163,8 @@ export const fieldStyles = (assetBaseUrl: string) => {
     "input[placeholder]": {
       "letter-spacing": ".5px",
     },
+
+    ...(options.fieldValidation ? getBuiltInValidationFieldStyles(assetBaseUrl) : {}),
   };
 };
 
@@ -197,13 +204,16 @@ export const parentStyles = (assetBaseUrl: string) => {
       width: "89px",
       height: "26px",
       "text-align": "center",
-      margin: "0"
+      margin: "0",
+      "display": "flex",
+      "justify-content": "start",
+      "align-items": "center"
     },
 
     ".secure-payment-form div[class$='-shield'] .ssl-logo_ico": {
       width: "19px",
       height: "18px",
-      "margin-top": "1px",
+      "margin-left": "5px",
       "vertical-align": "middle"
     },
 
@@ -227,7 +237,9 @@ export const parentStyles = (assetBaseUrl: string) => {
       width: "110px",
       height: "23px",
       "text-align": "right",
-      float: "right"
+      float: "right",
+      "display": "flex",
+      "justify-content": "end"
     },
 
     ".secure-payment-form div[class$='-logo'] .security-msg": {
@@ -235,7 +247,14 @@ export const parentStyles = (assetBaseUrl: string) => {
       "font-size": "8px",
       display: "inline-block",
       "vertical-align": "middle",
+      "white-space": "nowrap",
       "margin-right": "2px"
+    },
+
+    ".secure-payment-form div[class$='-logo'] .security-msg strong": {
+      "white-space": "nowrap",
+      "font-weight": "normal",
+      display: "block"
     },
 
     ".secure-payment-form div[class$='-logo'] img": {
@@ -301,5 +320,7 @@ export const parentStyles = (assetBaseUrl: string) => {
     ...getApplePayStyles(assetBaseUrl),
     ...getClickToPayStyles(assetBaseUrl),
     ...getGooglePayStyles(assetBaseUrl),
+
+    ...(options.fieldValidation ? getBuiltInValidationParentStyles(assetBaseUrl) : {}),
   };
 };

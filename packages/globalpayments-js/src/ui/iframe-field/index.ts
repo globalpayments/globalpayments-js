@@ -25,7 +25,14 @@ import actionSetTypeCvv from "./action-set-type-cvv";
 import actionCardRequestInstallments from "./action-card-request-installments";
 import { InstallmentEvents } from "../../internal/lib/installments/contracts/enums";
 import assetBaseUrl from "../../internal/lib/asset-base-url";
-import { CardFormFieldNames } from "../../common/enums";
+
+import { CardFormFieldNames, HostedFieldValidationEvents } from "../../common/enums";
+import actionShowValidation from "./action-show-validation";
+import actionHideValidation from "./action-hide-validation";
+import actionValidateValue from "./action-validate-value";
+import actionValidateForm from "./action-validate-form";
+import {translateMessage} from "../../internal/lib/translate";
+import translations from "../../internal/lib/translations/translations";
 
 export interface IFrameCollection {
   [key: string]: IframeField | undefined;
@@ -126,6 +133,8 @@ export class IframeField extends EventEmitter {
     enableAutocomplete: boolean,
     fieldOptions?: any
   ) {
+    const query = window.location.hash.replace("#", "");
+    const data: any = JSON.parse(atob(query));
     const input = document.createElement(
       type === "button" ? "button" : "input",
     );
@@ -149,7 +158,7 @@ export class IframeField extends EventEmitter {
       const message = "Read Card";
       input.appendChild(document.createTextNode(message));
     } else if (type === "button") {
-      const message = "Submit";
+      const message = translateMessage(data.lang, translations.en.values.submit);
       input.appendChild(document.createTextNode(message));
     }
 
@@ -206,6 +215,7 @@ export class IframeField extends EventEmitter {
         icon.setAttribute('aria-hidden', "true");
       }
       icon.setAttribute('alt', 'Generic Card');
+      icon!.setAttribute('title', 'Generic Card');
       icon.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
       icon.setAttribute('onerror', 'this.onerror=null; this.src="' +`${assetBaseUrl()}images/gp-cc-generic.svg` + '"');
       dest.insertBefore(icon, input);
@@ -237,6 +247,9 @@ export class IframeField extends EventEmitter {
         break;
       case "card-cvv":
         Card.attachCvvEvents("#" + input.id);
+        break;
+      case CardFormFieldNames.CardHolderName:
+        Card.attachCardHolderNameEvents("#" + input.id);
         break;
       default:
         break;
@@ -415,6 +428,26 @@ export class IframeField extends EventEmitter {
             }
           }
           break;
+
+        case HostedFieldValidationEvents.BuiltInValidationShow:
+          let validationMessage = data.data.validationMessage;
+          if (options.language) {
+            validationMessage = translateMessage(options.language, validationMessage);
+          }
+          actionShowValidation(id, validationMessage, data.data.fieldType);
+          IframeField.triggerResize(id);
+          break;
+        case HostedFieldValidationEvents.BuiltInValidationHide:
+          actionHideValidation(id, data.data.fieldType);
+          IframeField.triggerResize(id);
+          break;
+        case HostedFieldValidationEvents.Validate:
+          actionValidateValue(id, type, data.data.target);
+          IframeField.triggerResize(id);
+          break;
+        case HostedFieldValidationEvents.ValidateForm:
+          actionValidateForm(id, data);
+          break;
         default:
           break;
       }
@@ -543,6 +576,16 @@ export class IframeField extends EventEmitter {
               },
               id: data.data.target,
               type: "ui:iframe-field:accumulate-data",
+            },
+            data.data.target,
+          );
+          return;
+        case HostedFieldValidationEvents.ValidatePassData:
+          postMessage.post(
+            {
+              data: data.data,
+              id: data.data.target,
+              type: `ui:iframe-field:${HostedFieldValidationEvents.ValidateForm}`,
             },
             data.data.target,
           );
@@ -710,6 +753,57 @@ export class IframeField extends EventEmitter {
    */
   public setTitle(title: string) {
     this.frame.title = title;
+  }
+
+  /**
+   * Show the validation of a hosted field
+   *
+   * @param validationMessage The desired validation message
+   */
+  public showValidation(validationMessage: string) {
+    postMessage.post(
+      {
+        data: {
+          validationMessage,
+          fieldType: this.frame.name,
+        },
+        id: this.id,
+        type: `ui:iframe-field:${HostedFieldValidationEvents.BuiltInValidationShow}`,
+      },
+      this.id,
+    );
+  }
+
+  /**
+   * Hide the validation of a hosted field
+   *
+   */
+  public hideValidation() {
+    postMessage.post(
+      {
+        data: {
+          fieldType: this.frame.name,
+        },
+        id: this.id,
+        type: `ui:iframe-field:${HostedFieldValidationEvents.BuiltInValidationHide}`,
+      },
+      this.id,
+    );
+  }
+
+  /**
+   * Validate hosted field
+   *
+   */
+  public validate() {
+    postMessage.post(
+      {
+        data: { },
+        id: this.id,
+        type: `ui:iframe-field:${HostedFieldValidationEvents.Validate}`,
+      },
+      this.id,
+    );
   }
 
   private makeFrame(type: string, id: string, opts: IUIFormField) {
