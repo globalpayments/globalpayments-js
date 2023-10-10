@@ -6,6 +6,11 @@
 
 ## Latest Version
 #### Enhancements:
+- [Globalpayments-js][2.0.0] Add Card Holder Name & Card Brand Validation
+
+---
+## v1.0.20 (27/09/2023)
+#### Enhancements:
 - [Globalpayments-js][1.10.2] Add Hosted fields internationalization support
 - [Globalpayments-js][1.10.2] Add Hosted fields built-in validations (not supported in IE)
 - [Globalpayments-js][1.10.2] Upgrade GP-API version to 2021-03-22

@@ -164,7 +164,7 @@ export const fieldStyles = (assetBaseUrl: string) => {
       "letter-spacing": ".5px",
     },
 
-    ...(options.fieldValidation ? getBuiltInValidationFieldStyles(assetBaseUrl) : {}),
+    ...(options.fieldValidation?.enabled ? getBuiltInValidationFieldStyles(assetBaseUrl) : {}),
   };
 };
 
@@ -321,6 +321,6 @@ export const parentStyles = (assetBaseUrl: string) => {
     ...getClickToPayStyles(assetBaseUrl),
     ...getGooglePayStyles(assetBaseUrl),
 
-    ...(options.fieldValidation ? getBuiltInValidationParentStyles(assetBaseUrl) : {}),
+    ...(options.fieldValidation?.enabled ? getBuiltInValidationParentStyles(assetBaseUrl) : {}),
   };
 };

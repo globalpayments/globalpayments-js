@@ -271,7 +271,7 @@ export default class Card {
    * @param e
    */
   public static restrictNumericOnInput(e: Event) {
-    if (!options.fieldValidation) return;
+    if (!options.fieldValidation?.enabled) return;
 
     const { value, target } = Card.getFieldEventData(e);
 
@@ -342,7 +342,7 @@ export default class Card {
     }
 
     let isValid = new CardNumberValidator().validate(value);
-    if (options.fieldValidation) {
+    if (options.fieldValidation?.enabled) {
       const validationResult = validate(CardFormFieldNames.CardNumber, value);
       isValid = isValid && (validationResult && validationResult.isValid);
     }
@@ -426,7 +426,7 @@ export default class Card {
         value,
         cardType === "unknown" ? undefined : isAmex,
       );
-    if (options.fieldValidation) {
+    if (options.fieldValidation?.enabled) {
       const validationResult = validate(CardFormFieldNames.CardCvv, value, { isAmex });
       isValid = isValid && (validationResult && validationResult.isValid);
     }
@@ -495,7 +495,7 @@ export default class Card {
     }
 
     let isValid = new ExpirationValidator().validate(value);
-    if (options.fieldValidation) {
+    if (options.fieldValidation?.enabled) {
       const validationResult = validate(CardFormFieldNames.CardExpiration, value);
       isValid = isValid && (validationResult && validationResult.isValid);
     }
@@ -542,7 +542,7 @@ export default class Card {
    */
   public static validateCardHolderName(e: Event) {
     // Only if Built-in field validations are enable
-    if (!options.fieldValidation) return;
+    if (!options.fieldValidation?.enabled) return;
 
     const target = (e.currentTarget ? e.currentTarget : e.srcElement) as HTMLInputElement;
     const id = target.getAttribute("data-id");
@@ -748,7 +748,7 @@ export default class Card {
 
   private static focusOutHostedFieldValidationHandler(e: Event, type: string) {
     // Only if Built-in field validations are enable
-    if (!options.fieldValidation) return;
+    if (!options.fieldValidation?.enabled) return;
 
     const target = (e.currentTarget ? e.currentTarget : e.srcElement) as HTMLInputElement;
     const id = target.getAttribute("data-id");
@@ -761,7 +761,7 @@ export default class Card {
 
   private static focusInHostedFieldValidationHandler(e: Event) {
     // Only if Built-in field validations are enable
-    if (!options.fieldValidation) return;
+    if (!options.fieldValidation?.enabled) return;
 
     const target = (e.currentTarget ? e.currentTarget : e.srcElement) as HTMLInputElement;
     const id = target.getAttribute("data-id");

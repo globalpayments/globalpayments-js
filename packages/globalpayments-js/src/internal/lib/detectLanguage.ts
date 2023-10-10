@@ -1,10 +1,11 @@
 import translations from "./translations/translations";
 import {options} from "./options";
+import {Language} from "./enums";
 
-let currentLanguage = 'en'; // Default language
+let currentLanguage: Language | string = Language.en; // Default language
 
 
-export function setCurrentLanguage(lang?: string): string {
+export function setCurrentLanguage(lang?: Language): string {
   if (lang && translations.hasOwnProperty(lang)){
     currentLanguage = lang;
   }

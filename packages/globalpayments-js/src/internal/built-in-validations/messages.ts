@@ -10,6 +10,9 @@ export const ValidationMessages = {
 
       // If card number fails Luhn check
       NumberIsNotValid: translations.en.validationMessages.CardNumber.NumberIsNotValid,
+
+      // If card number is not found in the configured list of card types
+      NotAllowedCardType: translations.en.validationMessages.CardNumber.NotAllowedCardType,
     },
     CardExpiration: {
       // If a user clicks but does not enter any value
@@ -41,6 +44,9 @@ export const ValidationMessages = {
     CardHolderName: {
       // If user clicks but does not enter any value
       // If characters entered is less the 2
-      NotValidCardHolderName: translations.en.validationMessages.CardHolderName.NotValidCardHolderName
+      NotValidCardHolderName: translations.en.validationMessages.CardHolderName.NotValidCardHolderName,
+
+      // If length is more than 100 characters
+      CharactersMoreThan100: translations.en.validationMessages.CardHolderName.CharactersMoreThan100
     },
 };

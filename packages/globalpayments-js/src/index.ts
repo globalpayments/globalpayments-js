@@ -10,7 +10,7 @@ import Events from "./internal/lib/events";
 import * as paymentRequest from "./payment-request";
 import * as configure from "./tools/configure";
 import * as ui from "./ui";
-import * as enums from "./internal/lib/eums";
+import * as enums from "./internal/lib/enums";
 
 // Library entry points for integrator use except where noted.
 export default {

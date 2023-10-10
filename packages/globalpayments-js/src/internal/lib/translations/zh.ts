@@ -14,6 +14,7 @@ const zh = {
       Required: '卡號為必填欄位',
       CharactersLessThan12: '卡號至少為 12 位數',
       NumberIsNotValid: '卡號無效',
+      NotAllowedCardType: '無法處理此卡種，請使用其他卡片'
     },
     CardExpiration: {
       NotCompleted: '請輸入有效月/年',
@@ -29,6 +30,7 @@ const zh = {
     },
     CardHolderName: {
       NotValidCardHolderName: '請輸入有效姓名',
+      CharactersMoreThan100: '持卡人姓名最多 100 个字符'
     }
   },
   footer: {

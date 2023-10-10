@@ -16,7 +16,7 @@ import {IFrameCollection, IframeField, IUIFormField} from "../iframe-field";
 import addClickToPay from "../iframe-field/action-add-click-to-pay";
 import addGooglePay from "../iframe-field/action-add-google-pay";
 import addApplePay from "../iframe-field/action-add-apple-pay";
-import { Apm } from "../../internal/lib/eums";
+import { Apm } from "../../internal/lib/enums";
 import addInstallments from "../iframe-field/action-add-installments";
 import { InstallmentEvents } from "../../internal/lib/installments/contracts/enums";
 import { options } from "../../internal";
@@ -273,7 +273,7 @@ export default class UIForm {
     // support tokenization data flows to `card-number` / `account-number`
     if (this.frames.submit !== undefined) {
       this.frames.submit.on("click", () => {
-        if (options.fieldValidation) {
+        if (options.fieldValidation?.enabled) {
           this.validateForm(this.frames);
         } else {
           this.submitForm();
@@ -354,7 +354,7 @@ export default class UIForm {
     }
 
     // Hosted Fields validattion
-    if (options.fieldValidation) {
+    if (options.fieldValidation?.enabled) {
       this.configureHostedFieldValidations(this.frames);
     }
   }

@@ -10,3 +10,13 @@ export enum CardNetwork {
   Amex = "AMEX",
   Discover = "DISCOVER"
 }
+
+export enum CharacterValidation {
+  englishOnly = "englishOnly",
+  none = "none"
+}
+
+export enum Language {
+  en = "en",
+  zh = "zh"
+}

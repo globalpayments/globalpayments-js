@@ -32,6 +32,7 @@ export interface IConfiguration extends IDictionary {
   customerReference?: string;
   validateOnly?: boolean;
   env?: string;
+  allowedCardTypes?: string[];
 
   // Specific configuration properties for
   // Digital Wallets
@@ -110,7 +111,10 @@ export interface IConfiguration extends IDictionary {
 
   // Specific configuration properties for
   // HF Built-in Validations
-  fieldValidation?: boolean
+  fieldValidation?: {
+    enabled?: boolean,
+    characterValidation?: string
+  }
 }
 
 /**

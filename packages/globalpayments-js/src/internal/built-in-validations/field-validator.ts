@@ -1,6 +1,9 @@
 import { CardFormFieldNames } from "../../common/enums";
-import { luhnCheck } from "../lib/card-types";
+import { luhnCheck, typeByNumber } from "../lib/card-types";
 import { ValidationMessages } from "./messages";
+import { options } from "../lib/options";
+import { CharacterValidation } from "../lib/enums";
+import containsOnlyEnglishCharacters from "./english-characters-validation";
 
 export const validate = (fieldType: string, value: string, extraData?: any): { isValid: boolean, message?: string } => {
     switch (fieldType) {
@@ -12,6 +15,15 @@ export const validate = (fieldType: string, value: string, extraData?: any): { i
             // If card number is less than 12 digits
             // The Card Number must consist of at least 12 digits
             if (charactersLessThan(trimSpaces(value), 12)) return createValidationResult(false, ValidationMessages.CardNumber.CharactersLessThan12);
+
+            // The entered Card Number type should be in the list of configured allowedCardTypes
+            const allowedCardTypes = options.allowedCardTypes;
+            if (allowedCardTypes && allowedCardTypes.length > 0) {
+                const cardType = typeByNumber(value)?.code.toUpperCase();
+                if (cardType && !allowedCardTypes.includes(cardType)) {
+                    return createValidationResult(false, ValidationMessages.CardNumber.NotAllowedCardType)
+                }
+            }
 
             // If card number fails Luhn check
             // The Card Number is not valid
@@ -56,6 +68,19 @@ export const validate = (fieldType: string, value: string, extraData?: any): { i
         case CardFormFieldNames.CardHolderName:
             // If user clicks but does not enter any value
             if (isEmpty(value)) return createValidationResult(false, ValidationMessages.CardHolderName.NotValidCardHolderName);
+
+            // If entered value does not contain English characters
+            const englishCharacters = options.fieldValidation?.characterValidation;
+            if (englishCharacters && englishCharacters === CharacterValidation.englishOnly) {
+                if (!containsOnlyEnglishCharacters(value)){
+                    return createValidationResult(false, ValidationMessages.CardHolderName.NotValidCardHolderName)
+                }
+            }
+
+            // If characters entered are more than 100
+            if (value.length > 100) {
+                return createValidationResult(false, ValidationMessages.CardHolderName.CharactersMoreThan100)
+            }
 
             // If characters entered is less the 2
             if (charactersLessThan(trimSpaces(value), 2)) return createValidationResult(false, ValidationMessages.CardHolderName.NotValidCardHolderName);

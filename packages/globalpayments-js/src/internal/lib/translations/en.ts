@@ -15,6 +15,7 @@ const en = {
       Required: 'A Card Number is required',
       CharactersLessThan12: 'The Card Number must consist of at least 12 digits',
       NumberIsNotValid: 'The Card Number is not valid',
+      NotAllowedCardType: 'Cannot process this card type, please use another Card'
     },
     CardExpiration: {
       NotCompleted: 'Please enter a valid month/year',
@@ -30,6 +31,7 @@ const en = {
     },
     CardHolderName: {
       NotValidCardHolderName: 'Please enter a valid Card Holder Name',
+      CharactersMoreThan100: 'Card Holder Name can be at most 100 characters'
     }
   },
   footer: {
