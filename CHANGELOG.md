@@ -4,7 +4,11 @@
 
 # Changelog
 
-## Latest Version
+## Latest Version - v2.0.1 (19/10/2023)
+- [Globalpayments-js][2.0.1] Fixed a bug where the tokenization process would not work with build-in validations when the card holder name was not present
+
+---
+## v2.0.0 (10/10/2023)
 #### Enhancements:
 - [Globalpayments-js][2.0.0] Add Card Holder Name & Card Brand Validation
 

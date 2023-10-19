@@ -12,11 +12,8 @@ export default (id: string, data: IDictionary) => {
   w.formValidations[data.data.type] = fieldIsValid;
 
   const fieldsToValidateCount = HOSTED_FIELD_NAME_KEYS.length;
-  const fieldsValidatedCount = Object.keys(w.formValidations).length;
 
-  // Continue when all the fields has been validated
-  if (fieldsValidatedCount < fieldsToValidateCount) return;
-
+  const cardHolderNotPresent = w.formValidations[CardFormFieldNames.CardHolderName] === undefined;
   const formFields = {
     cardNumber: w.formValidations[CardFormFieldNames.CardNumber],
     cardExpiration: w.formValidations[CardFormFieldNames.CardExpiration],
@@ -24,13 +21,21 @@ export default (id: string, data: IDictionary) => {
     cardHolderName: w.formValidations[CardFormFieldNames.CardHolderName],
   };
   const { cardNumber, cardExpiration, cardCvv, cardHolderName } = formFields;
-  const isFormValid = cardNumber && cardExpiration && cardCvv && cardHolderName;
-  const validFieldsCount = Object.values(formFields).filter(x => x).length;
+  const isFormValid = cardNumber && cardExpiration && cardCvv && (cardHolderName || cardHolderNotPresent);
+  let validFieldsCount = Object.values(formFields).filter(x => x).length;
+  if (cardHolderNotPresent) {
+    ++validFieldsCount;
+  }
 
   if ((validFieldsCount < fieldsToValidateCount) && !isFormValid) return;
 
   // Continue when the validation round is the last one (since at this point the form is valid)
-  const lastFieldToValidate = HOSTED_FIELD_NAME_KEYS.slice(-1)[0];
+  let lastFieldToValidate;
+  if (cardHolderNotPresent) {
+    lastFieldToValidate = HOSTED_FIELD_NAME_KEYS.slice(-2)[0];
+  } else {
+    lastFieldToValidate = HOSTED_FIELD_NAME_KEYS.slice(-1)[0];
+  }
   if (data.data.type !== lastFieldToValidate) return;
 
   postMessage.post(
