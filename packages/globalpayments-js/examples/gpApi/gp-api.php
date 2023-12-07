@@ -6,7 +6,7 @@ $appKey = 'wJUd4vJQfN23sVxG';
 $nonce = date(DateTime::ISO8601);
 $secret = hash('sha512', sprintf('%s%s', $nonce, $appKey));
 
-$curl = include 'transit/curl.php';
+$curl = include '../transit/curl.php';
 
 $request = json_encode([
   'app_id' => $appId,
@@ -41,7 +41,7 @@ $accessToken = $response->token ?? '';
       <div id="credit-card-form"></div>
     </main>
 
-    <script src="/dist/globalpayments.js"></script>
+    <script src="../../dist/globalpayments.js"></script>
     <script>
       GlobalPayments.configure({
         accessToken: "<?= $accessToken ?>",

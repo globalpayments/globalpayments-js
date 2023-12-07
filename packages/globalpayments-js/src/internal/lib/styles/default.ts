@@ -9,6 +9,10 @@ import {
   styles as getBuiltInValidationParentStyles,
 } from './built-in-validations/default';
 import { options } from '../options';
+import {
+  // fieldStyles as getQRCodePaymentsCommonFieldStyles,
+  styles as getQRCodePaymentsCommonStyles,
+} from './qr-code-payments/common';
 
 export const fieldStyles = (assetBaseUrl: string) => {
   const imageBase = assetBaseUrl + "images/";
@@ -312,5 +316,6 @@ export const parentStyles = (assetBaseUrl: string) => {
     ...getGooglePayStyles(assetBaseUrl),
 
     ...(options.fieldValidation?.enabled ? getBuiltInValidationParentStyles(assetBaseUrl) : {}),
+    ...(options.apms?.qrCodePayments && options.apms?.qrCodePayments.enabled ? getQRCodePaymentsCommonStyles(assetBaseUrl) : {}),
   };
 };

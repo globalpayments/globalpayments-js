@@ -19,20 +19,25 @@ function findKeyByValue(obj: IDictionary, valueToFind: string) {
   return null;
 }
 
-function getValueByKey(obj: IDictionary, key: string) {
+function getValueByKey(obj: IDictionary, key: string, defaultValue?: any) {
   const keys = key.split('.');
   let result = obj;
   for (const k of keys) {
-    result = result[k];
+    if (result && result.hasOwnProperty(k)) {
+      result = result[k];
+    } else {
+      return defaultValue;
+    }
   }
   return result;
 }
+
 
 function translateMessage(lang: string, message: string) : any {
   lang = lang && translations.hasOwnProperty(lang) ? lang : 'en';
   const key = findKeyByValue(translations.en, message);
   if (key !== null) {
-    const translatedMessage = getValueByKey(translations[lang], key);
+    const translatedMessage = getValueByKey(translations[lang], key, message);
     return translatedMessage ? translatedMessage : message;
   }
 }

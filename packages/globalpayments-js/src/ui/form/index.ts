@@ -27,6 +27,11 @@ import addIssuerBanner from "../../internal/lib/installments/components/add-issu
 import { getHaveVirginMoneyCreditCardBannerTemplate } from "../../internal/lib/installments/templates/common";
 import { CardFormFieldNames, HostedFieldValidationEvents } from "../../common/enums";
 
+import { QRCodePaymentsInternalEvents } from "../../apm/qr-code-payments/enums";
+import addQRCodePaymentMethods from "../iframe-field/action-add-qr-code-payment-methods";
+import { normalizePaymentMethodConfigurations } from "../../apm/qr-code-payments/helpers";
+import { IPaymentMethodConfigurationNormalized } from "../../apm/qr-code-payments/contracts";
+
 export { IUIFormField } from "../iframe-field";
 
 export const fieldStyles = () => ({
@@ -58,6 +63,7 @@ export const frameFieldTypes = [
   Apm.ClickToPay,
   Apm.GooglePay,
   Apm.ApplePay,
+  Apm.QRCodePayments,
   "card-number",
   "card-expiration",
   "card-cvv",
@@ -353,6 +359,40 @@ export default class UIForm {
       addClickToPay(ctp, this.fields[Apm.ClickToPay]);
     }
 
+    if (options.apms?.qrCodePayments && options.apms?.qrCodePayments.enabled) {
+      const qrCodePaymentsFrame = this.frames[Apm.QRCodePayments];
+      const cardNumberFrame = this.frames[CardFormFieldNames.CardNumber];
+
+      if (!cardNumberFrame || !qrCodePaymentsFrame) return;
+
+      qrCodePaymentsFrame?.container?.querySelector('iframe')?.remove();
+
+      const cardNumberFieldFrameId = cardNumberFrame.id;
+
+      // Based on the configuration: Request Payment Methods or use the manual configs.
+      const allowedPaymentMethods = options.apms.qrCodePayments.allowedPaymentMethods;
+      if (allowedPaymentMethods && allowedPaymentMethods.length > 0) {
+        // Show QR Payment method buttons based on manual configs
+        addQRCodePaymentMethods(qrCodePaymentsFrame, allowedPaymentMethods as IPaymentMethodConfigurationNormalized[]);
+      } else {
+        // Request Payment methods when the Card Number field is already registered
+        cardNumberFrame.on("register", () => {
+          this.startQRCodePaymentMethodsRequest({ id: cardNumberFieldFrameId });
+        });
+
+        cardNumberFrame.on(QRCodePaymentsInternalEvents.PaymentMethodsRequestCompleted, (responseData?: any) => {
+            const frame = this.frames[Apm.QRCodePayments];
+            if (frame) {
+              frame?.container?.querySelector('iframe')?.remove();
+
+              // Show QR Payment method buttons based on response
+              const { paymentMethodConfigurations } = responseData;
+              if (paymentMethodConfigurations) addQRCodePaymentMethods(frame, paymentMethodConfigurations.map((x: any) => normalizePaymentMethodConfigurations(x)));
+            }
+        });
+      }
+    }
+
     // Hosted Fields validattion
     if (options.fieldValidation?.enabled) {
       this.configureHostedFieldValidations(this.frames);
@@ -468,7 +508,11 @@ export default class UIForm {
         continue;
       }
 
-      if(type !== Apm.GooglePay && type !== Apm.ClickToPay && type !== Apm.ApplePay && type !== INSTALLMENTS_KEY) {
+      if (type !== Apm.GooglePay
+        && type !== Apm.ClickToPay
+        && type !== Apm.ApplePay
+        && type !== INSTALLMENTS_KEY
+        && type !== Apm.QRCodePayments) {
         fields.push(type);
       }
     }
@@ -622,6 +666,20 @@ export default class UIForm {
     if (!accountCardNumberFrame) return;
 
     this.requestDataFromAll(accountCardNumberFrame);
+  }
+
+  private startQRCodePaymentMethodsRequest(args: { id: string }): void {
+    const { id } = args;
+
+    const eventType = `ui:iframe-field:${QRCodePaymentsInternalEvents.PaymentMethodsRequestStart}`;
+    postMessage.post(
+      {
+        data: { },
+        id,
+        type: eventType,
+      },
+      id,
+    );
   }
 }
 

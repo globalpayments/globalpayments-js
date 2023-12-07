@@ -7,6 +7,10 @@ import {
   styles as getBuiltInValidationParentStyles,
 } from './built-in-validations/gp-default';
 import { options } from '../options';
+import {
+  // fieldStyles as getQRCodePaymentsCommonFieldStyles,
+  styles as getQRCodePaymentsCommonStyles,
+} from './qr-code-payments/common';
 
 // tslint:disable:object-literal-key-quotes
 // tslint:disable:object-literal-sort-keys
@@ -341,5 +345,6 @@ export const parentStyles = (assetBaseUrl: string) => {
     ...getGooglePayStyles(assetBaseUrl),
 
     ...(options.fieldValidation?.enabled ? getBuiltInValidationParentStyles(assetBaseUrl) : {}),
+    ...(options.apms?.qrCodePayments && options.apms?.qrCodePayments.enabled ? getQRCodePaymentsCommonStyles(assetBaseUrl) : {}),
   };
 };

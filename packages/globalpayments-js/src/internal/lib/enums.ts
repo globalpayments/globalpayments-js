@@ -2,6 +2,7 @@ export enum Apm {
   ClickToPay = "click-to-pay",
   GooglePay = "google-pay",
   ApplePay = "apple-pay",
+  QRCodePayments = "qr-code-payments"
 }
 
 export enum CardNetwork {
@@ -19,4 +20,15 @@ export enum CharacterValidation {
 export enum Language {
   en = "en",
   zh = "zh"
+}
+
+export enum QRCodePaymentsMerchantInteractionEvents {
+  PaymentMethodSelection = "apm-payment-method",
+  ProvideQRCodeDetailsMerchantEvent = "apm-action-details",
+  TransactionCompletedMerchantEvent = "apm-success-message",
+}
+
+export enum QRCodePaymentsProviderBrands {
+  AlipayHK = "AlipayHK",
+  Alipay = "Alipay",
 }

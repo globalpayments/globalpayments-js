@@ -7,6 +7,7 @@ import actionValidateData from "./action-validate-data";
 import actionQueryInstallmentPlans from './action-query-installment-plans';
 import getAssetBaseUrl from "./get-asset-base-url";
 import getEnv from "./get-env";
+import getQRCodePaymentMethods from "./get-qr-code-payment-methods";
 
 export const supports = {
   apm: {
@@ -63,6 +64,19 @@ export const urls = {
     }
 
     return `${domain}/ucp/${endpoint}`;
+  },
+  getQRCodePaymentMethodsUrl: (prod: boolean) => {
+    let domain = prod ? domains.production : domains.sandbox;
+
+    if (options.env && (options.env === "qa")) {
+      domain = domains.qa;
+    }
+    let endpoint = `accounts/${options.account}`;
+    if (options.merchantId) {
+      endpoint = `merchants/${options.merchantId}/${endpoint}`;
+    }
+
+    return `${domain}/ucp/${endpoint}`;
   }
 };
 
@@ -71,6 +85,7 @@ export const actions: IActions = {
   tokenize: actionTokenize,
   validateData: actionValidateData,
   queryInstallmentPlans: actionQueryInstallmentPlans,
+  getQRCodePaymentMethods,
 };
 
 export const requiredSettings = ["accessToken"];

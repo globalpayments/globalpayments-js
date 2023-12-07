@@ -45,7 +45,7 @@ export const createHtmlSpanElement = (
 
         const htmlElement = createHtmlElement('span', props) as HTMLSpanElement;
         if (textContent) {
-            htmlElement.textContent = textContent;
+            htmlElement.innerHTML = textContent;
         }
 
         return htmlElement;
@@ -183,6 +183,23 @@ export const createHtmlLabelElement = (
         }
         if (textContent) {
             htmlElement.textContent = textContent;
+        }
+
+        return htmlElement;
+}
+
+export const createHtmlIFrameElement = (
+    props?: {
+        id?: string,
+        src: string,
+        className?: string,
+        attributes?: { [key: string]: string }[],
+    }): HTMLIFrameElement => {
+        const { src } = props || {};
+
+        const htmlElement = createHtmlElement('iframe', props) as HTMLIFrameElement;
+        if (src) {
+            htmlElement.src = src;
         }
 
         return htmlElement;

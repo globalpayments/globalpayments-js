@@ -6,7 +6,7 @@
  */
 export default function containsOnlyEnglishCharacters(value: string) {
   // Define a regular expression pattern that matches only English letters
-  const pattern = /^[a-zA-Z~'` -]+$/;
+  const pattern = /^[a-zA-Z.~'` -]+$/;
 
   // Test the input string against the pattern
   return pattern.test(value);

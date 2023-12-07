@@ -44,7 +44,17 @@ const zh = {
     "aria-label": '有关安全码的信息',
     "text": '卡片背後的末三碼。 若您持有美國運通卡，安全碼為卡片正面的末四碼。'
   },
-  "other-cards-label": '或手动输入卡详细信息'
+  "other-cards-label": '或手动输入卡详细信息',
+  QR: {
+    button: {
+      text: '选择其他付款方式',
+      "aria-label": '选择其他付款方式'
+    },
+    loading: "加载中",
+    redirectScreen: {
+      redirectingToPaymentPageMessage: '重定向至支付页面',
+    },
+  },
 }
 
 export default zh;

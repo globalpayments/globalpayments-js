@@ -45,7 +45,17 @@ const en = {
     "aria-label": 'Information about Security Code',
     "text": 'The additional 3 digits on the back of your card. For American Express, it is the additional 4 digits on the front of your card.'
   },
-  "other-cards-label": 'Or enter card details manually'
+  "other-cards-label": 'Or enter card details manually',
+  QR: {
+    button: {
+      text: 'Select another payment method',
+      "aria-label": 'Select another payment method'
+    },
+    loading: "Loading",
+    redirectScreen: {
+      redirectingToPaymentPageMessage: 'Redirecting to payment page',
+    },
+  }
 }
 
 export default en;

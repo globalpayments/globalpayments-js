@@ -34,6 +34,9 @@ import actionValidateForm from "./action-validate-form";
 import {translateMessage} from "../../internal/lib/translate";
 import translations from "../../internal/lib/translations/translations";
 
+import { QRCodePaymentsInternalEvents } from "../../apm/qr-code-payments/enums";
+import actionQRCodePaymentMethodsRequestStart from "./action-qr-code-payment-methods-request-start";
+
 export interface IFrameCollection {
   [key: string]: IframeField | undefined;
 }
@@ -447,6 +450,10 @@ export class IframeField extends EventEmitter {
           break;
         case HostedFieldValidationEvents.ValidateForm:
           actionValidateForm(id, data);
+          break;
+
+        case QRCodePaymentsInternalEvents.PaymentMethodsRequestStart:
+          actionQRCodePaymentMethodsRequestStart(id, data.data);
           break;
         default:
           break;

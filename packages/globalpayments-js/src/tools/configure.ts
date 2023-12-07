@@ -1,3 +1,4 @@
+import { IQRCodePaymentsConfiguration } from "../apm/qr-code-payments/contracts";
 import { isIE } from "../common/browser-helpers";
 import getGateway from "../internal/lib/get-gateway";
 import { options as opts } from "../internal/lib/options";
@@ -77,6 +78,10 @@ export interface IConfiguration extends IDictionary {
       merchantId?: string;
       merchantName?: string;
     };
+
+    // Specific configuration properties for
+    // QR Code Payments
+    qrCodePayments?: IQRCodePaymentsConfiguration;
   }
 
   // Specific configuration properties for

@@ -1,17 +1,8 @@
-export const getCurrencySymbol = (currency: string): string => {
-    switch (currency) {
-        case 'USD':
-            return '$';
-        case 'EUR':
-            return '€';
-        case 'GBP':
-        default:
-            return '£';
-    }
-}
+import {
+    getCurrencySymbol as _getCurrencySymbol,
+    addCurrencyToAmount as _addCurrencyToAmount,
+} from "../../../../common/currency";
 
-export const addCurrencyToAmount = (currency: string, amount: string | number | undefined): string => {
-    const sanitizedAmount = (amount !== undefined && amount !== null) ? amount : 0;
+export const getCurrencySymbol = (currency: string): string => _getCurrencySymbol(currency);
 
-    return `${getCurrencySymbol(currency)}${sanitizedAmount}`;
-}
+export const addCurrencyToAmount = (currency: string, amount: string | number | undefined): string => _addCurrencyToAmount(currency, amount);

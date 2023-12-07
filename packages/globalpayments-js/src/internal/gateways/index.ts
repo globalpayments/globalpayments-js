@@ -87,6 +87,9 @@ export interface IActions {
 
   // Installments gateway implementation
   queryInstallmentPlans?: (url: string, env: string, data: IDictionary) => Promise<any>;
+
+  // QR Code Payments gateway implementation
+  getQRCodePaymentMethods?: (url: string, env: string, data: IDictionary) => Promise<any>;
 }
 
 export interface IUrlGenerators {
@@ -95,6 +98,9 @@ export interface IUrlGenerators {
 
   // Installments urls
   queryInstallmentPlans?: (prod: boolean) => string;
+
+  // QR Code Payments urls
+  getQRCodePaymentMethodsUrl?: (prod: boolean) => string;
 }
 
 export interface IGatewayModule {
@@ -113,8 +119,8 @@ export interface IGatewayList {
 export const availableGateways: IGatewayList = {
   billpay,
   genius,
-  globalpayments,
   gpApi,
+  globalpayments,
   heartland,
   openedge,
   transit,
