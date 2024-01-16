@@ -7,4 +7,5 @@ export const enum QRCodePaymentsInternalEvents {
 export const enum QRCodePaymentsActions {
     RedirectAction = "REDIRECT",
     RedirectInFrameAction = "REDIRECT_IN_FRAME",
+    PresentQRCodeAction = "PRESENT_QR_CODE",
 }

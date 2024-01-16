@@ -24,7 +24,7 @@ This plugin allows you to use online payments (eCommerce) features of a variety 
 ## Usage
 
 ```html
-<script src="https://js.globalpay.com/v1/globalpayments.js"></script>
+<script src="https://js.globalpay.com/2.1.2/globalpayments.js"></script>
 ```
 
 > Note: Installing via NPM will only provide TypeScript types for type-checking.
@@ -173,6 +173,37 @@ Enables a mandatory restriction for card holdername field
 > Note: Applies to GP API only.
 
 enables the use of the fingerprint mode with "ALWAYS" value 
+
+##### `fieldValidation` - `object` (Optional)
+
+> Note: Applies to GP API only.
+
+enables the use of the HF Built-in Validations. The object structure is:
+```javascript
+  fieldValidation?: {
+    enabled?: boolean, // (Optional)
+    characterValidation?: string // Supported values: [`englishOnly`, `none`] (Optional)
+  }
+```
+The optional `characterValidation` string config can be set as `englishOnly` or `none` and this will indicate if the Card Holder name contains or not English characters.
+
+##### `qrCodePayments` - `object` (Optional - under `apms` configs)
+
+> Note: Applies to GP API only.
+
+enables the use of the QR Code Payments. The object structure is:
+```javascript
+  apms.qrCodePayments?: {
+    enabled?: boolean, // (Optional)
+    allowedPaymentMethods?: [ // Array of allowed Payment Methods (Optional)
+      {
+        provider: string,
+        image: string,
+      },
+    ]
+  }
+```
+The optional `allowedPaymentMethods` object config can be set to manually add the preferred Payment methods.
 
 #### Examples
 

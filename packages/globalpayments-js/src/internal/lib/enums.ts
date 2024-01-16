@@ -31,4 +31,11 @@ export enum QRCodePaymentsMerchantInteractionEvents {
 export enum QRCodePaymentsProviderBrands {
   AlipayHK = "AlipayHK",
   Alipay = "Alipay",
+  WeChat = "WeChat",
+}
+
+export enum QRCodePaymentsWeChatProviderBrands {
+  WeChatBrand = "WeChat",
+  WeChatMethodResponse = "WECHAT",
+  WeChatAccountResponse = "WeChat Pay",
 }

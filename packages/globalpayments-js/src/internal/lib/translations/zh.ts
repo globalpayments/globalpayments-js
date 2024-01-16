@@ -54,6 +54,26 @@ const zh = {
     redirectScreen: {
       redirectingToPaymentPageMessage: '重定向至支付页面',
     },
+    scanRqCode: "扫描二维码",
+    payInApp: "在应用程序中支付",
+    amount: {
+      "aria-label": '交易总额'
+    },
+    qrImage: {
+      alt: '二维码显示',
+      "aria-label": '二维码显示'
+    },
+    timer: {
+      text: '该二维码将于:',
+      minutes: '分钟',
+      seconds: '秒',
+      "icon-alt": '剩余时间图标'
+    },
+    expiredScreen: {
+      title: '二维码已过期.',
+      alt: '二维码已过期.',
+      text: '单击下面的链接返回付款选项.'
+    },
   },
 }
 

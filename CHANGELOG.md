@@ -4,8 +4,8 @@
 
 # Changelog
 
-## Latest Version - v2.1.2 (12/07/23)
-- [Globalpayments-js][2.1.2] Add QR Code Payments - Alipay
+## Latest Version - v2.1.3 (1/16/24)
+- [Globalpayments-js][2.1.3] Add QR Code Payments - Alipay and WeChat
 
 ## v2.0.1 (10/19/23)
 - [Globalpayments-js][2.0.1] Fixed a bug where the tokenization process would not work with build-in validations when the card holder name was not present

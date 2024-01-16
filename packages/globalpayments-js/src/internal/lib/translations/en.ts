@@ -47,6 +47,26 @@ const en = {
   },
   "other-cards-label": 'Or enter card details manually',
   QR: {
+    scanRqCode: "Scan QR Code",
+    payInApp: "to pay in app",
+    amount: {
+      "aria-label": 'Transaction Total'
+    },
+    qrImage: {
+      alt: 'QR Code Display',
+      "aria-label": 'QR Code Display'
+    },
+    timer: {
+      text: 'This QR Code will expire in:',
+      minutes: 'mins',
+      seconds: 's',
+      "icon-alt": 'Remaining Time Icon'
+    },
+    expiredScreen: {
+      title: 'QR Code has expired.',
+      alt: 'QR Code has expired.',
+      text: 'Click the link below to return to the payment options.'
+    },
     button: {
       text: 'Select another payment method',
       "aria-label": 'Select another payment method'

@@ -362,7 +362,8 @@ export default class UIForm {
     if (options.apms?.qrCodePayments && options.apms?.qrCodePayments.enabled) {
       const qrCodePaymentsFrame = this.frames[Apm.QRCodePayments];
       const cardNumberFrame = this.frames[CardFormFieldNames.CardNumber];
-
+      const qrCodePaymentsFields = this.fields[Apm.QRCodePayments];
+      const amount = qrCodePaymentsFields && qrCodePaymentsFields.amount || 0;
       if (!cardNumberFrame || !qrCodePaymentsFrame) return;
 
       qrCodePaymentsFrame?.container?.querySelector('iframe')?.remove();
@@ -373,7 +374,7 @@ export default class UIForm {
       const allowedPaymentMethods = options.apms.qrCodePayments.allowedPaymentMethods;
       if (allowedPaymentMethods && allowedPaymentMethods.length > 0) {
         // Show QR Payment method buttons based on manual configs
-        addQRCodePaymentMethods(qrCodePaymentsFrame, allowedPaymentMethods as IPaymentMethodConfigurationNormalized[]);
+        addQRCodePaymentMethods(qrCodePaymentsFrame, allowedPaymentMethods as IPaymentMethodConfigurationNormalized[], amount);
       } else {
         // Request Payment methods when the Card Number field is already registered
         cardNumberFrame.on("register", () => {
@@ -387,7 +388,7 @@ export default class UIForm {
 
               // Show QR Payment method buttons based on response
               const { paymentMethodConfigurations } = responseData;
-              if (paymentMethodConfigurations) addQRCodePaymentMethods(frame, paymentMethodConfigurations.map((x: any) => normalizePaymentMethodConfigurations(x)));
+              if (paymentMethodConfigurations) addQRCodePaymentMethods(frame, paymentMethodConfigurations.map((x: any) => normalizePaymentMethodConfigurations(x)), amount);
             }
         });
       }

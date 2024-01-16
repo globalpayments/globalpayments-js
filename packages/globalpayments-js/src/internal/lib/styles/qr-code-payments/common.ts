@@ -19,6 +19,9 @@ export const styles = (assetBaseUrl: string) => {
         qrCodePaymentBlueAlipay: '#1677FF',
         qrCodePaymentBlueAlipayHover: '#0E69E8',
 
+        qrCodePaymentGreenWeChat: '#1AAD19',
+        qrCodePaymentGreenWeChatHover: '#0E940D',
+
         selectedBorderBlue: '#1677FF',
 
         azure31Blue: '#005C9E',
@@ -74,6 +77,15 @@ export const styles = (assetBaseUrl: string) => {
           border: `2px solid ${customColors.coolGrey61}`,
         },
         ".secure-payment-form .qr-code-payment-method-alipay:hover": {
+          "background-color": customColors.warmGrey95,
+          border: `2px solid ${customColors.coolGrey61}`,
+        },
+
+        ".secure-payment-form .qr-code-payment-method-wechat": {
+          "background-color": customColors.neutralsWhite,
+          border: `2px solid ${customColors.coolGrey61}`,
+        },
+        ".secure-payment-form .qr-code-payment-method-wechat:hover": {
           "background-color": customColors.warmGrey95,
           border: `2px solid ${customColors.coolGrey61}`,
         },
