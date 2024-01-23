@@ -34,7 +34,7 @@ import actionValidateForm from "./action-validate-form";
 import {translateMessage} from "../../internal/lib/translate";
 import translations from "../../internal/lib/translations/translations";
 
-import { QRCodePaymentsInternalEvents } from "../../apm/qr-code-payments/enums";
+import { ApmInternalEvents } from "../../apm/enums";
 import actionQRCodePaymentMethodsRequestStart from "./action-qr-code-payment-methods-request-start";
 
 export interface IFrameCollection {
@@ -241,14 +241,14 @@ export class IframeField extends EventEmitter {
     }
 
     switch (name) {
-      case "card-number":
+      case CardFormFieldNames.CardNumber:
         Card.attachNumberEvents("#" + input.id);
         input.name = "cardNumber";
         break;
-      case "card-expiration":
+      case CardFormFieldNames.CardExpiration:
         Card.attachExpirationEvents("#" + input.id);
         break;
-      case "card-cvv":
+      case CardFormFieldNames.CardCvv:
         Card.attachCvvEvents("#" + input.id);
         break;
       case CardFormFieldNames.CardHolderName:
@@ -452,7 +452,7 @@ export class IframeField extends EventEmitter {
           actionValidateForm(id, data);
           break;
 
-        case QRCodePaymentsInternalEvents.PaymentMethodsRequestStart:
+        case ApmInternalEvents.PaymentMethodsRequestStart:
           actionQRCodePaymentMethodsRequestStart(id, data.data);
           break;
         default:

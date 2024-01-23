@@ -1,15 +1,21 @@
 export enum Apm {
+  ApplePay = "apple-pay",
   ClickToPay = "click-to-pay",
   GooglePay = "google-pay",
-  ApplePay = "apple-pay",
+  OpenBankingPayment = "open-banking",
   QRCodePayments = "qr-code-payments"
 }
 
+export enum ApmEvents {
+  PaymentMethodActionDetail = "apm-action-details",
+  PaymentMethodSelection = "apm-payment-method"
+}
+
 export enum CardNetwork {
-  Visa = "VISA",
-  Mastercard = "MASTERCARD",
   Amex = "AMEX",
-  Discover = "DISCOVER"
+  Discover = "DISCOVER",
+  Mastercard = "MASTERCARD",
+  Visa = "VISA"
 }
 
 export enum CharacterValidation {
@@ -22,16 +28,21 @@ export enum Language {
   zh = "zh"
 }
 
-export enum QRCodePaymentsMerchantInteractionEvents {
-  PaymentMethodSelection = "apm-payment-method",
-  ProvideQRCodeDetailsMerchantEvent = "apm-action-details",
-  TransactionCompletedMerchantEvent = "apm-success-message",
+export enum QRCodePaymentsProviderBrands {
+  Alipay = "Alipay",
+  AlipayHK = "AlipayHK",
+  WeChat = "WeChat",
 }
 
-export enum QRCodePaymentsProviderBrands {
-  AlipayHK = "AlipayHK",
+export enum OpenBanking {
+  title = "Bank Payment"
+}
+
+export enum ApmProviders {
   Alipay = "Alipay",
-  WeChat = "WeChat",
+  AlipayHK = "AlipayHK",
+  OpenBanking = "OPEN_BANKING",
+  WeChat = "WeChat"
 }
 
 export enum QRCodePaymentsWeChatProviderBrands {

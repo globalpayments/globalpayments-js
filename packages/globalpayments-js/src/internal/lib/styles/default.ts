@@ -1,18 +1,15 @@
 // tslint:disable:object-literal-key-quotes
 // tslint:disable:object-literal-sort-keys
 
-import getApplePayStyles from './apple-pay/gp-default';
-import getClickToPayStyles from './click-to-pay/gp-default';
-import getGooglePayStyles from './google-pay/gp-default';
+import getApplePayStyles from './apple-pay/common';
+import getClickToPayStyles from './click-to-pay/default';
+import getGooglePayStyles from './google-pay/common';
+import getPaymentMethodsStyles from './payment-methods/common';
 import {
   fieldStyles as getBuiltInValidationFieldStyles,
   styles as getBuiltInValidationParentStyles,
 } from './built-in-validations/default';
 import { options } from '../options';
-import {
-  // fieldStyles as getQRCodePaymentsCommonFieldStyles,
-  styles as getQRCodePaymentsCommonStyles,
-} from './qr-code-payments/common';
 
 export const fieldStyles = (assetBaseUrl: string) => {
   const imageBase = assetBaseUrl + "images/";
@@ -314,8 +311,7 @@ export const parentStyles = (assetBaseUrl: string) => {
     ...getApplePayStyles(assetBaseUrl),
     ...getClickToPayStyles(assetBaseUrl),
     ...getGooglePayStyles(assetBaseUrl),
-
     ...(options.fieldValidation?.enabled ? getBuiltInValidationParentStyles(assetBaseUrl) : {}),
-    ...(options.apms?.qrCodePayments && options.apms?.qrCodePayments.enabled ? getQRCodePaymentsCommonStyles(assetBaseUrl) : {}),
+    ...getPaymentMethodsStyles(assetBaseUrl),
   };
 };

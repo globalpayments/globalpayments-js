@@ -75,6 +75,11 @@ const en = {
     redirectScreen: {
       redirectingToPaymentPageMessage: 'Redirecting to payment page',
     },
+  },
+  apms: {
+    button: {
+      "aria-label": "Pay with"
+    }
   }
 }
 

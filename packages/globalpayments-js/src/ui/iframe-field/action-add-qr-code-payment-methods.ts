@@ -1,14 +1,25 @@
 import { IframeField } from ".";
-import handlePresentQRCodeAction from "../../apm/qr-code-payments/components/present-qr-code-action-handler";
-import handleRedirectAction from "../../apm/qr-code-payments/components/redirect-action-handler";
+import handleRedirectAction from "../../apm/non-card-payments/components/redirect-action-handler";
 import handleRedirectInFrameAction from "../../apm/qr-code-payments/components/redirect-in-frame-action-handler";
 import { IPaymentMethodConfigurationNormalized } from "../../apm/qr-code-payments/contracts";
-import { QRCodePaymentsActions, QRCodePaymentsInternalEvents } from "../../apm/qr-code-payments/enums";
-import { createHtmlButtonElement, createHtmlDivElement } from "../../common/html-element";
-import { options } from "../../internal";
-import { QRCodePaymentsMerchantInteractionEvents, QRCodePaymentsProviderBrands } from "../../internal/lib/enums";
+import { QRCodePaymentsActions, ApmInternalEvents } from "../../apm/enums";
+import {
+  changeCreditCardFormFieldsVisibility,
+  createHtmlButtonElement,
+  createHtmlDivElement
+} from "../../common/html-element";
+import { bus, options } from "../../internal";
+import {
+  ApmEvents,
+  QRCodePaymentsProviderBrands
+} from "../../internal/lib/enums";
 import { removeScriptById } from "../../apm/qr-code-payments/components/generate-qr-code";
 import { validateProviderBrand } from "../../apm/qr-code-payments/helpers";
+import handlePresentQRCodeAction from "../../apm/qr-code-payments/components/present-qr-code-action-handler";
+import { isUrlValid } from "../../apm/non-card-payments/components/common";
+import {translateMessage} from "../../internal/lib/translate";
+import {getCurrentLanguage} from "../../internal/lib/detectLanguage";
+import translations from "../../internal/lib/translations/translations";
 
 export default function addQRCodePaymentMethods(
     iframeField: IframeField | undefined,
@@ -30,6 +41,7 @@ function displayPaymentMethods(iframeField: IframeField, paymentMethodConfigurat
     id: 'qr-code-payment-methods-wrapper',
     className: 'qr-code-payment-methods-wrapper',
   });
+  const lang = getCurrentLanguage();
 
   paymentMethodConfigurations.forEach((pmc: IPaymentMethodConfigurationNormalized) => {
     const { provider, image } = pmc;
@@ -40,8 +52,11 @@ function displayPaymentMethods(iframeField: IframeField, paymentMethodConfigurat
     const trimBrand = brand.toLocaleLowerCase().replaceAll(' ', '');
 
     if (!(validProvider in QRCodePaymentsProviderBrands)) {
-      // tslint:disable-next-line:no-console
-      console.log('Provider Error: Invalid provider brand.');
+      bus.emit("error", {
+        error: true,
+        reasons: [{ code: "ERROR", message: "Provider Error: Invalid provider brand." }],
+      });
+
       return;
     }
 
@@ -52,15 +67,16 @@ function displayPaymentMethods(iframeField: IframeField, paymentMethodConfigurat
       id: `qr-code-payment-method-${trimBrand}`,
       className: `qr-code-payment-method-button ${getQRCodePaymentMethodCSSClass(brand)}`,
       attributes: [
-        {style: `background-image: url('${image}'); background-position: 50% 50%; background-repeat: no-repeat`},
-        {alt: brand},
-        {title: brand},
+        { style: `background-image: url('${image}'); background-position: 50% 50%; background-repeat: no-repeat` },
+        { alt: brand },
+        { title: brand },
+        { "aria-label": `${translateMessage(lang, translations.en?.apms?.button['aria-label'])} ${brand}` }
       ],
     });
 
     paymentMethodButton?.addEventListener('click', () => {
       // Merchant Interaction: Emit an event to let the Merchant know the selected provider
-      iframeField?.emit(QRCodePaymentsMerchantInteractionEvents.PaymentMethodSelection, {
+      iframeField?.emit(ApmEvents.PaymentMethodSelection, {
         provider: brand,
       });
     });
@@ -82,7 +98,7 @@ function getQRCodePaymentMethodCSSClass (providerBrandName: string): string {
 
 function addMerchantEventListeners(iframeField: IframeField, amount: string | number) {
     // Listen to the Merchant event with the QR Code data details from the GP-API payment response
-    window.addEventListener(QRCodePaymentsMerchantInteractionEvents.ProvideQRCodeDetailsMerchantEvent, (event: any) => {
+    window.addEventListener(ApmEvents.PaymentMethodActionDetail, (event: any) => {
       const {
         redirect_url: redirectUrl,
         next_action: nextAction,
@@ -90,17 +106,17 @@ function addMerchantEventListeners(iframeField: IframeField, amount: string | nu
         qr_code: qrCode,
         provider,
       } = event.detail || {};
+
       const validProvider: string = validateProviderBrand(provider);
       if (!(validProvider in QRCodePaymentsProviderBrands)) {
-        // tslint:disable-next-line:no-console
-        console.log('Provider Error: Invalid provider brand.');
-
         return;
       }
 
       if (redirectUrl && !isUrlValid(redirectUrl)) {
-        // tslint:disable-next-line:no-console
-        console.log('Url Error: Invalid url.');
+        bus.emit("error", {
+          error: true,
+          reasons: [{ code: "ERROR", message: "Url Error: Invalid url." }],
+        });
 
         return;
       }
@@ -119,7 +135,7 @@ function addMerchantEventListeners(iframeField: IframeField, amount: string | nu
         if (
             nextAction === QRCodePaymentsActions.RedirectAction
             || nextAction === QRCodePaymentsActions.PresentQRCodeAction) {
-          window.dispatchEvent(new CustomEvent(QRCodePaymentsInternalEvents.NavigatesBackBySelectAnotherPaymentMethod, {}));
+          window.dispatchEvent(new CustomEvent(ApmInternalEvents.NavigatesBackBySelectAnotherPaymentMethod, {}));
         }
       };
 
@@ -142,40 +158,4 @@ function addMerchantEventListeners(iframeField: IframeField, amount: string | nu
 
       }
     }, false);
-}
-
-function changeCreditCardFormFieldsVisibility(visible: boolean): void {
-  const fields = [
-      // Apm
-      '.credit-card-click-to-pay',
-      '.credit-card-google-pay',
-      '.credit-card-apple-pay',
-      '.other-cards-label',
-      '.qr-code-payment-methods-wrapper',
-      // Credit card common
-      '.credit-card-card-number',
-      '.credit-card-card-expiration',
-      '.credit-card-card-cvv',
-      '.credit-card-card-holder-name',
-      '.credit-card-submit',
-      // '.credit-card-shield',
-      // '.credit-card-logo',
-  ];
-
-  fields.forEach((fieldSelector: any) => {
-      const domElement = document.querySelector(`${fieldSelector}`);
-      if (domElement) {
-          domElement.setAttribute('style', `display: ${ visible ? 'block' : 'none' };`);
-      }
-  });
-}
-
-function isUrlValid(url: string): boolean {
-  try {
-    // tslint:disable-next-line:no-unused-expression
-    new URL(url);
-    return true; // Valid URL
-  } catch (error) {
-    return false; // Invalid URL
-  }
 }

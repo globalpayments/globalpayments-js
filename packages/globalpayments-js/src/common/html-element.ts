@@ -204,3 +204,30 @@ export const createHtmlIFrameElement = (
 
         return htmlElement;
 }
+
+export const changeCreditCardFormFieldsVisibility = (visible: boolean): void => {
+  const fields = [
+    // Apm
+    '.credit-card-click-to-pay',
+    '.credit-card-google-pay',
+    '.credit-card-apple-pay',
+    '.other-cards-label',
+    '.qr-code-payment-methods-wrapper',
+    '.open-banking-button-wrapper',
+    // Credit card common
+    '.credit-card-card-number',
+    '.credit-card-card-expiration',
+    '.credit-card-card-cvv',
+    '.credit-card-card-holder-name',
+    '.credit-card-submit',
+    // '.credit-card-shield',
+    // '.credit-card-logo',
+  ];
+
+  fields.forEach((fieldSelector: any) => {
+    const domElement = document.querySelector(`${fieldSelector}`);
+    if (domElement) {
+      domElement.setAttribute('style', `display: ${visible ? 'block' : 'none'};`);
+    }
+  });
+}

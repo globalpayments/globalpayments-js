@@ -3,9 +3,9 @@
 
 // @TODO: confirm styles with enterprise repo
 
-import getApplePayStyles from './apple-pay/gp-default';
+import getApplePayStyles from './apple-pay/common';
 import getClickToPayStyles from "./click-to-pay/gp-default";
-import getGooglePayStyles from './google-pay/gp-default';
+import getGooglePayStyles from './google-pay/common';
 import {
   fieldStyles as getBuiltInValidationFieldStyles,
   styles as getBuiltInValidationParentStyles,
@@ -14,7 +14,7 @@ import { options } from '../options';
 import {
   // fieldStyles as getQRCodePaymentsCommonFieldStyles,
   styles as getQRCodePaymentsCommonStyles,
-} from './qr-code-payments/common';
+} from './payment-methods/qr-code-payments';
 
 export const fieldStyles = (assetBaseUrl: string) => {
   const imageBase = assetBaseUrl + "images/";

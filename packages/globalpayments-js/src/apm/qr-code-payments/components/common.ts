@@ -1,29 +1,9 @@
-import { createHtmlButtonElement, createHtmlDivElement, createHtmlImageElement, createHtmlSpanElement } from "../../../common/html-element";
+import { createHtmlDivElement, createHtmlImageElement, createHtmlSpanElement } from "../../../common/html-element";
 import getAssetBaseUrl from "../../../internal/gateways/gp-api/get-asset-base-url";
-import { QRCodePaymentsInternalEvents } from "../enums";
+import { ApmInternalEvents } from "../../enums";
 import { getCurrentLanguage } from "../../../internal/lib/detectLanguage";
 import translations from "../../../internal/lib/translations/translations";
 import { translateMessage } from "../../../internal/lib/translate";
-
-
-export const getSelectAnotherPaymentMethodButton = (id: string, onClickCallback: any): HTMLDivElement => {
-  const lang = getCurrentLanguage();
-
-  const selectAnotherPaymentMethodDiv = createHtmlDivElement();
-  const selectAnotherPaymentMethodButton = createHtmlButtonElement({
-    id,
-    className: 'link-button',
-    textContent: translateMessage(lang, translations.en.QR?.button.text),
-    attributes: [
-        { 'aria-label': translateMessage(lang, translations.en.QR?.button['aria-label']) },
-        { 'role': 'button' },
-    ],
-  });
-  selectAnotherPaymentMethodButton?.addEventListener('click', onClickCallback);
-  selectAnotherPaymentMethodDiv.append(selectAnotherPaymentMethodButton);
-
-  return selectAnotherPaymentMethodDiv;
-}
 
 export function getCountdownCounter(secondsToExpire: string, onFinishCallback: any) {
   const lang = getCurrentLanguage();
@@ -74,7 +54,7 @@ export function getCountdownCounter(secondsToExpire: string, onFinishCallback: a
   }, 1000);
 
   // If the user navigates back from PresentQRCodeAction case, the countdown clock interval needs to be clear
-  window.addEventListener(QRCodePaymentsInternalEvents.NavigatesBackBySelectAnotherPaymentMethod, (_event: any) => {
+  window.addEventListener(ApmInternalEvents.NavigatesBackBySelectAnotherPaymentMethod, (_event: any) => {
     if (countdownIntervalReference) clearInterval(countdownIntervalReference);
   });
 

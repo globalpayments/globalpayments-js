@@ -1,6 +1,6 @@
 import { createHtmlDivElement, createHtmlImageElement, createHtmlSpanElement } from "../../../common/html-element";
 import getAssetBaseUrl from "../../../internal/gateways/gp-api/get-asset-base-url";
-import { getSelectAnotherPaymentMethodButton } from "./common";
+import { getSelectAnotherPaymentMethodButton } from "../../non-card-payments/components/common";
 import {getCurrentLanguage} from "../../../internal/lib/detectLanguage";
 import translations from "../../../internal/lib/translations/translations";
 import {translateMessage} from "../../../internal/lib/translate";

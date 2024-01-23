@@ -2,7 +2,7 @@ import { createHtmlIFrameElement, createHtmlSpanElement } from "../../../common/
 import { getCurrentLanguage } from "../../../internal/lib/detectLanguage";
 import { translateMessage } from "../../../internal/lib/translate";
 import translations from "../../../internal/lib/translations/translations";
-import { getSelectAnotherPaymentMethodButton } from "./common";
+import {getSelectAnotherPaymentMethodButton} from "../../non-card-payments/components/common";
 
 export default function handleRedirectInFrameAction (content: HTMLDivElement, props: any) {
   const { redirectUrl, onClickSelectAnotherPaymentMethod } = props;

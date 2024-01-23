@@ -1,16 +1,12 @@
-export interface IQRCodePaymentsConfiguration {
-  enabled?: boolean,
-  allowedPaymentMethods?: IQRCodePaymentsAllowedPaymentMethod[];
+import {IApmConfiguration} from "../non-card-payments/contracts";
+
+export interface IQRCodePaymentsConfiguration extends IApmConfiguration {
+  enabled?: boolean;
 }
 
-export interface IQRCodePaymentsAllowedPaymentMethod {
-  provider: string;
-  image: string;
-}
-
-export interface IPaymentMethodConfiguration {
+export interface IPaymentMethodConfiguration extends IApmConfiguration {
   provider: {
-      brand: string;
+    brand: string;
   };
   image: string;
 }

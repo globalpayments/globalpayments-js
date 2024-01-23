@@ -1,7 +1,8 @@
 import { addCurrencyToAmount } from "../../../common/currency";
 import { createHtmlDivElement, createHtmlImageElement, createHtmlSpanElement } from "../../../common/html-element";
 import { bus, options } from "../../../internal";
-import { getCountdownCounter, getSelectAnotherPaymentMethodButton } from "./common";
+import { getCountdownCounter } from "./common";
+import { getSelectAnotherPaymentMethodButton } from "../../non-card-payments/components/common";
 import handleQRCodeExpiredScreen from "./qr-code-expired-handler";
 import translations from "../../../internal/lib/translations/translations";
 import { getCurrentLanguage } from "../../../internal/lib/detectLanguage";

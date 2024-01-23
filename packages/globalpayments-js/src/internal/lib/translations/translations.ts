@@ -1,5 +1,6 @@
-import zh from "./zh";
 import en from "./en";
+import fr from "./fr";
+import zh from "./zh";
 import {IDictionary} from "../util";
 
 type Translations = {
@@ -8,6 +9,7 @@ type Translations = {
 
 const translations: Translations = {
   en,
+  fr,
   zh
 };
 

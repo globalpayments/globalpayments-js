@@ -1,5 +1,5 @@
 import { IDictionary } from "@globalpayments/js/types/internal/lib/util";
-import { QRCodePaymentsInternalEvents } from "../../apm/qr-code-payments/enums";
+import { ApmInternalEvents } from "../../apm/enums";
 import { postMessage } from "../../internal";
 import getQrCodePaymentMethods from "../../apm/qr-code-payments/requests/get-qr-code-payment-methods";
 
@@ -21,7 +21,7 @@ export default (id: string, data: IDictionary): void => {
           ...data,
         },
         id,
-        type: `ui:iframe-field:${QRCodePaymentsInternalEvents.PaymentMethodsRequestCompleted}`,
+        type: `ui:iframe-field:${ApmInternalEvents.PaymentMethodsRequestCompleted}`,
       },
       "parent",
     );

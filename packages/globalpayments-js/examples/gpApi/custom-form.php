@@ -8,6 +8,10 @@ $secret = hash('sha512', sprintf('%s%s', $nonce, $appKey));
 
 $curl = include '../transit/curl.php';
 
+$version = file_get_contents('../../src/lib/version.ts');
+preg_match('/export default "(.*?)";/', $version, $matches);
+$version = $matches[1] ?? 'Unknown';
+
 $request = json_encode([
     'app_id' => $appId,
     'secret' => $secret,
@@ -19,7 +23,7 @@ $request = json_encode([
 
 $headers = ['X-GP-Version' => '2021-03-22'];
 
-[$response, ,] = $curl('https://apis-qa.globalpay.com', '/ucp/accesstoken', '', $headers, $request);
+[$response,,] = $curl('https://apis.sandbox.globalpay.com', '/ucp/accesstoken', '', $headers, $request);
 
 $response = json_decode($response);
 
@@ -50,17 +54,22 @@ $accessToken = $response->token ?? '';
     </form>
 </main>
 
-<script src="../../dist/globalpayments.js"></script>
+<script src="https://js-cert.globalpay.com/<?= $version ?>/globalpayments.js"></script>
 <script>
 
     GlobalPayments.configure({
         accessToken: "<?= $accessToken ?>",
-        env: "local",
+        env: "sandbox",
         apiVersion: "2021-03-22",
         "fieldValidation": true,
         apms: {
             currencyCode: "USD",
-            allowedCardNetworks: [GlobalPayments.enums.CardNetwork.Visa, GlobalPayments.enums.CardNetwork.Mastercard, GlobalPayments.enums.CardNetwork.Amex, GlobalPayments.enums.CardNetwork.Discover],
+            allowedCardNetworks: [
+                GlobalPayments.enums.CardNetwork.Visa,
+                GlobalPayments.enums.CardNetwork.Mastercard,
+                GlobalPayments.enums.CardNetwork.Amex,
+                GlobalPayments.enums.CardNetwork.Discover
+            ],
             applePay: {
                 applePayVersionNumber: 3,
                 currencyCode: "USD",
@@ -94,7 +103,7 @@ $accessToken = $response->token ?? '';
     });
 
     const imageBase = "https://js-cert.globalpay.com/v1/images/";
-    var cardForm = GlobalPayments.ui.form({
+    const cardForm = GlobalPayments.ui.form({
         fields: {
             "card-number": {
                 placeholder: "•••• •••• •••• ••••",
@@ -269,10 +278,10 @@ $accessToken = $response->token ?? '';
         }
     });
 
-    cardForm.on("card-number", "token-success", function (resp) {
+    cardForm.on("card-number", "token-success", resp => {
         console.log(resp);
     });
-    cardForm.on("card-number", "token-error", function (resp) {
+    cardForm.on("card-number", "token-error", resp => {
         console.log(resp);
     });
 

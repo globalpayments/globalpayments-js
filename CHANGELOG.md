@@ -4,7 +4,11 @@
 
 # Changelog
 
-## Latest Version - v2.1.3 (1/16/24)
+## Latest Version - v3.0.3 (1/23/24)
+- [Globalpayments-js][3.0.3] Add Open Banking support
+- [Globalpayments-js][3.0.3] Add Hosted Fields French support
+
+## v2.1.3 (1/16/24)
 - [Globalpayments-js][2.1.3] Add QR Code Payments - Alipay and WeChat
 
 ## v2.0.1 (10/19/23)

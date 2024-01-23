@@ -3,6 +3,7 @@ import { isIE } from "../common/browser-helpers";
 import getGateway from "../internal/lib/get-gateway";
 import { options as opts } from "../internal/lib/options";
 import { IDictionary } from "../internal/lib/util";
+import { IApmConfiguration } from "../apm/non-card-payments/contracts";
 
 /**
  * Defines expected configuration properties for using the
@@ -39,6 +40,8 @@ export interface IConfiguration extends IDictionary {
   // Digital Wallets
   apms?: {
     allowedCardNetworks?: string[];
+    nonCardPayments?: IApmConfiguration;
+    countryCode?: string;
     currencyCode?: string;
     applePay?: {
       allowedAuthMethods?: string[];
@@ -82,6 +85,7 @@ export interface IConfiguration extends IDictionary {
     // Specific configuration properties for
     // QR Code Payments
     qrCodePayments?: IQRCodePaymentsConfiguration;
+
   }
 
   // Specific configuration properties for

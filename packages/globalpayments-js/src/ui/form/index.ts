@@ -27,10 +27,11 @@ import addIssuerBanner from "../../internal/lib/installments/components/add-issu
 import { getHaveVirginMoneyCreditCardBannerTemplate } from "../../internal/lib/installments/templates/common";
 import { CardFormFieldNames, HostedFieldValidationEvents } from "../../common/enums";
 
-import { QRCodePaymentsInternalEvents } from "../../apm/qr-code-payments/enums";
+import { ApmInternalEvents } from "../../apm/enums";
 import addQRCodePaymentMethods from "../iframe-field/action-add-qr-code-payment-methods";
 import { normalizePaymentMethodConfigurations } from "../../apm/qr-code-payments/helpers";
 import { IPaymentMethodConfigurationNormalized } from "../../apm/qr-code-payments/contracts";
+import addOpenBankingPaymentMethod from "../iframe-field/action-add-open-banking";
 
 export { IUIFormField } from "../iframe-field";
 
@@ -63,13 +64,14 @@ export const frameFieldTypes = [
   Apm.ClickToPay,
   Apm.GooglePay,
   Apm.ApplePay,
+  Apm.OpenBankingPayment,
   Apm.QRCodePayments,
-  "card-number",
-  "card-expiration",
-  "card-cvv",
-  "card-holder-name",
+  CardFormFieldNames.CardNumber,
+  CardFormFieldNames.CardExpiration,
+  CardFormFieldNames.CardCvv,
+  CardFormFieldNames.CardHolderName,
   "card-track",
-  "account-number",
+  CardFormFieldNames.CardAccountNumber,
   "routing-number",
   INSTALLMENTS_KEY,
   "submit",
@@ -136,7 +138,6 @@ export default class UIForm {
       if (!frameFieldTypes.hasOwnProperty(i)) {
         continue;
       }
-
       const fieldType = frameFieldTypes[i];
       if (!this.frames.hasOwnProperty(fieldType)) {
         continue;
@@ -287,11 +288,13 @@ export default class UIForm {
       });
     }
 
-    const cardNumber = this.frames["card-number"];
-    const cardCvv = this.frames["card-cvv"];
+    const cardNumber = this.frames[CardFormFieldNames.CardNumber];
+    const cardCvv = this.frames[CardFormFieldNames.CardCvv];
     const ctp = this.frames[Apm.ClickToPay];
     const googlePay = this.frames[Apm.GooglePay];
     const applePay = this.frames[Apm.ApplePay];
+    const openBanking = this.frames[Apm.OpenBankingPayment];
+    const qrCodePayments = this.frames[Apm.QRCodePayments];
 
     // support autocomplete / auto-fill from `card-number` to other fields
       if (cardNumber) {
@@ -359,29 +362,28 @@ export default class UIForm {
       addClickToPay(ctp, this.fields[Apm.ClickToPay]);
     }
 
-    if (options.apms?.qrCodePayments && options.apms?.qrCodePayments.enabled) {
-      const qrCodePaymentsFrame = this.frames[Apm.QRCodePayments];
-      const cardNumberFrame = this.frames[CardFormFieldNames.CardNumber];
+    if (qrCodePayments) {
+      qrCodePayments?.container?.querySelector('iframe')?.remove();
+
       const qrCodePaymentsFields = this.fields[Apm.QRCodePayments];
       const amount = qrCodePaymentsFields && qrCodePaymentsFields.amount || 0;
-      if (!cardNumberFrame || !qrCodePaymentsFrame) return;
+      if (options.apms?.qrCodePayments && options.apms?.qrCodePayments.enabled) {
+        if (!cardNumber || !qrCodePayments) return;
 
-      qrCodePaymentsFrame?.container?.querySelector('iframe')?.remove();
+        const cardNumberFieldFrameId = cardNumber.id;
 
-      const cardNumberFieldFrameId = cardNumberFrame.id;
+        // Based on the configuration: Request Payment Methods or use the manual configs.
+        const allowedPaymentMethods = options.apms.qrCodePayments.allowedPaymentMethods;
+        if (allowedPaymentMethods && allowedPaymentMethods.length > 0) {
+          // Show QR Payment method buttons based on manual configs
+          addQRCodePaymentMethods(qrCodePayments, allowedPaymentMethods as IPaymentMethodConfigurationNormalized[], amount);
+        } else {
+          // Request Payment methods when the Card Number field is already registered
+          cardNumber.on("register", () => {
+            this.startQRCodePaymentMethodsRequest({ id: cardNumberFieldFrameId });
+          });
 
-      // Based on the configuration: Request Payment Methods or use the manual configs.
-      const allowedPaymentMethods = options.apms.qrCodePayments.allowedPaymentMethods;
-      if (allowedPaymentMethods && allowedPaymentMethods.length > 0) {
-        // Show QR Payment method buttons based on manual configs
-        addQRCodePaymentMethods(qrCodePaymentsFrame, allowedPaymentMethods as IPaymentMethodConfigurationNormalized[], amount);
-      } else {
-        // Request Payment methods when the Card Number field is already registered
-        cardNumberFrame.on("register", () => {
-          this.startQRCodePaymentMethodsRequest({ id: cardNumberFieldFrameId });
-        });
-
-        cardNumberFrame.on(QRCodePaymentsInternalEvents.PaymentMethodsRequestCompleted, (responseData?: any) => {
+          cardNumber.on(ApmInternalEvents.PaymentMethodsRequestCompleted, (responseData?: any) => {
             const frame = this.frames[Apm.QRCodePayments];
             if (frame) {
               frame?.container?.querySelector('iframe')?.remove();
@@ -390,8 +392,14 @@ export default class UIForm {
               const { paymentMethodConfigurations } = responseData;
               if (paymentMethodConfigurations) addQRCodePaymentMethods(frame, paymentMethodConfigurations.map((x: any) => normalizePaymentMethodConfigurations(x)), amount);
             }
-        });
+          });
+        }
       }
+    }
+
+    if (openBanking) {
+      openBanking?.container?.querySelector('iframe')?.remove();
+      addOpenBankingPaymentMethod(openBanking);
     }
 
     // Hosted Fields validattion
@@ -513,7 +521,8 @@ export default class UIForm {
         && type !== Apm.ClickToPay
         && type !== Apm.ApplePay
         && type !== INSTALLMENTS_KEY
-        && type !== Apm.QRCodePayments) {
+        && type !== Apm.QRCodePayments
+        && type !== Apm.OpenBankingPayment) {
         fields.push(type);
       }
     }
@@ -672,7 +681,7 @@ export default class UIForm {
   private startQRCodePaymentMethodsRequest(args: { id: string }): void {
     const { id } = args;
 
-    const eventType = `ui:iframe-field:${QRCodePaymentsInternalEvents.PaymentMethodsRequestStart}`;
+    const eventType = `ui:iframe-field:${ApmInternalEvents.PaymentMethodsRequestStart}`;
     postMessage.post(
       {
         data: { },

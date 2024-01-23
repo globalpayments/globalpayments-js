@@ -7,7 +7,7 @@ import actionValidateData from "./action-validate-data";
 import actionQueryInstallmentPlans from './action-query-installment-plans';
 import getAssetBaseUrl from "./get-asset-base-url";
 import getEnv from "./get-env";
-import getQRCodePaymentMethods from "./get-qr-code-payment-methods";
+import getQRCodePaymentMethods from "./get-apm-payment-methods";
 
 export const supports = {
   apm: {

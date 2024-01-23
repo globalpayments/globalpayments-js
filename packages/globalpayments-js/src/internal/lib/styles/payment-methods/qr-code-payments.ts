@@ -1,5 +1,4 @@
 export const fieldStyles = (assetBaseUrl: string) => {
-    const imageBase = assetBaseUrl + "images/";
     const fontBase = assetBaseUrl + "fonts/";
 
     return {
@@ -11,8 +10,6 @@ export const fieldStyles = (assetBaseUrl: string) => {
   };
 
 export const styles = (assetBaseUrl: string) => {
-      const imageBase = assetBaseUrl + "images/";
-
       const customColors = {
         qrCodePaymentBlueAlipayHK: '#1677FF',
         qrCodePaymentBlueAlipayHKHover: '#0E69E8',
@@ -24,11 +21,8 @@ export const styles = (assetBaseUrl: string) => {
 
         selectedBorderBlue: '#1677FF',
 
-        azure31Blue: '#005C9E',
         azure39Blue: '#0074C7',
-        azure76LightBlue: '#85CCFF',
-        linkHoverBlue: '#0027AE',
-        linkActiveBlue: '#6583EA',
+        azureBaseBlue: '#148EE6',
 
         neutralsWhite: '#FFFFFF',
         coolGrey61: '#9296A5',
@@ -61,6 +55,10 @@ export const styles = (assetBaseUrl: string) => {
           border: "0px",
           margin: "5px 0",
           cursor: "pointer",
+        },
+        ".secure-payment-form .qr-code-payment-method-button:focus": {
+          outline: `2px solid ${customColors.azureBaseBlue}`,
+          "outline-offset": "2px"
         },
 
         ".secure-payment-form .qr-code-payment-method-alipayhk": {
@@ -103,29 +101,6 @@ export const styles = (assetBaseUrl: string) => {
           "font-size": "21px!important",
           "line-height": "30px!important",
           width: "100%"
-        },
-
-        ".secure-payment-form .link-button": {
-          background: "none",
-          border: "none",
-          color: customColors.azure39Blue,
-          "font-style": "normal",
-          "font-weight": "400",
-          "line-height": "21px",
-          "font-size": "medium",
-          padding: "0px",
-          cursor: "pointer",
-          "margin": "20px 0"
-        },
-        ".secure-payment-form .link-button:hover": {
-            color: customColors.linkHoverBlue,
-        },
-        ".secure-payment-form .link-button:active": {
-            color: customColors.linkActiveBlue,
-        },
-        ".secure-payment-form .link-button:focus": {
-            color: customColors.linkActiveBlue,
-            border: `1px solid ${customColors.azure76LightBlue}`,
         },
 
         ".secure-payment-form .qr-code-payment-countdown-timer-message": {
@@ -179,18 +154,6 @@ export const styles = (assetBaseUrl: string) => {
           color: customColors.roaringRed,
           "font-size": "18px!important",
           "line-height": "20px!important"
-        },
-
-        ".secure-payment-form .qr-code-redirecting-to-page": {
-          ...commonColumnFlexCenterStyles,
-          "justify-content": "center",
-          height: "320px",
-        },
-
-        ".secure-payment-form .qr-code-redirecting-to-page-message": {
-          color: customColors.azure31Blue,
-          "font-size": "18px!important",
-          "line-height": "27px!important"
         },
       };
   };
