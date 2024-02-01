@@ -20,7 +20,7 @@ export default function handleQRCodeExpiredScreen (content: HTMLDivElement, prop
     });
     const qrCodeExpiredAlertImage = createHtmlImageElement({
         src: `${getAssetBaseUrl('')}images/alert-icon.svg`,
-        alt: translateMessage(lang, translations.en.QR?.expiredScreen?.alt),
+        alt: translateMessage(lang, translations.en?.QR?.expiredScreen?.alt),
         attributes: [
             { width: '24' },
             { height: '22' },
@@ -37,12 +37,12 @@ export default function handleQRCodeExpiredScreen (content: HTMLDivElement, prop
 
     const qrCodeHasExpiredAlertTitleSpan = createHtmlSpanElement({
         className: 'qr-code-expired-alert-message-title',
-        textContent: translateMessage(lang, translations.en.QR?.expiredScreen?.title),
+        textContent: translateMessage(lang, translations.en?.QR?.expiredScreen?.title),
     });
     qrCodeExpiredAlertMessageDiv.append(qrCodeHasExpiredAlertTitleSpan);
 
     const qrCodeHasExpiredAlertMessageSpan = createHtmlSpanElement({
-        textContent: translateMessage(lang, translations.en.QR?.expiredScreen?.text),
+        textContent: translateMessage(lang, translations.en?.QR?.expiredScreen?.text),
     });
     qrCodeExpiredAlertMessageDiv.append(qrCodeHasExpiredAlertMessageSpan);
 
@@ -51,7 +51,7 @@ export default function handleQRCodeExpiredScreen (content: HTMLDivElement, prop
 
     const qrCodeExpiredImage = createHtmlImageElement({
         src: `${getAssetBaseUrl('')}images/qr-code-expired.png`,
-        alt: translateMessage(lang, translations.en.QR?.expiredScreen?.alt),
+        alt: translateMessage(lang, translations.en?.QR?.expiredScreen?.alt),
         attributes: [
             { width: '434' },
             { height: '284' },

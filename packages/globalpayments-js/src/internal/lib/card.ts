@@ -84,49 +84,23 @@ export default class Card {
    *
    * @param e
    */
-  public static formatNumber(e: KeyboardEvent) {
-    const target = (e.currentTarget
-      ? e.currentTarget
-      : e.srcElement) as HTMLInputElement;
-    const value = target.value;
+  public static formatNumber(e: KeyboardEvent | Event) {
+    const { value: initialCardNumberValue, target } = Card.getFieldEventData(e);
 
-    const prevAction = target.getAttribute("data-prev");
-    target.setAttribute("data-prev", "" + e.keyCode);
+    if (!target || !initialCardNumberValue || (initialCardNumberValue && initialCardNumberValue.length === 0)) return;
 
-    // If the previous action was with the backespace key, we should let the cursor on the same place
-    if (prevAction === "8") {
-      return;
-    }
+    // Restrict for numeric (only numbers)
+    const numbersOnlyCardNumberValue = initialCardNumberValue.replace(/[^0-9]/g, '');
 
-    if (value.length === 0) {
-      return;
-    }
+    // Restrict length (based on the max length for the card type)
+    const trimmedCardNumberValue = numbersOnlyCardNumberValue.replaceAll(' ', '');
+    const cardType = typeByNumber(trimmedCardNumberValue);
+    const maxLength = cardType ? cardType.lengths.reduce((max: number, curr: number) => Math.max(max, curr)) : 19;
+    const truncatedCardNumberValue = trimmedCardNumberValue.substring(0, maxLength);
 
-    const formatted = new CardNumberFormatter().format(value);
-    target.value = formatted;
-
-    if (!target.setSelectionRange) {
-      return;
-    }
-
-    let cursor = target.selectionStart || 0;
-
-    // copy and paste, space inserted on formatter
-    if (value.length < formatted.length) {
-      cursor += formatted.length - value.length;
-    }
-
-    // check if before new inserted digit is a space
-    if (value.charAt(cursor) === " " && formatted.charAt(cursor - 1) === " ") {
-      cursor += 1;
-    }
-
-    // allow backspace
-    if (e.keyCode === 8) {
-      cursor = target.selectionStart || cursor;
-    }
-
-    target.setSelectionRange(cursor, cursor);
+    // Format number
+    const formattedCardNumberValue = new CardNumberFormatter().format(truncatedCardNumberValue);
+    target.value = formattedCardNumberValue;
   }
 
   /**
@@ -649,21 +623,23 @@ export default class Card {
     if (!el) {
       return;
     }
+    // Set a generic card max length
+    el.setAttribute("maxlength", "19");
 
-    Events.addHandler(el, "keydown", Card.restrictNumeric);
-    Events.addHandler(el, "input", Card.restrictNumericOnInput);
+    Events.addHandler(el, "focus", (e: Event) => {
+      const { value, target } = Card.getFieldEventData(e);
 
-    Events.addHandler(el, "keydown", Card.restrictCardNumberLength);
-    Events.addHandler(el, "input", Card.restrictCardNumberLength);
+      if (!target || !value || (value && value.length === 0)) return;
 
-    // value on input it's formatted after being fully entered
-    Events.addHandler(el, "keydown", Card.formatNumber);
-    Events.addHandler(el, "keyup", Card.formatNumber);
+      // Remove all whitespaces
+      target.value = value.replaceAll(' ', '');
+    });
 
-    Events.addHandler(el, "keydown", Card.deleteProperly);
     Events.addHandler(el, "input", Card.validateNumber);
 
     Events.addHandler(el, "input", Card.addType);
+
+    Events.addHandler(el, "blur", Card.formatNumber);
 
     Events.addHandler(el, "blur", Card.postInstallmentFieldValidatedEvent);
     Events.addHandler(el, "input", (e: Event) => { Card.validateInstallmentFields(e, CardFormFieldNames.CardNumber) });

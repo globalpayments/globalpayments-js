@@ -47,14 +47,39 @@ const fr = {
   },
   "other-cards-label": 'Ou saisissez les détails de la carte manuellement',
   QR: {
+    scanRqCode: "Scanner le code QR",
+    payInApp: "pour payer dans l'app",
+    amount: {
+      "aria-label": 'Total des transactions',
+    },
+    qrImage: {
+      alt: 'Affichage du code QR',
+      "aria-label": 'Affichage du code QR',
+    },
+    timer: {
+      text: 'Ce QR Code expirera dans:',
+      minutes: 'mins',
+      seconds: 's',
+      "icon-alt": 'Icône de temps restant',
+    },
+    expiredScreen: {
+      title: 'Le code QR a expiré.',
+      alt: 'Le code QR a expiré.',
+      text: 'Cliquez sur le lien ci-dessous pour revenir aux options de paiement.',
+    },
     button: {
       text: 'Sélectionner une autre méthode de paiement',
-      "aria-label": 'Sélectionner une autre méthode de paiement'
+      "aria-label": 'Sélectionner une autre méthode de paiement',
     },
     loading: "Chargement",
     redirectScreen: {
       redirectingToPaymentPageMessage: 'Redirection vers la page de paiement',
     },
+  },
+  apms: {
+    button: {
+      "aria-label": "Payer avec",
+    }
   }
 }
 

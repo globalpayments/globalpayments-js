@@ -4,7 +4,10 @@
 
 # Changelog
 
-## Latest Version - v3.0.3 (1/23/24)
+## Latest Version - v3.0.6 (02/01/24)
+- [Globalpayments-js][3.0.6] Fixed issues with the formatting of the Card Number field
+
+## v3.0.3 (1/23/24)
 - [Globalpayments-js][3.0.3] Add Open Banking support
 - [Globalpayments-js][3.0.3] Add Hosted Fields French support
 
