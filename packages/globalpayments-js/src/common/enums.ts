@@ -21,4 +21,5 @@ export enum HostedFieldValidationEvents {
 
     ValidateForm = "hosted-field-validate-form",
     ValidateFormValid = "hosted-field-validate-form-valid",
+    ValidateFormInvalid = "hosted-field-validate-form-invalid",
 }

@@ -16,16 +16,17 @@ import {IFrameCollection, IframeField, IUIFormField} from "../iframe-field";
 import addClickToPay from "../iframe-field/action-add-click-to-pay";
 import addGooglePay from "../iframe-field/action-add-google-pay";
 import addApplePay from "../iframe-field/action-add-apple-pay";
-import { Apm } from "../../internal/lib/enums";
+import { Apm, CardFormEvents } from "../../internal/lib/enums";
 import addInstallments from "../iframe-field/action-add-installments";
 import { InstallmentEvents } from "../../internal/lib/installments/contracts/enums";
-import { options } from "../../internal";
+import { bus, options } from "../../internal";
 import { verifyInstallmentAvailability } from "../../internal/lib/installments/contracts/installment-plans-data";
 import { INSTALLMENTS_KEY } from "../../internal/lib/installments/contracts/constants";
 import { InstallmentPaymentData } from "../../internal/lib/installments/installments-handler";
 import addIssuerBanner from "../../internal/lib/installments/components/add-issuer-banner";
 import { getHaveVirginMoneyCreditCardBannerTemplate } from "../../internal/lib/installments/templates/common";
 import { CardFormFieldNames, HostedFieldValidationEvents } from "../../common/enums";
+import { resetValidationRoundCounter } from "../../internal/built-in-validations/helpers";
 
 import { ApmInternalEvents } from "../../apm/enums";
 import addQRCodePaymentMethods from "../iframe-field/action-add-qr-code-payment-methods";
@@ -634,14 +635,22 @@ export default class UIForm {
       }
     });
 
-    cardNumberFrame.on(HostedFieldValidationEvents.ValidateFormValid, (_validationData?: any) => {
+    const cleanUpFormValidationDataAndEmitValidityState = (isFormValid: boolean) => {
       // Clean up form validation data
       const w = window as any;
       delete w.formValidations;
 
+      bus.emit(CardFormEvents.ValidityState, { isFormValid });
+    };
+
+    cardNumberFrame.on(HostedFieldValidationEvents.ValidateFormValid, (_validationData?: any) => {
+      cleanUpFormValidationDataAndEmitValidityState(true);
+
       // Submit the VALID form
       this.submitForm();
     });
+
+    cardNumberFrame.on(HostedFieldValidationEvents.ValidateFormInvalid, (_validationData?: any) => cleanUpFormValidationDataAndEmitValidityState(false));
   }
 
   private validateForm(frames: IFrameCollection): void {
@@ -654,6 +663,8 @@ export default class UIForm {
       frames[CardFormFieldNames.CardCvv ],
       frames[CardFormFieldNames.CardHolderName ],
     ];
+
+    resetValidationRoundCounter();
 
     for (const field of hostedFieldsToValidate) {
       if (!field) return;

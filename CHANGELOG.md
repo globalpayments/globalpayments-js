@@ -4,7 +4,11 @@
 
 # Changelog
 
-## Latest Version - v3.0.6 (02/01/24)
+## Latest Version - v3.0.7 (15/02/24)
+- [Globalpayments-js][3.0.7] Expose an event to determine if the form is valid when the "submit" button is clicked
+- [Globalpayments-3ds][1.8.8] Fixed issue with z-index of the 3DS lightbox
+
+## v3.0.6 (02/01/24)
 - [Globalpayments-js][3.0.6] Fixed issues with the formatting of the Card Number field
 
 ## v3.0.3 (1/23/24)

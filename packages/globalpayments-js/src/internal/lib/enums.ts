@@ -28,6 +28,10 @@ export enum Language {
   zh = "zh"
 }
 
+export enum CardFormEvents {
+  ValidityState = "card-form-validity",
+}
+
 export enum QRCodePaymentsProviderBrands {
   Alipay = "Alipay",
   AlipayHK = "AlipayHK",

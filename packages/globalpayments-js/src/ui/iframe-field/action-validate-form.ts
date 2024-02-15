@@ -2,6 +2,7 @@ import { postMessage } from "../../internal";
 import { HOSTED_FIELD_NAME_KEYS } from "../../common/constants";
 import { IDictionary } from "../../internal/lib/util";
 import { CardFormFieldNames, HostedFieldValidationEvents } from "../../common/enums";
+import { getValidationRoundCounter, increaseValidationRoundCounter, removeValidationRoundCounter } from "../../internal/built-in-validations/helpers";
 
 export default (id: string, data: IDictionary) => {
   const w = window as any;
@@ -27,16 +28,24 @@ export default (id: string, data: IDictionary) => {
     ++validFieldsCount;
   }
 
-  if ((validFieldsCount < fieldsToValidateCount) && !isFormValid) return;
+  const eventType = `ui:iframe-field:${ isFormValid ? HostedFieldValidationEvents.ValidateFormValid : HostedFieldValidationEvents.ValidateFormInvalid }`;
 
-  // Continue when the validation round is the last one (since at this point the form is valid)
-  let lastFieldToValidate;
-  if (cardHolderNotPresent) {
-    lastFieldToValidate = HOSTED_FIELD_NAME_KEYS.slice(-2)[0];
+  const validationRoundCounter = getValidationRoundCounter();
+  if (fieldsToValidateCount === validationRoundCounter) {
+    postMessage.post(
+      {
+        data: isFormValid,
+        id,
+        type: "ui:iframe-field:card-form-validity",
+      },
+      "parent",
+    );
+    removeValidationRoundCounter();
   } else {
-    lastFieldToValidate = HOSTED_FIELD_NAME_KEYS.slice(-1)[0];
+    increaseValidationRoundCounter();
+
+    return;
   }
-  if (data.data.type !== lastFieldToValidate) return;
 
   postMessage.post(
     {
@@ -44,7 +53,7 @@ export default (id: string, data: IDictionary) => {
         ...formFields,
       },
       id,
-      type: `ui:iframe-field:${HostedFieldValidationEvents.ValidateFormValid}`,
+      type: eventType,
     },
     "parent",
   );

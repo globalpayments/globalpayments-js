@@ -114,7 +114,7 @@ function createOverlay() {
   overlay.style.top = "0";
   overlay.style.left = "0";
   overlay.style.transition = "all 0.3s ease-in-out";
-  overlay.style.zIndex = "100";
+  overlay.style.zIndex = "10001";
 
   if (isMobileIFrame) {
     overlay.style.position = "absolute !important";

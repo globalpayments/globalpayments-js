@@ -52,6 +52,9 @@ $accessToken = $response->token ?? '';
         env: "sandbox",
         apiVersion: "2021-03-22",
         language: "en",
+        fieldValidation: {
+          enabled: true
+        },
         apms: {
             currencyCode: "USD",
             allowedCardNetworks: [
@@ -95,17 +98,7 @@ $accessToken = $response->token ?? '';
       GlobalPayments.on("error", function (error) {
         console.error(error);
       });
-      /*
-      // APM form for CTP Standalone
-      var apmForm = GlobalPayments.apm.form('#digital-wallet-form',
-      { amount: "3.4",
-        style: "gp-default",
-        apms: [GlobalPayments.enums.Apm.ApplePay]
-      });
-      apmForm.setSubtotalAmount("4.57");
-         apmForm.on("token-success", function (resp) { console.log(resp); });
-         apmForm.on("token-error", function (resp) { console.log(resp); });
-      */
+
       const cardForm = GlobalPayments.creditCard.form(
         '#credit-card-form',
         {
@@ -115,7 +108,9 @@ $accessToken = $response->token ?? '';
         });
       cardForm.on("token-success", resp => { console.log(resp); });
       cardForm.on("token-error", resp => { console.log(resp); });
-
+      cardForm.on("card-form-validity", function (isValid) {
+          console.log("The form is valid: ", isValid); // The form is valid: true | false
+      });
     </script>
   </body>
 </html>
