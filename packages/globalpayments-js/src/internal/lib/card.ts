@@ -11,7 +11,7 @@ import { InstallmentEvents } from "./installments/contracts/enums";
 
 import { hideHostedFieldValidation, showHostedFieldValidation } from "../built-in-validations/helpers";
 import { validate } from "../built-in-validations/field-validator";
-import { CardFormFieldNames } from "../../common/enums";
+import { CardFormFieldNames, CardFormFieldValidationTestEvents } from "../../common/enums";
 import { isSafari } from "../../common/browser-helpers";
 
 export default class Card {
@@ -329,7 +329,7 @@ export default class Card {
           {
             data: {valid: true},
             id,
-            type: "ui:iframe-field:card-number-test",
+            type: `ui:iframe-field:${CardFormFieldValidationTestEvents.CardNumber}`,
           },
           "parent",
         );
@@ -348,7 +348,7 @@ export default class Card {
           {
             data: {valid: false},
             id,
-            type: "ui:iframe-field:card-number-test",
+            type: `ui:iframe-field:${CardFormFieldValidationTestEvents.CardNumber}`,
           },
           "parent",
         );
@@ -413,7 +413,7 @@ export default class Card {
           {
             data: {valid: true},
             id,
-            type: "ui:iframe-field:card-cvv-test",
+            type: `ui:iframe-field:${CardFormFieldValidationTestEvents.CardCvv}`,
           },
           "parent",
         );
@@ -426,7 +426,7 @@ export default class Card {
           {
             data: {valid: false},
             id,
-            type: "ui:iframe-field:card-cvv-test",
+            type: `ui:iframe-field:${CardFormFieldValidationTestEvents.CardCvv}`,
           },
           "parent",
         );
@@ -482,7 +482,7 @@ export default class Card {
           {
             data: {valid: true},
             id,
-            type: "ui:iframe-field:card-expiration-test",
+            type: `ui:iframe-field:${CardFormFieldValidationTestEvents.CardExpiration}`,
           },
           "parent",
         );
@@ -495,7 +495,7 @@ export default class Card {
           {
             data: { valid: false },
             id,
-            type: "ui:iframe-field:card-expiration-test",
+            type: `ui:iframe-field:${CardFormFieldValidationTestEvents.CardExpiration}`,
           },
           "parent",
         );
@@ -515,9 +515,6 @@ export default class Card {
    * @param e
    */
   public static validateCardHolderName(e: Event) {
-    // Only if Built-in field validations are enable
-    if (!options.fieldValidation?.enabled) return;
-
     const target = (e.currentTarget ? e.currentTarget : e.srcElement) as HTMLInputElement;
     const id = target.getAttribute("data-id");
     const value = target.value;
@@ -525,9 +522,20 @@ export default class Card {
 
     if (!id) return;
 
-    const isValid = validate(CardFormFieldNames.CardHolderName, value);
+    const { isValid: valid } = validate(CardFormFieldNames.CardHolderName, value);
+    postMessage.post(
+      {
+        data: { valid },
+        id,
+        type: `ui:iframe-field:${CardFormFieldValidationTestEvents.CardHolderName}`,
+      },
+      "parent",
+    );
 
-    classList.push(isValid ? "valid" : "invalid");
+    // Only if Built-in field validations are enable
+    if (!options.fieldValidation?.enabled) return;
+
+    classList.push(valid ? "valid" : "invalid");
 
     target.className = classList.join(" ").replace(/^\s+|\s+$/gm, "");
   }

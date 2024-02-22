@@ -4,7 +4,10 @@
 
 # Changelog
 
-## Latest Version - v3.0.7 (15/02/24)
+## Latest Version - v3.0.8 (02/22/24)
+- [Globalpayments-js][3.0.8] Add an event to expose the validation status of the Cardholder Name field.
+
+## v3.0.7 (02/15/24)
 - [Globalpayments-js][3.0.7] Expose an event to determine if the form is valid when the "submit" button is clicked
 - [Globalpayments-3ds][1.8.8] Fixed issue with z-index of the 3DS lightbox
 

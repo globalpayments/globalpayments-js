@@ -23,3 +23,10 @@ export enum HostedFieldValidationEvents {
     ValidateFormValid = "hosted-field-validate-form-valid",
     ValidateFormInvalid = "hosted-field-validate-form-invalid",
 }
+
+export enum CardFormFieldValidationTestEvents {
+    CardNumber = "card-number-test",
+    CardExpiration = "card-expiration-test",
+    CardCvv = "card-cvv-test",
+    CardHolderName = "card-holder-name-test",
+}
