@@ -7,6 +7,7 @@ export enum CardFormFieldNames {
 }
 
 export enum HostedFieldValidationEvents {
+    SetCustomValidationMessages = "hosted-field-set-custom-validation-messages",
     BuiltInValidationShow = "hosted-field-built-in-validation-show",
     BuiltInValidationHide = "hosted-field-built-in-validation-hide",
 

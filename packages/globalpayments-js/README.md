@@ -24,7 +24,7 @@ This plugin allows you to use online payments (eCommerce) features of a variety 
 ## Usage
 
 ```html
-<script src="https://js.globalpay.com/3.0.8/globalpayments.js"></script>
+<script src="https://js.globalpay.com/3.0.11/globalpayments.js"></script>
 ```
 
 > Note: Installing via NPM will only provide TypeScript types for type-checking.
@@ -449,19 +449,41 @@ const cardForm = GlobalPayments.ui.form({
   fields: {
     "card-holder-name": {
       placeholder: "Jane Smith",
-      target: "#credit-card-card-holder"
+      target: "#credit-card-card-holder",
+      validationMessages: {
+        NotValidCardHolderName: 'Please enter a valid Card Holder Name',
+        CharactersMoreThan100: 'Card Holder Name can be at most 100 characters'
+      }
     },
     "card-number": {
       placeholder: "•••• •••• •••• ••••",
-      target: "#credit-card-card-number"
+      target: "#credit-card-card-number",
+      validationMessages: {
+        Required: 'A Card Number is required',
+        CharactersLessThan12: 'The Card Number must consist of at least 12 digits',
+        NumberIsNotValid: 'The Card Number is not valid',
+        NotAllowedCardType: 'Cannot process this card type, please use another Card'
+      },
     },
     "card-expiration": {
       placeholder: "MM / YYYY",
-      target: "#credit-card-card-expiration"
+      target: "#credit-card-card-expiration",
+      validationMessages: {
+        NotCompleted: 'Please enter a valid month/year',
+        YearNotValid: 'The year is not valid',
+        MonthNotValid: 'The month is not valid',
+        ExpiryDateNotValid: 'The Expiry Date is not valid',
+      }
     },
     "card-cvv": {
       placeholder: "•••",
-      target: "#credit-card-card-cvv"
+      target: "#credit-card-card-cvv",
+      validationMessages: {
+        CodeIsNotValid: 'The Card CVV is not valid',
+        CodeIsLessThan3Digits: 'Card CVV is too short',
+        CodeMustBe3Digits: 'Card CVV must be 3 digits',
+        AmexCodeMustBe4Digits: 'Card CVV for Amex must be 4 digits',
+      }
     },
     "submit": {
       value: "Submit",
@@ -472,6 +494,8 @@ const cardForm = GlobalPayments.ui.form({
   }
 });
 ```
+
+The list of validation messages is accessible at [/packages/globalpayments-js/src/internal/lib/translations/en.ts](https://github.globalpay.com/Developer-Experience/globalpayments-js/blob/94540f9ca68bc627f4d3e038b2cec36c6bd317b0/packages/globalpayments-js/src/internal/lib/translations/en.ts#L13)
 
 ![Example: Raw credit card form](docs/images/example-raw-credit-card.png)
 

@@ -36,6 +36,7 @@ import translations from "../../internal/lib/translations/translations";
 
 import { ApmInternalEvents } from "../../apm/enums";
 import actionQRCodePaymentMethodsRequestStart from "./action-qr-code-payment-methods-request-start";
+import actionSetCustomMessages from "./action-set-custom-message";
 
 export interface IFrameCollection {
   [key: string]: IframeField | undefined;
@@ -50,6 +51,7 @@ export interface IUIFormField {
   value?: string;
   amount?: string;
   fieldOptions?: any;
+  validationMessages?: object;
 }
 
 export const fieldTypeAutocompleteMap: IDictionary = {
@@ -149,6 +151,7 @@ export class IframeField extends EventEmitter {
         ? "text"
         : "tel",
     );
+    input.name = name;
     input.id = paymentFieldId;
     input.className = name;
     input.setAttribute("data-id", id);
@@ -436,9 +439,18 @@ export class IframeField extends EventEmitter {
           let validationMessage = data.data.validationMessage;
           if (options.language) {
             validationMessage = translateMessage(options.language, validationMessage);
+            // If the validation message is not found in the translation object,
+            // it indicates that it is a custom message
+            if (validationMessage === undefined) {
+              validationMessage = data.data.validationMessage;
+            }
           }
           actionShowValidation(id, validationMessage, data.data.fieldType);
           IframeField.triggerResize(id);
+          break;
+        case HostedFieldValidationEvents.SetCustomValidationMessages:
+          const customValidationMessages = data.data.customValidationMessages;
+          actionSetCustomMessages(type, customValidationMessages);
           break;
         case HostedFieldValidationEvents.BuiltInValidationHide:
           actionHideValidation(id, data.data.fieldType);
@@ -760,6 +772,27 @@ export class IframeField extends EventEmitter {
    */
   public setTitle(title: string) {
     this.frame.title = title;
+  }
+
+  /**
+   * Sets custom validation messages for the hosted field
+   *
+   * @param customMessages - an object containing custom validation messages
+   * The `msg` object should have keys corresponding to specific validation messages for the field.
+   * For example, { NotCompleted: 'Custom not completed message', YearNotValid: 'Custom year not valid message' }.
+   */
+  public setCustomValidationMessages(customMessages: object) {
+    postMessage.post(
+      {
+        data: {
+          customValidationMessages: customMessages,
+          fieldType: this.frame.name,
+        },
+        id: this.id,
+        type: `ui:iframe-field:${HostedFieldValidationEvents.SetCustomValidationMessages}`,
+      },
+      this.id,
+    );
   }
 
   /**

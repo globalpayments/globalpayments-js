@@ -522,6 +522,13 @@ export default class Card {
 
     if (!id) return;
 
+    // Remove the valid/invalid css class
+    classList.forEach((fieldClass: string, fieldClassIndex: number) => {
+      if (fieldClass.indexOf("valid") !== -1) {
+        delete classList[fieldClassIndex];
+      }
+    });
+
     const { isValid: valid } = validate(CardFormFieldNames.CardHolderName, value);
     postMessage.post(
       {

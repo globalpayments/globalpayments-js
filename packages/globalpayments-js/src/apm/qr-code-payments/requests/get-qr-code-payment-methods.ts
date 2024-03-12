@@ -12,7 +12,7 @@ export default (data: IDictionary) => {
 
     if (!gateway.actions.getQRCodePaymentMethods || !gateway.urls.getQRCodePaymentMethodsUrl) return Promise.reject(createInvalidConfigurationError("no installment gateway action/url available"));
 
-    const url = gateway.urls.getQRCodePaymentMethodsUrl(false);
+    const url = gateway.urls.getQRCodePaymentMethodsUrl(true);
 
     gateway.actions.getQRCodePaymentMethods(url, options.env || "", data)
       .then((response: IDictionary) => {

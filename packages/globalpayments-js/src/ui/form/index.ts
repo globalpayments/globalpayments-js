@@ -272,6 +272,9 @@ export default class UIForm {
         if (this.fields[type].title) {
           field.setTitle(this.fields[type].title || "");
         }
+        if (this.fields[type].validationMessages) {
+          field.setCustomValidationMessages(this.fields[type].validationMessages || {})
+        }
         if (this.styles) {
           field.addStylesheet(this.styles);
         }

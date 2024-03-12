@@ -4,7 +4,13 @@
 
 # Changelog
 
-## Latest Version - v3.0.8 (02/22/24)
+## Latest Version - v3.0.10 (03/12/24)
+- [Globalpayments-js][3.0.10] Add custom validation messages for handling errors in GlobalPayments.ui.form validation
+- [Globalpayments-js][3.0.10] Fixed issue with the Google Pay autofill Expiry Date
+- [Globalpayments-js][3.0.10] Fixed issue with the CSS class name for Cardholder Name field validity
+- [Globalpayments-js][3.0.10] Fixed issue with QR codes not being displayed on prod env
+
+## v3.0.8 (02/22/24)
 - [Globalpayments-js][3.0.8] Add an event to expose the validation status of the Cardholder Name field.
 
 ## v3.0.7 (02/15/24)

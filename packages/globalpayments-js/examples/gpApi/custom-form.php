@@ -61,7 +61,10 @@ $accessToken = $response->token ?? '';
         accessToken: "<?= $accessToken ?>",
         env: "sandbox",
         apiVersion: "2021-03-22",
-        "fieldValidation": true,
+        fieldValidation: {
+            enabled: true
+        },
+        language: "en",
         apms: {
             currencyCode: "USD",
             allowedCardNetworks: [
@@ -102,16 +105,26 @@ $accessToken = $response->token ?? '';
         },
     });
 
-    const imageBase = "https://js-cert.globalpay.com/v1/images/";
+    const imageBase = "https://js-cert.globalpay.com/<?= $version ?>/images/";
     const cardForm = GlobalPayments.ui.form({
         fields: {
             "card-number": {
                 placeholder: "•••• •••• •••• ••••",
-                target: "#cardNumber"
+                target: "#cardNumber",
+                validationMessages: {
+                    Required: 'Se requiere un número de tarjeta',
+                    CharactersLessThan12: 'El Número de Tarjeta debe tener al menos 12 dígitos',
+                    NumberIsNotValid: 'El Número de Tarjeta no es válido',
+                    NotAllowedCardType: 'No se puede procesar este tipo de tarjeta, utilice otra tarjeta'
+                }
             },
             "card-expiration": {
                 placeholder: "MM / YYYY",
-                target: "#cardExpiration"
+                target: "#cardExpiration",
+                validationMessages: {
+                    NotCompleted: 'Por favor ingrese un mes/año válido',
+                    ExpiryDateNotValid: 'La fecha de vencimiento no es válida',
+                }
             },
             "card-cvv": {
                 placeholder: "•••",
