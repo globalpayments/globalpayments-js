@@ -31,3 +31,10 @@ export enum CardFormFieldValidationTestEvents {
     CardCvv = "card-cvv-test",
     CardHolderName = "card-holder-name-test",
 }
+
+export enum Environments {
+    Local = "local",
+    QA = "qa",
+    Sandbox = "sandbox",
+    Production = "production",
+};

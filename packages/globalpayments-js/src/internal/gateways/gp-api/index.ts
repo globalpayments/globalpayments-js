@@ -8,6 +8,7 @@ import actionQueryInstallmentPlans from './action-query-installment-plans';
 import getAssetBaseUrl from "./get-asset-base-url";
 import getEnv from "./get-env";
 import getQRCodePaymentMethods from "./get-apm-payment-methods";
+import { Environments } from "../../../common/enums";
 
 export const supports = {
   apm: {
@@ -65,12 +66,19 @@ export const urls = {
 
     return `${domain}/ucp/${endpoint}`;
   },
-  getQRCodePaymentMethodsUrl: (prod: boolean) => {
-    let domain = prod ? domains.production : domains.sandbox;
+  getQRCodePaymentMethodsUrl: () => {
+    let domain = domains.qa;
 
-    if (options.env && (options.env === "qa")) {
-      domain = domains.qa;
+    switch(options.env) {
+      case Environments.Local:
+      case Environments.Sandbox:
+        domain = domains.sandbox;
+        break;
+      case Environments.Production:
+        domain = domains.production;
+        break;
     }
+
     let endpoint = `accounts/${options.account}`;
     if (options.merchantId) {
       endpoint = `merchants/${options.merchantId}/${endpoint}`;

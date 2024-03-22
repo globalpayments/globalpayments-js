@@ -100,7 +100,7 @@ export interface IUrlGenerators {
   queryInstallmentPlans?: (prod: boolean) => string;
 
   // QR Code Payments urls
-  getQRCodePaymentMethodsUrl?: (prod: boolean) => string;
+  getQRCodePaymentMethodsUrl?: () => string;
 }
 
 export interface IGatewayModule {
