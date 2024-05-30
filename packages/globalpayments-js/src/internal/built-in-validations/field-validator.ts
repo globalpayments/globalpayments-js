@@ -4,6 +4,7 @@ import { ValidationMessages } from "./messages";
 import { options } from "../lib/options";
 import { CharacterValidation } from "../lib/enums";
 import containsOnlyEnglishCharacters from "./english-characters-validation";
+import { DCC_KEY } from "../lib/currency-conversion/contracts/constants";
 
 export const validate = (fieldType: string, value: string, extraData?: any): { isValid: boolean, message?: string } => {
     switch (fieldType) {
@@ -85,6 +86,9 @@ export const validate = (fieldType: string, value: string, extraData?: any): { i
             // If characters entered is less the 2
             if (charactersLessThan(trimSpaces(value), 2)) return createValidationResult(false, ValidationMessages.CardHolderName.NotValidCardHolderName);
 
+            return createValidationResult(true);
+        case DCC_KEY:
+            if (isEmpty(value)) return createValidationResult(false, ValidationMessages.CurrencyConversion.Required);
             return createValidationResult(true);
         default:
             return createValidationResult(false);

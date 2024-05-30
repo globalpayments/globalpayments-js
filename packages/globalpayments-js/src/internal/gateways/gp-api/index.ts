@@ -5,6 +5,7 @@ import actionNormalizeResponse from "./action-normalize-response";
 import actionTokenize from "./action-tokenize";
 import actionValidateData from "./action-validate-data";
 import actionQueryInstallmentPlans from './action-query-installment-plans';
+import actionQueryCurrencyConversion from './action-query-currency-conversion';
 import getAssetBaseUrl from "./get-asset-base-url";
 import getEnv from "./get-env";
 import getQRCodePaymentMethods from "./get-apm-payment-methods";
@@ -66,6 +67,21 @@ export const urls = {
 
     return `${domain}/ucp/${endpoint}`;
   },
+  queryCurrencyConversionUrl: () => {
+    let domain = domains.qa;
+
+    switch(options.env) {
+      case Environments.Local:
+      case Environments.Sandbox:
+        domain = domains.sandbox;
+        break;
+      case Environments.Production:
+        domain = domains.production;
+        break;
+    }
+
+    return `${domain}/ucp/currency-conversions`;
+  },
   getQRCodePaymentMethodsUrl: () => {
     let domain = domains.qa;
 
@@ -93,6 +109,7 @@ export const actions: IActions = {
   tokenize: actionTokenize,
   validateData: actionValidateData,
   queryInstallmentPlans: actionQueryInstallmentPlans,
+  queryCurrencyConversion: actionQueryCurrencyConversion,
   getQRCodePaymentMethods,
 };
 

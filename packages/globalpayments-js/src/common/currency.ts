@@ -1,3 +1,5 @@
+import {bus} from "../internal";
+
 export const getCurrencySymbol = (currencyCode: string): string => {
     const DEFAULT_CURRENCY_SYMBOL = '$';
     const currency = availableCurrencies.find(x => x.code === currencyCode);
@@ -572,3 +574,27 @@ export const availableCurrencies = [
         "symbol": "Z$"
     }
 ];
+
+export const convertAmount = (amount: string, withoutDecimals = true, decimalPlaces = 2) => {
+    // Replace commas with dots for proper parsing
+    const sanitizedAmount = amount.replace(',', '.');
+
+    // Parse the amount to a floating point number
+    let parsedAmount = parseFloat(sanitizedAmount);
+
+    // Return NaN if parsing fails
+    if (isNaN(parsedAmount)) {
+        return bus.emit("error", {
+            error: true,
+            reasons: [
+                { code: "INVALID_AMOUNT", message: NaN },
+            ],
+        });
+    }
+
+    // Perform conversion based on the 'withoutDecimals' parameter
+    parsedAmount = withoutDecimals ? parsedAmount * 100 : parsedAmount / 100;
+
+    // Ensure the amount has two decimal places
+    return parsedAmount.toFixed(decimalPlaces);
+}

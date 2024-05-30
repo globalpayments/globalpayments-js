@@ -49,4 +49,8 @@ export const ValidationMessages = {
       // If length is more than 100 characters
       CharactersMoreThan100: translations.en.validationMessages.CardHolderName.CharactersMoreThan100
     },
+    CurrencyConversion: {
+      // If user doesn't select any value
+      Required: translations.en.validationMessages.CurrencyConversion.Required,
+    }
 };

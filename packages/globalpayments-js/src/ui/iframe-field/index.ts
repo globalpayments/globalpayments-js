@@ -7,14 +7,16 @@ import paymentFieldId from "../../internal/lib/payment-field-id";
 import { json2css } from "../../internal/lib/styles";
 import { IDictionary } from "../../internal/lib/util";
 import actionAccumulateDataAndTokenize from "./action-accumulate-data-and-tokenize";
-import actionAccumulateInstallmentData from "./action-accumulate-installment-data";
+import actionAccumulateInstallmentData from "./installments/action-request-accumulate-data";
+import actionAccumulateCurrencyConversionData from "./currency-conversion/action-request-accumulate-data";
 import actionAddStylesheet from "./action-add-stylesheet";
 import actionCardTrackButtonClick from "./action-card-track-button-click";
 import actionGetCvv from "./action-get-cvv";
 import actionPaymentRequestComplete from "./action-payment-request-complete";
 import actionPaymentRequestStart from "./action-payment-request-start";
 import actionRequestData from "./action-request-data";
-import actionRequestInstallmentData from "./action-request-installment-data";
+import actionRequestInstallmentData from "./installments/action-request-data";
+import actionRequestCurrencyConversionData from "./currency-conversion/action-request-data";
 import actionSetCardType from "./action-set-card-type";
 import actionSetFocus from "./action-set-focus";
 import actionSetLabel from "./action-set-label";
@@ -22,7 +24,9 @@ import actionSetPlaceholder from "./action-set-placeholder";
 import actionSetText from "./action-set-text";
 import actionSetValue from "./action-set-value";
 import actionSetTypeCvv from "./action-set-type-cvv";
-import actionCardRequestInstallments from "./action-card-request-installments";
+import actionCardRequestInstallments from "./installments/action-request-start";
+import actionCurrencyConversion from "./currency-conversion/action-request-start";
+import actionGetCurrencyConversionValue from "./currency-conversion/action-get-value";
 import { InstallmentEvents } from "../../internal/lib/installments/contracts/enums";
 import assetBaseUrl from "../../internal/lib/asset-base-url";
 
@@ -35,8 +39,10 @@ import {translateMessage} from "../../internal/lib/translate";
 import translations from "../../internal/lib/translations/translations";
 
 import { ApmInternalEvents } from "../../apm/enums";
-import actionQRCodePaymentMethodsRequestStart from "./action-qr-code-payment-methods-request-start";
+import actionQRCodePaymentMethodsRequestStart from "./qr-code-payment-methods/action-request-start";
 import actionSetCustomMessages from "./action-set-custom-message";
+import { CurrencyConversionEvents } from "../../internal/lib/currency-conversion/contracts/enums";
+import { DCC_KEY } from "../../internal/lib/currency-conversion/contracts/constants";
 
 export interface IFrameCollection {
   [key: string]: IframeField | undefined;
@@ -257,6 +263,9 @@ export class IframeField extends EventEmitter {
       case CardFormFieldNames.CardHolderName:
         Card.attachCardHolderNameEvents("#" + input.id);
         break;
+      case DCC_KEY:
+        input.hidden = true;
+        break;
       default:
         break;
     }
@@ -264,7 +273,7 @@ export class IframeField extends EventEmitter {
 
   /**
    * Appends a hidden input to the given destination to accept
-   * full autocomplete/auto-fill data from the browser. The
+   * full autocomplete/autofill data from the browser. The
    * parent window is also notified of data changes to these
    * fields in order display the new data to the end-user.
    *
@@ -379,6 +388,9 @@ export class IframeField extends EventEmitter {
         case InstallmentEvents.CardInstallmentsAccumulateData:
           actionAccumulateInstallmentData(id, type, data);
           break;
+        case CurrencyConversionEvents.CurrencyConversionAccumulateData:
+          actionAccumulateCurrencyConversionData(id, type, data);
+          break;
         case "add-stylesheet":
           actionAddStylesheet(data.data.css);
           IframeField.triggerResize(id);
@@ -397,6 +409,9 @@ export class IframeField extends EventEmitter {
           break;
         case InstallmentEvents.CardInstallmentsRequestData:
           actionRequestInstallmentData(id, type, data);
+          break;
+        case CurrencyConversionEvents.CurrencyConversionRequestData:
+          actionRequestCurrencyConversionData(id, type, data);
           break;
         case "set-card-type":
           actionSetCardType(data.data.cardType);
@@ -426,6 +441,12 @@ export class IframeField extends EventEmitter {
           break;
         case InstallmentEvents.CardInstallmentsRequestStart:
           actionCardRequestInstallments(id, data.data);
+          break;
+        case CurrencyConversionEvents.CurrencyConversionRequestStart:
+          actionCurrencyConversion(id, data.data);
+          break;
+        case CurrencyConversionEvents.CurrencyConversionSendValue:
+          actionGetCurrencyConversionValue(id, data);
           break;
         case "update-options":
           for (const prop in data.data) {
@@ -585,6 +606,7 @@ export class IframeField extends EventEmitter {
           break;
         case "pass-data":
           const installment = data.data.installment;
+          const currencyConversion = data.data.currencyConversion;
 
           postMessage.post(
             {
@@ -592,6 +614,7 @@ export class IframeField extends EventEmitter {
                 type: data.data.type,
                 value: data.data.value,
                 ...(installment ? {installment} : {}),
+                ...(currencyConversion ? {currencyConversion} : {})
               },
               id: data.data.target,
               type: "ui:iframe-field:accumulate-data",
@@ -618,6 +641,19 @@ export class IframeField extends EventEmitter {
               },
               id: data.data.target,
               type: `ui:iframe-field:${InstallmentEvents.CardInstallmentsAccumulateData}`,
+            },
+            data.data.target,
+          );
+          break;
+          case CurrencyConversionEvents.CurrencyConversionPassData:
+          postMessage.post(
+            {
+              data: {
+                type: data.data.type,
+                value: data.data.value,
+              },
+              id: data.data.target,
+              type: `ui:iframe-field:${CurrencyConversionEvents.CurrencyConversionAccumulateData}`,
             },
             data.data.target,
           );

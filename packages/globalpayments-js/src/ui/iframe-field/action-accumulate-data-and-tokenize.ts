@@ -29,6 +29,7 @@ export default (id: string, type: string, data: IDictionary) => {
   (w.dataReceivedFields as string[]).push(data.data.type);
 
   const installment = data.data.installment;
+  const currencyConversion = data.data.currencyConversion;
 
   // proceed with tokenization once we have all expected field data
   if (
@@ -63,6 +64,7 @@ export default (id: string, type: string, data: IDictionary) => {
               details: {
                 ...(response.details),
                 ...(installment ? {installment} : {}),
+                ...(currencyConversion ? {currencyConversion} : {}),
               },
             },
             id,
@@ -70,6 +72,9 @@ export default (id: string, type: string, data: IDictionary) => {
           },
           "parent",
         );
+
+        // Clean up the localStorage once the Tokenization done successfully
+        localStorage.clear();
       })
       .catch((response) => {
         w.dataContents = undefined;

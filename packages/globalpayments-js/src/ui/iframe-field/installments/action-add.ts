@@ -1,8 +1,8 @@
-import { IframeField } from ".";
-import { bus, options } from "../../internal";
-import { IError } from "../../internal/gateways";
-import { installmentPlansDataMapper } from "../../internal/lib/installments/contracts/installment-plans-data";
-import { InstallmentPaymentData, InstallmentsHandler } from "../../internal/lib/installments/installments-handler";
+import { IframeField } from "../index";
+import { bus, options } from "../../../internal";
+import { IError } from "../../../internal/gateways";
+import { installmentPlansDataMapper } from "../../../internal/lib/installments/contracts/installment-plans-data";
+import { InstallmentPaymentData, InstallmentsHandler } from "../../../internal/lib/installments/installments-handler";
 
 export default function addInstallments(
     iframeField: IframeField | undefined,

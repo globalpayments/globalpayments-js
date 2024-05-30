@@ -4,13 +4,20 @@ import { postMessage } from "../../internal";
 import { validate } from "../../internal/built-in-validations/field-validator";
 import { hideHostedFieldValidation, showHostedFieldValidation } from "../../internal/built-in-validations/helpers";
 import paymentFieldId from "../../internal/lib/payment-field-id";
+import { handleCurrencyConversionValidationSetup } from "../../internal/lib/currency-conversion/utils/helpers";
 
 /**
  * Validate the value for a hosted field
  */
 export default (id: string, type: string, target: string) => {
+  // Set the initial set of fields to validate
+  const fieldsToValidate = HOSTED_FIELD_NAME_KEYS.map(x => x);
+
+  // Handle DCC Validations (if needed)
+  handleCurrencyConversionValidationSetup(fieldsToValidate);
+
   // Only for Hosted fields that has built in validations
-  if (HOSTED_FIELD_NAME_KEYS.indexOf(type) === -1) return;
+  if (fieldsToValidate.indexOf(type) === -1) return;
 
   const field = document.getElementById(paymentFieldId) as HTMLInputElement;
   if (!field) return;

@@ -1,7 +1,7 @@
 import { IDictionary } from "@globalpayments/js/types/internal/lib/util";
-import { ApmInternalEvents } from "../../apm/enums";
-import { postMessage } from "../../internal";
-import getQrCodePaymentMethods from "../../apm/qr-code-payments/requests/get-qr-code-payment-methods";
+import { ApmInternalEvents } from "../../../apm/enums";
+import { postMessage } from "../../../internal";
+import getQrCodePaymentMethods from "../../../apm/qr-code-payments/requests/get-qr-code-payment-methods";
 
 /**
  * Requests the QR Code Payment methods

@@ -1,7 +1,7 @@
-import {bus, options} from "../../internal";
-import getGateway from "../../internal/lib/get-gateway";
-import {IframeField, IUIFormField} from "../iframe-field";
-import {IError, ISuccess} from "../../internal/gateways";
+import {bus, options} from "../../../internal";
+import getGateway from "../../../internal/lib/get-gateway";
+import {IframeField, IUIFormField} from "../index";
+import {IError, ISuccess} from "../../../internal/gateways";
 
 export default function addApplePay(iframeField: IframeField | undefined, field: IUIFormField) {
   const gateway = getGateway();

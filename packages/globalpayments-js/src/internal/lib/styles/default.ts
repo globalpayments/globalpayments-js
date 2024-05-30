@@ -5,11 +5,16 @@ import getApplePayStyles from './apple-pay/common';
 import getClickToPayStyles from './click-to-pay/default';
 import getGooglePayStyles from './google-pay/common';
 import getPaymentMethodsStyles from './payment-methods/common';
+import getTooltipStyles from './tooltip/common';
 import {
   fieldStyles as getBuiltInValidationFieldStyles,
   styles as getBuiltInValidationParentStyles,
 } from './built-in-validations/default';
 import { options } from '../options';
+import {
+  fieldStyles as getCurrencyConversionFieldStyles,
+  styles as getCurrencyConversionStyles,
+} from './currency-conversion/default';
 
 export const fieldStyles = (assetBaseUrl: string) => {
   const imageBase = assetBaseUrl + "images/";
@@ -161,6 +166,7 @@ export const fieldStyles = (assetBaseUrl: string) => {
       "letter-spacing": "3px",
     },
 
+    ...(options.currencyConversion?.enabled ? getCurrencyConversionFieldStyles() : {}),
     ...(options.fieldValidation?.enabled ? getBuiltInValidationFieldStyles(assetBaseUrl) : {}),
   };
 };
@@ -308,10 +314,12 @@ export const parentStyles = (assetBaseUrl: string) => {
       display: "none!important",
     },
 
+    ...getTooltipStyles(assetBaseUrl),
     ...getApplePayStyles(assetBaseUrl),
     ...getClickToPayStyles(assetBaseUrl),
     ...getGooglePayStyles(assetBaseUrl),
     ...(options.fieldValidation?.enabled ? getBuiltInValidationParentStyles(assetBaseUrl) : {}),
+    ...(options.currencyConversion?.enabled ? getCurrencyConversionStyles() : {}),
     ...getPaymentMethodsStyles(assetBaseUrl),
   };
 };

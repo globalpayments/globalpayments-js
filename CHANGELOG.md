@@ -4,7 +4,10 @@
 
 # Changelog
 
-## Latest Version - v3.0.12 (03/21/24)
+## Latest Version - v4.0.9 (05/23/24)
+- [Globalpayments-js][4.0.9] Add Dynamic Currency Conversion support
+
+## v3.0.12 (03/21/24)
 - [Globalpayments-js][3.0.12] Fixed issue with QR codes and env variables
 
 ## v3.0.11 (03/12/24)

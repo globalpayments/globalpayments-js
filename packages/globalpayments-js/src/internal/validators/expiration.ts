@@ -9,8 +9,7 @@ export default class Expiration implements IValidator {
       return false;
     }
 
-    const split = exp.split("/");
-    [m, y] = split;
+    [m, y] = exp.split("/");
 
     if (!m || !y) {
       return false;
@@ -41,5 +40,41 @@ export default class Expiration implements IValidator {
     // expiration month since JS months
     // are 0 indexed
     return new Date(year, month, 1) > new Date();
+  }
+
+  /**
+   * Validates the expiration date in the format "MM/YYYY".
+   * Returns true if the expiration date is valid, otherwise false.
+   * @param exp The expiration date string to validate.
+   * @returns A boolean indicating whether the expiration date is valid or not.
+   */
+  public validateDate(exp: string): boolean {
+    // Regular expression to match "MM/YYYY" format
+    const dateRegex = /^(0[1-9]|1[0-9])\/(20\d{2})$/;
+
+    // Remove whitespace from the expiration date string
+    const val = !exp ? '': exp.replaceAll(' ', '');
+
+    // Check if the expiration date matches the expected format
+    if (!dateRegex.test(val)) return false;
+
+    const [month, year] = exp.split(' / ').map(Number);
+    const currentDate = new Date();
+    const currentMonth = currentDate.getUTCMonth() + 1;
+    const currentYear = currentDate.getFullYear();
+
+    // Validate the month (1-12)
+    if (month < 1 || month > 12) return false;
+
+    // Validate the year (current year or later)
+    if (year < currentYear) return false;
+
+    // If the year is the current year, validate the month (current month or later)
+    if (year === currentYear && month < currentMonth) {
+      return false;
+    }
+
+    // Expiration date is valid
+    return true;
   }
 }

@@ -2,6 +2,8 @@ import { postMessage } from "../../internal";
 import { CardFormFieldNames, HostedFieldValidationEvents } from "../../common/enums";
 import { createHtmlDivElement, createHtmlSpanElement } from "../../common/html-element";
 import paymentFieldId from "../../internal/lib/payment-field-id";
+import { DCC_KEY } from "../../internal/lib/currency-conversion/contracts/constants";
+import { getCurrencyConversionAvailabilityStatus } from "../../internal/lib/currency-conversion/utils/helpers";
 
 /**
  * Show the validation message for a hosted field
@@ -37,6 +39,8 @@ export default (id: string, validationMessage: string, fieldType: string) => {
       },
       "parent",
     );
+  } else if (fieldType === DCC_KEY && !getCurrencyConversionAvailabilityStatus()) {
+    return;
   }
 
   const existingValidationMessageDiv = document.querySelector(`#field-validation-wrapper`);
@@ -69,7 +73,9 @@ function createValidationMessageDiv(validationMessage: string): HTMLDivElement {
     id: `field-validation-message`,
     textContent: validationMessage,
     attributes: [
-      { 'aria-label': validationMessage },
+      { 'aria-label': `Error: ${validationMessage}` },
+      { 'aria-live': 'polite' },
+      { role: 'alert' },
     ],
   });
   validationMessageDiv.append(validationMessageSpan);

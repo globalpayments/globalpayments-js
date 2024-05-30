@@ -9,7 +9,7 @@ $url = 'apis.sandbox.globalpay.com';
 $nonce = date(DateTime::ISO8601);
 $secret = hash('sha512', sprintf('%s%s', $nonce, $appKey));
 
-$curl = include 'transit/curl.php';
+$curl = include '../transit/curl.php';
 
 $version = file_get_contents('../../src/lib/version.ts');
 preg_match('/export default "(.*?)";/', $version, $matches);

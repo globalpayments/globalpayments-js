@@ -1,8 +1,8 @@
-import { postMessage } from "../../internal";
-import { InstallmentEvents } from "../../internal/lib/installments/contracts/enums";
-import { IDictionary } from "../../internal/lib/util";
-import CardNumberValidator from "../../internal/validators/card-number";
-import CardExpirationValidator from "../../internal/validators/expiration";
+import { postMessage } from "../../../internal";
+import { InstallmentEvents } from "../../../internal/lib/installments/contracts/enums";
+import { IDictionary } from "../../../internal/lib/util";
+import CardNumberValidator from "../../../internal/validators/card-number";
+import CardExpirationValidator from "../../../internal/validators/expiration";
 
 export default (id: string, _type: string, data: IDictionary) => {
   const w = window as any;

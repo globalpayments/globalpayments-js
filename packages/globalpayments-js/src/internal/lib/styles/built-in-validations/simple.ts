@@ -17,6 +17,9 @@ export const fieldStyles = (assetBaseUrl: string) => {
         right: "0",
         top: "7px",
       },
+      "#field-validation-wrapper": {
+          "margin-top": "0px!important"
+      }
     };
   };
 

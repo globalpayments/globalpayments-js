@@ -1,8 +1,10 @@
-import { postMessage } from "../../internal";
+import { options, postMessage } from "../../internal";
 import { HOSTED_FIELD_NAME_KEYS } from "../../common/constants";
 import { IDictionary } from "../../internal/lib/util";
 import { CardFormFieldNames, HostedFieldValidationEvents } from "../../common/enums";
 import { getValidationRoundCounter, increaseValidationRoundCounter, removeValidationRoundCounter } from "../../internal/built-in-validations/helpers";
+import { DCC_KEY } from "../../internal/lib/currency-conversion/contracts/constants";
+import { getCurrencyConversionAvailabilityStatus, handleCurrencyConversionValidationSetup } from "../../internal/lib/currency-conversion/utils/helpers";
 
 export default (id: string, data: IDictionary) => {
   const w = window as any;
@@ -12,7 +14,13 @@ export default (id: string, data: IDictionary) => {
   w.formValidations = w.formValidations || {};
   w.formValidations[data.data.type] = fieldIsValid;
 
-  const fieldsToValidateCount = HOSTED_FIELD_NAME_KEYS.length;
+  // Set the initial set of fields to validate
+  const fieldsToValidate = HOSTED_FIELD_NAME_KEYS.map(x => x);
+
+  // Handle DCC Validations (if needed)
+  handleCurrencyConversionValidationSetup(fieldsToValidate);
+
+  const fieldsToValidateCount = fieldsToValidate.length;
 
   const cardHolderNotPresent = w.formValidations[CardFormFieldNames.CardHolderName] === undefined;
   const formFields = {
@@ -22,7 +30,15 @@ export default (id: string, data: IDictionary) => {
     cardHolderName: w.formValidations[CardFormFieldNames.CardHolderName],
   };
   const { cardNumber, cardExpiration, cardCvv, cardHolderName } = formFields;
-  const isFormValid = cardNumber && cardExpiration && cardCvv && (cardHolderName || cardHolderNotPresent);
+  let isFormValid = cardNumber && cardExpiration && cardCvv && (cardHolderName || cardHolderNotPresent);
+
+  const isCurrencyConversionEnabled = options.currencyConversion?.enabled;
+  const isCurrencyConversionAvailable = getCurrencyConversionAvailabilityStatus();
+  const shouldCurrencyConversionBeValidated = isCurrencyConversionEnabled && isCurrencyConversionAvailable;
+  if (shouldCurrencyConversionBeValidated) {
+    isFormValid = isFormValid && w.formValidations[DCC_KEY];
+  }
+
   let validFieldsCount = Object.values(formFields).filter(x => x).length;
   if (cardHolderNotPresent) {
     ++validFieldsCount;

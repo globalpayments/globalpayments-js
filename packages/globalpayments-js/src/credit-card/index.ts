@@ -7,8 +7,10 @@ import { addStylesheet, json2css } from "../internal/lib/styles";
 import UIForm, { fieldStyles, IUIFormOptions, parentStyles } from "../ui/form";
 import { addFooterIcons } from "../internal/lib/add-footer-icons";
 import translations from "../internal/lib/translations/translations";
-import {translateObj} from "../internal/lib/translate";
-import {getCurrentLanguage} from "../internal/lib/detectLanguage";
+import { translateObj } from "../internal/lib/translate";
+import { getCurrentLanguage } from "../internal/lib/detectLanguage";
+import { createHtmlDivElement, createToolTip } from "../common/html-element";
+import {DCC_KEY} from "../internal/lib/currency-conversion/contracts/constants";
 
 export const defaultOptions: IUIFormOptions = {
   labels: {
@@ -76,12 +78,15 @@ export function form(
     "submit",
   ];
 
+  // If Currency Conversion option is present, insert the field between cardholder and submit button
+  if (options.currencyConversion) fieldTypes.splice(fieldTypes.length-1, 0, DCC_KEY);
+
   // If installments option is present insert the field between card holder and submit button
   if (options.installments) fieldTypes.splice(fieldTypes.length-1, 0, INSTALLMENTS_KEY);
 
   const firstFieldCardForm = fieldTypes[0];
 
-  if(formOptions.apms) {
+  if (formOptions.apms) {
     fieldTypes = [...formOptions.apms.toString().split(','), ...fieldTypes]
   }
 
@@ -109,16 +114,25 @@ export function form(
       wrapper.appendChild(label);
     }
 
-    const el = document.createElement("div");
-    el.className = formOptions.prefix + type + "-target";
+    const el = createHtmlDivElement({
+      className: formOptions.prefix + type + "-target"
+    });
     wrapper.appendChild(el);
+    const lang = getCurrentLanguage();
 
     if (
       type === "card-cvv" &&
       formOptions.style &&
       formOptions.style !== "blank"
     ) {
-      createToolTip(el);
+      const tooltip = createToolTip( {
+        title: translations[lang].tooltip.title,
+        htmlContent: translations[lang].tooltip.text,
+        attributes: [{
+          'aria-label': translations[lang].tooltip['aria-label']
+        }]
+      });
+      el.append(tooltip);
     }
 
     fields[type] = {} as any;
@@ -138,7 +152,7 @@ export function form(
     if (formOptions.titles && formOptions.titles[type]) {
       fields[type].title = formOptions.titles[type];
     }
-    if(formOptions.amount) {
+    if (formOptions.amount) {
       fields[type].amount = formOptions.amount;
     }
 
@@ -148,7 +162,7 @@ export function form(
   }
 
   const language = getCurrentLanguage();
-  if(formOptions.apms) {
+  if (formOptions.apms) {
     const firstField = target.querySelector(`[class$="${firstFieldCardForm}"]`);
     const divider = document.createElement('div');
     divider.classList.add('other-cards-label');
@@ -250,32 +264,4 @@ export function trackReaderForm(
     fields,
     formOptions.style ? fieldStyles()[formOptions.style] : {},
   );
-}
-
-function createToolTip(target: Element) {
-  const tooltip = document.createElement("div");
-  const language = getCurrentLanguage();
-
-  tooltip.className = "tooltip";
-  tooltip.tabIndex = 0;
-  tooltip.setAttribute("aria-label", translations[language].tooltip['aria-label']);
-  tooltip.setAttribute("aria-describedby", "tooltipContent");
-  tooltip.setAttribute("role", "button");
-
-  const content = document.createElement("div");
-  content.className = "tooltip-content";
-  content.id = "tooltipContent";
-  content.setAttribute("role", "tooltip");
-
-  const title = document.createElement("strong");
-  title.appendChild(document.createTextNode(translations[language].tooltip.title));
-  content.appendChild(title);
-  content.appendChild(document.createElement("br"));
-  content.appendChild(
-    document.createTextNode(
-      translations[language].tooltip.text,
-    ),
-  );
-  tooltip.appendChild(content);
-  target.appendChild(tooltip);
 }

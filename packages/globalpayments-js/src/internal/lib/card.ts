@@ -13,6 +13,8 @@ import { hideHostedFieldValidation, showHostedFieldValidation } from "../built-i
 import { validate } from "../built-in-validations/field-validator";
 import { CardFormFieldNames, CardFormFieldValidationTestEvents } from "../../common/enums";
 import { isSafari } from "../../common/browser-helpers";
+import { CurrencyConversionEvents } from "./currency-conversion/contracts/enums";
+import { hasCurrencyConversionSensitiveValueChanged, removeCurrencyConversionAvailabilityStatus, removeCurrencyConversionPreviousValue } from "./currency-conversion/utils/helpers";
 
 export default class Card {
   /**
@@ -554,6 +556,7 @@ export default class Card {
    * availability of use installment plans.
    *
    * @param e
+   * @param fieldType
    */
   public static validateInstallmentFields(e: Event, fieldType: string) {
     if (!options.installments) return;
@@ -568,13 +571,13 @@ export default class Card {
 
     let installmentFieldValid = false;
 
-    if (fieldType === "card-number" ) {
+    if (fieldType === CardFormFieldNames.CardNumber ) {
       installmentFieldValid = new CardNumberValidator().validate(value);
     }
-    if (fieldType === "card-expiration" ) {
+    if (fieldType === CardFormFieldNames.CardExpiration ) {
       installmentFieldValid = new ExpirationValidator().validate(value);
     }
-    if (fieldType === "card-cvv" ) {
+    if (fieldType === CardFormFieldNames.CardCvv ) {
       const CARD_TYPE_UNKNOWN = "unknown";
       const CARD_TYPE_CLASS_PREFIX = "card-type-";
       const classList = target.className.split(" ");
@@ -594,6 +597,128 @@ export default class Card {
         data: { value, id },
         id,
         type: eventType,
+      },
+      "parent",
+    );
+  }
+
+  /**
+   * validateCurrencyConversionFields
+   *
+   * Validates a target element"s value based on the
+   * availability of use currency conversion.
+   *
+   * @param e
+   * @param fieldType
+   */
+  public static validateCurrencyConversionFields(e: Event, fieldType: string) {
+    if (!options.currencyConversion?.enabled) return;
+
+    const target = (e.currentTarget
+      ? e.currentTarget
+      : e.srcElement) as HTMLInputElement;
+    const value = target.value;
+
+    const id = target.getAttribute("data-id");
+    if (!id) return;
+
+    let isFieldValid = false;
+
+    if (fieldType === CardFormFieldNames.CardNumber) {
+      isFieldValid = new CardNumberValidator().validate(value);
+    }
+    if (fieldType === CardFormFieldNames.CardExpiration) {
+      isFieldValid = new ExpirationValidator().validate(value);
+    }
+
+    if (isFieldValid) return;
+    postMessage.post(
+      {
+        data: { value, id, isFieldValid },
+        id,
+        type: `ui:iframe-field:${CurrencyConversionEvents.CurrencyConversionHide}`,
+      },
+      "parent",
+    );
+  }
+
+  /**
+   * currencyConversionFieldsValidatedEvent
+   *
+   * Post an event when an installment related card field is validated
+   *
+   * @param e
+   * @param fieldType
+   */
+  public static currencyConversionFieldsValidatedEvent(e: Event, fieldType: string) {
+    if (!options.currencyConversion?.enabled) return;
+
+    const target = (e.currentTarget
+      ? e.currentTarget
+      : e.srcElement) as HTMLInputElement;
+    const value = target.value;
+
+    const id = target.getAttribute("data-id");
+    if (!id) return;
+
+    const valueHasChanged = hasCurrencyConversionSensitiveValueChanged(fieldType, value);
+
+    let isFieldValid = false;
+
+    if (fieldType === CardFormFieldNames.CardNumber) {
+      isFieldValid = new CardNumberValidator().validate(value);
+    }
+    if (fieldType === CardFormFieldNames.CardExpiration) {
+      isFieldValid = new ExpirationValidator().validate(value);
+      if (options.fieldValidation?.enabled) {
+        isFieldValid = new ExpirationValidator().validateDate(value);
+      }
+    }
+
+    if (!isFieldValid) return;
+
+    if (!valueHasChanged) return;
+
+    const eventType = `ui:iframe-field:${CurrencyConversionEvents.CurrencyConversionFieldsValidated}`;
+    postMessage.post(
+      {
+        data: { value, id },
+        id,
+        type: eventType,
+      },
+      "parent",
+    );
+  }
+
+  /**
+   * hideCurrencyConversionField
+   *
+   * Hides the currency conversion field component.
+   *
+   * @param e
+   * @param fieldType
+   */
+  public static hideCurrencyConversionField(e: Event, fieldType: string) {
+    if (!options.currencyConversion?.enabled) return;
+
+    const target = (e.currentTarget
+      ? e.currentTarget
+      : e.srcElement) as HTMLInputElement;
+    const value = target.value;
+
+    const id = target.getAttribute("data-id");
+    if (!id) return;
+
+    removeCurrencyConversionPreviousValue(fieldType);
+
+    // Since the sensitive values has changed the feature become unavailable and hidden
+    removeCurrencyConversionAvailabilityStatus();
+
+    postMessage.post(
+      {
+        data: { value, id, isFieldValid: false },
+        id,
+        type: `ui:iframe-field:${CurrencyConversionEvents.CurrencyConversionHide}`,
       },
       "parent",
     );
@@ -657,7 +782,10 @@ export default class Card {
     Events.addHandler(el, "blur", Card.formatNumber);
 
     Events.addHandler(el, "blur", Card.postInstallmentFieldValidatedEvent);
+    Events.addHandler(el, "blur", (e: Event) => { Card.currencyConversionFieldsValidatedEvent(e, CardFormFieldNames.CardNumber) });
     Events.addHandler(el, "input", (e: Event) => { Card.validateInstallmentFields(e, CardFormFieldNames.CardNumber) });
+
+    Events.addHandler(el, "input", (e: Event) => { Card.hideCurrencyConversionField(e, CardFormFieldNames.CardNumber) });
 
     Events.addHandler(el, "blur", (e: Event) => { Card.focusOutHostedFieldValidationHandler(e, CardFormFieldNames.CardNumber) });
     Events.addHandler(el, "input", (e: Event) => { Card.focusInHostedFieldValidationHandler(e) });
@@ -681,7 +809,10 @@ export default class Card {
     Events.addHandler(el, "input", Card.validateExpiration);
     Events.addHandler(el, "blur", Card.validateExpiration);
     Events.addHandler(el, "blur", Card.postInstallmentFieldValidatedEvent);
+    Events.addHandler(el, "blur", (e: Event) => { Card.currencyConversionFieldsValidatedEvent(e, CardFormFieldNames.CardExpiration) });
     Events.addHandler(el, "input", (e: Event) => { Card.validateInstallmentFields(e, CardFormFieldNames.CardExpiration) });
+
+    Events.addHandler(el, "input", (e: Event) => { Card.hideCurrencyConversionField(e, CardFormFieldNames.CardExpiration) });
 
     Events.addHandler(el, "blur", (e: Event) => { Card.focusOutHostedFieldValidationHandler(e, CardFormFieldNames.CardExpiration) });
     Events.addHandler(el, "input", (e: Event) => { Card.focusInHostedFieldValidationHandler(e) });

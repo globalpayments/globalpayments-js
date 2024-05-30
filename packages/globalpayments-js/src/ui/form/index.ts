@@ -1,7 +1,7 @@
 import { IEventListener } from "globalpayments-lib";
 
 import assetBaseUrl from "../../internal/lib/asset-base-url";
-import { postMessage } from "../../internal/lib/post-message";
+import { bus, options, postMessage } from "../../internal";
 import {
   fieldStyles as defaultFieldStyles,
   parentStyles as defaultParentStyles,
@@ -10,16 +10,15 @@ import {
   fieldStyles as gpDefaultFieldStyles,
   parentStyles as gpDefaultParentStyles,
 } from "../../internal/lib/styles/gp-default";
-import {fieldStyles as simpleFieldStyles, parentStyles as simpleParentStyles,} from "../../internal/lib/styles/simple";
-import {IDictionary} from "../../internal/lib/util";
-import {IFrameCollection, IframeField, IUIFormField} from "../iframe-field";
-import addClickToPay from "../iframe-field/action-add-click-to-pay";
-import addGooglePay from "../iframe-field/action-add-google-pay";
-import addApplePay from "../iframe-field/action-add-apple-pay";
+import { fieldStyles as simpleFieldStyles, parentStyles as simpleParentStyles } from "../../internal/lib/styles/simple";
+import { IDictionary } from "../../internal/lib/util";
+import { IFrameCollection, IframeField, IUIFormField } from "../iframe-field";
+import addClickToPay from "../iframe-field/click-to-pay/action-add";
+import addGooglePay from "../iframe-field/google-pay/action-add";
+import addApplePay from "../iframe-field/apple-pay/action-add";
 import { Apm, CardFormEvents } from "../../internal/lib/enums";
-import addInstallments from "../iframe-field/action-add-installments";
+import addInstallments from "../iframe-field/installments/action-add";
 import { InstallmentEvents } from "../../internal/lib/installments/contracts/enums";
-import { bus, options } from "../../internal";
 import { verifyInstallmentAvailability } from "../../internal/lib/installments/contracts/installment-plans-data";
 import { INSTALLMENTS_KEY } from "../../internal/lib/installments/contracts/constants";
 import { InstallmentPaymentData } from "../../internal/lib/installments/installments-handler";
@@ -29,10 +28,18 @@ import { CardFormFieldNames, HostedFieldValidationEvents } from "../../common/en
 import { resetValidationRoundCounter } from "../../internal/built-in-validations/helpers";
 
 import { ApmInternalEvents } from "../../apm/enums";
-import addQRCodePaymentMethods from "../iframe-field/action-add-qr-code-payment-methods";
+import addQRCodePaymentMethods from "../iframe-field/qr-code-payment-methods/action-add";
 import { normalizePaymentMethodConfigurations } from "../../apm/qr-code-payments/helpers";
 import { IPaymentMethodConfigurationNormalized } from "../../apm/qr-code-payments/contracts";
-import addOpenBankingPaymentMethod from "../iframe-field/action-add-open-banking";
+import addOpenBankingPaymentMethod from "../iframe-field/open-banking/action-add";
+import { DCC_KEY } from "../../internal/lib/currency-conversion/contracts/constants";
+import {
+  CurrencyConversionEvents,
+  CurrencyConversionStatus
+} from "../../internal/lib/currency-conversion/contracts/enums";
+import addCurrencyConversion from "../iframe-field/currency-conversion/action-add";
+import { resetCurrencyConversion } from "../../internal/lib/currency-conversion/utils/reset-currency-conversion";
+import { cleanUpCurrencyConversionAvailabilityStatus, cleanUpCurrencyConversionPreviousValue, getCurrencyConversionAvailabilityStatus, setCurrencyConversionAvailabilityStatus } from "../../internal/lib/currency-conversion/utils/helpers";
 
 export { IUIFormField } from "../iframe-field";
 
@@ -75,6 +82,7 @@ export const frameFieldTypes = [
   CardFormFieldNames.CardAccountNumber,
   "routing-number",
   INSTALLMENTS_KEY,
+  DCC_KEY,
   "submit",
 ];
 
@@ -351,6 +359,14 @@ export default class UIForm {
       this.configureCardInstallmentsEvents();
     }
 
+    if (options.currencyConversion?.enabled) {
+      const dcc = this.frames[DCC_KEY];
+      if (dcc) {
+        dcc?.container?.querySelector('iframe')?.classList.add('hidden');
+      }
+      this.configureCurrencyConversionEvents(dcc);
+    }
+
     if(googlePay) {
       googlePay?.container?.querySelector('iframe')?.remove();
       addGooglePay(googlePay, this.fields[Apm.GooglePay]);
@@ -510,12 +526,132 @@ export default class UIForm {
     }
   }
 
+  private currencyConversionResponseData: any;
+
+  /**
+   * Configures event listeners related to currency conversion for the specified iframe field.
+   * @param dccField The iframe field associated with the currency conversion.
+   */
+  private configureCurrencyConversionEvents(dccField: IframeField | undefined): void {
+    cleanUpCurrencyConversionAvailabilityStatus();
+
+    cleanUpCurrencyConversionPreviousValue();
+
+    // Variable to track if a currency conversion request is in progress
+    let currencyConversionRequestInProgress = false;
+    if (dccField) {
+      // Retrieve the card number and card expiration iframe fields
+      const cardNumberFrame = this.frames["card-number"];
+      const cardExpirationFrame = this.frames["card-expiration"];
+
+      // If either iframe field is missing, return early
+      if (!cardNumberFrame || !cardExpirationFrame) return;
+
+      // Iterate through each iframe field for currency conversion validation
+      [cardNumberFrame, cardExpirationFrame].forEach(cardFieldFrame => {
+        // Event listener for hiding currency conversion related elements
+        cardFieldFrame.on(CurrencyConversionEvents.CurrencyConversionHide, (_data?: any) => {
+          cleanUpCurrencyConversionAvailabilityStatus();
+
+          resetCurrencyConversion(dccField);
+          currencyConversionRequestInProgress = false;
+        });
+
+        // Event listener for validating currency conversion fields
+        cardFieldFrame.on(CurrencyConversionEvents.CurrencyConversionFieldsValidated, (data?: any) => {
+          // Make the request for currency conversion data
+          this.requestCurrencyConversionData();
+        });
+
+        // Event listener for initiating currency conversion request
+        cardFieldFrame.on(CurrencyConversionEvents.CurrencyConversionRequestStart, (data?: any) => {
+          // If currency conversion request is already in progress or data is missing, return early
+          if (currencyConversionRequestInProgress || !data) return;
+
+          currencyConversionRequestInProgress = true;
+
+          // Extract card number and expiration data from the event data and start the currency conversion request
+          const { cardNumber, cardExpiration } = data;
+          this.startCurrencyConversionDataRequest({
+            id: cardFieldFrame.id,
+            cardNumber,
+            cardExpiration,
+            data
+          });
+        });
+
+        // Event listener for handling completion of currency conversion request
+        cardFieldFrame.on(CurrencyConversionEvents.CurrencyConversionRequestCompleted, (data?: any) => {
+          if (!data) return;
+
+          this.checkCurrencyConversionStatus(dccField, data);
+
+          // Add the currency conversion data to the specified iframe field and update response data
+          addCurrencyConversion(dccField, data, (response, value) => {
+              this.currencyConversionResponseData = {response, value};
+          });
+
+          currencyConversionRequestInProgress = false;
+        });
+      });
+    }
+  }
+
+  private checkCurrencyConversionStatus = (dccField: IframeField, data: any) => {
+    const isCurrencyConversionAvailable = data.status === CurrencyConversionStatus.CurrencyConversionAvailable;
+    setCurrencyConversionAvailabilityStatus(isCurrencyConversionAvailable);
+
+    if (!isCurrencyConversionAvailable) {
+      resetCurrencyConversion(dccField);
+    }
+  }
+
+  /**
+   * Initiates a currency conversion data request using the provided parameters.
+   * @param args An object containing the necessary parameters for the currency conversion request.
+   */
+  private startCurrencyConversionDataRequest(args: {id: string, cardNumber:string, cardExpiration: string, data?: any}): void {
+    const {
+      id,
+      cardNumber,
+      cardExpiration,
+      data,
+    } = args;
+
+    // Retrieve the amount from the dynamic currency conversion fields
+    const dccFields = this.fields[DCC_KEY];
+    const amount = dccFields.amount || 0;
+
+    // Post the currency conversion request message
+    postMessage.post(
+      {
+        data: {
+          amount,
+          cardNumber,
+          cardExpiration,
+          ...data
+        },
+        id,
+        type: `ui:iframe-field:${CurrencyConversionEvents.CurrencyConversionRequestStart}`,
+      },
+      id,
+    );
+  }
+
+  /**
+   * Requests data from all relevant fields associated with the target iframe field,
+   * including optional installment payment data and currency conversion data if enabled.
+   * @param target The iframe field for which data is requested.
+   * @param installment Optional installment payment data.
+   */
   private requestDataFromAll(
     target: IframeField,
     installment?: InstallmentPaymentData
   ) {
+    // Initialize an array to store field names
     const fields: string[] = [];
 
+    // Check if the frame type is defined and not excluded from request
     for (const type of frameFieldTypes) {
       if (!this.frames[type]) {
         continue;
@@ -530,6 +666,32 @@ export default class UIForm {
         fields.push(type);
       }
     }
+
+    if (this.currencyConversionResponseData) {
+      // Check if Currency Conversion is enabled and a value is selected
+      const isCurrencyConversionEnabled = options.currencyConversion?.enabled;
+      const hasCurrencyConversionNoValueSelected = this.currencyConversionResponseData.value === '';
+
+      // If Currency Conversion is enabled but no value is selected and field validation is not enabled, emit an error
+      if (isCurrencyConversionEnabled && hasCurrencyConversionNoValueSelected) {
+        if (!options.fieldValidation?.enabled) {
+          // tslint:disable-next-line:no-console
+          console.error("Mandatory Fields missing [currency conversion] See Developers Guide");
+          return;
+        }
+
+        // Remove DCC_KEY from fields if it was not processed due to currency conversion condition
+        const isCurrencyConversionAvailable = getCurrencyConversionAvailabilityStatus();
+        if (!isCurrencyConversionAvailable && fields.includes(DCC_KEY)) {
+          fields.splice(fields.indexOf(DCC_KEY), 1);
+        }
+      }
+    }
+
+    const currencyConversion = this.currencyConversionResponseData
+      && this.currencyConversionResponseData.response
+      && getCurrencyConversionAvailabilityStatus()
+      ? this.currencyConversionResponseData.response : '';
 
     for (const type of fields) {
       if (type === "submit") {
@@ -547,8 +709,8 @@ export default class UIForm {
           data: {
             fields,
             target: target.id,
-
             ...(installment ? {installment} : {}),
+            ...{currencyConversion}
           },
           id: field.id,
           type: "ui:iframe-field:request-data",
@@ -606,8 +768,12 @@ export default class UIForm {
       cardNumberFrame,
       frames[CardFormFieldNames.CardExpiration],
       frames[CardFormFieldNames.CardCvv ],
-      frames[CardFormFieldNames.CardHolderName],
+      frames[CardFormFieldNames.CardHolderName]
     ];
+
+    if (options.currencyConversion?.enabled) {
+      hostedFieldsToValidate.push(frames[DCC_KEY])
+    }
 
     hostedFieldsToValidate.forEach(field => {
       if (!field) return;
@@ -667,6 +833,10 @@ export default class UIForm {
       frames[CardFormFieldNames.CardHolderName ],
     ];
 
+    if (options.currencyConversion?.enabled && getCurrencyConversionAvailabilityStatus()) {
+      hostedFieldsToValidate.push(frames[DCC_KEY])
+    }
+
     resetValidationRoundCounter();
 
     for (const field of hostedFieldsToValidate) {
@@ -690,6 +860,36 @@ export default class UIForm {
     if (!accountCardNumberFrame) return;
 
     this.requestDataFromAll(accountCardNumberFrame);
+  }
+
+  private requestCurrencyConversionData() {
+    const target = this.frames[`card-number`] || this.frames[`account-number`];
+    if (!target) return;
+
+    // Required fields to be completed and validated to call the endpoint
+    const fields = [
+      CardFormFieldNames.CardNumber,
+      CardFormFieldNames.CardExpiration
+    ];
+
+    fields.forEach((type) => {
+      const field = this.frames[type];
+
+      if (!field) return;
+
+      postMessage.post(
+        {
+          data: {
+            fields,
+            target: target.id,
+
+          },
+          id: field.id,
+          type: `ui:iframe-field:${CurrencyConversionEvents.CurrencyConversionRequestData}`,
+        },
+        field.id,
+      );
+    });
   }
 
   private startQRCodePaymentMethodsRequest(args: { id: string }): void {

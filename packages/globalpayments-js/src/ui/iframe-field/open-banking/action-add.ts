@@ -1,22 +1,22 @@
-import { IframeField } from ".";
-import handleRedirectAction from "../../apm/non-card-payments/components/redirect-action-handler";
-import { ApmInternalEvents } from "../../apm/enums";
+import { IframeField } from "../index";
+import handleRedirectAction from "../../../apm/non-card-payments/components/redirect-action-handler";
+import { ApmInternalEvents } from "../../../apm/enums";
 import {
   changeCreditCardFormFieldsVisibility,
   createHtmlButtonElement,
   createHtmlDivElement
-} from "../../common/html-element";
-import {bus, options} from "../../internal";
+} from "../../../common/html-element";
+import {bus, options} from "../../../internal";
 import {
   Apm,
   ApmEvents,
   ApmProviders,
   OpenBanking
-} from "../../internal/lib/enums";
-import { isApmProviderConfigured, isUrlValid } from "../../apm/non-card-payments/components/common";
-import {translateMessage} from "../../internal/lib/translate";
-import translations from "../../internal/lib/translations/translations";
-import {getCurrentLanguage} from "../../internal/lib/detectLanguage";
+} from "../../../internal/lib/enums";
+import { isApmProviderConfigured, isUrlValid } from "../../../apm/non-card-payments/components/common";
+import {translateMessage} from "../../../internal/lib/translate";
+import translations from "../../../internal/lib/translations/translations";
+import {getCurrentLanguage} from "../../../internal/lib/detectLanguage";
 
 export default function addOpenBankingPaymentMethod(iframeField: IframeField | undefined): void {
   if (!iframeField) return;

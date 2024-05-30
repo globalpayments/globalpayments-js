@@ -8,9 +8,18 @@ import {
 } from './built-in-validations/gp-default';
 import { options } from '../options';
 import getPaymentMethodsStyles from './payment-methods/common';
+import getTooltipStyles from './tooltip/common';
+import {
+  fieldStyles as getCurrencyConversionFieldStyles,
+  styles as getCurrencyConversionStyles,
+} from './currency-conversion/gp-default';
 
 // tslint:disable:object-literal-key-quotes
 // tslint:disable:object-literal-sort-keys
+
+const customColors = {
+  coolGrey25: '#394046',
+};
 
 export const fieldStyles = (assetBaseUrl: string) => {
   const imageBase = assetBaseUrl + "images/";
@@ -50,7 +59,7 @@ export const fieldStyles = (assetBaseUrl: string) => {
       "border-radius": "0",
       "font-size": "0.89em",
       "font-weight": "400",
-      color: "#394046",
+      color: customColors.coolGrey25,
     },
     "#secure-payment-field:focus": {
       border: "1px solid #2B9AEC",
@@ -124,6 +133,7 @@ export const fieldStyles = (assetBaseUrl: string) => {
       display: "none",
     },
 
+    ...(options.currencyConversion?.enabled ? getCurrencyConversionFieldStyles() : {}),
     ...(options.fieldValidation?.enabled ? getBuiltInValidationFieldStyles(assetBaseUrl) : {}),
   };
 };
@@ -236,59 +246,6 @@ export const parentStyles = (assetBaseUrl: string) => {
       width: "100%",
     },
 
-    ".secure-payment-form .tooltip": {
-      position: "relative",
-      width: "10%",
-      height: "40px",
-      border: "1px solid #5a5e6d",
-      "border-left": "none",
-      color: "#474B57",
-      float: "right",
-      "background-size": "20px",
-      background: `transparent url(${imageBase}gp-fa-question-circle.svg) no-repeat center center`,
-    },
-
-    ".secure-payment-form .tooltip:focus": {
-      border: "1px solid #2B9AEC",
-      outline: "none",
-    },
-
-    ".secure-payment-form .tooltip:hover": {
-      border: "1px solid #2B9AEC",
-      outline: "none",
-    },
-
-    ".secure-payment-form .tooltip-content": {
-      visibility: "hidden",
-      width: "200px",
-      "background-color": "#fff",
-      color: "#474B57",
-      "text-align": "left",
-      "border-radius": "3px",
-      border: "solid 1px #5a5e6d",
-      padding: "8px 8px",
-      position: "absolute",
-      "z-index": "99999999",
-      right: "70%",
-      opacity: "0",
-      transition: "opacity 0.3s",
-      "font-size": "0.79em",
-      "font-weight": "400",
-      "margin-top": "30px",
-      overflow: "hidden",
-      "box-shadow": "0 3px 6px rgba(0, 0, 0, 0.1)",
-    },
-
-    ".secure-payment-form .tooltip:hover > .tooltip-content": {
-      visibility: "visible",
-      opacity: "1",
-    },
-
-    ".secure-payment-form .tooltip:focus > .tooltip-content": {
-      visibility: "visible",
-      opacity: "1",
-    },
-
     ".secure-payment-form .other-cards-label": {
       "border-bottom": "1px solid #5a5e6d",
       "text-align": "center",
@@ -335,12 +292,13 @@ export const parentStyles = (assetBaseUrl: string) => {
         "margin-left": "16px",
       },
     },
-
+    ...getTooltipStyles(assetBaseUrl),
     ...getInstallmentStyles(assetBaseUrl),
     ...getApplePayStyles(assetBaseUrl),
     ...getClickToPayStyles(assetBaseUrl),
     ...getGooglePayStyles(assetBaseUrl),
     ...(options.fieldValidation?.enabled ? getBuiltInValidationParentStyles(assetBaseUrl) : {}),
+    ...(options.currencyConversion?.enabled ? getCurrencyConversionStyles() : {}),
     ...getPaymentMethodsStyles(assetBaseUrl),
   };
 };

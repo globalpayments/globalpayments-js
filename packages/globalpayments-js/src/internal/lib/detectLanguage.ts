@@ -19,3 +19,9 @@ export function getCurrentLanguage(): string {
   }
   return currentLanguage;
 }
+
+export function getTranslationSet(language: string, featureSet: string): any {
+  const DEFAULT_LANGUAGE = 'en';
+  const translationSet = translations[language][featureSet] || translations[DEFAULT_LANGUAGE][featureSet];
+  return translationSet || {};
+}

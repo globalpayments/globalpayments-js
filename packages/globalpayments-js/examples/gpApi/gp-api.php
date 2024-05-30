@@ -1,7 +1,7 @@
 <?php
 
-$appId = 'q3HGIFtHPt6ivl7JXGNBsXLFpDdsFHoN';
-$appKey = 'wJUd4vJQfN23sVxG';
+$appId = '4gPqnGBkppGYvoE5UX9EWQlotTxGUDbs';
+$appKey = 'FQyJA5VuEQfcji2M';
 
 $nonce = date(DateTime::ISO8601);
 $secret = hash('sha512', sprintf('%s%s', $nonce, $appKey));

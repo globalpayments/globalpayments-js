@@ -166,6 +166,64 @@ export const createHtmlCheckboxElement = (
         return htmlElement;
 }
 
+export const createHtmlRadioButtonElement = (
+  props?: {
+    id?: string,
+    className?: string,
+    attributes?: { [key: string]: string }[],
+    name?: string,
+    labelText?: string,
+    additionalInfo?: string,
+    checked: boolean,
+    target?: string,
+    value?: string,
+  }): HTMLDivElement => {
+  const { id, className, attributes, name, labelText, additionalInfo, checked, target, value } = props || {};
+
+  const radioButton = createHtmlElement('input', props) as HTMLInputElement;
+  radioButton.type = 'radio';
+
+  if (id) radioButton.id = id;
+  if (className) radioButton.className = className;
+  if (value) radioButton.value = value;
+  if (attributes) {
+    attributes.forEach(attr => {
+      radioButton.setAttribute(attr.key, attr.value);
+    });
+  }
+  if (name) radioButton.name = name;
+  if (checked) radioButton.checked = checked;
+
+  const container = createHtmlDivElement({
+    className: "radio-button",
+    attributes: [{
+      "data-target": target || ''
+    }]
+  });
+  container.addEventListener('click', (_ev: MouseEvent) => {
+    radioButton.click();
+  });
+  container.appendChild(radioButton);
+
+  if (labelText) {
+    const label = createHtmlLabelElement();
+    if (id) label.htmlFor = id;
+    label.textContent = labelText;
+    container.appendChild(label);
+  }
+
+  const infoSpan = createHtmlSpanElement();
+  if (additionalInfo) {
+    infoSpan.innerHTML = additionalInfo;
+    container.appendChild(infoSpan);
+  }
+
+  // Add class "checked" to container if input is checked
+  if (checked) container.classList.add('checked');
+
+  return container;
+}
+
 export const createHtmlLabelElement = (
     props?: {
         id?: string,
@@ -231,3 +289,64 @@ export const changeCreditCardFormFieldsVisibility = (visible: boolean): void => 
     }
   });
 }
+
+export const createToolTip = (
+  props?: {
+    id?: string,
+    className?: string,
+    attributes?: { [key: string]: string }[],
+    ariaLabel?: string,
+    ariaDescribedBy?: string,
+    role?: string,
+    tabIndex?: string,
+    title?: string,
+    htmlContent?: string,
+  }
+): HTMLElement => {
+  const {
+    id,
+    className,
+    attributes,
+    ariaLabel,
+    ariaDescribedBy,
+    role,
+    tabIndex,
+    title,
+    htmlContent,
+  } = props || {};
+
+  const tooltip = createHtmlDivElement({
+    className: className || 'tooltip',
+    id: id || '',
+    attributes: [
+      {'aria-label': ariaLabel || ''},
+      {'aria-describedby': ariaDescribedBy || 'tooltipContent'},
+      {role: role || 'button'},
+      {tabIndex: tabIndex || '0'},
+      ...(attributes || [])
+    ]
+  });
+
+  const content = createHtmlDivElement({
+    className: 'tooltip-content',
+    attributes: [{ role: 'tooltip' }]
+  });
+
+  if (title) {
+    const titleElement = document.createElement("h4");
+    titleElement.appendChild(document.createTextNode(title || ''));
+    content.appendChild(titleElement);
+  }
+  if (htmlContent) {
+    content.appendChild(createHtmlFromString(htmlContent || ''));
+  }
+
+  tooltip.appendChild(content);
+  return tooltip;
+};
+
+export const createHtmlFromString = (htmlString: string): DocumentFragment => {
+  const range = document.createRange();
+  range.selectNode(document.body);
+  return range.createContextualFragment(htmlString);
+};

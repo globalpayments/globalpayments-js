@@ -56,6 +56,9 @@ export interface ISuccess {
       id: string;
       reference: string;
     };
+    currencyConversion?: {
+      id: string;
+    }
   };
   methodName?: string;
   payerEmail?: string;
@@ -88,6 +91,9 @@ export interface IActions {
   // Installments gateway implementation
   queryInstallmentPlans?: (url: string, env: string, data: IDictionary) => Promise<any>;
 
+  // Currency Conversion gateway implementation
+  queryCurrencyConversion?: (url: string, env: string, data: IDictionary) => Promise<any>;
+
   // QR Code Payments gateway implementation
   getQRCodePaymentMethods?: (url: string, env: string, data: IDictionary) => Promise<any>;
 }
@@ -98,6 +104,9 @@ export interface IUrlGenerators {
 
   // Installments urls
   queryInstallmentPlans?: (prod: boolean) => string;
+
+  // Currency Conversion urls
+  queryCurrencyConversionUrl?: () => string;
 
   // QR Code Payments urls
   getQRCodePaymentMethodsUrl?: () => string;

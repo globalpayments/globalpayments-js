@@ -1,7 +1,7 @@
-import {bus, options} from "../../internal";
-import getGateway from "../../internal/lib/get-gateway";
-import {IframeField, IUIFormField} from "../iframe-field";
-import {IError} from "../../internal/gateways";
+import {bus, options} from "../../../internal";
+import getGateway from "../../../internal/lib/get-gateway";
+import {IframeField, IUIFormField} from "../index";
+import {IError} from "../../../internal/gateways";
 
 export default function addGooglePay(iframeField: IframeField | undefined, field: IUIFormField) {
   const gateway = getGateway();

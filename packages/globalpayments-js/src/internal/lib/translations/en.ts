@@ -32,6 +32,9 @@ const en = {
     CardHolderName: {
       NotValidCardHolderName: 'Please enter a valid Card Holder Name',
       CharactersMoreThan100: 'Card Holder Name can be at most 100 characters'
+    },
+    CurrencyConversion: {
+      Required: "Choose preferred currency"
     }
   },
   footer: {
@@ -79,6 +82,27 @@ const en = {
   apms: {
     button: {
       "aria-label": "Pay with"
+    }
+  },
+  dcc: {
+    label: "Select Your Preferred Currency",
+    additionalInfo: (currency: string, exchangeRate: string, payerCurrency: string, marginRatePercentage: string) => {
+      return `<p>Exchange rate used: 1 ${currency} = ${exchangeRate} ${payerCurrency}. Exchange Rate Mark-Up: ${marginRatePercentage}% above ECB Rate.</p>`;
+    },
+    cardCurrency: {
+      tooltip: (payerCurrency: string, exchangeRateSource: string, exchangeRateTimeCreated: string) => {
+        return `<p>I accept that I have been offered a choice of currencies for payment. I accept the conversion rate and final amount and that the final selected transaction currency is the cardholder's chosen currency, ${payerCurrency}.</p>
+                <p>Reference Rate Provided by: ${exchangeRateSource},<br />
+                Exchange rate offered on: ${exchangeRateTimeCreated}.</p>`;
+      },
+      "aria-label": "Information about Currency Conversion"
+    },
+    merchantCurrency: {
+      tooltip: (exchangeRateSource: string,exchangeRateTimeCreated: string) => {
+        return `<p>Reference Rate Provided by: ${exchangeRateSource},<br />
+                Exchange rate offered on: ${exchangeRateTimeCreated}.</p>`;
+      },
+      "aria-label": "Information about Currency Conversion"
     }
   }
 }

@@ -118,6 +118,15 @@ export interface IConfiguration extends IDictionary {
     currency: string,
   };
 
+  currencyConversion?: {
+    accountName: string,
+    enabled: boolean,
+    channel: string,
+    country: string,
+    currency: string,
+    transactionType?: string,
+  };
+
   // Specific configuration properties for
   // HF Built-in Validations
   fieldValidation?: {
