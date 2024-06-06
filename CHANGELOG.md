@@ -4,7 +4,10 @@
 
 # Changelog
 
-## Latest Version - v4.0.9 (05/23/24)
+## Latest Version - v4.0.10 (06/04/24)
+- [Globalpayments-js][4.0.11] Fixed issue with card number to accept only numeric values and add the formatting with spaces
+
+## v4.0.9 (05/30/24)
 - [Globalpayments-js][4.0.9] Add Dynamic Currency Conversion support
 
 ## v3.0.12 (03/21/24)

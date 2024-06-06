@@ -1,4 +1,3 @@
-import CardNumberFormatter from "../formatters/card-number";
 import ExpirationFormatter from "../formatters/expiration";
 import CardNumberValidator from "../validators/card-number";
 import CvvValidator from "../validators/cvv";
@@ -91,18 +90,31 @@ export default class Card {
 
     if (!target || !initialCardNumberValue || (initialCardNumberValue && initialCardNumberValue.length === 0)) return;
 
+    // Get the initial cursor position
+    const selectionStart = target.selectionStart || 0;
+
     // Restrict for numeric (only numbers)
     const numbersOnlyCardNumberValue = initialCardNumberValue.replace(/[^0-9]/g, '');
 
     // Restrict length (based on the max length for the card type)
-    const trimmedCardNumberValue = numbersOnlyCardNumberValue.replaceAll(' ', '');
-    const cardType = typeByNumber(trimmedCardNumberValue);
+    const cardType = typeByNumber(numbersOnlyCardNumberValue);
     const maxLength = cardType ? cardType.lengths.reduce((max: number, curr: number) => Math.max(max, curr)) : 19;
-    const truncatedCardNumberValue = trimmedCardNumberValue.substring(0, maxLength);
+    const truncatedCardNumberValue = numbersOnlyCardNumberValue.substring(0, maxLength);
+
+    // Calculate the number of spaces before the cursor
+    const numSpacesBefore = (numbersOnlyCardNumberValue.slice(0, selectionStart).match(/\s/g) || []).length;
 
     // Format number
-    const formattedCardNumberValue = new CardNumberFormatter().format(truncatedCardNumberValue);
+    const formattedCardNumberValue = truncatedCardNumberValue.replace(/(.{4})/g, '$1 ').trim();
     target.value = formattedCardNumberValue;
+
+    // Calculate the new cursor position
+    const newSelectionStart = selectionStart - numSpacesBefore;
+    const formattedSelectionStart = newSelectionStart + Math.floor(newSelectionStart / 4);
+
+    // Set the cursor position
+    const finalPosition = Math.min(formattedSelectionStart, target.value.length);
+    target.setSelectionRange(finalPosition, finalPosition);
   }
 
   /**
@@ -300,26 +312,43 @@ export default class Card {
    * @param e
    */
   public static validateNumber(e: Event) {
-    const target = (e.currentTarget
-      ? e.currentTarget
-      : e.srcElement) as HTMLInputElement;
+    const target = (e.currentTarget ? e.currentTarget : e.srcElement) as HTMLInputElement;
     const id = target.getAttribute("data-id");
-    const value = target.value.replace(/[-\s]/g, "");
-    const cardType = typeByNumber(value);
+
+    // Get the initial cursor position
+    const selectionStart = target.selectionStart || 0;
+
+    // Filter out non-numeric characters
+    const cleanedValue = target.value.replace(/[^0-9\s]/g, '');
+    target.value = cleanedValue;
+
+    const rawValue = cleanedValue.replace(/[-\s]/g, '');
+    const cardType = typeByNumber(rawValue);
+
+    // Add spaces after every 4 digits
+    const formattedValue = rawValue.replace(/(.{4})/g, '$1 ').trim();
+
+    // Calculate the new cursor position
+    const numSpacesBefore = (cleanedValue.slice(0, selectionStart).match(/\s/g) || []).length;
+    const newSelectionStart = selectionStart - numSpacesBefore;
+    const formattedSelectionStart = newSelectionStart + Math.floor(newSelectionStart / 4);
+
+    target.value = formattedValue;
+
     let classList = target.className.split(" ");
     const length = classList.length;
     let c = "";
 
     for (let i = 0; i < length; i++) {
       c = classList[i];
-      if (c.indexOf("valid") !== -1) {
+      if (c.indexOf("valid") !== -1 || c.indexOf("possibly-valid") !== -1 || c.indexOf("invalid") !== -1) {
         delete classList[i];
       }
     }
 
-    let isValid = new CardNumberValidator().validate(value);
+    let isValid = new CardNumberValidator().validate(rawValue);
     if (options.fieldValidation?.enabled) {
-      const validationResult = validate(CardFormFieldNames.CardNumber, value);
+      const validationResult = validate(CardFormFieldNames.CardNumber, rawValue);
       isValid = isValid && (validationResult && validationResult.isValid);
     }
 
@@ -329,7 +358,7 @@ export default class Card {
       if (id) {
         postMessage.post(
           {
-            data: {valid: true},
+            data: { valid: true },
             id,
             type: `ui:iframe-field:${CardFormFieldValidationTestEvents.CardNumber}`,
           },
@@ -339,7 +368,7 @@ export default class Card {
     } else {
       const maxValue = (max: number, curr: number) => Math.max(max, curr);
 
-      if (cardType && value.length < cardType.lengths.reduce(maxValue)) {
+      if (cardType && rawValue.length < cardType.lengths.reduce(maxValue)) {
         classList.push("possibly-valid");
       }
 
@@ -348,7 +377,7 @@ export default class Card {
       if (id) {
         postMessage.post(
           {
-            data: {valid: false},
+            data: { valid: false },
             id,
             type: `ui:iframe-field:${CardFormFieldValidationTestEvents.CardNumber}`,
           },
@@ -359,6 +388,10 @@ export default class Card {
 
     classList = classList.filter((str) => str !== '');
     target.className = classList.join(" ");
+
+    // Set the cursor position
+    const finalPosition = Math.min(formattedSelectionStart, target.value.length);
+    target.setSelectionRange(finalPosition, finalPosition);
   }
 
   /**
@@ -764,15 +797,12 @@ export default class Card {
       return;
     }
     // Set a generic card max length
-    el.setAttribute("maxlength", "19");
+    el.setAttribute("maxlength", "23");
 
     Events.addHandler(el, "focus", (e: Event) => {
       const { value, target } = Card.getFieldEventData(e);
 
       if (!target || !value || (value && value.length === 0)) return;
-
-      // Remove all whitespaces
-      target.value = value.replaceAll(' ', '');
     });
 
     Events.addHandler(el, "input", Card.validateNumber);
@@ -780,6 +810,7 @@ export default class Card {
     Events.addHandler(el, "input", Card.addType);
 
     Events.addHandler(el, "blur", Card.formatNumber);
+    Events.addHandler(el, "focus", Card.formatNumber);
 
     Events.addHandler(el, "blur", Card.postInstallmentFieldValidatedEvent);
     Events.addHandler(el, "blur", (e: Event) => { Card.currencyConversionFieldsValidatedEvent(e, CardFormFieldNames.CardNumber) });

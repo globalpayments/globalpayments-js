@@ -1,6 +1,6 @@
 {
   "name": "root",
-  "version": "4.0.9",
+  "version": "4.0.11",
   "private": true,
   "devDependencies": {
     "@rollup/plugin-commonjs": "^16.0.0",

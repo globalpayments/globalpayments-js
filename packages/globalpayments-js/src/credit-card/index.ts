@@ -79,7 +79,7 @@ export function form(
   ];
 
   // If Currency Conversion option is present, insert the field between cardholder and submit button
-  if (options.currencyConversion) fieldTypes.splice(fieldTypes.length-1, 0, DCC_KEY);
+  if (options.currencyConversion?.enabled) fieldTypes.splice(fieldTypes.length-1, 0, DCC_KEY);
 
   // If installments option is present insert the field between card holder and submit button
   if (options.installments) fieldTypes.splice(fieldTypes.length-1, 0, INSTALLMENTS_KEY);
