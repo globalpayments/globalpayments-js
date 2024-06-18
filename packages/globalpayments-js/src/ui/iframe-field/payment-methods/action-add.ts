@@ -6,60 +6,59 @@ import {
   createHtmlButtonElement,
   createHtmlDivElement
 } from "../../../common/html-element";
-import {bus, options} from "../../../internal";
+import { bus, options } from "../../../internal";
 import {
   Apm,
   ApmEvents,
   ApmProviders,
-  OpenBanking
 } from "../../../internal/lib/enums";
 import { isApmProviderConfigured, isUrlValid } from "../../../apm/non-card-payments/components/common";
-import {translateMessage} from "../../../internal/lib/translate";
-import translations from "../../../internal/lib/translations/translations";
-import {getCurrentLanguage} from "../../../internal/lib/detectLanguage";
+import {getCurrentLanguage, getTranslationLanguageSet} from "../../../internal/lib/detectLanguage";
 
-export default function addOpenBankingPaymentMethod(iframeField: IframeField | undefined): void {
+export default function addPaymentMethod(iframeField: IframeField | undefined, apmProvider: ApmProviders, apm: Apm): void {
   if (!iframeField) return;
 
   const apmAllowedPaymentMethods = options.apms?.nonCardPayments?.allowedPaymentMethods;
-  if (!apmAllowedPaymentMethods || !isApmProviderConfigured(apmAllowedPaymentMethods, ApmProviders.OpenBanking)) return;
+  if (!apmAllowedPaymentMethods || !isApmProviderConfigured(apmAllowedPaymentMethods, apmProvider)) return;
 
-  displayPaymentMethods(iframeField);
+  displayPaymentMethods(iframeField, apmProvider, apm);
 
   // Merchant Interaction listeners
-  addMerchantEventListeners(iframeField);
+  addMerchantEventListeners(iframeField, apmProvider, apm);
 }
 
-function displayPaymentMethods(iframeField: IframeField) {
+function displayPaymentMethods(iframeField: IframeField, apmProvider: ApmProviders, apm: Apm) {
+  const lang = getCurrentLanguage();
+  const translationSet = getTranslationLanguageSet(lang);
+
   const formatProvider = function formatProviderName(provider: string): string {
     return provider.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
   }
 
   const paymentMethodsWrapperDiv = createHtmlDivElement({
-    id: 'open-banking-wrapper',
-    className: 'open-banking-wrapper',
+    id: `${apm.toLowerCase()}-wrapper`,
+    className: `${apm.toLowerCase()}-wrapper`,
   });
-
-  const lang = getCurrentLanguage();
 
   const paymentMethodButtonWrapperDiv = createHtmlDivElement({
-    className: 'open-banking-button-wrapper',
+    className: `${apm.toLowerCase()}-button-wrapper`,
   });
 
+  const paymentMethodButtonAriaLabel = translationSet.apms?.button?.getAriaLabel(formatProvider(apmProvider));
   const paymentMethodButton = createHtmlButtonElement({
-    id: `open-banking`,
-    className: `open-banking-button ${Apm.OpenBankingPayment}`,
+    id: `${apm.toLowerCase()}`,
+    className: `${apm.toLowerCase()}-button`,
     attributes: [
-      { alt: formatProvider(OpenBanking.title) },
-      { title: formatProvider(OpenBanking.title) },
-      { "aria-label": `${translateMessage(lang, translations.en?.apms?.button['aria-label'])} ${formatProvider(OpenBanking.title)}` }
+      { alt: formatProvider(apmProvider) },
+      { title: formatProvider(apmProvider) },
+      { "aria-label": paymentMethodButtonAriaLabel }
     ],
   });
 
   paymentMethodButton?.addEventListener('click', () => {
     // Merchant Interaction: Emit an event to let the Merchant know the selected provider
     iframeField?.emit(ApmEvents.PaymentMethodSelection, {
-      provider: ApmProviders.OpenBanking,
+      provider: apmProvider,
     });
   });
 
@@ -68,15 +67,15 @@ function displayPaymentMethods(iframeField: IframeField) {
   iframeField?.container?.appendChild(paymentMethodsWrapperDiv);
 }
 
-function addMerchantEventListeners(iframeField: IframeField) {
-  // Listen to the Merchant event with the Open Banking data details from the GP-API payment response
+function addMerchantEventListeners(iframeField: IframeField, apmProvider: ApmProviders, apm: Apm) {
+  // Listen to the Merchant event with the APM data details from the GP-API payment response
   window.addEventListener(ApmEvents.PaymentMethodActionDetail, (event: any) => {
     const {
       redirect_url: redirectUrl,
       provider
     } = event.detail || {};
 
-    if (provider !== ApmProviders.OpenBanking) {
+    if (provider !== apmProvider) {
       return;
     }
 
@@ -90,21 +89,21 @@ function addMerchantEventListeners(iframeField: IframeField) {
       return;
     }
 
-    const openBankingContentDiv = createHtmlDivElement({
-      id: 'open-banking-content',
-      className: 'open-banking-content',
+    const contentDiv = createHtmlDivElement({
+      id: `${apm.toLowerCase()}-content`,
+      className: `${apm.toLowerCase()}-content`,
     });
-    iframeField?.container?.appendChild(openBankingContentDiv);
+    iframeField?.container?.appendChild(contentDiv);
 
     const onClickSelectAnotherPaymentMethod = () => {
-      openBankingContentDiv.setAttribute('style', 'display: none');
+      contentDiv.setAttribute('style', 'display: none');
       changeCreditCardFormFieldsVisibility(true);
 
       window.dispatchEvent(new CustomEvent(ApmInternalEvents.NavigatesBackBySelectAnotherPaymentMethod, {}));
     };
 
     changeCreditCardFormFieldsVisibility(false);
-    handleRedirectAction(openBankingContentDiv, { redirectUrl, onClickSelectAnotherPaymentMethod });
+    handleRedirectAction(contentDiv, { redirectUrl, onClickSelectAnotherPaymentMethod });
 
   }, false);
 }

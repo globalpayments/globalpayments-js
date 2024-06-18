@@ -1,10 +1,10 @@
 import {options} from "../../options";
 import OpenBankingStyles from "./open-banking";
+import PayPalStyles from "./paypal";
 import {
   // fieldStyles as getQRCodePaymentsCommonFieldStyles,
   styles as getQRCodePaymentsCommonStyles,
-} from './qr-code-payments';
-
+} from './qr-code-payments'
 
 export default (assetBaseUrl: string) => {
   const customColors = {
@@ -57,6 +57,7 @@ export default (assetBaseUrl: string) => {
       "line-height": "27px!important"
     },
     ...OpenBankingStyles(assetBaseUrl),
+    ...PayPalStyles(assetBaseUrl),
     ...(options.apms?.qrCodePayments && options.apms?.qrCodePayments.enabled ? getQRCodePaymentsCommonStyles(assetBaseUrl) : {}),
   }
 }

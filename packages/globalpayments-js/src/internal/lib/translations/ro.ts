@@ -1,0 +1,64 @@
+// ro - Romanian
+const ro = {
+  labels: {
+    "card-number": "Număr card",
+    "card-expiration": "Dată expirare card",
+    "card-cvv": "Cod CVV card",
+    "card-holder-name": "Nume titular card",
+    "submit": "Trimiteți"
+  },
+  values: {
+    "card-track": "Citiți cardul",
+    "submit": "Trimiteți"
+  },
+  validationMessages: {
+    CardNumber: {
+      Required: 'Numărul cardului este obligatoriu',
+      CharactersLessThan12: 'Numărul cardului trebuie să fie format din cel puțin 12 cifre',
+      NumberIsNotValid: 'Numărul cardului nu este valid',
+      NotAllowedCardType: 'Nu se poate procesa acest tip de card, utilizați un alt card'
+    },
+    CardExpiration: {
+      NotCompleted: 'Introduceți o lună valabilă/un an valid',
+      YearNotValid: 'Anul nu este valid',
+      MonthNotValid: 'Luna nu este validă',
+      ExpiryDateNotValid: 'Data de expirare nu este validă',
+    },
+    CardCvv: {
+      CodeIsNotValid: 'Codul CVV al cardului nu este valid',
+      CodeIsLessThan3Digits: 'Codul CVV al cardului este prea scurt',
+      CodeMustBe3Digits: 'Codul CVV al cardului trebuie să conțină 3 cifre',
+      AmexCodeMustBe4Digits: 'Codul CVV al cardului pentru Amex trebuie să conțină 4 cifre',
+    },
+    CardHolderName: {
+      NotValidCardHolderName: 'Introduceți un nume valid al titularului cardului',
+      CharactersMoreThan100: 'Numele titularului cardului poate avea cel mult 100 de caractere'
+    },
+    CurrencyConversion: {
+      Required: "Choose preferred currency",
+    }
+  },
+  footer: {
+    "ssl-msg-alt": 'Sigla criptată SSL pe 256 de biți',
+    "ssl-msg": 'Criptare<br>SSL pe 256 de biți',
+    "security-msg-alt": 'Securizat de Global Payments',
+    "security-msg": 'Procesat în mod securizat de <strong>Global Payments</strong>'
+  },
+  tooltip: {
+    "title": 'Cod de securitate',
+    "aria-label": 'Informații despre codul de securitate',
+    "text": 'Cele 3 cifre suplimentare de pe spatele cardului. Pentru American Express, cele 4 cifre suplimentare de pe fața cardului.'
+  },
+  "other-cards-label": 'Sau introduceți manual detaliile cardului',
+  apms: {
+    button: {
+      getAriaLabel: (paymentMethod: string): string => {
+        const resource = `Plateste cu ##VALUE1##`;
+
+        return resource.replace('##VALUE1##', paymentMethod);
+      },
+    }
+  },
+}
+
+export default ro;

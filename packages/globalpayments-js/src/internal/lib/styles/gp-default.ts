@@ -178,13 +178,13 @@ export const parentStyles = (assetBaseUrl: string) => {
     ".secure-payment-form div[class$='-shield'] .ssl-text-logo": {
       border: "1px solid #468000",
       "border-radius": "3px",
-      width: "89px",
       height: "26px",
       "text-align": "center",
       margin: "0",
       "display": "flex",
       "justify-content": "start",
-      "align-items": "center"
+      "align-items": "center",
+      width: "fit-content",
     },
 
     ".secure-payment-form div[class$='-shield'] .ssl-logo_ico": {

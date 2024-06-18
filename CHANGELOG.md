@@ -4,7 +4,12 @@
 
 # Changelog
 
-## Latest Version - v4.0.10 (06/04/24)
+## Latest Version - v4.0.13 (06/18/24)
+- [Globalpayments-js][4.0.13] Extends Hosted fields internationalization support
+- [Globalpayments-js][4.0.13] Add additional header "X-GP-Library" for GP-API request
+- [Globalpayments-js][4.0.13] Add PayPal support
+
+## v4.0.11 (06/06/24)
 - [Globalpayments-js][4.0.11] Fixed issue with card number to accept only numeric values and add the formatting with spaces
 
 ## v4.0.9 (05/30/24)

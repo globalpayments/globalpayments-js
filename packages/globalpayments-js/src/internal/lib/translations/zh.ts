@@ -31,6 +31,9 @@ const zh = {
     CardHolderName: {
       NotValidCardHolderName: '請輸入有效姓名',
       CharactersMoreThan100: '持卡人姓名最多 100 个字符'
+    },
+    CurrencyConversion: {
+      Required: "Choose preferred currency",
     }
   },
   footer: {
@@ -74,6 +77,15 @@ const zh = {
       alt: '二维码已过期.',
       text: '单击下面的链接返回付款选项.'
     },
+  },
+  apms: {
+    button: {
+      getAriaLabel: (paymentMethod: string): string => {
+        const resource = `使用 ##VALUE1## 付款`;
+
+        return resource.replace('##VALUE1##', paymentMethod);
+      },
+    }
   },
 }
 

@@ -81,26 +81,42 @@ const en = {
   },
   apms: {
     button: {
-      "aria-label": "Pay with"
+      getAriaLabel: (paymentMethod: string): string => {
+        const resource = `Pay with ##VALUE1##`;
+
+        return resource.replace('##VALUE1##', paymentMethod);
+      },
     }
   },
   dcc: {
     label: "Select Your Preferred Currency",
     additionalInfo: (currency: string, exchangeRate: string, payerCurrency: string, marginRatePercentage: string) => {
-      return `<p>Exchange rate used: 1 ${currency} = ${exchangeRate} ${payerCurrency}. Exchange Rate Mark-Up: ${marginRatePercentage}% above ECB Rate.</p>`;
+      const resource = `<p>Exchange rate used: 1 ##VALUE1## = ##VALUE2## ##VALUE3##. Exchange Rate Mark-Up: ##VALUE4## above ECB Rate.</p>`;
+
+      return resource.replace('##VALUE1##', currency)
+        .replace('##VALUE2##', exchangeRate)
+        .replace('##VALUE3##', payerCurrency)
+        .replace('##VALUE4##', marginRatePercentage);
     },
     cardCurrency: {
       tooltip: (payerCurrency: string, exchangeRateSource: string, exchangeRateTimeCreated: string) => {
-        return `<p>I accept that I have been offered a choice of currencies for payment. I accept the conversion rate and final amount and that the final selected transaction currency is the cardholder's chosen currency, ${payerCurrency}.</p>
-                <p>Reference Rate Provided by: ${exchangeRateSource},<br />
-                Exchange rate offered on: ${exchangeRateTimeCreated}.</p>`;
+        const resource = `<p>I accept that I have been offered a choice of currencies for payment. I accept the conversion rate and final amount and that the final selected transaction currency is the cardholder's chosen currency, ##VALUE1##.</p>
+        <p>Reference Rate Provided by: ##VALUE2##,<br />
+        Exchange rate offered on: ##VALUE3##.</p>`;
+
+        return resource.replace('##VALUE1##', payerCurrency)
+          .replace('##VALUE2##', exchangeRateSource)
+          .replace('##VALUE3##', exchangeRateTimeCreated);
       },
       "aria-label": "Information about Currency Conversion"
     },
     merchantCurrency: {
-      tooltip: (exchangeRateSource: string,exchangeRateTimeCreated: string) => {
-        return `<p>Reference Rate Provided by: ${exchangeRateSource},<br />
-                Exchange rate offered on: ${exchangeRateTimeCreated}.</p>`;
+      tooltip: (exchangeRateSource: string, exchangeRateTimeCreated: string) => {
+        const resource = `<p>Reference Rate Provided by: ##VALUE1##,<br />
+        Exchange rate offered on: ##VALUE2##.</p>`;
+
+        return resource.replace('##VALUE1##', exchangeRateSource)
+          .replace('##VALUE2##', exchangeRateTimeCreated);
       },
       "aria-label": "Information about Currency Conversion"
     }

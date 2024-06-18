@@ -2,6 +2,7 @@ import { generateGuid } from "globalpayments-lib";
 
 import { options } from "../../lib/options";
 import { IDictionary } from "../../lib/util";
+import { setGpApiHeaders } from "../../lib/set-headers";
 
 export default async (url: string, env: string, data: IDictionary) => {
   const request: any = {
@@ -42,17 +43,11 @@ export default async (url: string, env: string, data: IDictionary) => {
   }
 
   try {
-    const headers = {
-      "Accept": "application/json",
-      "Authorization": `Bearer ${options.accessToken || ""}`,
-      "Content-Type": "application/json",
-      "X-GP-Version": options.apiVersion || "2021-03-22",
-      // "X-GP-Library": "javascript;version=1.9.13",
-    };
+    const headers = setGpApiHeaders();
     const resp = await fetch(url, {
       body: JSON.stringify(request),
       credentials: "omit",
-      headers: typeof Headers !== "undefined" ? new Headers(headers) : headers,
+      headers,
       method: "POST",
     });
     return resp.json();

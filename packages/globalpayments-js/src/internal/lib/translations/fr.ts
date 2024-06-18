@@ -1,9 +1,9 @@
 const fr = {
   labels: {
     "card-number": "Numéro de carte",
-    "card-expiration": "Date d\'expiration",
-    "card-cvv": "Code de sécurité (CVC)",
-    "card-holder-name": "Nom sur la carte",
+    "card-expiration": "Date d'expiration de la carte",
+    "card-cvv": "Code CVV de la carte",
+    "card-holder-name": "Nom du titulaire de carte",
     "submit": "Soumettre"
   },
   values: {
@@ -12,75 +12,52 @@ const fr = {
   },
   validationMessages: {
     CardNumber: {
-      Required: 'Saisissez le numéro de carte',
-      CharactersLessThan12: 'Le numéro de carte doit comporter au moins 12 chiffres',
-      NumberIsNotValid: 'Le numéro de carte n\'est pas valide',
-      NotAllowedCardType: 'Impossible de traiter ce type de carte, veuillez utiliser une autre carte'
+      Required: 'Le numéro de carte est obligatoire.',
+      CharactersLessThan12: 'Le numéro de carte doit comporter au moins 12 chiffres.',
+      NumberIsNotValid: 'Le numéro de carte est incorrect.',
+      NotAllowedCardType: 'Impossible de traiter ce type de carte, veuillez en utiliser une autre.'
     },
     CardExpiration: {
-      NotCompleted: 'Saisissez une date d\'expiration valide',
-      YearNotValid: 'L\'année n\'est pas valide',
-      MonthNotValid: 'Le mois n\'est pas valide',
-      ExpiryDateNotValid: 'La date d\'expiration n\'est pas valide',
+      NotCompleted: 'Veuillez saisir un mois ou une année valide.',
+      YearNotValid: 'L\'année n\'est pas valide.',
+      MonthNotValid: 'Le mois n\'est pas valide.',
+      ExpiryDateNotValid: 'La date d\'expiration n\'est pas valide.',
     },
     CardCvv: {
-      CodeIsNotValid: 'Entrez le code de sécurité sur votre carte',
-      CodeIsLessThan3Digits: 'Le code CVC de la carte est trop court',
-      CodeMustBe3Digits: 'Le code CVC de la carte doit comporter 3 chiffres',
-      AmexCodeMustBe4Digits: 'Le code CVC de la carte Amex doit comporter 4 chiffres',
+      CodeIsNotValid: 'Le code CVV de la carte n\'est pas valide.',
+      CodeIsLessThan3Digits: 'Le code CVV de la carte est trop court.',
+      CodeMustBe3Digits: 'Le code CVV de la carte doit comporter au moins 3 chiffres.',
+      AmexCodeMustBe4Digits: 'Le code CVV de la carte Amex doit comporter au moins 4 chiffres.',
     },
     CardHolderName: {
-      NotValidCardHolderName: 'Entrez le nom tel qu\'il est écrit sur votre carte',
-      CharactersMoreThan100: 'Le nom du titulaire de la carte ne peut pas dépasser 100 caractères'
+      NotValidCardHolderName: 'Veuillez saisir un nom de titulaire de carte valide.',
+      CharactersMoreThan100: 'Le nom du titulaire de carte ne doit pas dépasser 100 caractères.'
+    },
+    CurrencyConversion: {
+      Required: "Choose preferred currency",
     }
   },
   footer: {
-    "ssl-msg-alt": 'Logo crypté 256-bit SSL',
-    "ssl-msg": '256-bit SSL<br>crypté',
+    "ssl-msg-alt": 'Logo de chiffrement SSL 256 bits',
+    "ssl-msg": 'Chiffrement SSL<br>256 bits',
     "security-msg-alt": 'Sécurisé par Global Payments',
     "security-msg": 'Traitement sécurisé par <strong>Global Payments</strong>'
   },
   tooltip: {
     "title": 'Code de sécurité',
     "aria-label": 'Informations sur le code de sécurité',
-    "text": 'Les 3 chiffres supplémentaires au dos de votre carte. Pour American Express, il s\'agit les 4 chiffres supplémentaires à l\'avant de votre carte.'
+    "text": 'Les 3 chiffres supplémentaires figurant au dos de votre carte. Pour American Express, il s\'agit des 4 chiffres supplémentaires figurant au recto de votre carte.'
   },
-  "other-cards-label": 'Ou saisissez les détails de la carte manuellement',
-  QR: {
-    scanRqCode: "Scanner le code QR",
-    payInApp: "pour payer dans l'app",
-    amount: {
-      "aria-label": 'Total des transactions',
-    },
-    qrImage: {
-      alt: 'Affichage du code QR',
-      "aria-label": 'Affichage du code QR',
-    },
-    timer: {
-      text: 'Ce QR Code expirera dans:',
-      minutes: 'mins',
-      seconds: 's',
-      "icon-alt": 'Icône de temps restant',
-    },
-    expiredScreen: {
-      title: 'Le code QR a expiré.',
-      alt: 'Le code QR a expiré.',
-      text: 'Cliquez sur le lien ci-dessous pour revenir aux options de paiement.',
-    },
-    button: {
-      text: 'Sélectionner une autre méthode de paiement',
-      "aria-label": 'Sélectionner une autre méthode de paiement',
-    },
-    loading: "Chargement",
-    redirectScreen: {
-      redirectingToPaymentPageMessage: 'Redirection vers la page de paiement',
-    },
-  },
+  "other-cards-label": 'Vous pouvez aussi saisir manuellement les détails de la carte.',
   apms: {
     button: {
-      "aria-label": "Payer avec",
+      getAriaLabel: (paymentMethod: string): string => {
+        const resource = `Payer avec ##VALUE1##`;
+
+        return resource.replace('##VALUE1##', paymentMethod);
+      },
     }
-  }
+  },
 }
 
 export default fr;

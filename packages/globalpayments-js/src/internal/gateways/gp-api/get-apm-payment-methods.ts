@@ -1,8 +1,8 @@
-import { options } from "../../lib/options";
 import { IDictionary } from "../../lib/util";
+import { setGpApiHeaders } from "../../lib/set-headers";
 
 export default async (url: string, _env: string, data: IDictionary) => {
-  const headers = createHeaders();
+  const headers = setGpApiHeaders();
 
   try {
     const resp = await fetch(url, {
@@ -19,13 +19,3 @@ export default async (url: string, _env: string, data: IDictionary) => {
     };
   }
 };
-
-function createHeaders() {
-  const headers = {
-    "Accept": "application/json",
-    "Authorization": `Bearer ${options.accessToken || ""}`,
-    "Content-Type": "application/json",
-    "X-GP-Version": options.apiVersion || "2021-03-22",
-  };
-  return typeof Headers !== "undefined" ? new Headers(headers) : headers;
-}

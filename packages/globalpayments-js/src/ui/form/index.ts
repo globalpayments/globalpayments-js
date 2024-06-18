@@ -16,7 +16,7 @@ import { IFrameCollection, IframeField, IUIFormField } from "../iframe-field";
 import addClickToPay from "../iframe-field/click-to-pay/action-add";
 import addGooglePay from "../iframe-field/google-pay/action-add";
 import addApplePay from "../iframe-field/apple-pay/action-add";
-import { Apm, CardFormEvents } from "../../internal/lib/enums";
+import {Apm, ApmProviders, CardFormEvents} from "../../internal/lib/enums";
 import addInstallments from "../iframe-field/installments/action-add";
 import { InstallmentEvents } from "../../internal/lib/installments/contracts/enums";
 import { verifyInstallmentAvailability } from "../../internal/lib/installments/contracts/installment-plans-data";
@@ -31,7 +31,6 @@ import { ApmInternalEvents } from "../../apm/enums";
 import addQRCodePaymentMethods from "../iframe-field/qr-code-payment-methods/action-add";
 import { normalizePaymentMethodConfigurations } from "../../apm/qr-code-payments/helpers";
 import { IPaymentMethodConfigurationNormalized } from "../../apm/qr-code-payments/contracts";
-import addOpenBankingPaymentMethod from "../iframe-field/open-banking/action-add";
 import { DCC_KEY } from "../../internal/lib/currency-conversion/contracts/constants";
 import {
   CurrencyConversionEvents,
@@ -40,6 +39,7 @@ import {
 import addCurrencyConversion from "../iframe-field/currency-conversion/action-add";
 import { resetCurrencyConversion } from "../../internal/lib/currency-conversion/utils/reset-currency-conversion";
 import { cleanUpCurrencyConversionAvailabilityStatus, cleanUpCurrencyConversionPreviousValue, getCurrencyConversionAvailabilityStatus, setCurrencyConversionAvailabilityStatus } from "../../internal/lib/currency-conversion/utils/helpers";
+import addPaymentMethod from "../iframe-field/payment-methods/action-add";
 
 export { IUIFormField } from "../iframe-field";
 
@@ -73,6 +73,7 @@ export const frameFieldTypes = [
   Apm.GooglePay,
   Apm.ApplePay,
   Apm.OpenBankingPayment,
+  Apm.PayPal,
   Apm.QRCodePayments,
   CardFormFieldNames.CardNumber,
   CardFormFieldNames.CardExpiration,
@@ -306,6 +307,7 @@ export default class UIForm {
     const googlePay = this.frames[Apm.GooglePay];
     const applePay = this.frames[Apm.ApplePay];
     const openBanking = this.frames[Apm.OpenBankingPayment];
+    const paypal = this.frames[Apm.PayPal];
     const qrCodePayments = this.frames[Apm.QRCodePayments];
 
     // support autocomplete / auto-fill from `card-number` to other fields
@@ -419,7 +421,12 @@ export default class UIForm {
 
     if (openBanking) {
       openBanking?.container?.querySelector('iframe')?.remove();
-      addOpenBankingPaymentMethod(openBanking);
+      addPaymentMethod(openBanking, ApmProviders.OpenBanking, Apm.OpenBankingPayment);
+    }
+
+    if (paypal) {
+      paypal?.container?.querySelector('iframe')?.remove();
+      addPaymentMethod(paypal, ApmProviders.PayPal, Apm.PayPal);
     }
 
     // Hosted Fields validattion

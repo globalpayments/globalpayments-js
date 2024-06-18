@@ -1,8 +1,13 @@
+export enum ApiVersion {
+  default = "2021-03-22"
+}
+
 export enum Apm {
   ApplePay = "apple-pay",
   ClickToPay = "click-to-pay",
   GooglePay = "google-pay",
   OpenBankingPayment = "open-banking",
+  PayPal = "paypal",
   QRCodePayments = "qr-code-payments"
 }
 
@@ -42,10 +47,15 @@ export enum OpenBanking {
   title = "Bank Payment"
 }
 
+export enum PayPal {
+  title = "PayPal Payment"
+}
+
 export enum ApmProviders {
   Alipay = "Alipay",
   AlipayHK = "AlipayHK",
   OpenBanking = "OPEN_BANKING",
+  PayPal = "PayPal",
   WeChat = "WeChat"
 }
 
