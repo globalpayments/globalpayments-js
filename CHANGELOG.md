@@ -4,7 +4,10 @@
 
 # Changelog
 
-## Latest Version - v4.0.13 (06/18/24)
+## Latest Version - v4.0.15 (06/25/24)
+- [Globalpayments-js][4.0.15] Simplify encoding by focusing on only those characters that are universally dangerous in HTML contexts (like <, >, &, ")
+
+## v4.0.13 (06/18/24)
 - [Globalpayments-js][4.0.13] Extends Hosted fields internationalization support
 - [Globalpayments-js][4.0.13] Add additional header "X-GP-Library" for GP-API request
 - [Globalpayments-js][4.0.13] Add PayPal support
