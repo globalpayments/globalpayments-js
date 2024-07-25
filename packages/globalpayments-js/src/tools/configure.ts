@@ -34,6 +34,7 @@ export interface IConfiguration extends IDictionary {
   customerReference?: string;
   validateOnly?: boolean;
   env?: string;
+  serviceURL?: string;
   allowedCardTypes?: string[];
 
   // Specific configuration properties for

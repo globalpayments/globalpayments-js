@@ -36,6 +36,18 @@ const domains = {
   sandbox: "https://apis.sandbox.globalpay.com",
 };
 
+/**
+ * Validates if the provided service URL matches the domain pattern *.globalpay.com.
+ *
+ * @param serviceUrl - The URL to be validated.
+ */
+function validateServiceUrl(serviceUrl: string): boolean {
+  // Define the regex pattern to match the domain *.globalpay.com
+  const pattern = /^https:\/\/([a-zA-Z0-9-]+\.)*globalpay\.com(\/.*)?$/;
+
+  return pattern.test(serviceUrl);
+}
+
 export const urls = {
   assetBaseUrl: getAssetBaseUrl,
   tokenization: (prod: boolean) => {
@@ -43,6 +55,10 @@ export const urls = {
 
     if (options.env && options.env === "qa") {
       domain = domains.qa;
+    }
+
+    if (options.serviceURL && validateServiceUrl(options.serviceURL)) {
+      domain = options.serviceURL;
     }
 
     let endpoint = "payment-methods";
@@ -58,6 +74,10 @@ export const urls = {
 
     if (options.env && (options.env === "qa")) {
       domain = domains.qa;
+    }
+
+    if (options.serviceURL) {
+      domain = options.serviceURL;
     }
 
     let endpoint = "installments";
@@ -80,6 +100,10 @@ export const urls = {
         break;
     }
 
+    if (options.serviceURL) {
+      domain = options.serviceURL;
+    }
+
     return `${domain}/ucp/currency-conversions`;
   },
   getQRCodePaymentMethodsUrl: () => {
@@ -93,6 +117,10 @@ export const urls = {
       case Environments.Production:
         domain = domains.production;
         break;
+    }
+
+    if (options.serviceURL) {
+      domain = options.serviceURL;
     }
 
     let endpoint = `accounts/${options.account}`;

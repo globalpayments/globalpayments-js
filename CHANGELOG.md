@@ -4,7 +4,10 @@
 
 # Changelog
 
-## Latest Version - v4.0.15 (06/25/24)
+## Latest Version - v4.0.16 (07/23/24)
+- [Globalpayments-js][4.0.16] Allow a merchant/integrator to add a globalpay environment URL as the target for the environment.
+
+## v4.0.15 (06/25/24)
 - [Globalpayments-js][4.0.15] Simplify encoding by focusing on only those characters that are universally dangerous in HTML contexts (like <, >, &, ")
 
 ## v4.0.13 (06/18/24)
