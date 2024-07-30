@@ -4,7 +4,10 @@
 
 # Changelog
 
-## Latest Version - v4.0.16 (07/23/24)
+## Latest Version - v4.0.17 (07/30/24)
+- [Globalpayments-js][4.0.17] Fixed issue with multiple @font-face declarations in custom fonts
+
+## v4.0.16 (07/23/24)
 - [Globalpayments-js][4.0.16] Allow a merchant/integrator to add a globalpay environment URL as the target for the environment.
 
 ## v4.0.15 (06/25/24)

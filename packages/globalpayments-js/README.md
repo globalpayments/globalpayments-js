@@ -24,7 +24,7 @@ This plugin allows you to use online payments (eCommerce) features of a variety 
 ## Usage
 
 ```html
-<script src="https://js.globalpay.com/4.0.16/globalpayments.js"></script>
+<script src="https://js.globalpay.com/4.0.17/globalpayments.js"></script>
 ```
 
 > Note: Installing via NPM will only provide TypeScript types for type-checking.
@@ -495,6 +495,44 @@ const cardForm = GlobalPayments.ui.form({
 });
 ```
 
+#### Adding Multiple Custom Fonts
+To add multiple custom fonts, you can use the following configurations:
+
+```
+const cardForm = GlobalPayments.ui.form({
+  fields: { ... },
+  styles: {
+    "@font-face": [
+      {
+        "font-family": "'Font 1'",
+        "src": "url('url/font1.woff2') format('woff2')"
+      },
+      {
+        "font-family": "'Font 2'",
+        "src": "url('url/font2.woff2') format('woff2')"
+      }]
+      
+    // Your styles
+  }
+});
+```
+or
+```
+cardForm.addStylesheet({
+"@font-face": [
+  {
+    "font-family": "'Font 1'",
+    "src": "url('url/font1.woff2') format('woff2')"
+  },
+  {
+    "font-family": "'Font 2'",
+    "src": "url('url/font2.woff2') format('woff2')"
+  }]
+});
+```
+
+
+#### Validation Messages
 The list of validation messages is accessible at [/packages/globalpayments-js/src/internal/lib/translations/en.ts](https://github.globalpay.com/Developer-Experience/globalpayments-js/blob/94540f9ca68bc627f4d3e038b2cec36c6bd317b0/packages/globalpayments-js/src/internal/lib/translations/en.ts#L13)
 
 ![Example: Raw credit card form](docs/images/example-raw-credit-card.png)

@@ -52,9 +52,18 @@ export function json2css(json: IDictionary): string {
       key = attributes[i];
       value = json[key];
       if (isArray(value)) {
-        const arrLength = value.length;
-        for (j = 0; j < arrLength; j++) {
-          css += key + ":" + value[j] + ";";
+        if (isObject(value[0])) {
+          // Handle array of objects (e.g., multiple @font-face)
+          const objLength = value.length;
+          for (j = 0; j < objLength; j++) {
+            css += key + "{" + json2css(value[j]) + "}";
+          }
+        } else {
+          // Handle array of strings
+          const arrLength = value.length;
+          for (j = 0; j < arrLength; j++) {
+            css += key + ":" + value[j] + ";";
+          }
         }
       } else {
         css += key + ":" + value + ";";
@@ -76,6 +85,10 @@ export function json2css(json: IDictionary): string {
 
 function isArray(obj: any): boolean {
   return Object.prototype.toString.call(obj) === "[object Array]";
+}
+
+function isObject(obj: any): boolean {
+  return obj !== null && typeof obj === 'object';
 }
 
 function jsonAttributes(json: IDictionary): string[] {
