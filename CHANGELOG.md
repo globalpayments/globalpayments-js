@@ -4,7 +4,11 @@
 
 # Changelog
 
-## Latest Version - v4.0.17 (07/30/24)
+## Latest Version - v4.0.19 (08/01/24)
+- [Globalpayments-js][4.0.19] Added "sortingCode" and "administrativeArea" fields to the shipping address in the Google Pay response
+- [Globalpayments-js][4.0.19] Updated the translations for spanish
+
+## v4.0.17 (07/30/24)
 - [Globalpayments-js][4.0.17] Fixed issue with multiple @font-face declarations in custom fonts
 
 ## v4.0.16 (07/23/24)

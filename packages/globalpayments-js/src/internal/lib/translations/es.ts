@@ -2,7 +2,7 @@
 const es = {
   labels: {
     "card-number": "Número de tarjeta",
-    "card-expiration": "Caducidad de la tarjeta",
+    "card-expiration": "Fecha de expiración",
     "card-cvv": "CVV de la tarjeta",
     "card-holder-name": "Nombre del titular de la tarjeta",
     "submit": "Enviar"
@@ -41,7 +41,7 @@ const es = {
   footer: {
     "ssl-msg-alt": 'Logotipo cifrado SSL de 256 bits',
     "ssl-msg": 'Cifrado SSL de 256 bits',
-    "security-msg-alt": 'Con la protección de Global Payments',
+    "security-msg-alt": 'Protegido por Global Payments',
     "security-msg": 'Procesado de forma segura por <strong>Global Payments</strong>'
   },
   tooltip: {
@@ -50,6 +50,15 @@ const es = {
     "text": 'Los 3 dígitos adicionales que figuran en la parte trasera de la tarjeta. En el caso de American Express, son los 4 dígitos adicionales que figuran en la parte delantera de la tarjeta.'
   },
   "other-cards-label": 'O bien introduce los datos de la tarjeta de forma manual',
+  QR: {
+    button: {
+      text: 'Selecciona otro método de pago',
+      "aria-label": 'Selecciona otro método de pago'
+    },
+    redirectScreen: {
+      redirectingToPaymentPageMessage: 'Redirigiendo a la página de pago',
+    },
+  },
   apms: {
     button: {
       getAriaLabel: (paymentMethod: string): string => {

@@ -333,11 +333,13 @@ export default function addGooglePay(iframeField: IframeField | undefined, field
       const shippingAddressLine = [paymentAddress.address1, paymentAddress.address2, paymentAddress.address3];
       const paymentShippingAddress: any = {
         addressLine: shippingAddressLine.filter(str => str !== ''),
+        administrativeArea: paymentAddress.administrativeArea,
         city: paymentAddress.locality,
         country: paymentAddress.countryCode,
         phone: paymentAddress.phoneNumber,
         postalCode: paymentAddress.postalCode,
-        name: paymentAddress.name
+        name: paymentAddress.name,
+        sortingCode: paymentAddress.sortingCode
       }
       return paymentShippingAddress;
     } else return '';
