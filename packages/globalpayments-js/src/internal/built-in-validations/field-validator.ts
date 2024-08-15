@@ -78,6 +78,9 @@ export const validate = (fieldType: string, value: string, extraData?: any): { i
                 }
             }
 
+            // If characters entered are a sequence of special characters (dots, dashes, apostrophes, grave accents)
+            if (cardHolderNameHasSpecialChars(value)) return createValidationResult(false, ValidationMessages.CardHolderName.NotValidCardHolderName);
+
             // If characters entered are more than 100
             if (value.length > 100) {
                 return createValidationResult(false, ValidationMessages.CardHolderName.CharactersMoreThan100)
@@ -138,3 +141,21 @@ const cardExpirationDateValidations = (value: string): { isValid: boolean, messa
 }
 
 const trimSpaces = (value: string): string => !value ? '': value.replaceAll(' ', '');
+
+const cardHolderNameHasSpecialChars = (value: string | undefined): boolean => {
+    if (!value || (value && !value.length)) return true;
+
+    // Check for consecutive and repeated allowed special characters
+    const notAllowedSpecialCharsPattern = /(\.{2,}|-{2,}|'{2,}|`{2,})/;
+    if (notAllowedSpecialCharsPattern.test(value)) return true;
+
+    // Check for NOT allowed special characters
+    let hasAnyNotAllowedSpecialChar = false;
+    for (const char of Array.from("…´—_°|!¡@#$%&/=?¿*+;:,<>[]{}()\"\\")) {
+        hasAnyNotAllowedSpecialChar = value.indexOf(char) !== -1;
+
+        if (hasAnyNotAllowedSpecialChar) break;
+    }
+
+    return hasAnyNotAllowedSpecialChar;
+};

@@ -4,7 +4,10 @@
 
 # Changelog
 
-## Latest Version - v4.0.19 (08/01/24)
+## Latest Version - v4.0.20 (08/13/24)
+- [Globalpayments-js][4.0.20] Fixed issue with Card holder name special characters validations.
+
+## v4.0.19 (08/01/24)
 - [Globalpayments-js][4.0.19] Added "sortingCode" and "administrativeArea" fields to the shipping address in the Google Pay response
 - [Globalpayments-js][4.0.19] Updated the translations for spanish
 
