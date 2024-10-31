@@ -1,3 +1,6 @@
+import { HostedFieldStyles as HostedFieldStylesAlias } from "../../common/enums";
+import { BrandThemes as BrandThemesAlias } from "./styles/themes/brand-themes/brand-themes";
+
 export enum ApiVersion {
   default = "2021-03-22"
 }
@@ -64,3 +67,7 @@ export enum QRCodePaymentsWeChatProviderBrands {
   WeChatMethodResponse = "WECHAT",
   WeChatAccountResponse = "WeChat Pay",
 }
+
+export const HostedFieldStyles = HostedFieldStylesAlias;
+
+export const BrandThemes = BrandThemesAlias;

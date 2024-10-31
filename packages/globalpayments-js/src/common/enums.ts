@@ -40,3 +40,10 @@ export enum Environments {
     Sandbox = "sandbox",
     Production = "production",
 };
+
+export enum HostedFieldStyles {
+    Default = "default",
+    Simple = "simple",
+    Blank = "blank",
+    GpDefault = "gp-default",
+}

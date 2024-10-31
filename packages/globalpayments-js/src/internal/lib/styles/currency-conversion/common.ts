@@ -28,21 +28,22 @@ const styles = () => {
       "flex-wrap": "nowrap",
     },
     ".secure-payment-form .credit-card-currency-conversion legend": {
-      "font-family": "GPCommerce",
+      "font-family": "var(--dcc-options-label-font, GPCommerce)",
       border: 0,
       top: "16px",
       margin: "0 0 32px",
       padding: 0,
       display: "block",
-      "font-size": "0.79em",
-      "font-weight": 500,
+      "font-size": "var(--dcc-options-label-size-text, 0.79em)",
+      "font-weight": "var(--dcc-options-label-weight-text, 500)",
       position: "relative",
+      color: "var(--dcc-options-label-color-text)",
     },
     ".secure-payment-form .credit-card-currency-conversion .radio-button": {
       display: "flex",
       "justify-content": "center",
       "align-items": "center",
-      border: `1px solid ${customColors.coolGreyBase}`,
+      border: `1px solid var(--dcc-radio-button-color-border-default, ${customColors.coolGreyBase})`,
       padding: "10px",
       "white-space": "nowrap",
       height: "40px",
@@ -52,10 +53,11 @@ const styles = () => {
       "margin-right": "0px",
     },
     ".secure-payment-form .credit-card-currency-conversion .radio-button:hover": {
-      "border-color": customColors.coolGrey61
+      "border-color": `var(--dcc-radio-button-color-border-hover, ${customColors.coolGrey61})`,
+      color: "var(--dcc-radio-button-color-text-hover)",
     },
     ".secure-payment-form .credit-card-currency-conversion fieldset:focus-within > .radio-button": {
-      outline: `2px solid ${customColors.azure76LightBlue}`,
+      outline: `var(--dcc-radio-button-color-focus-indicator-focus, ${customColors.azure76LightBlue}) 2px solid`, // Same as: --dcc-radio-button-color-border-focus
       "outline-offset": "2px"
     },
     ".secure-payment-form .credit-card-currency-conversion fieldset.no-focus-outline .radio-button.checked": {
@@ -63,10 +65,13 @@ const styles = () => {
       "outline-offset": "0"
     },
     ".secure-payment-form .credit-card-currency-conversion .radio-button.checked": {
-      background: customColors.azure39Blue,
-      "border-color": customColors.azure39Blue,
+      background: `var(--dcc-radio-button-color-background-selected, ${customColors.azure39Blue})`,
+      "border-color": `var(--dcc-radio-button-color-border-selected, ${customColors.azure39Blue})`,
       color: customColors.white,
       outline: "none"
+    },
+    ".secure-payment-form .credit-card-currency-conversion .radio-button.checked label": {
+      color: `var(--dcc-radio-button-color-text-selected)`,
     },
     ".secure-payment-form .credit-card-currency-conversion .radio-button input[type='radio']": {
       "margin": "0 5px 0 0",
@@ -82,18 +87,22 @@ const styles = () => {
       padding: "0!important"
     },
     ".secure-payment-form .credit-card-currency-conversion .radio-button input[type='radio']:checked": {
-      "background-color": customColors.azure39Blue,
-      "border": `5px solid ${customColors.white}`
+      "background-color": `var(--dcc-radio-button-color-icon-selected, ${customColors.azure39Blue})`,
+      "border": `5px solid ${customColors.white}`,
+      color: `var(--dcc-radio-button-color-text-selected)`,
     },
     ".secure-payment-form .credit-card-currency-conversion .radio-button input[type='radio']:focus": {
-      outline: "none"
+      outline: "none",
+      color: "var(--dcc-radio-button-color-text-focus)",
     },
     ".secure-payment-form .credit-card-currency-conversion .radio-button label": {
-      "font-family": "GPCommerce",
-      "font-size": "0.79em",
-      "font-weight": 500,
+      "font-family": "var(--dcc-radio-button-font, GPCommerce)",
+
+      "font-size": "var(--dcc-radio-button-size-text, 0.79em)",
+      "font-weight": "var(--dcc-radio-button-weight-text-label, 500)",
       display: "inline-block",
-      margin: "0"
+      margin: "0",
+      color: "var(--dcc-radio-button-color-text-default)",
     },
     ".secure-payment-form .credit-card-currency-conversion .card-currency-content" : {
       opacity: '0',
@@ -124,11 +133,13 @@ const styles = () => {
       visibility: true
     },
     ".secure-payment-form .credit-card-currency-conversion .additional-info": {
-      "font-family": "GPCommerce",
-      "font-size": "0.79em",
+      "font-family": "var(--dcc-options-font-exchange-rate, GPCommerce)",
+      "font-size": "var(--dcc-options-size-text-exchange-rate, 0.79em)",
       "font-weight": 500,
       margin: "0 15px 0 0",
       display: "flex",
+      "line-height": "var(--dcc-options-line-height-text-exchange-rate)",
+      color: "var(--dcc-options-color-text-exchange-rate)",
     },
     ".secure-payment-form .credit-card-currency-conversion .additional-info p": {
       margin: "0",
@@ -142,10 +153,10 @@ const styles = () => {
       display: "block!important"
     },
     ".secure-payment-form .credit-card-currency-conversion .tooltip:hover": {
-      "border-left": `1px solid ${customColors.azure61LightBlue}`,
+      "border-left": `1px solid var(--general-tooltip-color-border-hover, ${customColors.azure61LightBlue})`,
     },
     ".secure-payment-form .credit-card-currency-conversion .tooltip:focus": {
-      "border-left": `1px solid ${customColors.azure61LightBlue}`,
+      "border-left": `1px solid var(--general-tooltip-color-focus-indicator-focus, ${customColors.azure61LightBlue})`,
     },
     ".secure-payment-form .credit-card-currency-conversion .tooltip-content": {
       bottom: "105%!important",

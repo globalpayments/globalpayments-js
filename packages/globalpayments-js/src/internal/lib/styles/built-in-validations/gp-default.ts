@@ -24,7 +24,7 @@ export const styles = (assetBaseUrl: string) => {
     const imageBase = assetBaseUrl + "images/";
 
     const cvvTooltipInvalidStyle = {
-        border: "1px solid #E12619",
+        border: "1px solid var(--inputfield-container-color-border-error, #E12619)",
         "border-left": "none",
       };
 

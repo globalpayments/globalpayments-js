@@ -5,6 +5,8 @@ import {options} from "../internal/lib/options";
 import {addStylesheet, json2css} from "../internal/lib/styles";
 import UIForm, {fieldStyles, IUIFormField, IUIFormOptions, parentStyles,} from "../ui/form";
 import {addFooterIcons} from "../internal/lib/add-footer-icons";
+import { isBrandTheme } from "../internal/lib/styles/themes/helpers";
+import { addFooterBrandedIcons } from "../internal/lib/add-footer-branded-icons";
 
 export const defaultOptions: IUIFormOptions = {
   prefix: "apm-",
@@ -88,7 +90,11 @@ export function form(
     addStylesheet(json2css(parentStyles()[formOptions.style]));
   }
 
-  addFooterIcons(formOptions, target);
+  if (isBrandTheme(formOptions.style)) {
+    addFooterBrandedIcons(formOptions, target);
+  } else {
+    addFooterIcons(formOptions, target);
+  }
 
   return new UIForm(
     fields,

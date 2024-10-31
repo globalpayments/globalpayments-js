@@ -23,8 +23,14 @@ const customColors = {
 
 export const fieldStyles = (assetBaseUrl: string) => {
   const imageBase = assetBaseUrl + "images/";
+  const fontBase = assetBaseUrl + "fonts/";
 
   return {
+    "@font-face": {
+      "font-family": "GPCommerce",
+      src: `url("${fontBase}GPCommerce-Regular.woff2") format("woff2")`,
+    },
+
     "*": {
       "box-sizing": "border-box",
     },

@@ -41,6 +41,8 @@ import { resetCurrencyConversion } from "../../internal/lib/currency-conversion/
 import { cleanUpCurrencyConversionAvailabilityStatus, cleanUpCurrencyConversionPreviousValue, getCurrencyConversionAvailabilityStatus, setCurrencyConversionAvailabilityStatus } from "../../internal/lib/currency-conversion/utils/helpers";
 import addPaymentMethod from "../iframe-field/payment-methods/action-add";
 
+import { getFieldStyles, getParentStyles } from "../../internal/lib/styles/themes/brand-themes/brand-themes";
+
 export { IUIFormField } from "../iframe-field";
 
 export const fieldStyles = () => ({
@@ -48,6 +50,9 @@ export const fieldStyles = () => ({
   default: defaultFieldStyles(assetBaseUrl()),
   "gp-default": gpDefaultFieldStyles(assetBaseUrl()),
   simple: simpleFieldStyles(assetBaseUrl()),
+
+  // Brand theme styles
+  ...(getFieldStyles(assetBaseUrl())),
 });
 
 export const parentStyles = () => ({
@@ -55,6 +60,9 @@ export const parentStyles = () => ({
   default: defaultParentStyles(assetBaseUrl()),
   "gp-default": gpDefaultParentStyles(assetBaseUrl()),
   simple: simpleParentStyles(assetBaseUrl()),
+
+  // Brand theme styles
+  ...(getParentStyles(assetBaseUrl())),
 });
 
 export interface IUIFormOptions {

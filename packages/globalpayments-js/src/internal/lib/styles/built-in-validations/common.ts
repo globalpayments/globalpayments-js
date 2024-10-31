@@ -7,19 +7,14 @@ export const fieldStyles = (assetBaseUrl: string) => {
     };
 
     return {
-      "@font-face": {
-        "font-family": "GPCommerce",
-        src: `url("${fontBase}GPCommerce-Regular.woff2") format("woff2")`,
-      },
-
       "#secure-payment-field[type=text].field-validation-wrapper": {
-        "font-family": "GPCommerce",
+        "font-family": "var(--inputfield-container-font-error, GPCommerce)",
       },
       "#secure-payment-field[type=tel].hf-invalid": {
-        border: `1px solid ${customColors.validationRed} !important`,
+        border: `1px solid var(--inputfield-container-color-border-error, ${customColors.validationRed}) !important`,
       },
       "#secure-payment-field[type=text].hf-invalid": {
-        border: `1px solid ${customColors.validationRed} !important`,
+        border: `1px solid var(--inputfield-container-color-border-error, ${customColors.validationRed}) !important`,
       },
     };
   };

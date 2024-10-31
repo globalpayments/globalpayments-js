@@ -4,7 +4,10 @@
 
 # Changelog
 
-## Latest Version - v4.0.20 (08/13/24)
+## Latest Version - v4.1.1 (10/31/24)
+- [Globalpayments-js][4.1.1] Add branded styles.
+
+## v4.0.20 (08/13/24)
 - [Globalpayments-js][4.0.20] Fixed issue with Card holder name special characters validations.
 
 ## v4.0.19 (08/01/24)

@@ -11,6 +11,8 @@ import { translateObj } from "../internal/lib/translate";
 import { getCurrentLanguage } from "../internal/lib/detectLanguage";
 import { createHtmlDivElement, createToolTip } from "../common/html-element";
 import {DCC_KEY} from "../internal/lib/currency-conversion/contracts/constants";
+import { isBrandTheme } from "../internal/lib/styles/themes/helpers";
+import { addFooterBrandedIcons } from "../internal/lib/add-footer-branded-icons";
 
 export const defaultOptions: IUIFormOptions = {
   labels: {
@@ -178,7 +180,11 @@ export function form(
     );
   }
 
-  addFooterIcons(formOptions, target);
+  if (isBrandTheme(formOptions.style)) {
+    addFooterBrandedIcons(formOptions, target);
+  } else {
+    addFooterIcons(formOptions, target);
+  }
 
   return new UIForm(
     fields,

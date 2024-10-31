@@ -9,23 +9,32 @@ const styles = (assetBaseUrl: string) => {
       position: "relative",
       width: "10%",
       height: "40px",
-      border: "1px solid #5a5e6d",
+      border: "1px solid var(--inputfield-tooltip-color-border-default, #5a5e6d)",
       "border-left": "none",
       color: "#474B57",
       float: "right",
       "background-size": "20px",
       background: `transparent url(${imageBase}gp-fa-question-circle.svg) no-repeat center center`,
-      "font-family": "GPCommerce",
+      "font-family": "var(--tooltip-overlay-font-body, GPCommerce)",
+      "font-size": "var(--tooltip-overlay-size-text-body)",
+      "line-height": "var(--tooltip-overlay-line-height-text-body)",
+    },
+
+    ".secure-payment-form .tooltip h4": {
+      "font-family": "var(--tooltip-overlay-font-heading, GPCommerce)",
+      "font-size": "var(--tooltip-overlay-size-text-heading)",
+      "line-height": "var(--tooltip-overlay-line-height-text-heading)",
+      color: "var(--tooltip-overlay-color-text-heading)",
     },
 
     ".secure-payment-form .tooltip:focus": {
-      border: "1px solid #2B9AEC",
+      border: "1px solid var(--inputfield-tooltip-color-border-focus, #2B9AEC)",
       outline: "none",
       "border-left": "none"
     },
 
     ".secure-payment-form .tooltip:hover": {
-      border: "1px solid #2B9AEC",
+      border: "1px solid var(--inputfield-tooltip-color-border-hover, #2B9AEC)",
       outline: "none",
       "border-left": "none"
     },
@@ -33,8 +42,8 @@ const styles = (assetBaseUrl: string) => {
     ".secure-payment-form .tooltip-content": {
       visibility: "hidden",
       width: "267px",
-      "background-color": customColors.coolGrey25,
-      color: "#fff",
+      "background-color": `var(--tooltip-overlay-color-background, ${customColors.coolGrey25})`,
+      color: "var(--tooltip-overlay-color-text-body, #fff)",
       "text-align": "left",
       "border-radius": "3px",
       border: `solid 1px ${customColors.coolGrey25}`,

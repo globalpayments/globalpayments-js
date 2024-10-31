@@ -3,7 +3,7 @@
 
   "compilerOptions": {
     "declaration": true,
-    "lib": ["DOM", "ES2015"],
+    "lib": ["DOM", "ES2015", "ESNext"],
     "moduleResolution": "node",
     "strict": true,
     "target": "ES2015"
