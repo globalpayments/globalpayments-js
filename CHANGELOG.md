@@ -4,7 +4,11 @@
 
 # Changelog
 
-## Latest Version - v4.1.1 (10/31/24)
+## Latest Version - v4.1.3 (12/3/24)
+- [Globalpayments-js][4.1.3] Fixed issue with DCC radio buttons resizing.
+- [Globalpayments-js][4.1.3] Fixed issue with Special characters rejected.
+
+## v4.1.1 (10/31/24)
 - [Globalpayments-js][4.1.1] Add branded styles.
 
 ## v4.0.20 (08/13/24)

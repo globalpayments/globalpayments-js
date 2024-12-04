@@ -151,7 +151,7 @@ const cardHolderNameHasSpecialChars = (value: string | undefined): boolean => {
 
     // Check for NOT allowed special characters
     let hasAnyNotAllowedSpecialChar = false;
-    for (const char of Array.from("…´—_°|!¡@#$%&/=?¿*+;:,<>[]{}()\"\\")) {
+    for (const char of Array.from("…´—_|!@#$%&/=?*+;:,<>[]{}()\"\\")) {
         hasAnyNotAllowedSpecialChar = value.indexOf(char) !== -1;
 
         if (hasAnyNotAllowedSpecialChar) break;

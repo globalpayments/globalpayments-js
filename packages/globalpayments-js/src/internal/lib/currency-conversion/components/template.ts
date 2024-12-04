@@ -35,14 +35,15 @@ export const createRadioGroupHtmlElement = (iframeField: IframeField, data: any)
   const legend = createHtmlElement('legend');
   legend.textContent = translateMessage(lang, translations.en?.dcc?.label);
 
+  const merchantCurrencyValueText = `${convertAmount(data.amount, false)} ${data.currency}`;
   const merchantCurrencyRadio = createHtmlRadioButtonElement({
     id: CurrencyConversionStyles.MERCHANT_CURRENCY_ID,
     className: "merchant-currency",
     checked: false,
     name: DCC_KEY,
-    labelText: `${convertAmount(data.amount, false)} ${data.currency}`,
-    value: `${convertAmount(data.amount, false)} ${data.currency}`,
-    target: `${CurrencyConversionStyles.MERCHANT_CURRENCY_ID}-content`
+    labelText: merchantCurrencyValueText,
+    value: merchantCurrencyValueText,
+    target: `${CurrencyConversionStyles.MERCHANT_CURRENCY_ID}-content`,
   });
   const merchantCurrencyTooltip = createToolTip( {
     id: `${CurrencyConversionStyles.MERCHANT_CURRENCY_ID}`,
@@ -51,14 +52,15 @@ export const createRadioGroupHtmlElement = (iframeField: IframeField, data: any)
       'aria-label': dccTranslations.merchantCurrency['aria-label']
     }]
   });
+  const cardCurrencyValueText = `${convertAmount(data.payer_amount, false)} ${data.payer_currency}`;
   const cardCurrencyRadio = createHtmlRadioButtonElement({
     id: CurrencyConversionStyles.CARD_CURRENCY_ID,
     className: "card-currency",
     checked: false,
     name: DCC_KEY,
-    value: `${convertAmount(data.payer_amount, false)} ${data.payer_currency}`,
-    labelText: `${convertAmount(data.payer_amount, false)} ${data.payer_currency}`,
-    target: `${CurrencyConversionStyles.CARD_CURRENCY_ID}-content`
+    value: cardCurrencyValueText,
+    labelText: cardCurrencyValueText,
+    target: `${CurrencyConversionStyles.CARD_CURRENCY_ID}-content`,
   });
 
   const cardCurrencyTooltip = createToolTip( {

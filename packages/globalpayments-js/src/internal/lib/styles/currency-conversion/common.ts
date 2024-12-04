@@ -208,7 +208,21 @@ const styles = () => {
       },
       ".secure-payment-form .credit-card-currency-conversion .tooltip-content::before": {
         right: "4%",
-      }
+      },
+    },
+
+    "@media(max-width: 340px)": {
+      ".secure-payment-form .credit-card-currency-conversion fieldset": {
+        "flex-flow": "column",
+      },
+      ".secure-payment-form .credit-card-currency-conversion .radio-button": {
+        "width": "auto",
+        "margin-bottom": "15px",
+        "margin-right": "0px",
+      },
+      ".secure-payment-form .credit-card-currency-conversion .radio-button:last-child": {
+        "margin-bottom": "0px",
+      },
     },
   };
 };

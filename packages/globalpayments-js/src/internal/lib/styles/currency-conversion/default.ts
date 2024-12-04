@@ -92,5 +92,24 @@ export const styles = () => {
       "font-family": "sans-serif",
       "margin": "0 0 10px 0",
     },
+
+    "@media(max-width: 340px)": {
+      ".secure-payment-form .credit-card-currency-conversion .radio-button": {
+        "margin-right": "0.5em",
+      },
+    },
+
+    "@media(max-width: 768px)": {
+      ".secure-payment-form .credit-card-currency-conversion .card-currency-content": {
+        "width": "auto",
+        "margin-top": "10px",
+        "margin-left": "0"
+      },
+      ".secure-payment-form .credit-card-currency-conversion .merchant-currency-content": {
+        "width": "auto",
+        "margin-top": "10px",
+        "margin-left": "0"
+      },
+    },
   };
 };
