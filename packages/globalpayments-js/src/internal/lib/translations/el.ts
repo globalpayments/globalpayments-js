@@ -50,6 +50,12 @@ const el = {
     "text": 'Τα επιπρόσθετα 3 ψηφία στο πίσω μέρος της κάρτας σας. Για American Express, είναι τα επιπρόσθετα 4 ψηφία στο μπροστινό μέρος της κάρτας σας.'
   },
   "other-cards-label": 'Ή καταχωρίστε χειροκίνητα τα στοιχεία της κάρτας',
+  QR: {
+    button: {
+      text: 'Επιλογή πληρωμής',
+      "aria-label": 'Επιλογή πληρωμής'
+    },
+  },
   apms: {
     button: {
       getAriaLabel: (paymentMethod: string): string => {
@@ -57,8 +63,20 @@ const el = {
 
         return resource.replace('##VALUE1##', paymentMethod);
       },
+      // getImageUrl: (assetBaseUrl: string): string => {
+      //   const imageBase = assetBaseUrl + "images/";
+      //   const url = `transparent url(${imageBase}open-banking.svg) no-repeat 50% 50%`
+      //   return url;
+      // }
     }
   },
+  orderInformation: {
+    amount: "Ποσό",
+    orderReference: "Αναφορά παραγγελίας",
+  },
+  bankSelection: {
+    pleaseSelectYourPreferredBank: "Επιλέξτε την προτιμώμενη τράπεζα",
+  }
 }
 
 export default el;

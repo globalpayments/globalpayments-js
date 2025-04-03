@@ -14,20 +14,22 @@ import {
 } from "../../../internal/lib/enums";
 import { isApmProviderConfigured, isUrlValid } from "../../../apm/non-card-payments/components/common";
 import {getCurrentLanguage, getTranslationLanguageSet} from "../../../internal/lib/detectLanguage";
+import { isBankSelectionAvailable, getImageUrl } from "../../../internal/lib/bank-selection/helpers";
+import addBankSelection from "../../components/bank-selection/action-add-bank-selection";
+import getAssetBaseUrl from "../../../internal/gateways/gp-api/get-asset-base-url";
 
-export default function addPaymentMethod(iframeField: IframeField | undefined, apmProvider: ApmProviders, apm: Apm): void {
+export default function addPaymentMethod(iframeField: IframeField | undefined, apmProvider: ApmProviders, apm: Apm, countryCode?:string | undefined): void {
   if (!iframeField) return;
-
   const apmAllowedPaymentMethods = options.apms?.nonCardPayments?.allowedPaymentMethods;
   if (!apmAllowedPaymentMethods || !isApmProviderConfigured(apmAllowedPaymentMethods, apmProvider)) return;
 
-  displayPaymentMethods(iframeField, apmProvider, apm);
+  displayPaymentMethods(iframeField, apmProvider, apm,options.apms?.countryCode);
 
   // Merchant Interaction listeners
   addMerchantEventListeners(iframeField, apmProvider, apm);
 }
 
-function displayPaymentMethods(iframeField: IframeField, apmProvider: ApmProviders, apm: Apm) {
+function displayPaymentMethods(iframeField: IframeField, apmProvider: ApmProviders, apm: Apm,countryCode:string | undefined) {
   const lang = getCurrentLanguage();
   const translationSet = getTranslationLanguageSet(lang);
 
@@ -45,6 +47,7 @@ function displayPaymentMethods(iframeField: IframeField, apmProvider: ApmProvide
   });
 
   const paymentMethodButtonAriaLabel = translationSet.apms?.button?.getAriaLabel(formatProvider(apmProvider));
+  const backgroundImage = getImageUrl(getAssetBaseUrl(''),apmProvider,countryCode);
   const paymentMethodButton = createHtmlButtonElement({
     id: `${apm.toLowerCase()}`,
     className: `${apm.toLowerCase()}-button`,
@@ -54,11 +57,15 @@ function displayPaymentMethods(iframeField: IframeField, apmProvider: ApmProvide
       { "aria-label": paymentMethodButtonAriaLabel }
     ],
   });
-
+  paymentMethodButton.style.background = backgroundImage;
+  // paymentMethodButton.setAttribute('style', 'background: backgroundImage')
   paymentMethodButton?.addEventListener('click', () => {
     // Merchant Interaction: Emit an event to let the Merchant know the selected provider
     iframeField?.emit(ApmEvents.PaymentMethodSelection, {
       provider: apmProvider,
+      // TODO (Bank Selection): Add the Bank selection country and currency props to evaluate if it is available
+      countryCode: options.apms?.countryCode,
+      currencyCode: options.apms?.currencyCode,
     });
   });
 
@@ -72,38 +79,61 @@ function addMerchantEventListeners(iframeField: IframeField, apmProvider: ApmPro
   window.addEventListener(ApmEvents.PaymentMethodActionDetail, (event: any) => {
     const {
       redirect_url: redirectUrl,
-      provider
+      provider,
+      // TODO (Bank Selection): Get the country and currency to evaluate the feature
+      countryCode,
+      currencyCode,
+      bankName
     } = event.detail || {};
 
-    if (provider !== apmProvider) {
-      return;
-    }
+    const BANK_SELECTION_KEY = "bank-selection";
 
-    const urlToValidate = (redirectUrl);
-    if (!isUrlValid(urlToValidate)) {
-      bus.emit("error", {
-        error: true,
-        reasons: [{ code: "ERROR", message: "Url Error: Invalid url." }],
+    // if (provider !== apmProvider) {
+    //   return;
+    // }
+
+    const existing = document.getElementById(`${BANK_SELECTION_KEY}-wrapper`);
+    if(existing) existing.remove();
+
+    // TODO (Bank Selection): Bank Selection evaluation
+    if (isBankSelectionAvailable(countryCode, currencyCode)
+      && provider === ApmProviders.OpenBanking
+      && iframeField?.container
+      && !bankName) {
+      addBankSelection((iframeField), {
+        countryCode,
+        currencyCode
       });
+      changeCreditCardFormFieldsVisibility(false);
+    } else {
+      const urlToValidate = (redirectUrl);
+      if (!isUrlValid(urlToValidate)) {
+        bus.emit("error", {
+          error: true,
+          reasons: [{ code: "ERROR", message: "Url Error: Invalid url." }],
+        });
 
-      return;
+        return;
+      }
+
+      const existingRedirectContent = document.getElementById(`redirect-content`);
+      if(existingRedirectContent) existingRedirectContent.remove();
+
+      const contentDiv = createHtmlDivElement({
+        id: `redirect-content`,
+        className: `${apm.toLowerCase()}-content`,
+      });
+      iframeField?.container?.appendChild(contentDiv);
+
+      const onClickSelectAnotherPaymentMethod = () => {
+        contentDiv.setAttribute('style', 'display: none');
+        changeCreditCardFormFieldsVisibility(true);
+
+        window.dispatchEvent(new CustomEvent(ApmInternalEvents.NavigatesBackBySelectAnotherPaymentMethod, {}));
+      };
+
+      changeCreditCardFormFieldsVisibility(false);
+      handleRedirectAction(contentDiv, { redirectUrl, onClickSelectAnotherPaymentMethod });
     }
-
-    const contentDiv = createHtmlDivElement({
-      id: `${apm.toLowerCase()}-content`,
-      className: `${apm.toLowerCase()}-content`,
-    });
-    iframeField?.container?.appendChild(contentDiv);
-
-    const onClickSelectAnotherPaymentMethod = () => {
-      contentDiv.setAttribute('style', 'display: none');
-      changeCreditCardFormFieldsVisibility(true);
-
-      window.dispatchEvent(new CustomEvent(ApmInternalEvents.NavigatesBackBySelectAnotherPaymentMethod, {}));
-    };
-
-    changeCreditCardFormFieldsVisibility(false);
-    handleRedirectAction(contentDiv, { redirectUrl, onClickSelectAnotherPaymentMethod });
-
   }, false);
 }

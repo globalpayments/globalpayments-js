@@ -26,7 +26,11 @@ const themePreset: IThemePreset = {
         neutralWhite: '#FFFFFF',
         coolGrey61: '#9296A5',
         coolGrey76: '#BCBFC8',
-      }
+        cool_grey_39: '#5A5E6D',
+        cool_grey_base: '#707689',
+        cool_grey_95: '#F1F2F4',
+        azure_95:'#E5F4FF'
+      },
     },
 
     fontFamily: {
@@ -37,6 +41,7 @@ const themePreset: IThemePreset = {
         fontFormat: "woff2",
         fontWeightMedium: "500", // Medium = 500
         fontWeightRegular: "400", // Regular = 400
+        fontWeightBold:"700"
       },
 
       sizes: {
@@ -44,6 +49,8 @@ const themePreset: IThemePreset = {
         bodyBase: "1em", // 16px
         small1: "1em", // 16px - Used for Tooltip Heading
         small2: "0.889em", // 14.22px - Used for Tooltip body text
+        xl:"1.25rem",
+        sm:"0.875rem"
       },
 
       lineHeights: {
@@ -69,7 +76,14 @@ const themePreset: IThemePreset = {
       radius: {
         general: "0px",
         curve: "2px",
+        sm: '0.125rem'
       },
+      borderWidth: {
+          '0': '0px', // remove border
+          '1': '1px', // customise border widths
+          '2': '2px',
+          '3': '3px',
+      }
     },
 
     images: {

@@ -50,6 +50,12 @@ const ja = {
     "text": 'カードの裏面にある追加の 3 桁の数字です。アメリカンエキスプレスの場合は、カードの表面にある追加の 4 桁の数字です。'
   },
   "other-cards-label": 'またはカード情報を手動で入力する',
+  QR: {
+    button: {
+      text: '他の支払い方法を選択する',
+      "aria-label": '他の支払い方法を選択する'
+    },
+  },
   apms: {
     button: {
       getAriaLabel: (paymentMethod: string): string => {
@@ -57,8 +63,20 @@ const ja = {
 
         return resource.replace('##VALUE1##', paymentMethod);
       },
+      // getImageUrl: (assetBaseUrl: string): string => {
+      //   const imageBase = assetBaseUrl + "images/";
+      //   const url = `transparent url(${imageBase}open-banking.svg) no-repeat 50% 50%`
+      //   return url;
+      // }
     }
   },
+  orderInformation: {
+    amount: "額",
+    orderReference: "注文参照",
+  },
+  bankSelection: {
+    pleaseSelectYourPreferredBank: "ご希望の銀行を選択してください",
+  }
 }
 
 export default ja;

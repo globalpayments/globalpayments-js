@@ -13,6 +13,9 @@ import { createHtmlDivElement, createToolTip } from "../common/html-element";
 import {DCC_KEY} from "../internal/lib/currency-conversion/contracts/constants";
 import { isBrandTheme } from "../internal/lib/styles/themes/helpers";
 import { addFooterBrandedIcons } from "../internal/lib/add-footer-branded-icons";
+import addOrderInformation from "../ui/components/order-information/action-add-order-information";
+import { isBlikAvailable } from "../internal/built-in-validations/helpers";
+import { ApmProviders } from "../internal/lib/enums";
 
 export const defaultOptions: IUIFormOptions = {
   labels: {
@@ -89,6 +92,9 @@ export function form(
   const firstFieldCardForm = fieldTypes[0];
 
   if (formOptions.apms) {
+    if(!isBlikAvailable(options?.apms?.countryCode,options?.apms?.nonCardPayments)){
+      formOptions.apms?.splice(formOptions.apms?.indexOf(ApmProviders.Blik),1)
+    }
     fieldTypes = [...formOptions.apms.toString().split(','), ...fieldTypes]
   }
 
@@ -184,6 +190,16 @@ export function form(
     addFooterBrandedIcons(formOptions, target);
   } else {
     addFooterIcons(formOptions, target);
+  }
+
+  // Order Information block
+  if (options.orderInformation?.enabled) {
+    addOrderInformation(target, {
+      merchantName: options.orderInformation.merchantName,
+      orderTotalAmount: `${options.orderInformation.orderTotalAmount || 0}`,
+      orderReference: options.orderInformation.orderReference,
+      currencyCode: options.orderInformation.currencyCode,
+    });
   }
 
   return new UIForm(

@@ -14,6 +14,9 @@ import {
   styles as getCurrencyConversionStyles,
 } from './currency-conversion/gp-default';
 
+import getOrderInformationCommonStyles from './order-information/common';
+import getBankSelectionCommonStyles from './bank-selection/common';
+
 // tslint:disable:object-literal-key-quotes
 // tslint:disable:object-literal-sort-keys
 
@@ -306,5 +309,9 @@ export const parentStyles = (assetBaseUrl: string) => {
     ...(options.fieldValidation?.enabled ? getBuiltInValidationParentStyles(assetBaseUrl) : {}),
     ...(options.currencyConversion?.enabled ? getCurrencyConversionStyles() : {}),
     ...getPaymentMethodsStyles(assetBaseUrl),
+
+    ...(options.orderInformation?.enabled ? getOrderInformationCommonStyles(assetBaseUrl) : {}),
+
+    ...getBankSelectionCommonStyles(assetBaseUrl),
   };
 };

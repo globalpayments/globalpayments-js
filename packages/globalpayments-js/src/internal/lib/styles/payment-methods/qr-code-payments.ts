@@ -53,7 +53,7 @@ export const styles = (assetBaseUrl: string) => {
           width: "100%",
           "border-radius": "4px",
           border: "0px",
-          margin: "5px 0",
+          margin: "8px 0",
           cursor: "pointer",
         },
         ".secure-payment-form .qr-code-payment-method-button:focus": {

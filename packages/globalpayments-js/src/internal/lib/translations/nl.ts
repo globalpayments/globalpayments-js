@@ -50,6 +50,12 @@ const nl = {
     "text": 'De 3 cijfers op de achterzijde van uw kaart. Bij AmEx-kaarten zijn dit de 4 cijfers op de achterzijde van uw kaart.'
   },
   "other-cards-label": 'U kunt de kaartgegevens ook handmatig invoeren',
+  QR: {
+    button: {
+      text: 'Betalingskeuze',
+      "aria-label": 'Betalingskeuze'
+    },
+  },
   apms: {
     button: {
       getAriaLabel: (paymentMethod: string): string => {
@@ -57,8 +63,20 @@ const nl = {
 
         return resource.replace('##VALUE1##', paymentMethod);
       },
+      // getImageUrl: (assetBaseUrl: string): string => {
+      //   const imageBase = assetBaseUrl + "images/";
+      //   const url = `transparent url(${imageBase}open-banking.svg) no-repeat 50% 50%`
+      //   return url;
+      // }
     }
   },
+  orderInformation: {
+    amount: "Hoeveelheid",
+    orderReference: "Bestelreferentie",
+  },
+  bankSelection: {
+    pleaseSelectYourPreferredBank: "Selecteer uw voorkeursbank",
+  }
 }
 
 export default nl;

@@ -163,6 +163,39 @@ export const getBaseTokenDefinitions = (assetBaseUrl: string, themePreset?: IThe
         "--hppfooter-mobile": `url(${imageBase}${images.brand.footer.mobileLogo})`,
 
         "--dropin-ui-button-primary-icon": `url(${imageBase}${images.brand.buttonPrimaryIcon})`,
+
+        /* order information tokens */
+        "--dropInUI-orderSummary-itemMerchant-fontFamily": fontFamily.brand.fontName,
+        "--dropInUI-orderSummary-itemMerchant-font-size-text": fontFamily.sizes.xl,
+        "--dropInUI-orderSummary-itemMerchant-font-weight-text": fontFamily.brand.fontWeightBold,
+        "--dropInUI-orderSummary-itemMerchant-line-height": fontFamily.lineHeights.small1,
+        "--dropInUI-orderSummary-itemOrderID-font-size-text": fontFamily.sizes.sm,
+        "--dropInUI-orderSummary-itemOrderID-font-weight-text": fontFamily.brand.fontWeightRegular,
+
+        /* Bank Selection tokens */
+
+        /* Heading Label */
+        "--payWithBank-label-fontFamily": fontFamily.brand.fontName,
+        "--payWithBank-size-text-label": fontFamily.sizes.bodyBase,
+        "--payWithBank-font-weight-text-label": fontFamily.brand.fontWeightRegular,
+        "--payWithBank-color-label": colors.brand.dark,
+
+        /* Standard Bank Buttons */
+        "--payWithBank-button-color-icon-redirect-default": colors.general.cool_grey_39,
+        "--payWithBank-button-color-border-hover": colors.general.cool_grey_base,
+        "--payWithBank-button-weight-border-hover": borders.borderWidth[0],
+        "--payWithBank-button-weight-focus-indicator": borders.borderWidth[3],
+        "--payWithBank-button-color-background-default": colors.general.neutralWhite,
+        "--payWithBank-button-color-background-hover": colors.general.neutralWhite,
+        "--payWithBank-button-color-background-focus": colors.general.neutralWhite,
+        "--payWithBank-button-color-background-pressed": colors.general.cool_grey_95,
+        "--payWithBank-button-border-radius": borders.radius.sm,
+        /* Pay with QR Code Bank Button */
+        "--payWithBank-QRbutton-color-border-hover": colors.general.cool_grey_base,
+        "--payWithBank-QRbutton-weight-border-hover": borders.borderWidth[1],
+        "--payWithBank-QRbutton-weight-focus-indicator": borders.borderWidth[3],
+        "--payWithBank-QRbutton-color-background-default": colors.general.azure_95,
+        "--payWithBank-QRbutton-color-background-hover": colors.general.azure_95
       },
   }
 }

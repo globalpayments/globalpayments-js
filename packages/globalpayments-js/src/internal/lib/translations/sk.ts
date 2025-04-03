@@ -50,6 +50,12 @@ const sk = {
     "text": 'Ďalšie 3 číslice na zadnej strane karty. V prípade kariet od spoločnosti American Express ide o ďalšie 4 číslice na zadnej strane karty.'
   },
   "other-cards-label": 'Alebo zadajte podrobnosti o karte manuálne',
+  QR: {
+    button: {
+      text: 'Oblike plačila',
+      "aria-label": 'Oblike plačila'
+    },
+  },
   apms: {
     button: {
       getAriaLabel: (paymentMethod: string): string => {
@@ -57,8 +63,20 @@ const sk = {
 
         return resource.replace('##VALUE1##', paymentMethod);
       },
+      getImageUrl: (assetBaseUrl: string): string => {
+        const imageBase = assetBaseUrl + "images/";
+        const url = `transparent url(${imageBase}Bankova_Platba_Logo.svg) no-repeat 50% 50%`
+        return url;
+      }
     }
   },
+  orderInformation: {
+    amount: "Suma",
+    orderReference: "Referencia objednávky",
+  },
+  bankSelection: {
+    pleaseSelectYourPreferredBank: "Vyberte si preferovanú banku",
+  }
 }
 
 export default sk;

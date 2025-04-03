@@ -9,7 +9,7 @@ const styles = (assetBaseUrl: string) => {
       "--apple-pay-button-padding": "0px 0px",
       "--apple-pay-button-box-sizing": "border-box",
       display: "block",
-      margin: "5px 0",
+      margin: "8px 0",
     }
   };
 };

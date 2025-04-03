@@ -24,7 +24,7 @@ const styles = (assetBaseUrl: string) => {
       border: "0px",
       width: "100%",
       "border-radius": "2px",
-      margin: "5px 0",
+      margin: "8px 0",
       cursor: "pointer"
     },
     ".secure-payment-form .paypal-button:hover": {

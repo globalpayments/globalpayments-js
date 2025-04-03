@@ -21,6 +21,9 @@ import {
   styles as getCurrencyConversionStyles,
 } from './currency-conversion/simple';
 
+import getOrderInformationCommonStyles from './order-information/common';
+import getBankSelectionCommonStyles from './bank-selection/common';
+
 export const fieldStyles = (assetBaseUrl: string) => {
   const imageBase = assetBaseUrl + "images/";
 
@@ -333,6 +336,10 @@ export const parentStyles = (assetBaseUrl: string) => {
 
     ...(options.fieldValidation?.enabled ? getBuiltInValidationParentStyles(assetBaseUrl) : {}),
     ...(options.apms?.qrCodePayments && options.apms?.qrCodePayments.enabled ? getQRCodePaymentsCommonStyles(assetBaseUrl) : {}),
-    ...(options.currencyConversion?.enabled ? getCurrencyConversionStyles() : {})
+    ...(options.currencyConversion?.enabled ? getCurrencyConversionStyles() : {}),
+
+    ...(options.orderInformation?.enabled ? getOrderInformationCommonStyles(assetBaseUrl) : {}),
+
+    ...getBankSelectionCommonStyles(assetBaseUrl),
   };
 };

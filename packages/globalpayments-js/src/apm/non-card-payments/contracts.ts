@@ -6,4 +6,5 @@ export interface PaymentMethod {
   provider: string;
   category?: string;
   image?: string;
+  enabled?:boolean;
 }

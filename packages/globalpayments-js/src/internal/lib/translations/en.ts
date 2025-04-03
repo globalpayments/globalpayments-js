@@ -86,7 +86,13 @@ const en = {
 
         return resource.replace('##VALUE1##', paymentMethod);
       },
-    }
+      // getImageUrl: (assetBaseUrl: string): string => {
+      //   const imageBase = assetBaseUrl + "images/";
+      //   const url = `transparent url(${imageBase}open-banking.svg) no-repeat 50% 50%`
+      //   return url;
+      // }
+    },
+    redirectToBank: "Redirecting",
   },
   dcc: {
     label: "Select Your Preferred Currency",
@@ -120,7 +126,14 @@ const en = {
       },
       "aria-label": "Information about Currency Conversion"
     }
-  }
+  },
+  orderInformation: {
+    amount: "Amount",
+    orderReference: "Order Reference",
+  },
+  bankSelection: {
+    pleaseSelectYourPreferredBank: "Please select your preferred bank",
+  },
 }
 
 export default en;

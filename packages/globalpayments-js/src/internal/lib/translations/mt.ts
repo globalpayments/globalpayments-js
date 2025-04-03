@@ -50,6 +50,12 @@ const mt = {
     "text": 'It-3 ċifri addizzjonali fuq wara tal-kard tiegħek. Għal American Express, huma l-4 ċifri addizzjonali fuq in-naħa ta’ quddiem tal-kard tiegħek.'
   },
   "other-cards-label": 'Jew daħħal id-dettalji tal-kard manwalment',
+  QR: {
+    button: {
+      text: 'Għażla tal-Pagamenti',
+      "aria-label": 'Għażla tal-Pagamenti'
+    },
+  },
   apms: {
     button: {
       getAriaLabel: (paymentMethod: string): string => {
@@ -57,8 +63,20 @@ const mt = {
 
         return resource.replace('##VALUE1##', paymentMethod);
       },
+      // getImageUrl: (assetBaseUrl: string): string => {
+      //   const imageBase = assetBaseUrl + "images/";
+      //   const url = `transparent url(${imageBase}open-banking.svg) no-repeat 50% 50%`
+      //   return url;
+      // }
     }
   },
+  orderInformation: {
+    amount: "Ammont",
+    orderReference: "Referenza tal-Ordni",
+  },
+  bankSelection: {
+    pleaseSelectYourPreferredBank: "Jekk jogħġbok agħżel il-bank preferut tiegħek",
+  }
 }
 
 export default mt;

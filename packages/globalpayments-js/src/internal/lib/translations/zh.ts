@@ -85,8 +85,16 @@ const zh = {
 
         return resource.replace('##VALUE1##', paymentMethod);
       },
+      // getImageUrl: (assetBaseUrl: string): string => {
+      //   const imageBase = assetBaseUrl + "images/";
+      //   const url = `transparent url(${imageBase}open-banking.svg) no-repeat 50% 50%`
+      //   return url;
+      // }
     }
   },
+  bankSelection: {
+    pleaseSelectYourPreferredBank: "Please select your preferred bank",
+  }
 }
 
 export default zh;

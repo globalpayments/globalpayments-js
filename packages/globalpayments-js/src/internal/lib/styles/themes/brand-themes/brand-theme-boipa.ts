@@ -27,6 +27,9 @@ const themePreset: IThemePreset = {
     // Inherits the general colors from Base preset
     general: {
       ...getBaseThemePresetGeneralColors(),
+      cool_grey_39: '#5A5E6D',
+      cool_grey_base: '#707689',
+      cool_grey_95: '#F1F2F4',
     },
   },
 
@@ -58,7 +61,14 @@ const themePreset: IThemePreset = {
     radius: {
       general: "0px",
       curve: "2px",
+      sm: '0.125rem'
     },
+    borderWidth: {
+        '0': '0px', // remove border
+        '1': '1px', // customise border widths
+        '2': '2px',
+        '3': '3px',
+    }
   },
 
   images: {

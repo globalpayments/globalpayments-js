@@ -38,7 +38,14 @@ export interface IThemePreset {
         radius: {
             general: string,
             curve: string,
+            sm:string
         },
+        borderWidth: {
+            0: string,
+            1: string,
+            2: string,
+            3: string
+        }
     },
 
     images: {
@@ -64,6 +71,10 @@ export interface IThemePresetGeneralColors {
     neutralWhite: string,
     coolGrey61: string,
     coolGrey76: string,
+    cool_grey_39: string,
+    cool_grey_base:string,
+    cool_grey_95:string,
+    azure_95:string
 }
 
 export interface IThemePresetBodyPaddings {
@@ -80,6 +91,7 @@ export interface IThemePresetFontFamily {
         fontFormat?: string,
         fontWeightMedium: string,
         fontWeightRegular: string,
+        fontWeightBold?:string
     },
 
     sizes: {
@@ -87,6 +99,8 @@ export interface IThemePresetFontFamily {
         bodyBase: string,
         small1: string,
         small2: string,
+        xl:string,
+        sm:string
     },
 
     lineHeights: {

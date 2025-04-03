@@ -134,6 +134,15 @@ export interface IConfiguration extends IDictionary {
     enabled?: boolean,
     characterValidation?: string
   }
+
+  // Specific configuration properties for Order Information
+  orderInformation?: {
+    enabled?: boolean,
+    merchantName: string,
+    orderTotalAmount: string,
+    orderReference: string,
+    currencyCode: string,
+  },
 }
 
 /**

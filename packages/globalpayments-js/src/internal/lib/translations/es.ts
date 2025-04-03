@@ -52,8 +52,8 @@ const es = {
   "other-cards-label": 'O bien introduce los datos de la tarjeta de forma manual',
   QR: {
     button: {
-      text: 'Selecciona otro método de pago',
-      "aria-label": 'Selecciona otro método de pago'
+      text: 'Elección de pago',
+      "aria-label": 'Elección de pago'
     },
     redirectScreen: {
       redirectingToPaymentPageMessage: 'Redirigiendo a la página de pago',
@@ -66,8 +66,20 @@ const es = {
 
         return resource.replace('##VALUE1##', paymentMethod);
       },
+      // getImageUrl: (assetBaseUrl: string): string => {
+      //   const imageBase = assetBaseUrl + "images/";
+      //   const url = `transparent url(${imageBase}open-banking.svg) no-repeat 50% 50%`
+      //   return url;
+      // }
     }
   },
+  orderInformation: {
+    amount: "Cantidad",
+    orderReference: "Referencia del pedido",
+  },
+  bankSelection: {
+    pleaseSelectYourPreferredBank: "Por favor seleccione su banco preferido",
+  }
 }
 
 export default es;

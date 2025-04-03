@@ -59,17 +59,18 @@ $accessToken = $response->token ?? '';
 </main>
 
 <script src="https://js-cert.globalpay.com/<?= $version ?>/globalpayments.js"></script>
+<!-- <script src="../../dist/globalpayments.js"></script> -->
 <script>
     GlobalPayments.configure({
         accessToken: "<?= $accessToken ?>",
-        env: "sandbox",
+        env: "local",
         apiVersion: "2021-03-22",
         language: "en",
         account: "<?= $account ?>",
         //merchantId: "<?//= $merchant_id ?>//",
         apms: {
-            currencyCode: "USD",
-            countryCode: "US",
+            currencyCode: "PLN",
+            countryCode: "PL",
             allowedCardNetworks: [GlobalPayments.enums.CardNetwork.Visa, GlobalPayments.enums.CardNetwork.Mastercard, GlobalPayments.enums.CardNetwork.Amex, GlobalPayments.enums.CardNetwork.Discover],
             applePay: {
                 applePayVersionNumber: 3,
@@ -124,6 +125,10 @@ $accessToken = $response->token ?? '';
                 allowedPaymentMethods: [{
                     provider: GlobalPayments.enums.ApmProviders.OpenBanking,
                     category: "TBD"
+                },
+                {
+                    provider: GlobalPayments.enums.ApmProviders.Blik,
+                    enabled:  true
                 }]
             }
         }
@@ -141,23 +146,49 @@ $accessToken = $response->token ?? '';
             GlobalPayments.enums.Apm.ApplePay,
             GlobalPayments.enums.Apm.QRCodePayments,
             GlobalPayments.enums.Apm.OpenBankingPayment,
+            GlobalPayments.enums.Apm.Blik
         ]
     });
 
     cardForm.on(GlobalPayments.enums.ApmEvents.PaymentMethodSelection, paymentProviderData => {
-        const { provider } = paymentProviderData;
+        const { 
+            provider, 
+            countryCode,
+            currencyCode,
+            bankName,
+            acquirer } = paymentProviderData;
         console.log('Selected provider: ' + provider);
 
         let detail = {};
 
         switch (provider) {
             case GlobalPayments.enums.ApmProviders.OpenBanking:
-                detail = {
+                if(!bankName){
+                    detail = {
                     provider,
                     redirect_url: "https://fluentlenium.com/",
+                    bankName,
+                    acquirer
+                }
+                }else {
+                    detail = {
+                    provider,
+                    redirect_url: "https://google.com/",
+                    bankName,
+                    acquirer
+                }
+                }
+                // detail = {
+                //     provider,
+                //     redirect_url: "https://fluentlenium.com/",
+                // };
+                break;
+            case GlobalPayments.enums.ApmProviders.Blik:
+                detail = {
+                    provider,
+                    redirect_url: "https://www.blik.com/en",
                 };
                 break;
-
             case GlobalPayments.enums.ApmProviders.WeChat:
                 detail = {
                     seconds_to_expire: "900",
@@ -180,6 +211,7 @@ $accessToken = $response->token ?? '';
         const merchantCustomEventProvideDetails = new CustomEvent(GlobalPayments.enums.ApmEvents.PaymentMethodActionDetail, {
             detail: detail
         });
+        console.log(merchantCustomEventProvideDetails)
         window.dispatchEvent(merchantCustomEventProvideDetails);
     });
 </script>

@@ -50,6 +50,12 @@ const hu = {
     "text": 'A kártya hátulján szereplő további 3 számjegy. American Express esetében ez a kártya hátulján szereplő további 4 számjegy.'
   },
   "other-cards-label": 'Vagy adja meg kézzel a kártya adatait',
+  QR: {
+    button: {
+      text: 'Választott fizetési mód',
+      "aria-label": 'Választott fizetési mód'
+    },
+  },
   apms: {
     button: {
       getAriaLabel: (paymentMethod: string): string => {
@@ -57,8 +63,20 @@ const hu = {
 
         return resource.replace('##VALUE1##', paymentMethod);
       },
+      // getImageUrl: (assetBaseUrl: string): string => {
+      //   const imageBase = assetBaseUrl + "images/";
+      //   const url = `transparent url(${imageBase}open-banking.svg) no-repeat 50% 50%`
+      //   return url;
+      // }
     }
   },
+  orderInformation: {
+    amount: "Összeg",
+    orderReference: "Rendelési hivatkozás",
+  },
+  bankSelection: {
+    pleaseSelectYourPreferredBank: "Kérjük, válassza ki a kívánt bankot",
+  }
 }
 
 export default hu;

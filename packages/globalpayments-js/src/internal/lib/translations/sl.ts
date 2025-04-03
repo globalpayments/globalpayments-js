@@ -50,6 +50,12 @@ const sl = {
     "text": 'Dodatne 3 števke na hrbtni strani kartice. Za kartice American Express so to dodatne 4 števke na sprednji strani kartice.'
   },
   "other-cards-label": 'Ali pa ročno vnesite podatke o kartici',
+  QR: {
+    button: {
+      text: 'Oblike plačila',
+      "aria-label": 'Oblike plačila'
+    },
+  },
   apms: {
     button: {
       getAriaLabel: (paymentMethod: string): string => {
@@ -57,8 +63,20 @@ const sl = {
 
         return resource.replace('##VALUE1##', paymentMethod);
       },
+      // getImageUrl: (assetBaseUrl: string): string => {
+      //   const imageBase = assetBaseUrl + "images/";
+      //   const url = `transparent url(${imageBase}open-banking.svg) no-repeat 50% 50%`
+      //   return url;
+      // }
     }
   },
+  orderInformation: {
+    amount: "Znesek",
+    orderReference: "Referenca naročila",
+  },
+  bankSelection: {
+    pleaseSelectYourPreferredBank: "Izberite želeno banko",
+  }
 }
 
 export default sl;

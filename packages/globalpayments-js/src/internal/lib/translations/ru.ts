@@ -50,6 +50,12 @@ const ru = {
     "text": 'Дополнительные 3 цифры на обратной стороне карты. Для American Express это дополнительные 4 цифры на лицевой стороне карты.'
   },
   "other-cards-label": 'Либо введите данные карты вручную',
+  QR: {
+    button: {
+      text: 'Выбор способа оплаты',
+      "aria-label": 'Выбор способа оплаты'
+    },
+  },
   apms: {
     button: {
       getAriaLabel: (paymentMethod: string): string => {
@@ -57,8 +63,20 @@ const ru = {
 
         return resource.replace('##VALUE1##', paymentMethod);
       },
+      // getImageUrl: (assetBaseUrl: string): string => {
+      //   const imageBase = assetBaseUrl + "images/";
+      //   const url = `transparent url(${imageBase}open-banking.svg) no-repeat 50% 50%`
+      //   return url;
+      // }
     }
   },
+  orderInformation: {
+    amount: "Количество",
+    orderReference: "Ссылка на заказ",
+  },
+  bankSelection: {
+    pleaseSelectYourPreferredBank: "Пожалуйста, выберите предпочитаемый банк",
+  }
 }
 
 export default ru;

@@ -50,6 +50,12 @@ const cs = {
     "text": 'Další 3 číslice na zadní straně vaší karty. U karet American Express se jedná o další 4 číslice na přední straně vaší karty.'
   },
   "other-cards-label": 'Nebo zadejte údaje o kartě ručně',
+  QR: {
+    button: {
+      text: 'Vyberte jinou platební metodu',
+      "aria-label": 'Vyberte jinou platební metodu'
+    },
+  },
   apms: {
     button: {
       getAriaLabel: (paymentMethod: string): string => {
@@ -57,8 +63,20 @@ const cs = {
 
         return resource.replace('##VALUE1##', paymentMethod);
       },
+      getImageUrl: (assetBaseUrl: string): string => {
+        const imageBase = assetBaseUrl + "images/";
+        const url = `transparent url(${imageBase}Bankovni_Platba_Logo.svg) no-repeat 50% 50%`
+        return url;
+      }
     }
   },
+  orderInformation: {
+    amount: "Množství",
+    orderReference: "Reference objednávky",
+  },
+  bankSelection: {
+    pleaseSelectYourPreferredBank: "Vyberte preferovanou banku",
+  }
 }
 
 export default cs;

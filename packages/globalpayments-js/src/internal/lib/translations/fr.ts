@@ -49,6 +49,12 @@ const fr = {
     "text": 'Les 3 chiffres supplémentaires figurant au dos de votre carte. Pour American Express, il s\'agit des 4 chiffres supplémentaires figurant au recto de votre carte.'
   },
   "other-cards-label": 'Vous pouvez aussi saisir manuellement les détails de la carte.',
+  QR: {
+    button: {
+      text: 'Sélectionner un autre moyen de paiement',
+      "aria-label": 'Sélectionner un autre moyen de paiement'
+    },
+  },
   apms: {
     button: {
       getAriaLabel: (paymentMethod: string): string => {
@@ -56,8 +62,20 @@ const fr = {
 
         return resource.replace('##VALUE1##', paymentMethod);
       },
+      // getImageUrl: (assetBaseUrl: string): string => {
+      //   const imageBase = assetBaseUrl + "images/";
+      //   const url = `transparent url(${imageBase}open-banking.svg) no-repeat 50% 50%`
+      //   return url;
+      // }
     }
   },
+  orderInformation: {
+    amount: "Montant",
+    orderReference: "Référence de commande",
+  },
+  bankSelection: {
+    pleaseSelectYourPreferredBank: "Veuillez sélectionner votre banque préférée",
+  }
 }
 
 export default fr;

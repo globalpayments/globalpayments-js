@@ -3,8 +3,15 @@
 </a>
 
 # Changelog
+## Latest Version - v4.1.5 (3/4/25)
+- [Globalpayments-js][4.1.5] Added Bank Selection configuration to all-apms file to maintain functionality throughout.
 
-## Latest Version - v4.1.3 (12/3/24)
+## Latest Version - v4.1.4 (3/4/25)
+- [Globalpayments-js][4.1.4] Add Order Information feature.
+- [Globalpayments-js][4.1.4] Add Bank Selection feature.
+- [Globalpayments-js][4.1.4] Add APMs for Poland (BLIK) feature.
+
+## v4.1.3 (12/3/24)
 - [Globalpayments-js][4.1.3] Fixed issue with DCC radio buttons resizing.
 - [Globalpayments-js][4.1.3] Fixed issue with Special characters rejected.
 

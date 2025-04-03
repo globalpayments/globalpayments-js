@@ -50,6 +50,12 @@ const tr = {
     "text": 'Kartınızın arkasındaki ek 3 rakamdır. American Express’te, kartınızın önündeki ek 4 rakamdır.'
   },
   "other-cards-label": 'Veya kart bilgilerini manuel olarak girin',
+  QR: {
+    button: {
+      text: 'Başka bir ödeme yöntemi seçin',
+      "aria-label": 'Başka bir ödeme yöntemi seçin'
+    },
+  },
   apms: {
     button: {
       getAriaLabel: (paymentMethod: string): string => {
@@ -57,8 +63,20 @@ const tr = {
 
         return resource.replace('##VALUE1##', paymentMethod);
       },
+      // getImageUrl: (assetBaseUrl: string): string => {
+      //   const imageBase = assetBaseUrl + "images/";
+      //   const url = `transparent url(${imageBase}open-banking.svg) no-repeat 50% 50%`
+      //   return url;
+      // }
     }
   },
+  orderInformation: {
+    amount: "Miktar",
+    orderReference: "Sipariş Referansı",
+  },
+  bankSelection: {
+    pleaseSelectYourPreferredBank: "Lütfen tercih ettiğiniz bankayı seçin",
+  }
 }
 
 export default tr;

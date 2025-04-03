@@ -58,8 +58,15 @@ const themePreset: IThemePreset = {
     radius: {
       general: "0px",
       curve: "4px",
+      sm: '0.125rem'
+      },
+      borderWidth: {
+          '0': '0px', // remove border
+          '1': '1px', // customise border widths
+          '2': '2px',
+          '3': '3px',
+      }
     },
-  },
 
   images: {
     brand: {

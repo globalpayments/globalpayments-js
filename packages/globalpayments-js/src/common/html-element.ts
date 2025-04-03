@@ -272,6 +272,7 @@ export const changeCreditCardFormFieldsVisibility = (visible: boolean): void => 
     '.other-cards-label',
     '.qr-code-payment-methods-wrapper',
     '.open-banking-button-wrapper',
+    '.blik-button-wrapper',
     '.paypal-button-wrapper',
     // Credit card common
     '.credit-card-card-number',

@@ -50,6 +50,12 @@ const en = {
     "text": 'Dodatkowe 3 cyfry znajdujące się na odwrocie karty W przypadku kart American Express są to dodatkowe 4 cyfry znajdujące się na przedniej stronie karty.'
   },
   "other-cards-label": 'Albo wprowadź dane karty ręcznie',
+  QR: {
+    button: {
+      text: 'Wybór sposobu płatności',
+      "aria-label": 'Wybór sposobu płatności'
+    },
+  },
   apms: {
     button: {
       getAriaLabel: (paymentMethod: string): string => {
@@ -57,8 +63,20 @@ const en = {
 
         return resource.replace('##VALUE1##', paymentMethod);
       },
-    }
+      getImageUrl: (assetBaseUrl: string): string => {
+        const imageBase = assetBaseUrl + "images/";
+        const url = `transparent url(${imageBase}Przelew_Online_Logo.svg) no-repeat 50% 50%`
+        return url;
+      }
+    },
   },
+  orderInformation: {
+    amount: "Kwota",
+    orderReference: "Numer zamówienia",
+  },
+  bankSelection: {
+    pleaseSelectYourPreferredBank: "Wybierz preferowany bank",
+  }
 }
 
 export default en;

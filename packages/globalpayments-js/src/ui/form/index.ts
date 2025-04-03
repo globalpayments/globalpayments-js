@@ -42,6 +42,7 @@ import { cleanUpCurrencyConversionAvailabilityStatus, cleanUpCurrencyConversionP
 import addPaymentMethod from "../iframe-field/payment-methods/action-add";
 
 import { getFieldStyles, getParentStyles } from "../../internal/lib/styles/themes/brand-themes/brand-themes";
+import addOrderInformation from "../components/order-information/action-add-order-information";
 
 export { IUIFormField } from "../iframe-field";
 
@@ -77,6 +78,7 @@ export interface IUIFormOptions {
 }
 
 export const frameFieldTypes = [
+  Apm.Blik,
   Apm.ClickToPay,
   Apm.GooglePay,
   Apm.ApplePay,
@@ -318,6 +320,8 @@ export default class UIForm {
     const paypal = this.frames[Apm.PayPal];
     const qrCodePayments = this.frames[Apm.QRCodePayments];
 
+    const blik = this.frames[Apm.Blik];
+
     // support autocomplete / auto-fill from `card-number` to other fields
       if (cardNumber) {
         cardNumber.on("set-autocomplete-value", (data?: any) => {
@@ -429,12 +433,17 @@ export default class UIForm {
 
     if (openBanking) {
       openBanking?.container?.querySelector('iframe')?.remove();
-      addPaymentMethod(openBanking, ApmProviders.OpenBanking, Apm.OpenBankingPayment);
+      addPaymentMethod(openBanking, ApmProviders.OpenBanking, Apm.OpenBankingPayment,options.apms?.countryCode);
+    }
+
+    if (blik) {
+      blik?.container?.querySelector('iframe')?.remove();
+      addPaymentMethod(blik, ApmProviders.Blik, Apm.Blik);
     }
 
     if (paypal) {
       paypal?.container?.querySelector('iframe')?.remove();
-      addPaymentMethod(paypal, ApmProviders.PayPal, Apm.PayPal);
+      addPaymentMethod(paypal, ApmProviders.PayPal, Apm.PayPal,options.apms?.countryCode);
     }
 
     // Hosted Fields validattion
@@ -677,7 +686,8 @@ export default class UIForm {
         && type !== Apm.ApplePay
         && type !== INSTALLMENTS_KEY
         && type !== Apm.QRCodePayments
-        && type !== Apm.OpenBankingPayment) {
+        && type !== Apm.OpenBankingPayment
+        && type !== Apm.Blik) {
         fields.push(type);
       }
     }

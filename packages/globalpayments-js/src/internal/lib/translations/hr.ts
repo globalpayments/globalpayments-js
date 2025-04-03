@@ -50,6 +50,12 @@ const hr = {
     "text": 'Zadnje 3 znamenke na poleđini vaše kartice. Za American Express, to su dodatne 4 znamenke na prednjoj strani kartice.'
   },
   "other-cards-label": 'Ili ručno unesite podatke o kartici',
+  QR: {
+    button: {
+      text: 'Odabir plaćanja',
+      "aria-label": 'Odabir plaćanja'
+    },
+  },
   apms: {
     button: {
       getAriaLabel: (paymentMethod: string): string => {
@@ -57,8 +63,20 @@ const hr = {
 
         return resource.replace('##VALUE1##', paymentMethod);
       },
+      // getImageUrl: (assetBaseUrl: string): string => {
+      //   const imageBase = assetBaseUrl + "images/";
+      //   const url = `transparent url(${imageBase}open-banking.svg) no-repeat 50% 50%`
+      //   return url;
+      // }
     }
   },
+  orderInformation: {
+    amount: "Iznositi",
+    orderReference: "Referenca narudžbe",
+  },
+  bankSelection: {
+    pleaseSelectYourPreferredBank: "Odaberite željenu banku",
+  }
 }
 
 export default hr;

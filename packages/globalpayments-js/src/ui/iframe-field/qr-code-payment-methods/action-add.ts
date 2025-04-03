@@ -67,7 +67,7 @@ function displayPaymentMethods(iframeField: IframeField, paymentMethodConfigurat
       id: `qr-code-payment-method-${trimBrand}`,
       className: `qr-code-payment-method-button ${getQRCodePaymentMethodCSSClass(brand)}`,
       attributes: [
-        { style: `background-image: url('${image}'); background-position: 50% 50%; background-repeat: no-repeat` },
+        { style: `background-image: url('${image}'); background-position: 50% 50%; background-repeat: no-repeat; background-size: auto 56px;` },
         { alt: brand },
         { title: brand },
         { "aria-label": `${translateMessage(lang, translations.en?.apms?.button['aria-label'])} ${brand}` }

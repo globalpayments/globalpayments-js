@@ -50,6 +50,12 @@ const sv = {
     "text": 'De tre extra siffrorna på kortets baksida. För American Express är det de fyra extra siffrorna på kortets framsida.'
   },
   "other-cards-label": 'Eller ange kortuppgifterna manuellt',
+  QR: {
+    button: {
+      text: 'Betalningsalternativ',
+      "aria-label": 'Betalningsalternativ'
+    },
+  },
   apms: {
     button: {
       getAriaLabel: (paymentMethod: string): string => {
@@ -57,8 +63,20 @@ const sv = {
 
         return resource.replace('##VALUE1##', paymentMethod);
       },
+      // getImageUrl: (assetBaseUrl: string): string => {
+      //   const imageBase = assetBaseUrl + "images/";
+      //   const url = `transparent url(${imageBase}open-banking.svg) no-repeat 50% 50%`
+      //   return url;
+      // }
     }
   },
+  orderInformation: {
+    amount: "Belopp",
+    orderReference: "Beställningsreferens",
+  },
+  bankSelection: {
+    pleaseSelectYourPreferredBank: "Välj din önskade bank",
+  }
 }
 
 export default sv;

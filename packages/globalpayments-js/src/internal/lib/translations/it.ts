@@ -50,6 +50,12 @@ const it = {
     "text": 'Le 3 cifre aggiuntive sul retro della carta. Per le carte American Express, sono le ulteriori 4 cifre sulla parte anteriore.'
   },
   "other-cards-label": 'Oppure inserisci i dettagli della carta manualmente',
+  QR: {
+    button: {
+      text: 'Metodo di pagamento',
+      "aria-label": 'Metodo di pagamento'
+    },
+  },
   apms: {
     button: {
       getAriaLabel: (paymentMethod: string): string => {
@@ -57,8 +63,20 @@ const it = {
 
         return resource.replace('##VALUE1##', paymentMethod);
       },
+      // getImageUrl: (assetBaseUrl: string): string => {
+      //   const imageBase = assetBaseUrl + "images/";
+      //   const url = `transparent url(${imageBase}open-banking.svg) no-repeat 50% 50%`
+      //   return url;
+      // }
     }
   },
+  orderInformation: {
+    amount: "Quantità",
+    orderReference: "Riferimento dell'ordine",
+  },
+  bankSelection: {
+    pleaseSelectYourPreferredBank: "Seleziona la tua banca preferita",
+  }
 }
 
 export default it;

@@ -54,6 +54,8 @@ $accessToken = $response->token ?? '';
 </main>
 
 <script src="https://js-cert.globalpay.com/<?= $version ?>/globalpayments.js"></script>
+<!-- <script src="../../dist/globalpayments.js"></script> -->
+
 <script>
     GlobalPayments.configure({
         accessToken: "<?= $accessToken ?>",
@@ -62,8 +64,8 @@ $accessToken = $response->token ?? '';
         language: "en",
         account: "<?= $account ?>",
         apms: {
-            currencyCode: "GBP",
-            countryCode: "GB",
+            currencyCode: "PLN",
+            countryCode: "PL",
             nonCardPayments: {
                 allowedPaymentMethods: [{
                     provider: GlobalPayments.enums.ApmProviders.OpenBanking,
@@ -82,7 +84,8 @@ $accessToken = $response->token ?? '';
         {
             amount: "800",
             style: "gp-default",
-            apms: [ GlobalPayments.enums.Apm.OpenBankingPayment ],
+            // style: GlobalPayments.enums.BrandThemes.BrandThemeESERVICE,
+            apms: [ GlobalPayments.enums.Apm.OpenBankingPayment, GlobalPayments.BankDisplayNames ],
         }
     );
     cardForm.on("token-success", resp => {
@@ -93,14 +96,31 @@ $accessToken = $response->token ?? '';
     });
 
     cardForm.on(GlobalPayments.enums.ApmEvents.PaymentMethodSelection, paymentProviderData => {
-        const { provider } = paymentProviderData;
+        const { 
+            provider,
+            // TODO (Bank Selection): Here we should get country and currency
+            countryCode,
+            currencyCode,
+            bankName
+        } = paymentProviderData;
         console.log('Selected provider: ' + provider);
-
-        if (provider === GlobalPayments.enums.ApmProviders.OpenBanking) {
+        if (provider === GlobalPayments.enums.ApmProviders.OpenBanking && !bankName) {
             const merchantCustomEventProvideDetails = new CustomEvent(GlobalPayments.enums.ApmEvents.PaymentMethodActionDetail, {
                 detail: {
                     provider,
                     redirect_url: "https://fluentlenium.com/",
+                    // TODO (Bank Selection): Here we should send the country and currecy to evaluate the availability of the feature
+                    countryCode,
+                    currencyCode,
+                }
+            });
+            window.dispatchEvent(merchantCustomEventProvideDetails);
+        } else if (bankName) {
+            const merchantCustomEventProvideDetails = new CustomEvent(GlobalPayments.enums.ApmEvents.PaymentMethodActionDetail, {
+                detail: {
+                    provider,
+                    redirect_url: "https://google.com/",
+                    bankName
                 }
             });
             window.dispatchEvent(merchantCustomEventProvideDetails);

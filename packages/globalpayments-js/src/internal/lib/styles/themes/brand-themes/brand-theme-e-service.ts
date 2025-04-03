@@ -39,7 +39,21 @@ const themePreset: IThemePreset = {
       fontFileName: "OpenSans-Regular.ttf",
       fontWeightMedium: "600", // Semi Bold = 600
       fontWeightRegular: "400", // Regular = 400
+      fontWeightBold:"700"
     },
+    sizes: {
+      buttonPrimary: "1.125em",
+      bodyBase: "1em", // 16px
+      small1: "1em", // 16px - Used for Tooltip Heading
+      small2: "0.889em", // 14.22px - Used for Tooltip body text
+      xl:"1.25rem",
+      sm:"0.875rem"
+    },
+    lineHeights:{
+      small1 : "2.25rem",
+      small2:'',
+      small3:''
+    }
   },
 
   borders: {
@@ -58,7 +72,14 @@ const themePreset: IThemePreset = {
     radius: {
       general: "15px",
       curve: "4px",
+      sm:"0.125rem"
     },
+    borderWidth: {
+      '0': '0px', // remove border
+      '1': '1px', // customise border widths
+      '2': '2px',
+      '3': '3px',
+  }
   },
 
   images: {

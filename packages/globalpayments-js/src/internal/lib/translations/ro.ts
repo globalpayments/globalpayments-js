@@ -50,6 +50,12 @@ const ro = {
     "text": 'Cele 3 cifre suplimentare de pe spatele cardului. Pentru American Express, cele 4 cifre suplimentare de pe fața cardului.'
   },
   "other-cards-label": 'Sau introduceți manual detaliile cardului',
+  QR: {
+    button: {
+      text: 'Opțiune de plată',
+      "aria-label": 'Opțiune de plată'
+    },
+  },
   apms: {
     button: {
       getAriaLabel: (paymentMethod: string): string => {
@@ -57,8 +63,20 @@ const ro = {
 
         return resource.replace('##VALUE1##', paymentMethod);
       },
+      // getImageUrl: (assetBaseUrl: string): string => {
+      //   const imageBase = assetBaseUrl + "images/";
+      //   const url = `transparent url(${imageBase}open-banking.svg) no-repeat 50% 50%`
+      //   return url;
+      // }
     }
   },
+  orderInformation: {
+    amount: "Cantitate",
+    orderReference: "Referință de comandă",
+  },
+  bankSelection: {
+    pleaseSelectYourPreferredBank: "Vă rugăm să selectați banca preferată",
+  }
 }
 
 export default ro;

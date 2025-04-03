@@ -50,6 +50,12 @@ const vi = {
     "text": '3 chữ số bổ sung ở mặt sau thẻ của bạn. Đối với American Express, đó là 4 chữ số bổ sung ở mặt trước thẻ của bạn.'
   },
   "other-cards-label": 'Hoặc nhập thông tin của thẻ theo cách thủ công',
+  QR: {
+    button: {
+      text: 'Chọn phương thức thanh toán khác',
+      "aria-label": 'Chọn phương thức thanh toán khác'
+    },
+  },
   apms: {
     button: {
       getAriaLabel: (paymentMethod: string): string => {
@@ -57,8 +63,20 @@ const vi = {
 
         return resource.replace('##VALUE1##', paymentMethod);
       },
+      // getImageUrl: (assetBaseUrl: string): string => {
+      //   const imageBase = assetBaseUrl + "images/";
+      //   const url = `transparent url(${imageBase}open-banking.svg) no-repeat 50% 50%`
+      //   return url;
+      // }
     }
   },
+  orderInformation: {
+    amount: "Số lượng",
+    orderReference: "Số đơn hàng",
+  },
+  bankSelection: {
+    pleaseSelectYourPreferredBank: "Vui lòng chọn ngân hàng ưa thích của bạn",
+  }
 }
 
 export default vi;

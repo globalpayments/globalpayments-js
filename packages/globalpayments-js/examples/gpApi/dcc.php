@@ -47,6 +47,8 @@ $accessToken = $response->token ?? '';
 
 <script src="../../dist/globalpayments.js"></script>
 <script>
+    const amount = "87.90";
+
     GlobalPayments.configure({
         accessToken: "<?= $accessToken ?>",
         env: "local",
@@ -59,7 +61,14 @@ $accessToken = $response->token ?? '';
         },
         fieldValidation: {
             enabled: true
-        }
+        },
+        orderInformation: {
+            enabled: true,
+            merchantName: "Test Merchant Name",
+            orderTotalAmount: amount,
+            orderReference: "XXXX12345",
+            currencyCode: "USD",
+        },
     });
 
     GlobalPayments.on("error", function (error) {
@@ -69,10 +78,19 @@ $accessToken = $response->token ?? '';
     const cardForm = GlobalPayments.creditCard.form(
         '#credit-card-form',
         {
-            amount: "10",
-            style: "gp-default",
+            amount,
+            // style: GlobalPayments.enums.HostedFieldStyles.GpDefault,
+            // style: GlobalPayments.enums.HostedFieldStyles.Default,
+            // style: GlobalPayments.enums.HostedFieldStyles.Simple,
+
+            // style: GlobalPayments.enums.BrandThemes.BrandThemeBOIPA,
+            // style: GlobalPayments.enums.BrandThemes.BrandThemeBOIPAUK,
+            // style: GlobalPayments.enums.BrandThemes.BrandThemeCOMMERZBANK,
+            // style: GlobalPayments.enums.BrandThemes.BrandThemeNBGPAY,
+            style: GlobalPayments.enums.BrandThemes.BrandThemeESERVICE,
             apms: [],
         });
+    
     cardForm.on("token-success", resp => { console.log(resp); });
     cardForm.on("token-error", resp => { console.log(resp); });
 </script>

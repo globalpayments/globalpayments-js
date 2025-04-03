@@ -14,6 +14,9 @@ import {
   styles as getCurrencyConversionStyles,
 } from '../../../currency-conversion/gp-default';
 
+import getOrderInformationCommonStyles from '../../../order-information/common';
+import getBankSelectionCommonStyles from '../../../bank-selection/common';
+
 import { getBaseTokenDefinitions } from './base-token-definition';
 import { IThemePreset } from './contracts';
 
@@ -419,6 +422,9 @@ const parentStyles = (assetBaseUrl: string, themePreset?: IThemePreset) => {
     ...(options.fieldValidation?.enabled ? getBuiltInValidationParentStyles(assetBaseUrl) : {}),
     ...(options.currencyConversion?.enabled ? getCurrencyConversionStyles() : {}),
     ...getPaymentMethodsStyles(assetBaseUrl),
+
+    ...getOrderInformationCommonStyles(assetBaseUrl),
+    ...getBankSelectionCommonStyles(assetBaseUrl),
   };
 };
 

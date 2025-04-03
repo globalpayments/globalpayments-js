@@ -1,5 +1,6 @@
 import { HostedFieldStyles as HostedFieldStylesAlias } from "../../common/enums";
 import { BrandThemes as BrandThemesAlias } from "./styles/themes/brand-themes/brand-themes";
+import { BankDisplayNames } from "./bank-selection/contracts";
 
 export enum ApiVersion {
   default = "2021-03-22"
@@ -11,7 +12,8 @@ export enum Apm {
   GooglePay = "google-pay",
   OpenBankingPayment = "open-banking",
   PayPal = "paypal",
-  QRCodePayments = "qr-code-payments"
+  QRCodePayments = "qr-code-payments",
+  Blik = "blik"
 }
 
 export enum ApmEvents {
@@ -59,7 +61,8 @@ export enum ApmProviders {
   AlipayHK = "AlipayHK",
   OpenBanking = "OPEN_BANKING",
   PayPal = "PayPal",
-  WeChat = "WeChat"
+  WeChat = "WeChat",
+  Blik = "blik"
 }
 
 export enum QRCodePaymentsWeChatProviderBrands {
@@ -71,3 +74,5 @@ export enum QRCodePaymentsWeChatProviderBrands {
 export const HostedFieldStyles = HostedFieldStylesAlias;
 
 export const BrandThemes = BrandThemesAlias;
+
+export const BankNames = BankDisplayNames;

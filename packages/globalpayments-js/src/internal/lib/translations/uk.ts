@@ -50,6 +50,12 @@ const uk = {
     "text": 'Додаткові 3 цифри ззаду вашої картки. Для American Express це додаткові 4 цифри на лицьовому боці картки.'
   },
   "other-cards-label": 'Або введіть відомості про картку вручну',
+  QR: {
+    button: {
+      text: 'Вибрати інший спосіб оплати',
+      "aria-label": 'Вибрати інший спосіб оплати'
+    },
+  },
   apms: {
     button: {
       getAriaLabel: (paymentMethod: string): string => {
@@ -57,8 +63,20 @@ const uk = {
 
         return resource.replace('##VALUE1##', paymentMethod);
       },
+      // getImageUrl: (assetBaseUrl: string): string => {
+      //   const imageBase = assetBaseUrl + "images/";
+      //   const url = `transparent url(${imageBase}open-banking.svg) no-repeat 50% 50%`
+      //   return url;
+      // }
     }
   },
+  orderInformation: {
+    amount: "Сума",
+    orderReference: "Довідка про замовлення",
+  },
+  bankSelection: {
+    pleaseSelectYourPreferredBank: "Виберіть бажаний банк",
+  }
 }
 
 export default uk;
