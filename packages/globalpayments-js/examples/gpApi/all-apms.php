@@ -63,14 +63,15 @@ $accessToken = $response->token ?? '';
 <script>
     GlobalPayments.configure({
         accessToken: "<?= $accessToken ?>",
-        env: "local",
+        env: "sandbox",
         apiVersion: "2021-03-22",
         language: "en",
         account: "<?= $account ?>",
         //merchantId: "<?//= $merchant_id ?>//",
         apms: {
-            currencyCode: "PLN",
-            countryCode: "PL",
+            currencyCode: "EUR",
+            countryCode: "SK",
+            acquirer: "erste",
             allowedCardNetworks: [GlobalPayments.enums.CardNetwork.Visa, GlobalPayments.enums.CardNetwork.Mastercard, GlobalPayments.enums.CardNetwork.Amex, GlobalPayments.enums.CardNetwork.Discover],
             applePay: {
                 applePayVersionNumber: 3,
@@ -129,6 +130,15 @@ $accessToken = $response->token ?? '';
                 {
                     provider: GlobalPayments.enums.ApmProviders.Blik,
                     enabled:  true
+                },
+                {
+                    provider: GlobalPayments.enums.ApmProviders.Cashpresso3Installments,
+                },
+                {
+                    provider: GlobalPayments.enums.ApmProviders.Cashpresso30Days,
+                },
+                {
+                    provider: GlobalPayments.enums.ApmProviders.CashpressoInstallments,
                 }]
             }
         }
@@ -138,15 +148,13 @@ $accessToken = $response->token ?? '';
         console.error(error);
     });
     const cardForm = GlobalPayments.creditCard.form('#credit-card-form', {
-        amount: "3.4",
+        amount: "60",
         style: "gp-default",
         apms: [
             GlobalPayments.enums.Apm.ClickToPay,
             GlobalPayments.enums.Apm.GooglePay,
             GlobalPayments.enums.Apm.ApplePay,
-            GlobalPayments.enums.Apm.QRCodePayments,
-            GlobalPayments.enums.Apm.OpenBankingPayment,
-            GlobalPayments.enums.Apm.Blik
+            GlobalPayments.enums.Apm.QRCodePayments
         ]
     });
 
@@ -167,8 +175,8 @@ $accessToken = $response->token ?? '';
                     detail = {
                     provider,
                     redirect_url: "https://fluentlenium.com/",
-                    bankName,
-                    acquirer
+                    countryCode,
+                    currencyCode,
                 }
                 }else {
                     detail = {
@@ -178,10 +186,6 @@ $accessToken = $response->token ?? '';
                     acquirer
                 }
                 }
-                // detail = {
-                //     provider,
-                //     redirect_url: "https://fluentlenium.com/",
-                // };
                 break;
             case GlobalPayments.enums.ApmProviders.Blik:
                 detail = {
@@ -197,7 +201,6 @@ $accessToken = $response->token ?? '';
                     qr_code: "weixin://wxpay/bizpayurl?pr=0gWQb9Zzz",
                 };
                 break;
-
             default:
                 detail = {
                     seconds_to_expire: "900",

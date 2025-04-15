@@ -15,13 +15,13 @@ const styles = (assetBaseUrl: string) => {
       float: "right",
       "background-size": "20px",
       background: `transparent url(${imageBase}gp-fa-question-circle.svg) no-repeat center center`,
-      "font-family": "var(--tooltip-overlay-font-body, GPCommerce)",
+      "font-family": "var(--tooltip-overlay-font-body, DMSans)",
       "font-size": "var(--tooltip-overlay-size-text-body)",
       "line-height": "var(--tooltip-overlay-line-height-text-body)",
     },
 
     ".secure-payment-form .tooltip h4": {
-      "font-family": "var(--tooltip-overlay-font-heading, GPCommerce)",
+      "font-family": "var(--tooltip-overlay-font-heading, DMSans)",
       "font-size": "var(--tooltip-overlay-size-text-heading)",
       "line-height": "var(--tooltip-overlay-line-height-text-heading)",
       color: "var(--tooltip-overlay-color-text-heading)",

@@ -147,7 +147,7 @@ const fieldStyles = (assetBaseUrl: string, themePreset?: IThemePreset) => {
       "text-align": "center",
       "vertical-align": "middle",
       "text-transform": "uppercase",
-      "font-family": "var(--button-primary-font-label, GPCommerce)",
+      "font-family": "var(--button-primary-font-label, DMSans)",
       "border-bottom-left-radius": "var(--button-primary-radius-bottom-left)",
       "border-bottom-right-radius": "var(--button-primary-radius-bottom-right)",
       "border-top-left-radius": "var(--button-primary-radius-top-left)",
@@ -253,7 +253,7 @@ const parentStyles = (assetBaseUrl: string, themePreset?: IThemePreset) => {
       display: "block",
       "font-size": "var(--inputfield-label-size-text, 0.79em)",
       "font-weight": "var(--inputfield-label-weight-text, 500)",
-      "font-family": "var(--inputfield-label-font, GPCommerce)",
+      "font-family": "var(--inputfield-label-font, DMSans)",
     },
 
     ".secure-payment-form > div": {
@@ -390,7 +390,7 @@ const parentStyles = (assetBaseUrl: string, themePreset?: IThemePreset) => {
       "-o-transform": "translateX(-50%)",
       transform: "translateX(-50%)",
       margin: "-10px auto",
-      "font-family": "var(--other-method-divider-font, GPCommerce)",
+      "font-family": "var(--other-method-divider-font, DMSans)",
       "font-size": "var(--other-method-divider-size-text, 16px)",
       "white-space": "nowrap",
       "font-weight": "var(--other-method-divider-weight-text, 400)",

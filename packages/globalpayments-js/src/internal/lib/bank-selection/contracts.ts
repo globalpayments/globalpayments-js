@@ -2,13 +2,15 @@ export interface IBankData {
     // TODO (Bank Selection): Add the rest of the needed bank props
     countryCode:string;
     currencyCode:string;
-    availableBanks:IAvailableBankData[]
+    availableBanks:IAvailableBankData[];
+    allowedAquirers?:string[]
 }
 
 export interface IAvailableBankData {
     name: string;
     displayName: string;
     imageName: string;
+    acquirer: string[];
 }
 
 export enum BankDisplayNames {
@@ -41,7 +43,13 @@ export enum BankDisplayNames {
     AirBank = "AirBank",
     Tatra = "Tatra banka",
     VÚB = "VÚB banka",
-    UniCredit = "UniCredit Bank"
+    UniCredit = "UniCredit Bank",
+    postacz = "Česká Pošta",
+    unicredit = "UniCredit",
+    creditasbanka = "Banka Creditas",
+    jtbanka = "J&T Banka",
+    bank365 = "365.bank",
+    viamo = "Viamo"
     // TODO (Bank Selection): Add the rest of the Bank Display Names
 };
 
@@ -55,9 +63,16 @@ export enum BankCountries {
     Poland = "PL",
     CzechRepublic = "CZ",
     Slovakia = "SK",
+    UK = "GB"
     // TODO (Bank Selection): Add the rest of the Bank Locations
 };
 
+export enum BankAquirers {
+    Eservice = "eservice",
+    Erstecz = "erstecz",
+    Eservicecba = "eservicecba",
+    Erste = "erste"
+}
 export interface IBankSelectionProps {
     countryCode: string;
     currencyCode: string;

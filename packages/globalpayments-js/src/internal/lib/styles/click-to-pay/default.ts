@@ -7,7 +7,7 @@ const styles = (assetBaseUrl: string) => {
       "box-shadow": "0px 1px 1px rgba(0, 0, 0, 0.25)",
       "border-radius": "3px",
       "container-type": "inline-size",
-      "font-family": "GPCommerce",
+      "font-family": "DMSans",
       "margin-bottom": "20px",
     },
     ".secure-payment-form div[class^='credit-card'].apm-active ~ div:not([class$='shield']):not([class$='logo'])": {
@@ -33,7 +33,7 @@ const styles = (assetBaseUrl: string) => {
     },
 
     ".secure-payment-form .ctp-panel .ctp-button .heading": {
-      "font-family": "GPCommerce",
+      "font-family": "DMSans",
       "font-weight": "600",
       "line-height": "22px",
       "font-size": "12px"
@@ -99,7 +99,7 @@ const styles = (assetBaseUrl: string) => {
       "margin-top": "25px",
       opacity: "0",
       transition: "opacity 0.3s",
-      "font-family": "GPCommerce",
+      "font-family": "DMSans",
       "font-size": "0.79em",
       "font-weight": "400",
       "box-shadow": "0 3px 6px rgba(0, 0, 0, 0.1)",
@@ -246,21 +246,21 @@ const styles = (assetBaseUrl: string) => {
 
     "#ctp-wrapper #verifyVisa .VerificationLabel": {
       "font-size": "14px",
-      "font-family": "GPCommerce",
+      "font-family": "DMSans",
       "line-height": "25px"
     },
 
     "#ctp-wrapper #verifyVisa label": {
       display: "inline-block",
       "font-size": "14px",
-      "font-family": "GPCommerce",
+      "font-family": "DMSans",
       margin: "0"
     },
 
     "#ctp-wrapper .blue-button label": {
       "font-size": "18px",
       "line-height": "27px",
-      "font-family": "GPCommerce",
+      "font-family": "DMSans",
       margin: "0"
     },
 

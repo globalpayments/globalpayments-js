@@ -30,7 +30,7 @@ const styles = (assetBaseUrl: string) => {
 
     return {
         ".secure-payment-form .credit-card-installments" : {
-            "font-family": "GPCommerce",
+            "font-family": "DMSans",
         },
 
         ".secure-payment-form .installment-issuer-panel": {

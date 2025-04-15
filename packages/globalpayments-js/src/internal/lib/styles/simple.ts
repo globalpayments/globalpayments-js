@@ -320,7 +320,7 @@ export const parentStyles = (assetBaseUrl: string) => {
       "-o-transform": "translateX(-50%)",
       transform: "translateX(-50%)",
       margin: "-10px auto",
-      "font-family": "GPCommerce",
+      "font-family": "DMSans",
       "font-size": "16px",
       "white-space": "nowrap",
     },

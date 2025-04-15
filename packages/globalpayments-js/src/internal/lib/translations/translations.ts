@@ -23,6 +23,9 @@ import vi from "./vi";
 import mt from "./mt";
 
 import {IDictionary} from "../util";
+import ga from "./ga";
+import lv from "./lv";
+import et from "./et";
 
 type Translations = {
   [key: string]: IDictionary;
@@ -52,6 +55,9 @@ const translations: Translations = {
   uk, // uk - Ukrainian
   vi, // vi - Vietnamese
   mt, // MT - Maltese
+  ga, // IE - Gaelic Irish
+  lv, // LV - Latvia
+  et  // EE - Estonia
 };
 
 export default translations;

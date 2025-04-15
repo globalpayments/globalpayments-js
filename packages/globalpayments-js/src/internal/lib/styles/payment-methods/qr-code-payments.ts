@@ -3,8 +3,8 @@ export const fieldStyles = (assetBaseUrl: string) => {
 
     return {
       "@font-face": {
-        "font-family": "GPCommerce",
-        src: `url("${fontBase}GPCommerce-Regular.woff2") format("woff2")`,
+        "font-family": "DMSans",
+        src: `url("${fontBase}DMSans-Regular.ttf")`,
       },
     };
   };
@@ -38,7 +38,7 @@ export const styles = (assetBaseUrl: string) => {
 
       return {
         ".secure-payment-form .credit-card-qr-code-payments" : {
-            "font-family": "GPCommerce",
+            "font-family": "DMSans",
         },
 
         ".secure-payment-form .credit-card-qr-code-payments-target, .qr-code-payment-content, .qr-code-payment-countdown-timer": commonColumnFlexCenterStyles,

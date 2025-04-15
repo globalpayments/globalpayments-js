@@ -11,11 +11,11 @@ import { translateObj } from "../internal/lib/translate";
 import { getCurrentLanguage } from "../internal/lib/detectLanguage";
 import { createHtmlDivElement, createToolTip } from "../common/html-element";
 import {DCC_KEY} from "../internal/lib/currency-conversion/contracts/constants";
-import { isBrandTheme } from "../internal/lib/styles/themes/helpers";
+import { isBrandTheme, isEserviceThemeApplied } from "../internal/lib/styles/themes/helpers";
 import { addFooterBrandedIcons } from "../internal/lib/add-footer-branded-icons";
 import addOrderInformation from "../ui/components/order-information/action-add-order-information";
-import { isBlikAvailable } from "../internal/built-in-validations/helpers";
-import { ApmProviders } from "../internal/lib/enums";
+import { isBlikAvailable, isOpenBankingAvailable } from "../internal/built-in-validations/helpers";
+import { Apm, ApmProviders } from "../internal/lib/enums";
 
 export const defaultOptions: IUIFormOptions = {
   labels: {
@@ -92,8 +92,11 @@ export function form(
   const firstFieldCardForm = fieldTypes[0];
 
   if (formOptions.apms) {
-    if(!isBlikAvailable(options?.apms?.countryCode,options?.apms?.nonCardPayments)){
-      formOptions.apms?.splice(formOptions.apms?.indexOf(ApmProviders.Blik),1)
+    if(isBlikAvailable(options?.apms?.countryCode,options?.apms?.currencyCode,options?.apms?.nonCardPayments)){
+      formOptions.apms.push(Apm.Blik);
+    }
+    if(isOpenBankingAvailable(options?.apms?.countryCode,options?.apms?.acquirer)){
+      formOptions.apms.push(Apm.OpenBankingPayment);
     }
     fieldTypes = [...formOptions.apms.toString().split(','), ...fieldTypes]
   }
@@ -104,6 +107,18 @@ export function form(
     formOptions.labels = translateObj(options.language, formOptions.labels);
     formOptions.values = translateObj(options.language, formOptions.values);
   }
+
+  // Order Information block
+  if(options.orderInformation){
+    if((options.orderInformation?.enabled) || ((options.orderInformation?.enabled === undefined) && (isEserviceThemeApplied(formOptions?.style)))){
+        addOrderInformation(target, {
+          merchantName: options.orderInformation.merchantName,
+          orderTotalAmount: `${options.orderInformation.orderTotalAmount || 0}`,
+          orderReference: options.orderInformation.orderReference,
+          currencyCode: options.orderInformation.currencyCode,
+        });
+      }
+    }
 
   for (const i in fieldTypes) {
     if (!fieldTypes.hasOwnProperty(i)) {
@@ -192,15 +207,6 @@ export function form(
     addFooterIcons(formOptions, target);
   }
 
-  // Order Information block
-  if (options.orderInformation?.enabled) {
-    addOrderInformation(target, {
-      merchantName: options.orderInformation.merchantName,
-      orderTotalAmount: `${options.orderInformation.orderTotalAmount || 0}`,
-      orderReference: options.orderInformation.orderReference,
-      currencyCode: options.orderInformation.currencyCode,
-    });
-  }
 
   return new UIForm(
     fields,

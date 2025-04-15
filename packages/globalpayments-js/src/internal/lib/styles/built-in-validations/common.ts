@@ -8,7 +8,7 @@ export const fieldStyles = (assetBaseUrl: string) => {
 
     return {
       "#secure-payment-field[type=text].field-validation-wrapper": {
-        "font-family": "var(--inputfield-container-font-error, GPCommerce)",
+        "font-family": "var(--inputfield-container-font-error, DMSans)",
       },
       "#secure-payment-field[type=tel].hf-invalid": {
         border: `1px solid var(--inputfield-container-color-border-error, ${customColors.validationRed}) !important`,

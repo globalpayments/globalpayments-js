@@ -4,7 +4,7 @@ const styles = (_assetBaseUrl: string) => {
             display: "flex !important",
             "flex-direction": "column",
             "align-items": "center",
-            "font-family": "var(--dropInUI-orderSummary-itemMerchant-fontFamily, OpenSans)"
+            "font-family": "var(--dropInUI-orderSummary-itemMerchant-fontFamily, DMSans)"
         },
         ".title-field": {
             "font-weight": "var(--dropInUI-orderSummary-itemMerchant-font-weight-text, bold)",

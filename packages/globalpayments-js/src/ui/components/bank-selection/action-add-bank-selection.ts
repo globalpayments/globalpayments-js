@@ -1,6 +1,6 @@
 import { changeCreditCardFormFieldsVisibility, createHtmlDivElement, createHtmlImageElement, createHtmlSpanElement } from "../../../common/html-element";
-import { IBankSelectionProps } from "../../../internal/lib/bank-selection/contracts";
-import { getAvailableBanksByCountry, getCountryForQRPlatbaBank } from "../../../internal/lib/bank-selection/helpers";
+import { BankAquirers, IBankSelectionProps } from "../../../internal/lib/bank-selection/contracts";
+import { getAllAvailableBanks, getAvailableBanksByCountry, getCountryForQRPlatbaBank } from "../../../internal/lib/bank-selection/helpers";
 import getAssetBaseUrl from "../../../internal/gateways/gp-api/get-asset-base-url";
 import { translateMessage } from "../../../internal/lib/translate";
 import { getCurrentLanguage, getTranslationSet } from "../../../internal/lib/detectLanguage";
@@ -20,7 +20,7 @@ export default function addBankSelection (iframeField: IframeField, props: IBank
         countryCode,
         currencyCode
     } = props;
-    const bankList = getAvailableBanksByCountry(options.apms?.countryCode);
+    const bankList = getAllAvailableBanks(options.apms?.countryCode, options.apms?.acquirer);
 
     const bankSelectionTranslations = getTranslationSet(getCurrentLanguage(), 'bankSelection');
 
@@ -89,7 +89,8 @@ export default function addBankSelection (iframeField: IframeField, props: IBank
         console.log(`Selected ${bankSelection}.`);
         iframeField?.emit(ApmEvents.PaymentMethodSelection, {
             provider: ApmProviders.OpenBanking,
-            bankName: bankSelection
+            bankName: bankSelection,
+            acquirer: countryCode === "PL" ? BankAquirers.Eservice : options.apms?.acquirer
           });
     };
 }

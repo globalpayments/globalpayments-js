@@ -20,7 +20,7 @@ const styles = () => {
       "min-height": "1px!important",
     },
     ".secure-payment-form .credit-card-currency-conversion fieldset" : {
-      "font-family": "GPCommerce",
+      "font-family": "DMSans",
       border: "0",
       margin: "0",
       padding: "0",
@@ -28,7 +28,7 @@ const styles = () => {
       "flex-wrap": "nowrap",
     },
     ".secure-payment-form .credit-card-currency-conversion legend": {
-      "font-family": "var(--dcc-options-label-font, GPCommerce)",
+      "font-family": "var(--dcc-options-label-font, DMSans)",
       border: 0,
       top: "16px",
       margin: "0 0 32px",
@@ -96,7 +96,7 @@ const styles = () => {
       color: "var(--dcc-radio-button-color-text-focus)",
     },
     ".secure-payment-form .credit-card-currency-conversion .radio-button label": {
-      "font-family": "var(--dcc-radio-button-font, GPCommerce)",
+      "font-family": "var(--dcc-radio-button-font, DMSans)",
 
       "font-size": "var(--dcc-radio-button-size-text, 0.79em)",
       "font-weight": "var(--dcc-radio-button-weight-text-label, 500)",
@@ -133,7 +133,7 @@ const styles = () => {
       visibility: true
     },
     ".secure-payment-form .credit-card-currency-conversion .additional-info": {
-      "font-family": "var(--dcc-options-font-exchange-rate, GPCommerce)",
+      "font-family": "var(--dcc-options-font-exchange-rate, DMSans)",
       "font-size": "var(--dcc-options-size-text-exchange-rate, 0.79em)",
       "font-weight": 500,
       margin: "0 15px 0 0",

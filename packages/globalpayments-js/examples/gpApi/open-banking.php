@@ -66,6 +66,7 @@ $accessToken = $response->token ?? '';
         apms: {
             currencyCode: "PLN",
             countryCode: "PL",
+            acquirer: "erstecz",
             nonCardPayments: {
                 allowedPaymentMethods: [{
                     provider: GlobalPayments.enums.ApmProviders.OpenBanking,
@@ -85,7 +86,7 @@ $accessToken = $response->token ?? '';
             amount: "800",
             style: "gp-default",
             // style: GlobalPayments.enums.BrandThemes.BrandThemeESERVICE,
-            apms: [ GlobalPayments.enums.Apm.OpenBankingPayment, GlobalPayments.BankDisplayNames ],
+            apms: [ GlobalPayments.BankDisplayNames ],
         }
     );
     cardForm.on("token-success", resp => {
@@ -101,7 +102,8 @@ $accessToken = $response->token ?? '';
             // TODO (Bank Selection): Here we should get country and currency
             countryCode,
             currencyCode,
-            bankName
+            bankName,
+            acquirer
         } = paymentProviderData;
         console.log('Selected provider: ' + provider);
         if (provider === GlobalPayments.enums.ApmProviders.OpenBanking && !bankName) {
@@ -120,9 +122,12 @@ $accessToken = $response->token ?? '';
                 detail: {
                     provider,
                     redirect_url: "https://google.com/",
-                    bankName
+                    bankName,
+                    acquirer
                 }
             });
+            // tslint:disable-next-line:no-console
+            console.log(merchantCustomEventProvideDetails);
             window.dispatchEvent(merchantCustomEventProvideDetails);
         }
     });

@@ -58,7 +58,7 @@ function createValidationMessageDiv(validationMessage: string): HTMLDivElement {
         style: [
           `display: block;`,
           `margin-top: 5px;`,
-          `font-family: var(--inputfield-container-font-error, GPCommerce);`,
+          `font-family: var(--inputfield-container-font-error, DMSans);`,
           `font-style: normal;`,
           `font-size: var(--inputfield-container-size-text-error, 0.79em);`,
           `font-weight: var(--inputfield-container-weight-text-error, 400);`,

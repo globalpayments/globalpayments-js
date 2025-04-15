@@ -14,7 +14,7 @@ const styles = (_assetBaseUrl: string) => {
             "z-index": "9999",
         },
         ".secure-payment-form .modal-wrapper": {
-            "font-family": "GPCommerce",
+            "font-family": "DMSans",
             background: "#FFFFFF",
             "border-width": "0px",
             "border-radius": "8px",

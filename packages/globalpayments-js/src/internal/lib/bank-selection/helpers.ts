@@ -5,7 +5,7 @@ import { ApmProviders } from "../enums";
 export const isBankSelectionAvailable = (countryCode: string, currencyCode: string): boolean => {
     // TODO (Bank Selection): Add the logic to calculate if the Bank selection section should be available
     let isAvailable = false;
-    if(countryCode !== 'GB') {
+    if(countryCode && countryCode !== 'GB') {
         isAvailable = true;
     }
     return isAvailable;
@@ -18,6 +18,16 @@ export const getAvailableBanksByCountry = (countryCode: string | undefined): IAv
     })[0]?.availableBanks;
     return availableBanksList;
 };
+
+export const getAllAvailableBanks = (countryCode: string | undefined, aquirer: string | undefined): IAvailableBankData[] =>{
+    const availableBanks = getAvailableBanksByCountry(countryCode);
+    const filteredBanksByAquirer = countryCode === BankCountries.Poland ? availableBanks : availableBanks?.filter(item =>{
+        if(aquirer){
+            return item.acquirer?.indexOf(aquirer) > -1
+        }
+    });
+    return filteredBanksByAquirer
+}
 
 export const getImageUrl = (assetBaseUrl: string,provider:string,countryCode?: string | undefined): string => {
     const imageBase = assetBaseUrl + "images/";

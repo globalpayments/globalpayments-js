@@ -52,7 +52,7 @@ export default (assetBaseUrl: string) => {
     },
     ".secure-payment-form .apms-redirecting-to-page-message": {
       color: customColors.azure31Blue,
-      "font-family": "GPCommerce",
+      "font-family": "DMSans",
       "font-size": "18px!important",
       "line-height": "27px!important"
     },

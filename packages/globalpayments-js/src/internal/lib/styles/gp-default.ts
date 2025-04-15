@@ -30,8 +30,8 @@ export const fieldStyles = (assetBaseUrl: string) => {
 
   return {
     "@font-face": {
-      "font-family": "GPCommerce",
-      src: `url("${fontBase}GPCommerce-Regular.woff2") format("woff2")`,
+      "font-family": "DMSans",
+      src: `url("${fontBase}DMSans-Regular.ttf")`,
     },
 
     "*": {
@@ -152,6 +152,10 @@ export const parentStyles = (assetBaseUrl: string) => {
   const fontBase = assetBaseUrl + "fonts/";
 
   return {
+    "@font-face": {
+      "font-family": "DMSans",
+      src: `url("${fontBase}DMSans-Regular.ttf")`,
+    },
     ".secure-payment-form": {
       display: "flex",
       "-ms-flex-wrap": "wrap",
@@ -167,7 +171,7 @@ export const parentStyles = (assetBaseUrl: string) => {
       display: "block",
       "font-size": "0.79em",
       "font-weight": "500",
-      "font-family": "GPCommerce"
+      "font-family": "DMSans"
     },
 
     ".secure-payment-form > div": {
@@ -276,18 +280,13 @@ export const parentStyles = (assetBaseUrl: string) => {
       "-o-transform": "translateX(-50%)",
       transform: "translateX(-50%)",
       margin: "-10px auto",
-      "font-family": "GPCommerce",
+      "font-family": "DMSans",
       "font-size": "16px",
       "white-space": "nowrap",
     },
 
     ".secure-payment-form .hidden": {
       display: "none!important",
-    },
-
-    "@font-face": {
-      "font-family": "GPCommerce",
-      src: `url("${fontBase}GPCommerce-Regular.woff2") format("woff2")`,
     },
 
     "@media(min-width: 800px)": {

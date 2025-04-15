@@ -120,7 +120,6 @@ export default class UIForm {
     this.frames = {};
     this.fields = fields;
     this.styles = styles;
-
     this.createFrames();
   }
 

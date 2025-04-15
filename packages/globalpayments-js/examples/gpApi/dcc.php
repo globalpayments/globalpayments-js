@@ -79,7 +79,7 @@ $accessToken = $response->token ?? '';
         '#credit-card-form',
         {
             amount,
-            // style: GlobalPayments.enums.HostedFieldStyles.GpDefault,
+            style: "gp-default",
             // style: GlobalPayments.enums.HostedFieldStyles.Default,
             // style: GlobalPayments.enums.HostedFieldStyles.Simple,
 
@@ -87,7 +87,7 @@ $accessToken = $response->token ?? '';
             // style: GlobalPayments.enums.BrandThemes.BrandThemeBOIPAUK,
             // style: GlobalPayments.enums.BrandThemes.BrandThemeCOMMERZBANK,
             // style: GlobalPayments.enums.BrandThemes.BrandThemeNBGPAY,
-            style: GlobalPayments.enums.BrandThemes.BrandThemeESERVICE,
+            // style: GlobalPayments.enums.BrandThemes.BrandThemeESERVICE,
             apms: [],
         });
     

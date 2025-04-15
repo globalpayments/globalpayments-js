@@ -75,8 +75,7 @@ export default function addOrderInformation (cardFormContainerElement: HTMLEleme
 
         orderInformationContainer.appendChild(fieldContainer);
     });
-
-    cardFormContainerElement.insertAdjacentElement("beforebegin", orderInformationContainer);
+    cardFormContainerElement.appendChild(orderInformationContainer);
 }
 
 function validateRequiredProps (props: any): boolean {

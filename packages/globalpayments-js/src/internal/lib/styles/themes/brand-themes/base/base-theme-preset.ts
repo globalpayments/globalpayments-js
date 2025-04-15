@@ -36,9 +36,9 @@ const themePreset: IThemePreset = {
     fontFamily: {
       // Font values to include the necessary @font-face rules
       brand: {
-        fontName: "GPCommerce",
-        fontFileName: "GPCommerce-Regular.woff2",
-        fontFormat: "woff2",
+        fontName: "DMSans",
+        fontFileName: "DMSans-Regular.ttf",
+        fontFormat: "ttf",
         fontWeightMedium: "500", // Medium = 500
         fontWeightRegular: "400", // Regular = 400
         fontWeightBold:"700"

@@ -34,7 +34,7 @@ export const styles = () => {
       "text-transform": "uppercase"
     },
     ".secure-payment-form .credit-card-currency-conversion fieldset" : {
-      "font-family": "GPCommerce",
+      "font-family": "DMSans",
       border: "0",
       margin: "0",
       padding: "0",

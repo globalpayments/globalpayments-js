@@ -44,6 +44,7 @@ export interface IConfiguration extends IDictionary {
     nonCardPayments?: IApmConfiguration;
     countryCode?: string;
     currencyCode?: string;
+    acquirer?:string;
     applePay?: {
       allowedAuthMethods?: string[];
       allowedCardNetworks?: string[];

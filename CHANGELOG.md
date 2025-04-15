@@ -3,13 +3,18 @@
 </a>
 
 # Changelog
-## Latest Version - v4.1.5 (3/4/25)
-- [Globalpayments-js][4.1.5] Added Bank Selection configuration to all-apms file to maintain functionality throughout.
 
-## Latest Version - v4.1.4 (3/4/25)
-- [Globalpayments-js][4.1.4] Add Order Information feature.
-- [Globalpayments-js][4.1.4] Add Bank Selection feature.
-- [Globalpayments-js][4.1.4] Add APMs for Poland (BLIK) feature.
+## Latest Version - v4.1.7 (4/15/25)
+- [Globalpayments-js][4.1.7] Add Bank Selection feature for Czech Republic and Slovakia Countries.
+- [Globalpayments-js][4.1.7] Order Information feature placement change.
+
+## Latest Version - v4.1.6 (4/3/25)
+- [Globalpayments-js][4.1.6] Add Order Information feature.
+- [Globalpayments-js][4.1.6] Add Bank Selection feature for Poland.
+- [Globalpayments-js][4.1.6] Add APMs for Poland (BLIK) feature.
+- [Globalpayments-js][4.1.6] Added Bank Selection configuration to all-apms file to maintain functionality throughout.
+- [Globalpayments-js][4.1.6] Added code to display Order Information by default when EService brand theme is applied.
+- [Globalpayments-js][4.1.6] Blik currency validation and added translations for ga,et and lv languages for Order Information.
 
 ## v4.1.3 (12/3/24)
 - [Globalpayments-js][4.1.3] Fixed issue with DCC radio buttons resizing.
