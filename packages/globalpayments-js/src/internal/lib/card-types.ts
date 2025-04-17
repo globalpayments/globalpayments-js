@@ -126,6 +126,12 @@ const cardTypes: ICardType[] = [
     regex: /^3[0689]/,
   },
   {
+    code: "carnet",
+    format: /(\d{1,4})/g,
+    lengths: [16],
+    regex: /^(2869|506|636|6394|6395|6539|6275)/,
+  },
+  {
     code: "discover",
     format: /(\d{1,4})/g,
     lengths: [16, 19],

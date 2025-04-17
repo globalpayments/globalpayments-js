@@ -209,6 +209,9 @@ const fieldStyles = (assetBaseUrl: string, themePreset?: IThemePreset) => {
     "img.card-number-icon.card-type-diners": {
       "background-image": `url(${imageBase}gp-cc-diners.svg)`,
     },
+    "img.card-number-icon.card-type-carnet": {
+      "background-image": `url(${imageBase}gp-cc-carnet.svg)`,
+    },
     ".card-number::-ms-clear": {
       display: "none",
     },

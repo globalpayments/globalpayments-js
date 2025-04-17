@@ -167,7 +167,9 @@ export const fieldStyles = (assetBaseUrl: string) => {
       "background-size": "120%",
       "background-position": "-4px -4px"
     },
-
+    "img.card-number-icon.card-type-carnet": {
+      "background-image": `url(${imageBase}gp-cc-carnet.svg)`,
+    },
     ".card-number::-ms-clear": {
       display: "none",
     },

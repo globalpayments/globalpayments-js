@@ -4,6 +4,9 @@
 
 # Changelog
 
+## Latest Version - v4.1.8 (4/17/25)
+- [Globalpayments-js][4.1.8] Add Carnet branding feature.
+
 ## Latest Version - v4.1.7 (4/15/25)
 - [Globalpayments-js][4.1.7] Add Bank Selection feature for Czech Republic and Slovakia Countries.
 - [Globalpayments-js][4.1.7] Order Information feature placement change.

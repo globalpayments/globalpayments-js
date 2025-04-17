@@ -25,7 +25,8 @@ export enum CardNetwork {
   Amex = "AMEX",
   Discover = "DISCOVER",
   Mastercard = "MASTERCARD",
-  Visa = "VISA"
+  Visa = "VISA",
+  Carnet = "CARNET"
 }
 
 export enum CharacterValidation {
