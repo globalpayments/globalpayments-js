@@ -26,13 +26,6 @@ const styles = (_assetBaseUrl: string) => {
             "border-radius":"var(--payWithBank-button-border-radius,0.125rem)",
             "flex-direction":"column"
         },
-        ".bank-selecction-option::before":{
-            "content": `url(${imageBase}external-link.svg)`,
-            "width": "10px",
-            "height": "110px",
-            "position": "absolute",
-            "margin-left": "20%"
-        },
         ".bank-selecction-option:hover": {
             "border":"var(--payWithBank-QRbutton-weight-border-hover,1px) solid var(--payWithBank-button-color-border-hover,#707689)"
         },
@@ -41,6 +34,11 @@ const styles = (_assetBaseUrl: string) => {
             // "outline-offset": "2px",
             "background":"var(--payWithBank-button-color-background-pressed)",
             "border":"var(--payWithBank-QRbutton-weight-focus-indicator,3px) solid var(--payWithBank-button-color-border-hover,#707689)"
+        },
+        ".external-link-div": {
+            "margin-left": "auto",
+            "margin-right": "5px",
+            "margin-top": '-20px',
         },
         ".qr-code-button": {
             "background":"var(--payWithBank-QRbutton-color-background-default,#E5F4FF)"

@@ -4,6 +4,9 @@
 
 # Changelog
 
+## Latest Version - v4.1.9 (4/24/25)
+- [Globalpayments-js][4.1.9] Fixed position for external link image on window resizing.
+
 ## Latest Version - v4.1.8 (4/17/25)
 - [Globalpayments-js][4.1.8] Add Carnet branding feature.
 

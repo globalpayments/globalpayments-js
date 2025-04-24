@@ -52,6 +52,13 @@ export default function addBankSelection (iframeField: IframeField, props: IBank
             bankOptionWrapperDiv.classList.add("qr-code-button")
         }
         // TODO (Bank Selection): Add bank logos
+        const externalLinkImageDiv = createHtmlDivElement({
+            className: "external-link-div",
+        });
+        const externalLinkImage = createHtmlImageElement({
+            src: `${getAssetBaseUrl('')}images/external-link.svg`,
+            alt: 'external-link',
+        })
         const bankOptionImage = createHtmlImageElement({
             src: `${getAssetBaseUrl('')}images/bank-logos/${bank.imageName}`,
             alt: bank.displayName,
@@ -66,6 +73,8 @@ export default function addBankSelection (iframeField: IframeField, props: IBank
             onClickBankOption(bank.name,bankOptionWrapperDiv,bankOptionImage);
         });
         // bankOptionWrapperDiv.append(bankOptionSpan);
+        externalLinkImageDiv.append(externalLinkImage)
+        bankOptionWrapperDiv.append(externalLinkImageDiv);
         bankOptionWrapperDiv.append(bankOptionImage);
         bankSelectionContainer.append(bankOptionWrapperDiv);
     });
