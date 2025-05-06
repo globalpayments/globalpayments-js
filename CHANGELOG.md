@@ -4,6 +4,9 @@
 
 # Changelog
 
+## Latest Version - v4.1.10 (4/24/25)
+- [Globalpayments-js][4.1.10] APM Buttons background colour fix.
+
 ## Latest Version - v4.1.9 (4/24/25)
 - [Globalpayments-js][4.1.9] Fixed position for external link image on window resizing.
 

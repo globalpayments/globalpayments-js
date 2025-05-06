@@ -36,20 +36,20 @@ export const getImageUrl = (assetBaseUrl: string,provider:string,countryCode?: s
         case ApmProviders.OpenBanking:
             switch(countryCode){
                 case BankCountries.Poland:
-                    url = `transparent url(${imageBase}Przelew_Online_Logo.svg) no-repeat 50% 50%`;
+                    url = `#FFFFFF url(${imageBase}Przelew_Online_Logo.svg) no-repeat 50% 50%`;
                     break;
                 case BankCountries.CzechRepublic:
-                    url = `transparent url(${imageBase}Bankovni_Platba_Logo.svg) no-repeat 50% 50%`;
+                    url = `#FFFFFF url(${imageBase}Bankovni_Platba_Logo.svg) no-repeat 50% 50%`;
                     break;
                 case BankCountries.Slovakia:
-                    url = `transparent url(${imageBase}Bankova_Platba_Logo.svg) no-repeat 50% 50%`;
+                    url = `#FFFFFF url(${imageBase}Bankova_Platba_Logo.svg) no-repeat 50% 50%`;
                     break;
                 default:
-                    url = `transparent url(${imageBase}open-banking.svg) no-repeat 50% 50%`;
+                    url = `#FFFFFF url(${imageBase}open-banking.svg) no-repeat 50% 50%`;
             }
             break;
         case ApmProviders.Blik:
-            url = `transparent url(${imageBase}blik.svg) no-repeat 50% 50%`;
+            url = `#FFFFFF url(${imageBase}blik.svg) no-repeat 50% 50%`;
     }
     return url;
 }

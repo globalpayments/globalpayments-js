@@ -6,7 +6,8 @@ const styles = (assetBaseUrl: string) => {
     coolGrey: '#BCBFC8',
     coolGreyDarken: '#9296A5',
     linkActiveBlue: '#6583EA',
-    warmGrey95: '#F2F2F2'
+    warmGrey95: '#F2F2F2',
+    neutralsWhite: '#FFFFFF'
   };
 
   const commonColumnFlexCenterStyles = {
@@ -53,7 +54,7 @@ const styles = (assetBaseUrl: string) => {
     },
     ".secure-payment-form .open-banking-button": {
       ...apmButtonStyles,
-      background: `transparent url(${imageBase}open-banking.svg) no-repeat 50% 50%`,
+      background: `${customColors.neutralsWhite} url(${imageBase}open-banking.svg) no-repeat 50% 50%`,
     },
     ".secure-payment-form .open-banking-button:hover": {
       ...apmButtonHoverStyles
@@ -63,7 +64,7 @@ const styles = (assetBaseUrl: string) => {
     },
     ".secure-payment-form .blik-button": {
       ...apmButtonStyles,
-      background: `transparent url(${imageBase}blik.svg) no-repeat 50% 50%`
+      background: `${customColors.neutralsWhite} url(${imageBase}blik.svg) no-repeat 50% 50%`
     },
     ".secure-payment-form .blik-button:hover": {
       ...apmButtonHoverStyles
