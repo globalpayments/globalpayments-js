@@ -43,6 +43,7 @@ import actionQRCodePaymentMethodsRequestStart from "./qr-code-payment-methods/ac
 import actionSetCustomMessages from "./action-set-custom-message";
 import { CurrencyConversionEvents } from "../../internal/lib/currency-conversion/contracts/enums";
 import { DCC_KEY } from "../../internal/lib/currency-conversion/contracts/constants";
+import { IUIFormOptions } from "../form";
 
 export interface IFrameCollection {
   [key: string]: IframeField | undefined;
@@ -90,7 +91,7 @@ export class IframeField extends EventEmitter {
     const fieldOptions = data.fieldOptions;
     IframeField.setHtmlLang(data.lang);
     IframeField.createField(id, type, data.type, enableAutocomplete, fieldOptions);
-    IframeField.addMessageListener(id, type, data.targetOrigin);
+    IframeField.addMessageListener(id, type, data.targetOrigin,fieldOptions);
 
     postMessage.post(
       {
@@ -146,6 +147,7 @@ export class IframeField extends EventEmitter {
   ) {
     const query = window.location.hash.replace("#", "");
     const data: any = JSON.parse(atob(query));
+    const formOptionFields = data.formOptionFields;
     const input = document.createElement(
       type === "button" ? "button" : "input",
     );
@@ -170,7 +172,7 @@ export class IframeField extends EventEmitter {
       const message = "Read Card";
       input.appendChild(document.createTextNode(message));
     } else if (type === "button") {
-      const message = translateMessage(data.lang, translations.en.values.submit);
+      const message = formOptionFields?.submit ? formOptionFields?.submit : translateMessage(data.lang, translations.en.values.submit);
       input.appendChild(document.createTextNode(message));
     }
 
@@ -367,6 +369,7 @@ export class IframeField extends EventEmitter {
     id: string,
     type: string,
     targetOrigin: string,
+    fieldOptions?:any
   ) {
     // update the global state with information about the parent window
     loadedFrames.parent = {
@@ -519,6 +522,7 @@ export class IframeField extends EventEmitter {
   public targetNode: any;
   public type: "button" | "input";
   public url: string;
+  public formOptionFields: IUIFormOptions | undefined;
 
   /**
    * Instantiates a new IframeField object for a hosted field
@@ -527,7 +531,7 @@ export class IframeField extends EventEmitter {
    * @param opts Options for creating the iframe / hosted field
    * @param src URL for the hosted field's iframe
    */
-  constructor(type: string, opts: IUIFormField, src: string) {
+  constructor(type: string, opts: IUIFormField, src: string, formOptionFields?:IUIFormOptions) {
     super();
 
     const selector = opts.target || "";
@@ -535,6 +539,7 @@ export class IframeField extends EventEmitter {
     this.id = btoa(generateGuid());
     this.type = type === "submit" || type === "card-track" ? "button" : "input";
     this.url = src;
+    this.formOptionFields = formOptionFields;
     this.frame = this.makeFrame(type, this.id, opts);
     this.frame.onload = () => {
       this.emit("load");
@@ -551,6 +556,7 @@ export class IframeField extends EventEmitter {
           targetOrigin: window.location.href,
           type: this.type,
           fieldOptions: opts.fieldOptions,
+          formOptionFields:this.formOptionFields
         }),
       );
 

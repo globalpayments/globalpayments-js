@@ -1,55 +1,55 @@
 // lv - Latvia
-const en = {
+const lv = {
     labels: {
-      "card-number": "Card Number",
-      "card-expiration": "Card Expiration",
-      "card-cvv": "Card CVV",
-      "card-holder-name": "Card Holder Name",
-      "submit": "Submit"
+      "card-number": "Kartes numurs",
+      "card-expiration": "Kartes derīguma termiņš",
+      "card-cvv": "Kartes CVV numurs",
+      "card-holder-name": "Kartes turētāja vārds, uzvārds",
+      "submit": "Iesniegt"
     },
     values: {
-      "card-track": "Read Card",
-      "submit": "Submit"
+      "card-track": "Nolasīt karti",
+      "submit": "Iesniegt"
     },
     validationMessages: {
       CardNumber: {
-        Required: 'A Card Number is required',
-        CharactersLessThan12: 'The Card Number must consist of at least 12 digits',
-        NumberIsNotValid: 'The Card Number is not valid',
-        NotAllowedCardType: 'Cannot process this card type, please use another Card'
+        Required: 'Nepieciešams kartes numurs',
+        CharactersLessThan12: 'Kartes numuru jāveido vismaz 12 cipariem',
+        NumberIsNotValid: 'Kartes numurs nav derīgs',
+        NotAllowedCardType: 'Nav iespējams apstrādāt šādu kartes tipu. Lūdzu, izmantojiet citu karti'
       },
       CardExpiration: {
-        NotCompleted: 'Please enter a valid month/year',
-        YearNotValid: 'The year is not valid',
-        MonthNotValid: 'The month is not valid',
-        ExpiryDateNotValid: 'The Expiry Date is not valid',
+        NotCompleted: 'Lūdzu, ievadiet derīgu mēnesi/gadu',
+        YearNotValid: 'Gads ir nepareizs',
+        MonthNotValid: 'Mēnesis ir nepareizs',
+        ExpiryDateNotValid: 'Derīguma datums ir nepareizs',
       },
       CardCvv: {
-        CodeIsNotValid: 'The Card CVV is not valid',
-        CodeIsLessThan3Digits: 'Card CVV is too short',
-        CodeMustBe3Digits: 'Card CVV must be 3 digits',
-        AmexCodeMustBe4Digits: 'Card CVV for Amex must be 4 digits',
+        CodeIsNotValid: 'Kartes CVV numurs nav derīgs',
+        CodeIsLessThan3Digits: 'Kartes CVV numurs ir pārāk īss',
+        CodeMustBe3Digits: 'Kartes CVV numuru veido 3 cipari',
+        AmexCodeMustBe4Digits: 'Amex kartes CVV numuru veido 4 cipari',
       },
       CardHolderName: {
-        NotValidCardHolderName: 'Please enter a valid Card Holder Name',
-        CharactersMoreThan100: 'Card Holder Name can be at most 100 characters'
+        NotValidCardHolderName: 'Ievadiet derīgu kartes turētāja vārdu, uzvārdu',
+        CharactersMoreThan100: 'Kartes turētāja vārds, uzvārds nedrīkst būt garāks par 100 rakstzīmēm'
       },
       CurrencyConversion: {
         Required: "Choose preferred currency"
       }
     },
     footer: {
-      "ssl-msg-alt": '256-bit SSL encrypted logo',
-      "ssl-msg": '256-bit SSL<br>encrypted',
-      "security-msg-alt": 'Secured by Global Payments',
-      "security-msg": 'Securely processed by <strong>Global Payments</strong>'
+      "ssl-msg-alt": '256 bitu SSL šifrējuma logotips',
+      "ssl-msg": '256 bitu SSL<br>šifrējums',
+      "security-msg-alt": 'Aizsargā Global Payments',
+      "security-msg": 'Droši apstrādā <strong>Global Payments</strong>'
     },
     tooltip: {
-      "title": 'Security Code',
-      "aria-label": 'Information about Security Code',
-      "text": 'The additional 3 digits on the back of your card. For American Express, it is the additional 4 digits on the front of your card.'
+      "title": 'Drošības kods',
+      "aria-label": 'Informācija par drošības kodu',
+      "text": 'Papildu 3 cipari kartes aizmugurē. American Express kartēm tie ir papildu 4 cipari kartes priekšpusē.'
     },
-    "other-cards-label": 'Or enter card details manually',
+    "other-cards-label": 'Vai ievadiet kartes datus',
     QR: {
       scanRqCode: "Scan QR Code",
       payInApp: "to pay in app",
@@ -72,18 +72,18 @@ const en = {
         text: 'Click the link below to return to the payment options.'
       },
       button: {
-        text: 'Select another payment method',
-        "aria-label": 'Select another payment method'
+        text: 'Izvēlieties citu maksāšanas metodi',
+        "aria-label": 'Izvēlieties citu maksāšanas metodi'
       },
-      loading: "Loading",
+      loading: "Ielādē",
       redirectScreen: {
-        redirectingToPaymentPageMessage: 'Redirecting to payment page',
+        redirectingToPaymentPageMessage: 'Pārsūta uz maksājumu lapu',
       },
     },
     apms: {
       button: {
         getAriaLabel: (paymentMethod: string): string => {
-          const resource = `Pay with ##VALUE1##`;
+          const resource = `Maksāt ar ##VALUE1##`;
           return resource.replace('##VALUE1##', paymentMethod);
         },
         // getImageUrl: (assetBaseUrl: string): string => {
@@ -132,4 +132,4 @@ const en = {
       pleaseSelectYourPreferredBank: "Please select your preferred bank",
     },
   }
-  export default en;
+  export default lv;

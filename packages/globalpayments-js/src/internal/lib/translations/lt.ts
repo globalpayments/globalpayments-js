@@ -1,55 +1,55 @@
-// et - Estonia
-const et = {
+// lt - Lithuanian
+const lt = {
     labels: {
-      "card-number": "Kaardi number",
-      "card-expiration": "Kaardi aegumiskuupäev",
-      "card-cvv": "Kaardi CVV",
-      "card-holder-name": "Kaardiomaniku nimi",
-      "submit": "Esita"
+      "card-number": "Kortelės numeris",
+      "card-expiration": "Kortelės galiojimo pabaiga",
+      "card-cvv": "Kortelės CVV",
+      "card-holder-name": "Kortelės turėtojo vardas ir pavardė",
+      "submit": "Pateikti"
     },
     values: {
-      "card-track": "Kaardi lugemine",
-      "submit": "Esita"
+      "card-track": "Nuskaityti kortelę",
+      "submit": "Pateikti"
     },
     validationMessages: {
       CardNumber: {
-        Required: 'Kaardi number on kohustuslik',
-        CharactersLessThan12: 'Kaardi number peab olema vähemalt 12-kohaline',
-        NumberIsNotValid: 'Kaardi number on sobimatu',
-        NotAllowedCardType: 'Sellist tüüpi kaarti ei saa töödelda. Kasutage teist kaarti'
+        Required: 'Būtina nurodyti kortelės numerį',
+        CharactersLessThan12: 'Kortelės numerį turi sudaryti bent 12 skaitmenų',
+        NumberIsNotValid: 'Kortelės numeris netinkamas',
+        NotAllowedCardType: 'Šio tipo kortelės neapdorojamos, naudokite kitą kortelę'
       },
       CardExpiration: {
-        NotCompleted: 'Sisestage sobiv kuu/aasta',
-        YearNotValid: 'Aasta on sobimatu',
-        MonthNotValid: 'Kuu on sobimatu',
-        ExpiryDateNotValid: 'Aegumiskuupäev on sobimatu',
+        NotCompleted: 'Įveskite tinkamą mėnesį / metus',
+        YearNotValid: 'Metai netinkami',
+        MonthNotValid: 'Mėnuo netinkamas',
+        ExpiryDateNotValid: 'Galiojimo pabaigos data netinkama',
       },
       CardCvv: {
-        CodeIsNotValid: 'Kaardi CVV on sobimatu',
-        CodeIsLessThan3Digits: 'Kaardi CVV on liiga lühike',
-        CodeMustBe3Digits: 'CVV peab olema kolmekohaline',
-        AmexCodeMustBe4Digits: 'Amexi kaardi CVV peab olema neljakohaline',
+        CodeIsNotValid: 'Kortelės CVV netinkamas',
+        CodeIsLessThan3Digits: 'Kortelės CVV per trumpas',
+        CodeMustBe3Digits: 'Kortelės CVV turi sudaryti 3 skaitmenys',
+        AmexCodeMustBe4Digits: '„Amex“ kortelės CVV turi sudaryti 4 skaitmenys',
       },
       CardHolderName: {
-        NotValidCardHolderName: 'Sisestage sobiv kaardiomaniku nimi',
-        CharactersMoreThan100: 'Kaardiomaniku nimi võib koosneda kuni 100 tähemärgist'
+        NotValidCardHolderName: 'Įveskite tinkamą kortelės turėtojo vardą ir pavardę',
+        CharactersMoreThan100: 'Kortelės turėtojo vardą ir pavardę gali sudaryti ne daugiau kaip 100 simbolių'
       },
       CurrencyConversion: {
         Required: "Choose preferred currency"
       }
     },
     footer: {
-      "ssl-msg-alt": '256-bitise SSL-protokolli abil krüpteerimise logo',
-      "ssl-msg": 'Krüpteeritud 256-bitise<br>SSL-protokolli abil',
-      "security-msg-alt": 'Global Paymentsi turvatud',
-      "security-msg": 'Turvaliselt töödeldud <strong>Global Paymentsi</strong> poolt'
+      "ssl-msg-alt": '256 bitų SSL užšifruotas logotipas',
+      "ssl-msg": 'Užšifruotas<br>256 bitų SSL',
+      "security-msg-alt": 'Apsaugą užtikrina „Global Payments“',
+      "security-msg": 'Saugų apdorojimą užtikrina <strong>Global Payments</strong>'
     },
     tooltip: {
-      "title": 'Turvakood',
-      "aria-label": 'Turvakoodi teave',
-      "text": 'Kaardi tagaküljel olevad kolm lisanumbrit. American Expressi puhul on need kaardi esiküljel olevad neli lisanumbrit.'
+      "title": 'Saugos kodas',
+      "aria-label": 'Saugos kodo informacija',
+      "text": 'Papildomi 3 skaitmenys kortelės galinėje pusėje. „American Express“ atveju tai yra papildomi 4 skaitmenys kortelės priekinėje pusėje.'
     },
-    "other-cards-label": 'Või sisestage üksikasjad käsitsi',
+    "other-cards-label": 'Arba įveskite kortelės duomenis rankiniu būdu',
     QR: {
       scanRqCode: "Scan QR Code",
       payInApp: "to pay in app",
@@ -72,18 +72,18 @@ const et = {
         text: 'Click the link below to return to the payment options.'
       },
       button: {
-        text: 'Valige muu makseviis',
-        "aria-label": 'Valige muu makseviis'
+        text: 'Pasirinkite kitą mokėjimo būdą',
+        "aria-label": 'Pasirinkite kitą mokėjimo būdą'
       },
-      loading: "Laadimine",
+      loading: "Įkeliama",
       redirectScreen: {
-        redirectingToPaymentPageMessage: 'Ümbersuunamine makselehele',
+        redirectingToPaymentPageMessage: 'Nukreipiama į mokėjimo puslapį',
       },
     },
     apms: {
       button: {
         getAriaLabel: (paymentMethod: string): string => {
-          const resource = `Maksa ##VALUE1##`;
+          const resource = `Mokėti naudojant ##VALUE1##`;
           return resource.replace('##VALUE1##', paymentMethod);
         },
         // getImageUrl: (assetBaseUrl: string): string => {
@@ -125,13 +125,12 @@ const et = {
       }
     },
     orderInformation: {
-        amount: "Summa",
-        orderReference: "Tellimuse viide",
-      },
+      amount: "Amount",
+      orderReference: "Order Reference",
+    },
     bankSelection: {
       pleaseSelectYourPreferredBank: "Please select your preferred bank",
     },
   }
 
-  export default et;
-
+  export default lt;

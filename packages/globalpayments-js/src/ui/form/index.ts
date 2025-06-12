@@ -75,6 +75,7 @@ export interface IUIFormOptions {
   values?: IDictionary;
   amount?: number;
   apms?: IDictionary;
+  fields?:IDictionary
 }
 
 export const frameFieldTypes = [
@@ -108,6 +109,7 @@ export default class UIForm {
   public frames: IFrameCollection;
   public fields: IUIFormFields;
   public styles: object;
+  public formOptionFields: IUIFormOptions | undefined;
   private totalNumberOfFields = 0;
 
   /**
@@ -116,10 +118,11 @@ export default class UIForm {
    * @param fields Hosted field configuration
    * @param styles Custom CSS configuration
    */
-  public constructor(fields: IUIFormFields, styles: object) {
+  public constructor(fields: IUIFormFields, styles: object,formOptions?:IUIFormOptions) {
     this.frames = {};
     this.fields = fields;
     this.styles = styles;
+    this.formOptionFields = formOptions;
     this.createFrames();
   }
 
@@ -266,6 +269,7 @@ export default class UIForm {
         type,
         this.fields[type],
         assetBaseUrl() + "field.html",
+        this.formOptionFields
       ));
       this.totalNumberOfFields++;
 

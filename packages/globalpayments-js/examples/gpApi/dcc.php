@@ -89,6 +89,9 @@ $accessToken = $response->token ?? '';
             // style: GlobalPayments.enums.BrandThemes.BrandThemeNBGPAY,
             // style: GlobalPayments.enums.BrandThemes.BrandThemeESERVICE,
             apms: [],
+            fields: {
+                "submit": "Pay"
+            }
         });
     
     cardForm.on("token-success", resp => { console.log(resp); });

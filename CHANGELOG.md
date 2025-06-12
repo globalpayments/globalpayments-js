@@ -4,7 +4,11 @@
 
 # Changelog
 
-## Latest Version - v4.1.10 (4/24/25)
+## Latest Version - v4.1.11 (6/10/25)
+- [Globalpayments-js][4.1.11] Drop-in UI Submit button configurable changes.
+- [Globalpayments-js][4.1.11] Added translations for Lithuanian(lt), Latvian(lv), Estonian(et).
+
+## Latest Version - v4.1.10 (5/6/25)
 - [Globalpayments-js][4.1.10] APM Buttons background colour fix.
 
 ## Latest Version - v4.1.9 (4/24/25)

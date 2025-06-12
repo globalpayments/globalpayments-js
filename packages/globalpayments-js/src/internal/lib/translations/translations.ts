@@ -26,6 +26,7 @@ import {IDictionary} from "../util";
 import ga from "./ga";
 import lv from "./lv";
 import et from "./et";
+import lt from "./lt";
 
 type Translations = {
   [key: string]: IDictionary;
@@ -57,7 +58,8 @@ const translations: Translations = {
   mt, // MT - Maltese
   ga, // IE - Gaelic Irish
   lv, // LV - Latvia
-  et  // EE - Estonia
+  et, // EE - Estonia
+  lt  // Lt - Lithuanian
 };
 
 export default translations;

@@ -211,6 +211,7 @@ export function form(
   return new UIForm(
     fields,
     formOptions.style ? fieldStyles()[formOptions.style] : {},
+    formOptions?.fields
   );
 }
 

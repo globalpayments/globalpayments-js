@@ -130,15 +130,6 @@ $accessToken = $response->token ?? '';
                 {
                     provider: GlobalPayments.enums.ApmProviders.Blik,
                     enabled:  true
-                },
-                {
-                    provider: GlobalPayments.enums.ApmProviders.Cashpresso3Installments,
-                },
-                {
-                    provider: GlobalPayments.enums.ApmProviders.Cashpresso30Days,
-                },
-                {
-                    provider: GlobalPayments.enums.ApmProviders.CashpressoInstallments,
                 }]
             }
         }
@@ -155,7 +146,10 @@ $accessToken = $response->token ?? '';
             GlobalPayments.enums.Apm.GooglePay,
             GlobalPayments.enums.Apm.ApplePay,
             GlobalPayments.enums.Apm.QRCodePayments
-        ]
+        ],
+        fields: {
+            "submit": "Pay"
+        }
     });
 
     cardForm.on(GlobalPayments.enums.ApmEvents.PaymentMethodSelection, paymentProviderData => {
