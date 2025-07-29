@@ -1,5 +1,11 @@
 <?php
 
+/* Sandbox single MMA 
+$appId = 'zwZVuJAaTTiqoBX5kfwvU7lVuNMEI6Az';
+$appKey = 'wgivciJePTEPO2gs';
+'permissions' => [ 'MER_PMT_SINGLE_USE' ]
+*/
+
 $appId = '4gPqnGBkppGYvoE5UX9EWQlotTxGUDbs';
 $appKey = 'FQyJA5VuEQfcji2M';
 
@@ -69,6 +75,8 @@ $accessToken = $response->token ?? '';
             orderReference: "XXXX12345",
             currencyCode: "USD",
         },
+        merchantManagementAccountId:"MMA_f6327891d30c490db8190d5326d13ff2",
+        merchantId:"MER_da715be3675c4431af5727b838b53ba4"
     });
 
     GlobalPayments.on("error", function (error) {

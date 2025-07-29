@@ -28,6 +28,7 @@ export interface IConfiguration extends IDictionary {
   // Specific configuration properties for
   // GP eCommerce (globalpayments)
   merchantId?: string;
+  merchantManagementAccountId?:string;
   account?: string;
   hash?: (data: IDictionary) => Promise<IDictionary>;
   customerExists?: boolean;

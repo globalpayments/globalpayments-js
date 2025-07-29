@@ -64,7 +64,7 @@ export const urls = {
     let endpoint = "payment-methods";
 
     if (options.merchantId) {
-      endpoint = `merchants/${options.merchantId}/${endpoint}`;
+      endpoint = (options.merchantManagementAccountId ? `accounts/${options.merchantManagementAccountId}/`:'') +`merchants/${options.merchantId}/${endpoint}`;
     }
 
     return `${domain}/ucp/${endpoint}`;

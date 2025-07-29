@@ -4,24 +4,27 @@
 
 # Changelog
 
-## Latest Version - v4.1.11 (6/10/25)
+## Latest Version - v4.1.12 (7/24/25)
+- [Globalpayments-js][4.1.12] Added MMA config 
+
+## v4.1.11 (6/10/25)
 - [Globalpayments-js][4.1.11] Drop-in UI Submit button configurable changes.
 - [Globalpayments-js][4.1.11] Added translations for Lithuanian(lt), Latvian(lv), Estonian(et).
 
-## Latest Version - v4.1.10 (5/6/25)
+## v4.1.10 (5/6/25)
 - [Globalpayments-js][4.1.10] APM Buttons background colour fix.
 
-## Latest Version - v4.1.9 (4/24/25)
+## v4.1.9 (4/24/25)
 - [Globalpayments-js][4.1.9] Fixed position for external link image on window resizing.
 
-## Latest Version - v4.1.8 (4/17/25)
+## v4.1.8 (4/17/25)
 - [Globalpayments-js][4.1.8] Add Carnet branding feature.
 
-## Latest Version - v4.1.7 (4/15/25)
+## v4.1.7 (4/15/25)
 - [Globalpayments-js][4.1.7] Add Bank Selection feature for Czech Republic and Slovakia Countries.
 - [Globalpayments-js][4.1.7] Order Information feature placement change.
 
-## Latest Version - v4.1.6 (4/3/25)
+## v4.1.6 (4/3/25)
 - [Globalpayments-js][4.1.6] Add Order Information feature.
 - [Globalpayments-js][4.1.6] Add Bank Selection feature for Poland.
 - [Globalpayments-js][4.1.6] Add APMs for Poland (BLIK) feature.
