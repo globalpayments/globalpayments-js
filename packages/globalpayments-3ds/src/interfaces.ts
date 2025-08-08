@@ -56,7 +56,7 @@ export interface IChallengeWindowOptions {
   displayMode?: DisplayModeType;
   encodedChallengeRequest?: string;
   hide?: boolean;
-  origin?: string;
+  origin?: string | string[];
   requestUrl?: string;
   response?: IMessageEventData;
   target?: string | Element;
@@ -76,7 +76,7 @@ export interface ICreditCardData {
 
 export interface IIframeData {
   iframe?: Element;
-  origin?: string;
+  origin?: string | string[];
   timeout?: number;
 }
 
