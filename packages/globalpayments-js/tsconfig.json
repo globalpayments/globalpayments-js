@@ -7,7 +7,8 @@
     "removeComments": false,
     "sourceMap": true,
     "strict": true,
-    "target": "es3"
+    "target": "es3",
+    "esModuleInterop": true,
   },
   "include": [
     "src/**/*",

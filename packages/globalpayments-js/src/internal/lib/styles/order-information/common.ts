@@ -1,10 +1,11 @@
-const styles = (_assetBaseUrl: string) => {
+const styles = (_assetBaseUrl: string, theme?:string) => {
     return {
         ".order-information": {
-            display: "flex !important",
+            display: "flex",
             "flex-direction": "column",
             "align-items": "center",
-            "font-family": "var(--dropInUI-orderSummary-itemMerchant-fontFamily, DMSans)"
+            // "font-family": "var(--dropInUI-orderSummary-itemMerchant-fontFamily, DMSans)"
+            "font-family": `${theme === "gp-default2" ? "Inter" : "var(--dropInUI-orderSummary-itemMerchant-fontFamily, DMSans)"}`
         },
         ".title-field": {
             "font-weight": "var(--dropInUI-orderSummary-itemMerchant-font-weight-text, bold)",

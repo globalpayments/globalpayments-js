@@ -1,3 +1,4 @@
+
 export const fieldStyles = (assetBaseUrl: string) => {
     const fontBase = assetBaseUrl + "fonts/";
 
@@ -51,6 +52,7 @@ export const styles = (assetBaseUrl: string) => {
           color: "white",
           height: "50px",
           width: "100%",
+          // "border-radius": `${isExpressPayAvailable(options?.apms?.nonCardPayments) ? "999px" : "4px"}`,
           "border-radius": "4px",
           border: "0px",
           margin: "8px 0",

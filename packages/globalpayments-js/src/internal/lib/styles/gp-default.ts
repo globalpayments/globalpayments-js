@@ -24,7 +24,7 @@ const customColors = {
   coolGrey25: '#394046',
 };
 
-export const fieldStyles = (assetBaseUrl: string) => {
+export const fieldStyles = (assetBaseUrl: string, theme?: string) => {
   const imageBase = assetBaseUrl + "images/";
   const fontBase = assetBaseUrl + "fonts/";
 
@@ -146,11 +146,11 @@ export const fieldStyles = (assetBaseUrl: string) => {
     },
 
     ...(options.currencyConversion?.enabled ? getCurrencyConversionFieldStyles() : {}),
-    ...(options.fieldValidation?.enabled ? getBuiltInValidationFieldStyles(assetBaseUrl) : {}),
+    ...(options.fieldValidation?.enabled ? getBuiltInValidationFieldStyles(assetBaseUrl, theme) : {}),
   };
 };
 
-export const parentStyles = (assetBaseUrl: string) => {
+export const parentStyles = (assetBaseUrl: string, theme?: string) => {
   const imageBase = assetBaseUrl + "images/";
   const fontBase = assetBaseUrl + "fonts/";
 
@@ -192,7 +192,6 @@ export const parentStyles = (assetBaseUrl: string) => {
     },
 
     ".secure-payment-form div[class$='-shield'] .ssl-text-logo": {
-      border: "1px solid #468000",
       "border-radius": "3px",
       height: "26px",
       "text-align": "center",
@@ -204,8 +203,7 @@ export const parentStyles = (assetBaseUrl: string) => {
     },
 
     ".secure-payment-form div[class$='-shield'] .ssl-logo_ico": {
-      width: "19px",
-      height: "18px",
+      height: "36px",
       "margin-left": "5px",
       "vertical-align": "middle"
     },
@@ -228,7 +226,7 @@ export const parentStyles = (assetBaseUrl: string) => {
       flex: "1 1 auto",
       "margin-left": "16px",
       width: "100px",
-      height: "23px",
+      height: "36px",
       "text-align": "right",
       "display": "flex",
       "justify-content": "end"
@@ -292,6 +290,31 @@ export const parentStyles = (assetBaseUrl: string) => {
       display: "none!important",
     },
 
+    ".secure-payment-form .credit-card-phone-number label": {
+      "visibility": "hidden"
+    },
+    ".phone-number-wrapper, .billing-address-wrapper, .shipping-details-wrapper": {
+      "display": "flex",
+    },
+    ".secure-payment-form .credit-card-country-code": {
+      width: "8%",
+      "min-width": "80px"
+    },
+    ".secure-payment-form .credit-card-country-code .label-div": {
+      width: "max-content"
+    },
+    ".secure-payment-form .credit-card-phone-number": {
+      "width": "100%",
+      "margin-left": "16px",
+    },
+    ".secure-payment-form .credit-card-country": {
+      "margin-left": "16px",
+      "min-width": "100px"
+    },
+    ".secure-payment-form .credit-card-billing-address": {
+      width: "89%",
+    },
+
     "@media(min-width: 800px)": {
       ".secure-payment-form .credit-card-card-expiration": {
         flex: "1 1 auto",
@@ -302,13 +325,107 @@ export const parentStyles = (assetBaseUrl: string) => {
         flex: "1 1 auto",
         "margin-left": "16px",
       },
+
+      ".secure-payment-form .credit-card-billing-address": {
+        flex: "100 auto",
+      },
+
+      ".secure-payment-form .credit-card-country": {
+        flex: "50",
+        "margin-left": "16px",
+      },
+      ".secure-payment-form .credit-card-country-code": {
+        flex: "0",
+      },
+
+      ".secure-payment-form .credit-card-country-code label": {
+        width: "max-content",
+      },
+
+      ".secure-payment-form .credit-card-phone-number": {
+        flex: "100 auto",
+        "margin-left": "16px",
+      },
+      ".secure-payment-form .credit-card-phone-number label": {
+        "visibility": "hidden"
+      },
     },
+
+    ".credit-card-save-enable":{
+            "margin-top":"3%",
+            "font-family":"DMSans"
+        },
+
+        ".credit-card-save-enable input":{
+            "height":"24px",
+            "width":"24px"
+        },
+
+        ".credit-card-save-enable span":{
+            "vertical-align":"super",
+            "letter-spacing":"-0.5px",
+            "margin-left":"8px"
+        },
+
+        ".credit-card-save-enable .learn-more":{
+            "vertical-align":"super",
+            "color":"#203645",
+        },
+
+        ".terms-and-conditions":{
+            "font-size":"12px",
+            "color":"#04041CA3",
+            "margin-top":"25px"
+        },
+
+        ".terms-and-conditions a":{
+            "color":"#1D68F4",
+            "font-weight":"700",
+            "text-decoration":"none"
+        },
+        ".credit-card-shipping-same-as-billing":{
+            "margin-top":"5px",
+            "font-family":"Inter",
+            "margin-bottom":"15px"
+        },
+
+        ".credit-card-shipping-same-as-billing input":{
+            "height":"22px",
+            "width":"22px"
+        },
+
+        ".credit-card-shipping-same-as-billing span":{
+            "vertical-align":"super",
+            "letter-spacing":"-0.5px",
+            "color":"#203645",
+            "margin-left":"8px",
+            "font-size": "15px"
+        },
+        ".encrypted": {
+            "font-family": 'Inter',
+           " text-align": "end",
+            "font-size": "14px !important",
+            "margin-top": "10px",
+            "color":" #04041C80 !important",
+            "font-weight": "600",
+            "margin-left":"auto"
+        },
+
+        ".encrypted-shipping":{
+            "font-size": "14px !important",
+            "margin-top": "5px",
+            "color": "#04041C80 !important",
+            "font-weight": "600",
+            "float": "right",
+            "letter-spacing": "0px !important"
+        },
+
     ...getTooltipStyles(assetBaseUrl),
     ...getInstallmentStyles(assetBaseUrl),
     ...getApplePayStyles(assetBaseUrl),
     ...getClickToPayStyles(assetBaseUrl),
     ...getGooglePayStyles(assetBaseUrl),
-    ...(options.fieldValidation?.enabled ? getBuiltInValidationParentStyles(assetBaseUrl) : {}),
+    ...(options.fieldValidation?.enabled ? getBuiltInValidationParentStyles(assetBaseUrl, theme) : {}),
     ...(options.currencyConversion?.enabled ? getCurrencyConversionStyles() : {}),
     ...getPaymentMethodsStyles(assetBaseUrl),
 

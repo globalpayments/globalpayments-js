@@ -11,12 +11,13 @@ import {
   parentStyles as gpDefaultParentStyles,
 } from "../../internal/lib/styles/gp-default";
 import { fieldStyles as simpleFieldStyles, parentStyles as simpleParentStyles } from "../../internal/lib/styles/simple";
+import { fieldStyles as gpDefault2FieldStyles, parentStyles as gpDefault2ParentStyles } from "../../internal/lib/styles/gp-default2";
 import { IDictionary } from "../../internal/lib/util";
 import { IFrameCollection, IframeField, IUIFormField } from "../iframe-field";
 import addClickToPay from "../iframe-field/click-to-pay/action-add";
 import addGooglePay from "../iframe-field/google-pay/action-add";
 import addApplePay from "../iframe-field/apple-pay/action-add";
-import {Apm, ApmProviders, CardFormEvents} from "../../internal/lib/enums";
+import {Apm, ApmEvents, ApmProviders, CardFormEvents, ExpressPayEvents} from "../../internal/lib/enums";
 import addInstallments from "../iframe-field/installments/action-add";
 import { InstallmentEvents } from "../../internal/lib/installments/contracts/enums";
 import { verifyInstallmentAvailability } from "../../internal/lib/installments/contracts/installment-plans-data";
@@ -24,7 +25,7 @@ import { INSTALLMENTS_KEY } from "../../internal/lib/installments/contracts/cons
 import { InstallmentPaymentData } from "../../internal/lib/installments/installments-handler";
 import addIssuerBanner from "../../internal/lib/installments/components/add-issuer-banner";
 import { getHaveVirginMoneyCreditCardBannerTemplate } from "../../internal/lib/installments/templates/common";
-import { CardFormFieldNames, HostedFieldValidationEvents } from "../../common/enums";
+import { CardFormFieldNames, ExpressPayFieldNames, HostedFieldValidationEvents } from "../../common/enums";
 import { resetValidationRoundCounter } from "../../internal/built-in-validations/helpers";
 
 import { ApmInternalEvents } from "../../apm/enums";
@@ -42,7 +43,8 @@ import { cleanUpCurrencyConversionAvailabilityStatus, cleanUpCurrencyConversionP
 import addPaymentMethod from "../iframe-field/payment-methods/action-add";
 
 import { getFieldStyles, getParentStyles } from "../../internal/lib/styles/themes/brand-themes/brand-themes";
-import addOrderInformation from "../components/order-information/action-add-order-information";
+import { addExpressPayDetailsEventListener, formatBillingAddress, formatShippingAddress, getExpressPayDetailsKeys, getExpressPayQueryParams } from "../../internal/lib/bank-selection/helpers";
+import getExpressPayBaseUrl from "../../internal/gateways/gp-api/get-express-pay-base-url";
 
 export { IUIFormField } from "../iframe-field";
 
@@ -51,7 +53,7 @@ export const fieldStyles = () => ({
   default: defaultFieldStyles(assetBaseUrl()),
   "gp-default": gpDefaultFieldStyles(assetBaseUrl()),
   simple: simpleFieldStyles(assetBaseUrl()),
-
+  "gp-default2":gpDefault2FieldStyles(assetBaseUrl(),"gp-default2"),
   // Brand theme styles
   ...(getFieldStyles(assetBaseUrl())),
 });
@@ -61,7 +63,7 @@ export const parentStyles = () => ({
   default: defaultParentStyles(assetBaseUrl()),
   "gp-default": gpDefaultParentStyles(assetBaseUrl()),
   simple: simpleParentStyles(assetBaseUrl()),
-
+"gp-default2": gpDefault2ParentStyles(assetBaseUrl(),"gp-default2"),
   // Brand theme styles
   ...(getParentStyles(assetBaseUrl())),
 });
@@ -70,7 +72,7 @@ export interface IUIFormOptions {
   labels?: IDictionary;
   placeholders?: IDictionary;
   prefix?: string;
-  style?: "default" | "simple" | "blank" | "gp-default";
+  style?: "default" | "simple" | "blank" | "gp-default" | "gp-default2";
   titles?: IDictionary;
   values?: IDictionary;
   amount?: number;
@@ -80,6 +82,7 @@ export interface IUIFormOptions {
 
 export const frameFieldTypes = [
   Apm.Blik,
+  Apm.ExpressPay,
   Apm.ClickToPay,
   Apm.GooglePay,
   Apm.ApplePay,
@@ -260,6 +263,26 @@ export default class UIForm {
   }
 
   private createFrames() {
+    if(options.expressPay?.enabled){
+      frameFieldTypes.push(
+        ExpressPayFieldNames.EmailId,
+        ExpressPayFieldNames.Phone,
+        ExpressPayFieldNames.CountryCode,
+        ExpressPayFieldNames.BillingAddress,
+        ExpressPayFieldNames.BillingApt,
+        ExpressPayFieldNames.BillingCity,
+        ExpressPayFieldNames.BillingState,
+        ExpressPayFieldNames.BillingPostalCode,
+        ExpressPayFieldNames.Country,
+        ExpressPayFieldNames.ShippingAddress,
+        ExpressPayFieldNames.ShippingCountry,
+        ExpressPayFieldNames.ShippingName,
+        ExpressPayFieldNames.ShippingApt,
+        ExpressPayFieldNames.ShippingCity,
+        ExpressPayFieldNames.ShippingState,
+        ExpressPayFieldNames.ShippingPostalCode
+      )
+    }
     for (const type of frameFieldTypes) {
       if (!this.fields[type]) {
         continue;
@@ -271,6 +294,7 @@ export default class UIForm {
         assetBaseUrl() + "field.html",
         this.formOptionFields
       ));
+
       this.totalNumberOfFields++;
 
       if (field === undefined) {
@@ -306,10 +330,14 @@ export default class UIForm {
     // support tokenization data flows to `card-number` / `account-number`
     if (this.frames.submit !== undefined) {
       this.frames.submit.on("click", () => {
+        localStorage.setItem("Card-Payment","true");
         if (options.fieldValidation?.enabled) {
           this.validateForm(this.frames);
         } else {
           this.submitForm();
+        }
+        if(options.expressPay?.enabled){
+          addExpressPayDetailsEventListener();
         }
       });
     }
@@ -324,6 +352,7 @@ export default class UIForm {
     const qrCodePayments = this.frames[Apm.QRCodePayments];
 
     const blik = this.frames[Apm.Blik];
+    const expressPay = this.frames[Apm.ExpressPay];
 
     // support autocomplete / auto-fill from `card-number` to other fields
       if (cardNumber) {
@@ -364,6 +393,7 @@ export default class UIForm {
         );
       });
     }
+
 
     // Add Installments configs
     if (options.installments) {
@@ -436,7 +466,7 @@ export default class UIForm {
 
     if (openBanking) {
       openBanking?.container?.querySelector('iframe')?.remove();
-      addPaymentMethod(openBanking, ApmProviders.OpenBanking, Apm.OpenBankingPayment,options.apms?.countryCode);
+      addPaymentMethod(openBanking, ApmProviders.OpenBanking, Apm.OpenBankingPayment);
     }
 
     if (blik) {
@@ -444,15 +474,148 @@ export default class UIForm {
       addPaymentMethod(blik, ApmProviders.Blik, Apm.Blik);
     }
 
+    if (expressPay) {
+      expressPay?.container?.querySelector('iframe')?.remove();
+      addPaymentMethod(expressPay, ApmProviders.ExpressPay, Apm.ExpressPay);
+      this.addExpressPayBtnEventListener(expressPay);
+    }
+
     if (paypal) {
       paypal?.container?.querySelector('iframe')?.remove();
-      addPaymentMethod(paypal, ApmProviders.PayPal, Apm.PayPal,options.apms?.countryCode);
+      addPaymentMethod(paypal, ApmProviders.PayPal, Apm.PayPal);
     }
 
     // Hosted Fields validattion
     if (options.fieldValidation?.enabled) {
       this.configureHostedFieldValidations(this.frames);
     }
+  }
+
+  private expressPayEventEmitter(details: any, iframeField: IframeField, redirectUrl?: string): void {
+    iframeField?.emit(ApmEvents.PaymentMethodSelection, {
+      provider: ApmProviders.ExpressPay,
+      countryCode: options.apms?.countryCode,
+      currencyCode: options.apms?.currencyCode,
+      redirectUrl
+    });
+
+  }
+
+  private addExpressPayBtnEventListener(iframeField: IframeField): void {
+    const accountCardNumberFrameTarget = this.frames[CardFormFieldNames.CardNumber] || this.frames[CardFormFieldNames.CardAccountNumber];
+    if (!accountCardNumberFrameTarget) return;
+    const fieldsRequiredForTokenization = [
+      CardFormFieldNames.CardNumber,
+      CardFormFieldNames.CardExpiration,
+      CardFormFieldNames.CardCvv
+    ]
+    const expressPayBtn: any = document.getElementById(Apm.ExpressPay);
+    const details: { [key: string]: any } = {};
+    const detailsMap = getExpressPayDetailsKeys();
+
+    const billingFields = [
+      ExpressPayFieldNames.BillingAddress,
+      ExpressPayFieldNames.BillingApt,
+      ExpressPayFieldNames.BillingCity,
+      ExpressPayFieldNames.BillingState,
+      ExpressPayFieldNames.BillingPostalCode
+    ];
+
+    const shippingFields = [
+      ExpressPayFieldNames.ShippingAddress,
+      ExpressPayFieldNames.ShippingApt,
+      ExpressPayFieldNames.ShippingCity,
+      ExpressPayFieldNames.ShippingState,
+      ExpressPayFieldNames.ShippingPostalCode
+    ];
+
+    let isTokenized: boolean = false;
+
+    const shippingSameAsBilling: any = localStorage.getItem("shippingSameAsBilling");
+
+    expressPayBtn.addEventListener('click', () => {
+
+      localStorage.setItem("Card-Payment", "false");
+      // Reset validation round counter
+      resetValidationRoundCounter();
+
+      const hostedFieldsToValidate = this.getHostedFieldsToValidate(this.frames, accountCardNumberFrameTarget,true);
+
+      const valuePromises = hostedFieldsToValidate.map((field: any) => {
+        return (field) ? field.getValue().then((value: any) => ({ field, value, name: field.frame.contentWindow.name })) : Promise.resolve(null)
+      })
+
+      let filledFields: any[] = [];
+
+      Promise.all(valuePromises).then(results => {
+        filledFields = results.filter((item: any) => item && item.value && item.value.trim() !== "");
+
+        // Check if all required fields for tokenization are filled
+        isTokenized = fieldsRequiredForTokenization.every(requiredField =>
+          filledFields.some(f => f.name === requiredField)
+        );
+        const selectedBillingState = filledFields.find((field: any) => field.name === ExpressPayFieldNames.BillingState)?.value;
+        const selectedShippingState = filledFields.find((field: any) => field.name === ExpressPayFieldNames.ShippingState)?.value;
+
+        if (filledFields && filledFields.length > 0) {
+          let billingCount:number = 0;
+          let shippingCount:number = 0;
+          for (const field of filledFields) {
+            if (!field.field) return;
+            postMessage.post(
+              {
+                data: {
+                  target: accountCardNumberFrameTarget.id,
+                  expressPayValidation: true
+                },
+                id: field.field.id,
+                type: `ui:iframe-field:${HostedFieldValidationEvents.Validate}`,
+                target: accountCardNumberFrameTarget.id,
+              },
+              field.field.id,
+            );
+            if (billingFields.includes(field.name) && billingCount < 1) {
+              details.billingAddress = formatBillingAddress(filledFields, selectedBillingState);
+              billingCount++;
+            }
+            else if (shippingFields.includes(field.name) && shippingCount < 1) {
+              details.shippingAddress = formatShippingAddress(filledFields, selectedShippingState);
+              shippingCount++;
+            }
+            else {
+              const key: any = detailsMap.get(field.name);
+              if (key) {
+                details[key] = field.value;
+              }
+          }
+          }
+        } else {
+          const query = getExpressPayQueryParams(options.expressPay, details);
+          const redirectUrl = getExpressPayBaseUrl('') + query;
+          this.expressPayEventEmitter(details, iframeField, redirectUrl)
+        }
+
+      });
+      const cleanUpFormValidationDataAndEmitValidityState = (isFormValid: boolean) => {
+        const w = window as any;
+        delete w.formValidations;
+        bus.emit(CardFormEvents.ValidityState, { isFormValid });
+      };
+
+      accountCardNumberFrameTarget.on(HostedFieldValidationEvents.ValidateFormValid, (_validationData?: any) => {
+        cleanUpFormValidationDataAndEmitValidityState(true);
+        if (!isTokenized) {
+          const query = getExpressPayQueryParams(options.expressPay, details);
+          const redirectUrl = getExpressPayBaseUrl('') + query;
+          this.expressPayEventEmitter(details, iframeField, redirectUrl);
+        }
+      });
+
+      accountCardNumberFrameTarget.on(HostedFieldValidationEvents.ValidateFormInvalid, (_validationData?: any) => cleanUpFormValidationDataAndEmitValidityState(false));
+
+      addExpressPayDetailsEventListener();
+    });
+
   }
 
   private configureCardInstallmentsEvents(): void {
@@ -677,7 +840,6 @@ export default class UIForm {
   ) {
     // Initialize an array to store field names
     const fields: string[] = [];
-
     // Check if the frame type is defined and not excluded from request
     for (const type of frameFieldTypes) {
       if (!this.frames[type]) {
@@ -690,7 +852,8 @@ export default class UIForm {
         && type !== INSTALLMENTS_KEY
         && type !== Apm.QRCodePayments
         && type !== Apm.OpenBankingPayment
-        && type !== Apm.Blik) {
+        && type !== Apm.Blik
+        && type !== Apm.ExpressPay) {
         fields.push(type);
       }
     }
@@ -788,10 +951,7 @@ export default class UIForm {
     });
   }
 
-  private configureHostedFieldValidations(frames: IFrameCollection): void {
-    const cardNumberFrame = frames[CardFormFieldNames.CardNumber];
-    if (!cardNumberFrame) return;
-
+  private getHostedFieldsToValidate(frames: IFrameCollection, cardNumberFrame:any, isExpresspayApm?:boolean): any{
     const hostedFieldsToValidate = [
       cardNumberFrame,
       frames[CardFormFieldNames.CardExpiration],
@@ -799,11 +959,43 @@ export default class UIForm {
       frames[CardFormFieldNames.CardHolderName]
     ];
 
+    if(options.expressPay?.enabled){
+      hostedFieldsToValidate.push(
+        frames[ExpressPayFieldNames.EmailId],
+        frames[ExpressPayFieldNames.CountryCode],
+        frames[ExpressPayFieldNames.Phone],
+        frames[ExpressPayFieldNames.BillingAddress],
+        frames[ExpressPayFieldNames.Country],
+        frames[ExpressPayFieldNames.BillingApt],
+        frames[ExpressPayFieldNames.BillingCity],
+        frames[ExpressPayFieldNames.BillingState],
+        frames[ExpressPayFieldNames.BillingPostalCode]
+      )
+      if(options.expressPay?.isShippingRequired !== false || isExpresspayApm){
+        hostedFieldsToValidate.push(
+        frames[ExpressPayFieldNames.ShippingAddress],
+        frames[ExpressPayFieldNames.ShippingCountry],
+        frames[ExpressPayFieldNames.ShippingName],
+        frames[ExpressPayFieldNames.ShippingApt],
+        frames[ExpressPayFieldNames.ShippingCity],
+        frames[ExpressPayFieldNames.ShippingState],
+        frames[ExpressPayFieldNames.ShippingPostalCode]
+      )}
+    }
+
     if (options.currencyConversion?.enabled) {
       hostedFieldsToValidate.push(frames[DCC_KEY])
     }
+    return hostedFieldsToValidate;
+  }
 
-    hostedFieldsToValidate.forEach(field => {
+  private configureHostedFieldValidations(frames: IFrameCollection): void {
+    const cardNumberFrame = frames[CardFormFieldNames.CardNumber];
+    if (!cardNumberFrame) return;
+
+    const hostedFieldsToValidate: IframeField[] = this.getHostedFieldsToValidate(frames, cardNumberFrame);
+
+    hostedFieldsToValidate?.forEach(field => {
       if (!field) return;
 
       field.on(HostedFieldValidationEvents.ValidationShow, (validationData?: any) => {
@@ -854,22 +1046,12 @@ export default class UIForm {
     const accountCardNumberFrameTarget = this.frames[CardFormFieldNames.CardNumber] || this.frames[CardFormFieldNames.CardAccountNumber];
     if (!accountCardNumberFrameTarget) return;
 
-    const hostedFieldsToValidate = [
-      accountCardNumberFrameTarget,
-      frames[CardFormFieldNames.CardExpiration ],
-      frames[CardFormFieldNames.CardCvv ],
-      frames[CardFormFieldNames.CardHolderName ],
-    ];
-
-    if (options.currencyConversion?.enabled && getCurrencyConversionAvailabilityStatus()) {
-      hostedFieldsToValidate.push(frames[DCC_KEY])
-    }
+    const hostedFieldsToValidate: IframeField[] = this.getHostedFieldsToValidate(frames, accountCardNumberFrameTarget);
 
     resetValidationRoundCounter();
 
     for (const field of hostedFieldsToValidate) {
       if (!field) return;
-
       postMessage.post(
         {
           data: { target: accountCardNumberFrameTarget.id },
@@ -886,7 +1068,6 @@ export default class UIForm {
     // support tokenization data flows to `card-number` / `account-number`
     const accountCardNumberFrame = this.frames[CardFormFieldNames.CardNumber] || this.frames[CardFormFieldNames.CardAccountNumber];
     if (!accountCardNumberFrame) return;
-
     this.requestDataFromAll(accountCardNumberFrame);
   }
 

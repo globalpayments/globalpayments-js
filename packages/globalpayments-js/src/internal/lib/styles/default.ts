@@ -207,7 +207,6 @@ export const parentStyles = (assetBaseUrl: string) => {
     },
 
     ".secure-payment-form div[class$='-shield'] .ssl-text-logo": {
-      border: "1px solid #468000",
       "border-radius": "3px",
       height: "26px",
       "text-align": "center",
@@ -219,8 +218,7 @@ export const parentStyles = (assetBaseUrl: string) => {
     },
 
     ".secure-payment-form div[class$='-shield'] .ssl-logo_ico": {
-      width: "19px",
-      height: "18px",
+      height: "36px",
       "margin-left": "5px",
       "vertical-align": "middle"
     },
@@ -243,7 +241,7 @@ export const parentStyles = (assetBaseUrl: string) => {
       flex: "1 1 auto",
       "margin-left": "16px",
       width: "110px",
-      height: "23px",
+      height: "36px",
       "text-align": "right",
       float: "right",
       "display": "flex",

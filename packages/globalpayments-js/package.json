@@ -1,6 +1,6 @@
 {
   "name": "@globalpayments/js",
-  "version": "4.1.12",
+  "version": "4.1.13",
   "author": "Heartland Developer Portal <developers@heartland.us>",
   "license": "GPL-2.0",
   "repository": {
@@ -17,15 +17,10 @@
     "clean": "rimraf dist",
     "cypress:open": "cypress open",
     "format": "prettier --write config/**/* src/**/* !src/assets/**/* !test/run.sh !test/run.ps1 test/fixtures/**/*.html",
-    
     "postbuild": "cross-os postbuild-cross",
-
     "prebuild": "yarn test:lint && node bin/update-version.js",
     "prepublish": "yarn build",
-   
     "test": "cross-os test-cross",
-  
-
     "test:integration": "cypress run",
     "test:lint": "tslint --project tsconfig.json",
     "test:serve": "serve -p 7777"
@@ -41,9 +36,13 @@
     }
   },
   "dependencies": {
+    "@rollup/plugin-json": "^6.1.0",
+    "country-region-data": "^3.1.0",
+    "country-state-city": "^3.2.1",
     "globalpayments-lib": "^1.8.5"
   },
   "devDependencies": {
+    "@rollup/plugin-json": "^6.1.0",
     "rimraf": "*",
     "rollup": "*"
   },

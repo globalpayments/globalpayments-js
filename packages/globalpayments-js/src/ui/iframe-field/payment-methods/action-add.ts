@@ -10,15 +10,14 @@ import { bus, options } from "../../../internal";
 import {
   Apm,
   ApmEvents,
-  ApmProviders,
+  ApmProviders
 } from "../../../internal/lib/enums";
 import { isApmProviderConfigured, isUrlValid } from "../../../apm/non-card-payments/components/common";
 import {getCurrentLanguage, getTranslationLanguageSet} from "../../../internal/lib/detectLanguage";
 import { isBankSelectionAvailable, getImageUrl } from "../../../internal/lib/bank-selection/helpers";
 import addBankSelection from "../../components/bank-selection/action-add-bank-selection";
 import getAssetBaseUrl from "../../../internal/gateways/gp-api/get-asset-base-url";
-
-export default function addPaymentMethod(iframeField: IframeField | undefined, apmProvider: ApmProviders, apm: Apm, countryCode?:string | undefined): void {
+export default function addPaymentMethod(iframeField: IframeField | undefined, apmProvider: ApmProviders, apm: Apm): void {
   if (!iframeField) return;
   const apmAllowedPaymentMethods = options.apms?.nonCardPayments?.allowedPaymentMethods;
   if (!apmAllowedPaymentMethods || !isApmProviderConfigured(apmAllowedPaymentMethods, apmProvider)) return;
@@ -59,15 +58,16 @@ function displayPaymentMethods(iframeField: IframeField, apmProvider: ApmProvide
   });
   paymentMethodButton.style.background = backgroundImage;
   // paymentMethodButton.setAttribute('style', 'background: backgroundImage')
-  paymentMethodButton?.addEventListener('click', () => {
+  if(apmProvider !== ApmProviders.ExpressPay) {
+    paymentMethodButton?.addEventListener('click', () => {
     // Merchant Interaction: Emit an event to let the Merchant know the selected provider
-    iframeField?.emit(ApmEvents.PaymentMethodSelection, {
-      provider: apmProvider,
-      // TODO (Bank Selection): Add the Bank selection country and currency props to evaluate if it is available
-      countryCode: options.apms?.countryCode,
-      currencyCode: options.apms?.currencyCode,
-    });
+        iframeField?.emit(ApmEvents.PaymentMethodSelection, {
+        provider: apmProvider,
+        countryCode: options.apms?.countryCode,
+        currencyCode: options.apms?.currencyCode,
+      });
   });
+  }
 
   paymentMethodButtonWrapperDiv.append(paymentMethodButton);
   paymentMethodsWrapperDiv.append(paymentMethodButtonWrapperDiv);

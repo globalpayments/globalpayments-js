@@ -265,6 +265,8 @@ export const createHtmlIFrameElement = (
 
 export const changeCreditCardFormFieldsVisibility = (visible: boolean): void => {
   const fields = [
+    // Order Information
+    '.order-information',
     // Apm
     '.credit-card-click-to-pay',
     '.credit-card-google-pay',
@@ -273,21 +275,58 @@ export const changeCreditCardFormFieldsVisibility = (visible: boolean): void => 
     '.qr-code-payment-methods-wrapper',
     '.open-banking-button-wrapper',
     '.blik-button-wrapper',
+    '.express-pay-button-wrapper',
     '.paypal-button-wrapper',
     // Credit card common
     '.credit-card-card-number',
     '.credit-card-card-expiration',
     '.credit-card-card-cvv',
     '.credit-card-card-holder-name',
+    '.credit-card-email-id',
+    '.phone-number-wrapper',
+    '.phone-number',
+    '.country-code',
+    '.billing-address-wrapper',
+    '.billing-address',
+    '.country',
+    '.credit-card-billing-apt',
+    '.billing-location-wrapper',
+    '.credit-card-shipping-same-as-billing',
+    '.shipping-address-wrapper',
+    '.encrypted',
+    '.credit-card-save-enable',
     '.credit-card-submit',
     // '.credit-card-shield',
     // '.credit-card-logo',
   ];
 
+  const flexElements:any = [
+      '.order-information',
+      '.phone-number-wrapper',
+      '.phone-number',
+      '.country-code',
+      '.billing-address-wrapper',
+      '.billing-address',
+      '.country',
+      '.billing-location-wrapper',
+    ];
+
   fields.forEach((fieldSelector: any) => {
     const domElement = document.querySelector(`${fieldSelector}`);
+    const isShippingSameAsBilling:any = document.getElementById('shipping-as-billing-checkbox');
     if (domElement) {
-      domElement.setAttribute('style', `display: ${visible ? 'block' : 'none'};`);
+      if(flexElements.indexOf(fieldSelector) > -1){
+        domElement.setAttribute('style', `display: ${visible ? 'flex' : 'none'};`);
+      } else if( fieldSelector === '.shipping-address-wrapper') {
+        domElement.setAttribute('style', `display: ${visible ? `${isShippingSameAsBilling.checked ? 'none' : 'block'}` : 'none'};`);
+      } else if(fieldSelector === '.encrypted') {
+        domElement.setAttribute('style', `display: ${visible ? `${isShippingSameAsBilling.checked ? 'none' : 'block'}` : 'none'};`);
+      } else if(fieldSelector === '.encrypted-shipping') {
+        domElement.setAttribute('style', `display: ${visible ? `${isShippingSameAsBilling.checked ? 'block': 'none'}` : 'none'};`);
+      }
+      else{
+        domElement.setAttribute('style', `display: ${visible ? 'block' : 'none'};`);
+      }
     }
   });
 }

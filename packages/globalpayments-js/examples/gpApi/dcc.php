@@ -60,7 +60,7 @@ $accessToken = $response->token ?? '';
         env: "local",
         apiVersion: "2021-03-22",
         currencyConversion: {
-            enabled: true,
+            enabled: false,
             accountName: "dcc",
             currency: "EUR",
             country: "GB",
@@ -75,8 +75,14 @@ $accessToken = $response->token ?? '';
             orderReference: "XXXX12345",
             currencyCode: "USD",
         },
-        merchantManagementAccountId:"MMA_f6327891d30c490db8190d5326d13ff2",
-        merchantId:"MER_da715be3675c4431af5727b838b53ba4"
+        expressPay: {
+            enabled: true,
+            cancelUri: "https://webhook.site/6dc0caed-3230-4cf8-86a9-0e0ff8ed6a9a",
+            paymentUri: "https://webhook.site/6dc0caed-3230-4cf8-86a9-0e0ff8ed6a9a",
+            isShippingRequired: false,
+            payButtonLabel: ""
+        },
+        // useNetworkToken: true
     });
 
     GlobalPayments.on("error", function (error) {
@@ -87,7 +93,7 @@ $accessToken = $response->token ?? '';
         '#credit-card-form',
         {
             amount,
-            style: "gp-default",
+            style: "gp-default2",
             // style: GlobalPayments.enums.HostedFieldStyles.Default,
             // style: GlobalPayments.enums.HostedFieldStyles.Simple,
 
@@ -102,8 +108,16 @@ $accessToken = $response->token ?? '';
             }
         });
     
-    cardForm.on("token-success", resp => { console.log(resp); });
-    cardForm.on("token-error", resp => { console.log(resp); });
+    cardForm?.on("token-success", resp => {
+        console.log(resp);
+        if(resp.expressPayEnabled){
+            const merchantCustomEventProvideDetails = new CustomEvent(GlobalPayments.enums.ExpressPayEvents.ExpressPayActionDetail, {
+            detail: resp
+        });
+        window.dispatchEvent(merchantCustomEventProvideDetails);
+        }
+    });
+    cardForm?.on("token-error", resp => { console.log(resp); });
 </script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-export const fieldStyles = (assetBaseUrl: string) => {
+export const fieldStyles = (assetBaseUrl: string,theme?: string | undefined) => {
     const imageBase = assetBaseUrl + "images/";
     const fontBase = assetBaseUrl + "fonts/";
 
@@ -8,7 +8,7 @@ export const fieldStyles = (assetBaseUrl: string) => {
 
     return {
       "#secure-payment-field[type=text].field-validation-wrapper": {
-        "font-family": "var(--inputfield-container-font-error, DMSans)",
+        "font-family": `${theme === "gp-default2" ? "Inter" : "var(--inputfield-container-font-error, DMSans)"}`
       },
       "#secure-payment-field[type=tel].hf-invalid": {
         border: `1px solid var(--inputfield-container-color-border-error, ${customColors.validationRed}) !important`,
@@ -19,7 +19,7 @@ export const fieldStyles = (assetBaseUrl: string) => {
     };
   };
 
-  const styles = (assetBaseUrl: string) => {
+  const styles = (assetBaseUrl: string,theme: string) => {
       const imageBase = assetBaseUrl + "images/";
 
       return { };

@@ -1,7 +1,7 @@
-import { HOSTED_FIELD_NAME_KEYS } from "../../common/constants";
+import { HOSTED_FIELD_NAME_KEYS, HOSTED_FIELDS_ADDITIONAL_KEYS, HOSTED_FIELDS_SHIPPING_KEYS } from "../../common/constants";
 import { CardFormFieldNames, HostedFieldValidationEvents } from "../../common/enums";
-import { postMessage } from "../../internal";
-import { validate } from "../../internal/built-in-validations/field-validator";
+import { options, postMessage } from "../../internal";
+import { expressPayFieldsValidate, validate } from "../../internal/built-in-validations/field-validator";
 import { hideHostedFieldValidation, showHostedFieldValidation } from "../../internal/built-in-validations/helpers";
 import paymentFieldId from "../../internal/lib/payment-field-id";
 import { handleCurrencyConversionValidationSetup } from "../../internal/lib/currency-conversion/utils/helpers";
@@ -9,9 +9,20 @@ import { handleCurrencyConversionValidationSetup } from "../../internal/lib/curr
 /**
  * Validate the value for a hosted field
  */
-export default (id: string, type: string, target: string) => {
+export default (id: string, type: string, target: string, expressPayValidation?: boolean) => {
   // Set the initial set of fields to validate
-  const fieldsToValidate = HOSTED_FIELD_NAME_KEYS.map(x => x);
+  let fieldsToValidate = HOSTED_FIELD_NAME_KEYS.map(x => x);
+
+  let additionalFieldsToValidate = HOSTED_FIELDS_ADDITIONAL_KEYS.map(x => x);
+
+  const shippingFieldsToValidate = HOSTED_FIELDS_SHIPPING_KEYS.map(x => x);
+
+  if(options.expressPay?.enabled){
+    if(options.expressPay?.isShippingRequired !== false && localStorage.getItem("shippingSameAsBilling")==="false"){
+      additionalFieldsToValidate = [...additionalFieldsToValidate,...shippingFieldsToValidate];
+    }
+    fieldsToValidate = [...fieldsToValidate,...additionalFieldsToValidate];
+  }
 
   // Handle DCC Validations (if needed)
   handleCurrencyConversionValidationSetup(fieldsToValidate);
@@ -37,9 +48,12 @@ export default (id: string, type: string, target: string) => {
   }
 
   const validationResult = validate(type, value, extraData);
-  isValid = validationResult && validationResult.isValid;
-  if (!isValid && validationResult.message) {
-    showHostedFieldValidation(id, validationResult.message);
+  const expressPayValidationResult:any = additionalFieldsToValidate.indexOf(type) > -1 ? expressPayFieldsValidate(type, value, extraData) : true;
+
+  isValid = additionalFieldsToValidate.indexOf(type) > -1 ? (expressPayValidationResult && expressPayValidationResult.isValid) : (validationResult && validationResult.isValid);
+
+  if (!isValid && (validationResult.message || expressPayValidationResult.message)) {
+    showHostedFieldValidation(id, (validationResult.message || expressPayValidationResult.message));
   } else {
     hideHostedFieldValidation(id);
   }
@@ -51,6 +65,7 @@ export default (id: string, type: string, target: string) => {
         value,
         isValid,
         target,
+        expressPayValidation
       },
       id,
       type: `ui:iframe-field:${HostedFieldValidationEvents.ValidatePassData}`,

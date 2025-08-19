@@ -1,4 +1,4 @@
-const styles = (_assetBaseUrl: string) => {
+const styles = (_assetBaseUrl: string, theme?: string) => {
     const imageBase = _assetBaseUrl + "images/";
     return {
         ".bank-selection-wrapper":{

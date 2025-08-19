@@ -52,5 +52,26 @@ export const ValidationMessages = {
     CurrencyConversion: {
       // If user doesn't select any value
       Required: translations.en.validationMessages.CurrencyConversion.Required,
-    }
+    },
+    EmailId: {
+      Required : "Email Id is required",
+      InvalidEmail: "Please enter a valid email address (e.g., xxx@xxx.xxx)"
+    },
+    PhoneNumber: {
+      Required : "Phone number is required",
+      InvalidPhone: "Please enter a valid mobile number",
+      InvalidLength: "The Mobile Number must consist of exactly 10 digits"
+    },
+    BillingAddress: {
+      Required : "Billing Address is required",
+      CountryRequired: "Country is required"
+    },
+    ShippingAddress: {
+      Required : "Shipping Address is required",
+      MandatoryName : "Name is required",
+      InvalidPostalCode: "Please enter a valid postal code",
+      MandatoryPostalCode: "Postal code is required",
+      MandatoryCity: "City is required",
+      MandatoryState: "State is required"
+    },
 };

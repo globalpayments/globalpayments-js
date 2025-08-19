@@ -49,7 +49,7 @@
   "devDependencies": {
     "rimraf": "*",
     "rollup": "*",
-    "web-component-analyzer": "*"
+    "web-component-analyzer": "^1.1.6"
   },
   "gitHead": "09776fcfe6140ce5b1ea8fc55fb4867b15565f1d"
 }

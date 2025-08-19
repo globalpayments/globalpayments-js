@@ -23,7 +23,7 @@ export function addFooterIcons(
   sslLogo.className = "ssl-text-logo";
 
   const sslImage = document.createElement("img");
-  sslImage.setAttribute('src', `${assetUrl}images/ssl_logo_ico.svg`);
+  sslImage.setAttribute('src', `${assetUrl}images/Encrypted_Badge.png`);
   sslImage.setAttribute('alt', translations[language].footer['ssl-msg-alt']);
   sslImage.className = "ssl-logo_ico";
 
@@ -32,22 +32,22 @@ export function addFooterIcons(
   text.className = "ssl-msg";
 
   sslLogo.appendChild(sslImage);
-  sslLogo.appendChild(text);
+  // sslLogo.appendChild(text);
   shield.appendChild(sslLogo);
   target.appendChild(shield);
 
   const logo = document.createElement("div");
   logo.className = formOptions.prefix + "logo";
 
-  const securityMsg = document.createElement('span');
-  securityMsg.className = "security-msg";
-  securityMsg.innerHTML = translations[language].footer['security-msg'];
+  // const securityMsg = document.createElement('span');
+  // securityMsg.className = "security-msg";
+  // securityMsg.innerHTML = translations[language].footer['security-msg'];
 
   const securityImage = document.createElement("img");
-  securityImage.setAttribute('src', `${assetUrl}images/realex-grey.png`);
+  securityImage.setAttribute('src', `${assetUrl}images/Secured_By_GP_Badge.png`);
   securityImage.setAttribute('alt', translations[language].footer['security-msg-alt']);
 
-  logo.appendChild(securityMsg);
+  // logo.appendChild(securityMsg);
   logo.appendChild(securityImage);
   target.appendChild(logo);
 }

@@ -30,7 +30,7 @@ import actionGetCurrencyConversionValue from "./currency-conversion/action-get-v
 import { InstallmentEvents } from "../../internal/lib/installments/contracts/enums";
 import assetBaseUrl from "../../internal/lib/asset-base-url";
 
-import { CardFormFieldNames, HostedFieldValidationEvents } from "../../common/enums";
+import { CardFormFieldNames, ExpressPayFieldNames, HostedFieldValidationEvents } from "../../common/enums";
 import actionShowValidation from "./action-show-validation";
 import actionHideValidation from "./action-hide-validation";
 import actionValidateValue from "./action-validate-value";
@@ -44,6 +44,9 @@ import actionSetCustomMessages from "./action-set-custom-message";
 import { CurrencyConversionEvents } from "../../internal/lib/currency-conversion/contracts/enums";
 import { DCC_KEY } from "../../internal/lib/currency-conversion/contracts/constants";
 import { IUIFormOptions } from "../form";
+import CountryList from "country-list-with-dial-code-and-flag";
+import CountryFlagSvg from 'country-list-with-dial-code-and-flag/dist/flag-svg';
+import { Country, State, City } from 'country-state-city';
 
 export interface IFrameCollection {
   [key: string]: IframeField | undefined;
@@ -145,11 +148,13 @@ export class IframeField extends EventEmitter {
     enableAutocomplete: boolean,
     fieldOptions?: any
   ) {
+    // type = "button";
     const query = window.location.hash.replace("#", "");
     const data: any = JSON.parse(atob(query));
+
     const formOptionFields = data.formOptionFields;
-    const input = document.createElement(
-      type === "button" ? "button" : "input",
+    const input:any = document.createElement(
+      type === "button" ? "button" : (type === "select" ? "select" : "input"),
     );
     input.setAttribute(
       "type",
@@ -164,6 +169,53 @@ export class IframeField extends EventEmitter {
     input.className = name;
     input.setAttribute("data-id", id);
 
+    const countryArray = CountryList.getAll();
+      const countryDialCodes = countryArray.map(item => {
+        const obj = {
+          "code":item.code,
+          "countryCode":item.countryCode,
+          "countryName":item.name,
+          "dial_code":item.dial_code,
+          "flag":CountryFlagSvg[item.code]
+        }
+        return obj;
+      });
+      const states = State.getStatesOfCountry('US');
+
+    if(type === "select" && (name === ExpressPayFieldNames.Country || name === ExpressPayFieldNames.ShippingCountry)){
+      countryDialCodes.forEach(element =>{
+        const option = document.createElement("option");
+        if(element.countryName === "United States"){
+          option.value = element.code;
+          option.text = `${element.countryName}`;
+          option.setAttribute("selected","selected");
+          input.appendChild(option);
+        }
+      })
+    }
+    else if(type === "select" && (name === ExpressPayFieldNames.BillingState || name === ExpressPayFieldNames.ShippingState)){
+      states.forEach(element =>{
+        const option = document.createElement("option");
+        option.value = element.isoCode;
+        option.text = element.name;
+        if(element.name === "California"){
+          option.setAttribute("selected","selected");
+        }
+        input.appendChild(option);
+      })
+    }
+    else if (type === "select" && name === ExpressPayFieldNames.CountryCode) {
+      countryDialCodes.forEach(element => {
+        const option = document.createElement("option");
+        if (element.countryName === "United States") {
+          option.value = element.dial_code;
+          option.text = `${element.dial_code}`;
+          option.setAttribute("selected", "selected");
+          input.appendChild(option);
+        }
+      });
+    }
+
     if (enableAutocomplete === true && fieldTypeAutocompleteMap[name]) {
       input.setAttribute("autocomplete", fieldTypeAutocompleteMap[name]);
     }
@@ -172,6 +224,7 @@ export class IframeField extends EventEmitter {
       const message = "Read Card";
       input.appendChild(document.createTextNode(message));
     } else if (type === "button") {
+      // const message = translateMessage(data.lang, translations.en.values.submit);
       const message = formOptionFields?.submit ? formOptionFields?.submit : translateMessage(data.lang, translations.en.values.submit);
       input.appendChild(document.createTextNode(message));
     }
@@ -263,7 +316,49 @@ export class IframeField extends EventEmitter {
         Card.attachCvvEvents("#" + input.id);
         break;
       case CardFormFieldNames.CardHolderName:
-        Card.attachCardHolderNameEvents("#" + input.id);
+        Card.attachCardHolderNameEvents("#" + input.id,CardFormFieldNames.CardHolderName);
+        break;
+      case ExpressPayFieldNames.EmailId:
+        Card.attachEmailEvents("#" + input.id);
+        break;
+      case ExpressPayFieldNames.CountryCode:
+        Card.attachCountryEvents("#" + input.id,ExpressPayFieldNames.CountryCode);
+        break;
+      case ExpressPayFieldNames.Phone:
+        Card.attachPhoneEvents("#" + input.id);
+        break;
+      case ExpressPayFieldNames.BillingAddress:
+        Card.attachAddressEvents("#" + input.id,ExpressPayFieldNames.BillingAddress);
+        break;
+      case ExpressPayFieldNames.Country:
+        Card.attachCountryEvents("#" + input.id,ExpressPayFieldNames.Country);
+        break;
+      case ExpressPayFieldNames.BillingCity:
+        Card.attachCardHolderNameEvents("#" + input.id,ExpressPayFieldNames.BillingCity);
+        break;
+      case ExpressPayFieldNames.ShippingCity:
+        Card.attachCardHolderNameEvents("#" + input.id,ExpressPayFieldNames.ShippingCity);
+        break;
+      case ExpressPayFieldNames.BillingState:
+        Card.attachCountryEvents("#" + input.id,ExpressPayFieldNames.BillingState);
+        break;
+      case ExpressPayFieldNames.ShippingState:
+        Card.attachCountryEvents("#" + input.id,ExpressPayFieldNames.ShippingState);
+        break;
+      case ExpressPayFieldNames.BillingPostalCode:
+        Card.attachPostalCodeEvents("#" + input.id,ExpressPayFieldNames.BillingPostalCode);
+        break;
+      case ExpressPayFieldNames.ShippingPostalCode:
+        Card.attachPostalCodeEvents("#" + input.id,ExpressPayFieldNames.ShippingPostalCode);
+        break;
+      case ExpressPayFieldNames.ShippingAddress:
+        Card.attachAddressEvents("#" + input.id,ExpressPayFieldNames.ShippingAddress);
+        break;
+      case ExpressPayFieldNames.ShippingCountry:
+        Card.attachCountryEvents("#" + input.id,ExpressPayFieldNames.ShippingCountry);
+        break;
+      case ExpressPayFieldNames.ShippingName:
+        Card.attachCardHolderNameEvents("#" + input.id,ExpressPayFieldNames.ShippingName);
         break;
       case DCC_KEY:
         input.hidden = true;
@@ -438,6 +533,18 @@ export class IframeField extends EventEmitter {
           actionSetValue(data.data.value);
           IframeField.triggerResize(id);
           break;
+        case "get-value":
+          // Get the value from the input element in the iframe
+          const input = document.getElementById(paymentFieldId) as HTMLInputElement | HTMLSelectElement;
+          postMessage.post(
+            {
+              data: { value: input ? input.value : "" },
+              id,
+              type: "ui:iframe-field:get-value",
+            },
+            "parent"
+          );
+          break;
         case "set-label":
           actionSetLabel(data.data.label);
           IframeField.triggerResize(id);
@@ -469,7 +576,7 @@ export class IframeField extends EventEmitter {
               validationMessage = data.data.validationMessage;
             }
           }
-          actionShowValidation(id, validationMessage, data.data.fieldType);
+          actionShowValidation(id, validationMessage, data.data.fieldType,fieldOptions.styleType);
           IframeField.triggerResize(id);
           break;
         case HostedFieldValidationEvents.SetCustomValidationMessages:
@@ -481,7 +588,7 @@ export class IframeField extends EventEmitter {
           IframeField.triggerResize(id);
           break;
         case HostedFieldValidationEvents.Validate:
-          actionValidateValue(id, type, data.data.target);
+          actionValidateValue(id, type, data.data.target, data.data.expressPayValidation);
           IframeField.triggerResize(id);
           break;
         case HostedFieldValidationEvents.ValidateForm:
@@ -520,9 +627,10 @@ export class IframeField extends EventEmitter {
   public frame: HTMLIFrameElement;
   public id: string;
   public targetNode: any;
-  public type: "button" | "input";
+  public type: "button" | "input" | "select";
   public url: string;
   public formOptionFields: IUIFormOptions | undefined;
+  public expressPayEnabled: boolean = false;
 
   /**
    * Instantiates a new IframeField object for a hosted field
@@ -537,13 +645,35 @@ export class IframeField extends EventEmitter {
     const selector = opts.target || "";
 
     this.id = btoa(generateGuid());
-    this.type = type === "submit" || type === "card-track" ? "button" : "input";
+    // this.type = type === "submit" || type === "card-track" ? "button" : "input";
+    switch(type){
+      case ("submit") :
+      case ("card-track") : {
+        this.type = "button"
+      }
+      break;
+      case ("country") :
+      case ("country-code") :
+      case ("shipping-address-country") :
+      case ("billing-state") :
+      case ("shipping-state") :
+      {
+        this.type = "select"
+      }
+      break;
+      default : {
+        this.type = "input"
+      }
+    }
     this.url = src;
     this.formOptionFields = formOptionFields;
     this.frame = this.makeFrame(type, this.id, opts);
     this.frame.onload = () => {
       this.emit("load");
     };
+    if(options.expressPay?.enabled){
+      this.expressPayEnabled = true;
+    }
     this.frame.src =
       src +
       "#" +
@@ -553,10 +683,11 @@ export class IframeField extends EventEmitter {
           enableAutocomplete: options.enableAutocomplete,
           id: this.id,
           lang: options.language || "en",
-          targetOrigin: window.location.href,
+          targetOrigin: window.location.origin,
           type: this.type,
           fieldOptions: opts.fieldOptions,
-          formOptionFields:this.formOptionFields
+          formOptionFields:this.formOptionFields,
+          frame: this.frame
         }),
       );
 
@@ -603,6 +734,7 @@ export class IframeField extends EventEmitter {
               data: options,
               id: this.id,
               type: "ui:iframe-field:update-options",
+              frames:this.frame
             },
             this.id,
           );
@@ -614,19 +746,26 @@ export class IframeField extends EventEmitter {
           const installment = data.data.installment;
           const currencyConversion = data.data.currencyConversion;
 
-          postMessage.post(
-            {
-              data: {
-                type: data.data.type,
-                value: data.data.value,
-                ...(installment ? {installment} : {}),
-                ...(currencyConversion ? {currencyConversion} : {})
+          let shippingSameAsBilling:any;
+
+          if(this.expressPayEnabled){
+            shippingSameAsBilling = document.getElementById('shipping-as-billing-checkbox');
+          }
+            postMessage.post(
+              {
+                data: {
+                  type: data.data.type,
+                  value: data.data.value,
+                  isShippingSameAsBilling: shippingSameAsBilling?.checked,
+                  expressPayOptions: this.expressPayEnabled ? options.expressPay : {},
+                  ...(installment ? { installment } : {}),
+                  ...(currencyConversion ? { currencyConversion } : {})
+                },
+                id: data.data.target,
+                type: "ui:iframe-field:accumulate-data",
               },
-              id: data.data.target,
-              type: "ui:iframe-field:accumulate-data",
-            },
-            data.data.target,
-          );
+              data.data.target,
+            );
           return;
         case HostedFieldValidationEvents.ValidatePassData:
           postMessage.post(
@@ -789,6 +928,30 @@ export class IframeField extends EventEmitter {
       },
       this.id,
     );
+  }
+
+  public getValue(){
+    return new Promise((resolve) => {
+      // Listen for the response from the iframe
+      const handler = (data: any) => {
+        if (!data.id || data.id !== this.id) return;
+        const event = data.type.replace("ui:iframe-field:", "");
+        if (event === "get-value") {
+          resolve(data.data.value);
+          // Optionally: remove this handler after resolving
+        }
+      };
+      postMessage.receive(handler);
+
+      // Ask the iframe for its value
+      postMessage.post(
+        {
+          id: this.id,
+          type: "ui:iframe-field:get-value",
+        },
+        this.id
+      );
+    });
   }
 
   /**

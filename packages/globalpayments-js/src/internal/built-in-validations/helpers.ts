@@ -66,3 +66,10 @@ export const isBlikAvailable = (countryCode:string | undefined, currencyCode:str
   }
   return showBlik;
 }
+
+export const isExpressPayAvailable = (options:IApmConfiguration | undefined): boolean | undefined => {
+  const showExpressPay = options?.allowedPaymentMethods?.filter(item => {
+    return item.provider === ApmProviders.ExpressPay
+  })[0]?.enabled;
+  return showExpressPay;
+}

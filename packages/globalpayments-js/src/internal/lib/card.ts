@@ -9,11 +9,12 @@ import { options } from './options';
 import { InstallmentEvents } from "./installments/contracts/enums";
 
 import { hideHostedFieldValidation, showHostedFieldValidation } from "../built-in-validations/helpers";
-import { validate } from "../built-in-validations/field-validator";
-import { CardFormFieldNames, CardFormFieldValidationTestEvents } from "../../common/enums";
+import { expressPayFieldsValidate, validate } from "../built-in-validations/field-validator";
+import { CardFormFieldNames, CardFormFieldValidationTestEvents, ExpressPayFieldNames } from "../../common/enums";
 import { isSafari } from "../../common/browser-helpers";
 import { CurrencyConversionEvents } from "./currency-conversion/contracts/enums";
 import { hasCurrencyConversionSensitiveValueChanged, removeCurrencyConversionAvailabilityStatus, removeCurrencyConversionPreviousValue } from "./currency-conversion/utils/helpers";
+import { HOSTED_FIELDS_ADDITIONAL_KEYS, HOSTED_FIELDS_SHIPPING_KEYS } from "../../common/constants";
 
 export default class Card {
   /**
@@ -549,7 +550,7 @@ export default class Card {
    *
    * @param e
    */
-  public static validateCardHolderName(e: Event) {
+  public static validateCardHolderName(e: Event,field:string) {
     const target = (e.currentTarget ? e.currentTarget : e.srcElement) as HTMLInputElement;
     const id = target.getAttribute("data-id");
     const value = target.value;
@@ -564,12 +565,187 @@ export default class Card {
       }
     });
 
-    const { isValid: valid } = validate(CardFormFieldNames.CardHolderName, value);
+    const { isValid: valid } = validate(field, value);
     postMessage.post(
       {
         data: { valid },
         id,
         type: `ui:iframe-field:${CardFormFieldValidationTestEvents.CardHolderName}`,
+      },
+      "parent",
+    );
+
+    // Only if Built-in field validations are enable
+    if (!options.fieldValidation?.enabled) return;
+
+    classList.push(valid ? "valid" : "invalid");
+
+    target.className = classList.join(" ").replace(/^\s+|\s+$/gm, "");
+  }
+
+  /**
+   * validateCardHolderEmail
+   *
+   * Validates a target element"s value based on the
+   * possible Card Holder Email. Adds a class to the target
+   * element to note `valid` or `invalid`.
+   *
+   * @param e
+   */
+
+  public static validateEmail(e: Event){
+    const target = (e.currentTarget ? e.currentTarget : e.srcElement) as HTMLInputElement;
+    const id = target.getAttribute("data-id");
+    const value = target.value;
+    const classList = target.className.split(" ");
+
+    if (!id) return;
+
+    // Remove the valid/invalid css class
+    classList.forEach((fieldClass: string, fieldClassIndex: number) => {
+      if (fieldClass.indexOf("valid") !== -1) {
+        delete classList[fieldClassIndex];
+      }
+    });
+
+    const { isValid: valid } = expressPayFieldsValidate(ExpressPayFieldNames.EmailId, value);
+    postMessage.post(
+      {
+        data: { valid },
+        id,
+        type: `ui:iframe-field:${CardFormFieldValidationTestEvents.EmailId}`,
+      },
+      "parent",
+    );
+
+    // Only if Built-in field validations are enable
+    if (!options.fieldValidation?.enabled) return;
+
+    classList.push(valid ? "valid" : "invalid");
+
+    target.className = classList.join(" ").replace(/^\s+|\s+$/gm, "");
+  }
+
+  public static validatePhone(e: Event){
+    const target = (e.currentTarget ? e.currentTarget : e.srcElement) as HTMLInputElement;
+    const id = target.getAttribute("data-id");
+    const value = target.value;
+    const classList = target.className.split(" ");
+
+    if (!id) return;
+
+    // Remove the valid/invalid css class
+    classList.forEach((fieldClass: string, fieldClassIndex: number) => {
+      if (fieldClass.indexOf("valid") !== -1) {
+        delete classList[fieldClassIndex];
+      }
+    });
+
+    const { isValid: valid } = expressPayFieldsValidate(ExpressPayFieldNames.Phone, value);
+    postMessage.post(
+      {
+        data: { valid },
+        id,
+        type: `ui:iframe-field:${CardFormFieldValidationTestEvents.PhoneNumber}`,
+      },
+      "parent",
+    );
+
+    // Only if Built-in field validations are enable
+    if (!options.fieldValidation?.enabled) return;
+
+    classList.push(valid ? "valid" : "invalid");
+
+    target.className = classList.join(" ").replace(/^\s+|\s+$/gm, "");
+  }
+
+  public static validatePostalCode(e: Event,field:string){
+    const target = (e.currentTarget ? e.currentTarget : e.srcElement) as HTMLInputElement;
+    const id = target.getAttribute("data-id");
+    const value = target.value;
+    const classList = target.className.split(" ");
+
+    if (!id) return;
+
+    // Remove the valid/invalid css class
+    classList.forEach((fieldClass: string, fieldClassIndex: number) => {
+      if (fieldClass.indexOf("valid") !== -1) {
+        delete classList[fieldClassIndex];
+      }
+    });
+
+    const { isValid: valid } = expressPayFieldsValidate(field, value);
+    postMessage.post(
+      {
+        data: { valid },
+        id,
+        type: `ui:iframe-field:${CardFormFieldValidationTestEvents.BillingPostalCode}`,
+      },
+      "parent",
+    );
+
+    // Only if Built-in field validations are enable
+    if (!options.fieldValidation?.enabled) return;
+
+    classList.push(valid ? "valid" : "invalid");
+
+    target.className = classList.join(" ").replace(/^\s+|\s+$/gm, "");
+  }
+
+    public static validateBillingAddress(e: Event,field:string) {
+    const target = (e.currentTarget ? e.currentTarget : e.srcElement) as HTMLInputElement;
+    const id = target.getAttribute("data-id");
+    const value = target.value;
+    const classList = target.className.split(" ");
+
+    if (!id) return;
+
+    // Remove the valid/invalid css class
+    classList.forEach((fieldClass: string, fieldClassIndex: number) => {
+      if (fieldClass.indexOf("valid") !== -1) {
+        delete classList[fieldClassIndex];
+      }
+    });
+
+    const { isValid: valid } = expressPayFieldsValidate(field, value);
+    postMessage.post(
+      {
+        data: { valid },
+        id,
+        type: `ui:iframe-field:${CardFormFieldValidationTestEvents.CardHolderName}`,
+      },
+      "parent",
+    );
+
+    // Only if Built-in field validations are enable
+    if (!options.fieldValidation?.enabled) return;
+
+    classList.push(valid ? "valid" : "invalid");
+
+    target.className = classList.join(" ").replace(/^\s+|\s+$/gm, "");
+  }
+
+  public static validateCountry(e: Event,field:string){
+    const target = (e.currentTarget ? e.currentTarget : e.srcElement) as HTMLSelectElement;
+    const id = target.getAttribute("data-id");
+    const value = target.value;
+    const classList = target.className.split(" ");
+
+    if (!id) return;
+
+    // Remove the valid/invalid css class
+    classList.forEach((fieldClass: string, fieldClassIndex: number) => {
+      if (fieldClass.indexOf("valid") !== -1) {
+        delete classList[fieldClassIndex];
+      }
+    });
+
+    const { isValid: valid } = expressPayFieldsValidate(ExpressPayFieldNames.Country, value);
+    postMessage.post(
+      {
+        data: { valid },
+        id,
+        type: `ui:iframe-field:${CardFormFieldValidationTestEvents.Country}`,
       },
       "parent",
     );
@@ -877,22 +1053,120 @@ export default class Card {
    *
    * @param selector
    */
-  public static attachCardHolderNameEvents(selector: string) {
+  public static attachCardHolderNameEvents(selector: string,field:string) {
     const el = document.querySelector(selector);
     if (!el) return;
 
-    Events.addHandler(el, "input", Card.validateCardHolderName);
-    Events.addHandler(el, "blur", Card.validateCardHolderName);
+    Events.addHandler(el, "input", (e:Event) => {Card.validateCardHolderName (e,field)});
+    Events.addHandler(el, "blur", (e:Event) => {Card.validateCardHolderName (e,field)});
 
-    Events.addHandler(el, "blur", (e: Event) => { Card.focusOutHostedFieldValidationHandler(e, CardFormFieldNames.CardHolderName) });
+    Events.addHandler(el, "blur", (e: Event) => { Card.focusOutHostedFieldValidationHandler(e, field) });
+    Events.addHandler(el, "input", (e: Event) => { Card.focusInHostedFieldValidationHandler(e) });
+  }
+
+  /**
+   * attachEmailEvents
+   *
+   * @param selector
+   */
+
+  public static attachEmailEvents(selector: string) {
+    const el = document.querySelector(selector);
+    if (!el) return;
+
+    Events.addHandler(el, "input", Card.validateEmail);
+    Events.addHandler(el, "blur", Card.validateEmail);
+
+    Events.addHandler(el, "blur", (e: Event) => { Card.focusOutHostedFieldValidationHandler(e, ExpressPayFieldNames.EmailId) });
+    Events.addHandler(el, "input", (e: Event) => { Card.focusInHostedFieldValidationHandler(e) });
+  }
+
+  /**
+   * attachPhoneEvents
+   *
+   * @param selector
+   */
+
+  public static attachPhoneEvents(selector: string) {
+    const el = document.querySelector(selector);
+    if (!el) return;
+
+    // Set a generic card max length
+    el.setAttribute("maxlength", "10");
+
+    Events.addHandler(el, "keydown", Card.restrictNumeric);
+    Events.addHandler(el, "input", Card.restrictNumericOnInput);
+
+    Events.addHandler(el, "input", Card.validatePhone);
+    Events.addHandler(el, "blur", Card.validatePhone);
+
+    Events.addHandler(el, "blur", (e: Event) => { Card.focusOutHostedFieldValidationHandler(e, ExpressPayFieldNames.Phone) });
+    Events.addHandler(el, "input", (e: Event) => { Card.focusInHostedFieldValidationHandler(e) });
+  }
+
+  /**
+   * attachPostalCodeEvents
+   *
+   * @param selector
+   */
+
+  public static attachPostalCodeEvents(selector: string,field:string) {
+    const el = document.querySelector(selector);
+    if (!el) return;
+
+    // Set a generic card max length
+    el.setAttribute("maxlength", "10");
+
+    // Events.addHandler(el, "keydown", Card.restrictNumeric);
+    // Events.addHandler(el, "input", Card.restrictNumericOnInput);
+
+    Events.addHandler(el, "input", (e:Event) => {Card.validatePostalCode(e,field)});
+    Events.addHandler(el, "blur", (e:Event) => {Card.validatePostalCode(e,field)});
+
+    Events.addHandler(el, "blur", (e: Event) => { Card.focusOutHostedFieldValidationHandler(e, field) });
+    Events.addHandler(el, "input", (e: Event) => { Card.focusInHostedFieldValidationHandler(e) });
+  }
+
+  public static attachAddressEvents(selector: string, field:string) {
+    const el = document.querySelector(selector);
+    if (!el) return;
+
+    Events.addHandler(el, "input", (e: Event) => { Card.validateBillingAddress(e,field) });
+    Events.addHandler(el, "blur", (e: Event) => { Card.validateBillingAddress(e,field) });
+
+    Events.addHandler(el, "blur", (e: Event) => { Card.focusOutHostedFieldValidationHandler(e, field) });
+    Events.addHandler(el, "input", (e: Event) => { Card.focusInHostedFieldValidationHandler(e) });
+  }
+
+  /**
+   * attachCountryEvents
+   *
+   * @param selector
+   */
+
+  public static attachCountryEvents(selector: string,field:string) {
+    const el = document.querySelector(selector);
+    if (!el) return;
+
+    Events.addHandler(el, "input", (e:Event) => { Card.validateCountry(e,field) });
+    Events.addHandler(el, "blur", (e:Event) => { Card.validateCountry(e,field) });
+
+    Events.addHandler(el, "blur", (e: Event) => { Card.focusOutHostedFieldValidationHandler(e, field) });
     Events.addHandler(el, "input", (e: Event) => { Card.focusInHostedFieldValidationHandler(e) });
   }
 
   private static handleHostedFieldValidation(id: string, type: string, value: string , extraData?: any): boolean {
+    let additionalFieldsToValidate = HOSTED_FIELDS_ADDITIONAL_KEYS.map(x => x);
+    if(options.expressPay?.isShippingRequired !== false && localStorage.getItem("shippingSameAsBilling")==="false"){
+      additionalFieldsToValidate = [...additionalFieldsToValidate,...HOSTED_FIELDS_SHIPPING_KEYS.map(x =>x)];
+    }
     const validationResult = validate(type, value, extraData);
-    const isValid = validationResult && validationResult.isValid;
-    if (!isValid && validationResult.message) {
-      showHostedFieldValidation(id, validationResult.message);
+    const expressPayValidationResult:any = additionalFieldsToValidate.indexOf(type) > -1 ? expressPayFieldsValidate(type, value, extraData) : true
+
+    const isValid = additionalFieldsToValidate.indexOf(type) > -1 ? (expressPayValidationResult && expressPayValidationResult.isValid) : (validationResult && validationResult.isValid);
+
+    if (!isValid && (validationResult.message || expressPayValidationResult.message)) {
+      showHostedFieldValidation(id, (validationResult.message || expressPayValidationResult.message));
     } else {
       hideHostedFieldValidation(id);
     }

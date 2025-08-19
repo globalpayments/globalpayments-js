@@ -12,7 +12,7 @@ import { getCurrencyConversionAvailabilityStatus } from "../../internal/lib/curr
  * @param validationMessage The desired validation message
  * @param fieldType The hosted field type
  */
-export default (id: string, validationMessage: string, fieldType: string) => {
+export default (id: string, validationMessage: string, fieldType: string, styleType?:string) => {
   const el = document.getElementById(paymentFieldId);
   if (!el) return;
 
@@ -25,6 +25,7 @@ export default (id: string, validationMessage: string, fieldType: string) => {
 
   const fieldSelector = `#secure-payment-field[type=${fieldType === CardFormFieldNames.CardHolderName ? 'text' : 'tel'}]`;
   const fieldInput = document.querySelector(fieldSelector);
+
   fieldInput?.classList.add('hf-invalid');
 
   if (fieldType === CardFormFieldNames.CardNumber) {
@@ -46,11 +47,12 @@ export default (id: string, validationMessage: string, fieldType: string) => {
   const existingValidationMessageDiv = document.querySelector(`#field-validation-wrapper`);
   existingValidationMessageDiv?.remove();
 
-  const newValidationMessageDiv = createValidationMessageDiv(validationMessage);
+  const newValidationMessageDiv = createValidationMessageDiv(validationMessage,styleType);
   fieldWrapperDiv.append(newValidationMessageDiv);
 };
 
-function createValidationMessageDiv(validationMessage: string): HTMLDivElement {
+function createValidationMessageDiv(validationMessage: string,styleType?:string): HTMLDivElement {
+  const fontFamily = (styleType === "gp-default2" ? "Inter" : "var(--inputfield-container-font-error, DMSans)");
   const validationMessageDiv = createHtmlDivElement({
     id: `field-validation-wrapper`,
     attributes: [
@@ -58,7 +60,7 @@ function createValidationMessageDiv(validationMessage: string): HTMLDivElement {
         style: [
           `display: block;`,
           `margin-top: 5px;`,
-          `font-family: var(--inputfield-container-font-error, DMSans);`,
+          `font-family: ${fontFamily};`,
           `font-style: normal;`,
           `font-size: var(--inputfield-container-size-text-error, 0.79em);`,
           `font-weight: var(--inputfield-container-weight-text-error, 400);`,

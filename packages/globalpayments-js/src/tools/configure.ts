@@ -37,7 +37,7 @@ export interface IConfiguration extends IDictionary {
   env?: string;
   serviceURL?: string;
   allowedCardTypes?: string[];
-
+  useNetworkToken?: boolean;
   // Specific configuration properties for
   // Digital Wallets
   apms?: {
@@ -145,6 +145,15 @@ export interface IConfiguration extends IDictionary {
     orderReference: string,
     currencyCode: string,
   },
+
+  // Specific configuration properties for Express pay
+  expressPay?: {
+    enabled: boolean,
+    paymentUri:string,
+    cancelUri:string,
+    isShippingRequired?:boolean,
+    payButtonLabel?:string
+  }
 }
 
 /**

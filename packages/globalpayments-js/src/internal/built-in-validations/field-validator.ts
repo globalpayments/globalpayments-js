@@ -1,8 +1,8 @@
-import { CardFormFieldNames } from "../../common/enums";
+import { CardFormFieldNames, ExpressPayFieldNames } from "../../common/enums";
 import { luhnCheck, typeByNumber } from "../lib/card-types";
 import { ValidationMessages } from "./messages";
 import { options } from "../lib/options";
-import { CharacterValidation } from "../lib/enums";
+import { CharacterValidation, phoneNumberLength } from "../lib/enums";
 import containsOnlyEnglishCharacters from "./english-characters-validation";
 import { DCC_KEY } from "../lib/currency-conversion/contracts/constants";
 
@@ -94,7 +94,71 @@ export const validate = (fieldType: string, value: string, extraData?: any): { i
             if (isEmpty(value)) return createValidationResult(false, ValidationMessages.CurrencyConversion.Required);
             return createValidationResult(true);
         default:
-            return createValidationResult(false);
+        return createValidationResult(false);
+    }
+}
+
+export const expressPayFieldsValidate = (fieldType: string, value: string, extraData?: any): { isValid: boolean, message?: string } => {
+    switch (fieldType) {
+        case ExpressPayFieldNames.EmailId: {
+            if (isEmpty(value)) return createValidationResult(false, ValidationMessages.EmailId.Required);
+            if(!isValidEmail(value)){
+                return createValidationResult(false, ValidationMessages.EmailId.InvalidEmail);
+            }
+            return createValidationResult(true);
+        }
+        case ExpressPayFieldNames.CountryCode: {
+            if (isEmpty(value)) return createValidationResult(false, ValidationMessages.PhoneNumber.Required);
+            return createValidationResult(true);
+        }
+        case ExpressPayFieldNames.Phone: {
+            if (isEmpty(value)) return createValidationResult(false, ValidationMessages.PhoneNumber.Required);
+            if(!isValidPhone(value)){
+                return createValidationResult(false, ValidationMessages.PhoneNumber.InvalidLength);
+            }
+            return createValidationResult(true);
+        }
+        case ExpressPayFieldNames.BillingAddress: {
+            if (isEmpty(value)) return createValidationResult(false, ValidationMessages.BillingAddress.Required);
+            return createValidationResult(true);
+        }
+        case ExpressPayFieldNames.ShippingAddress: {
+            if (isEmpty(value)) return createValidationResult(false, ValidationMessages.ShippingAddress.Required);
+            return createValidationResult(true);
+        }
+        case (ExpressPayFieldNames.Country):
+        case (ExpressPayFieldNames.ShippingCountry) :
+        {
+            if (isEmpty(value)) return createValidationResult(false, ValidationMessages.BillingAddress.CountryRequired);
+            return createValidationResult(true);
+        }
+        case (ExpressPayFieldNames.ShippingCity) :
+        case (ExpressPayFieldNames.BillingCity) :
+        {
+            if (isEmpty(value)) return createValidationResult(false, ValidationMessages.ShippingAddress.MandatoryCity);
+            return createValidationResult(true);
+        }
+        case (ExpressPayFieldNames.BillingState) :
+        case (ExpressPayFieldNames.ShippingState) :
+        {
+            if (isEmpty(value)) return createValidationResult(false, ValidationMessages.ShippingAddress.MandatoryState);
+            return createValidationResult(true);
+        }
+        case ExpressPayFieldNames.ShippingName: {
+            if (isEmpty(value)) return createValidationResult(false, ValidationMessages.ShippingAddress.MandatoryName);
+            return createValidationResult(true);
+        }
+        case ExpressPayFieldNames.BillingPostalCode:
+        case ExpressPayFieldNames.ShippingPostalCode:
+        {
+            if (isEmpty(value)) return createValidationResult(false, ValidationMessages.ShippingAddress.MandatoryPostalCode);
+            if (!isValidPostalCode(value)) {
+                return createValidationResult(false, ValidationMessages.ShippingAddress.InvalidPostalCode)
+            }
+            return createValidationResult(true);
+        }
+        default:
+        return createValidationResult(false);
     }
 }
 
@@ -106,6 +170,21 @@ const isEmpty = (value: string | undefined): boolean => {
     }
     return false;
 };
+
+const isValidEmail = (value: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(value);
+}
+
+const isValidPhone = (value: string): boolean => {
+    return value.length === phoneNumberLength
+}
+
+const isValidPostalCode = (value: string): boolean => {
+    // Assuming a simple regex for US postal codes (5 digits or 5+4 format)
+    const postalCodeRegex = /^\d{5}(-\d{4})?$/;
+    return postalCodeRegex.test(value);
+}
 
 const charactersLessThan = (value: string | undefined, minCharacters: number): boolean => {
     if (!value || (value && value.length < minCharacters)) {

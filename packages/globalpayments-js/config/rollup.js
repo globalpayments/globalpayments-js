@@ -2,6 +2,7 @@ import commonjs from "@rollup/plugin-commonjs";
 import resolve from "@rollup/plugin-node-resolve";
 import typescript from "rollup-plugin-typescript2";
 import { terser } from "rollup-plugin-terser";
+import json from '@rollup/plugin-json';
 
 const input = "./src/index.ts";
 
@@ -18,6 +19,7 @@ const plugins = [
     typescript: require("typescript"),
     useTsconfigDeclarationDir: true,
   }),
+  json()
 ];
 
 const onwarn = (warning) => {

@@ -13,7 +13,8 @@ export enum Apm {
   OpenBankingPayment = "open-banking",
   PayPal = "paypal",
   QRCodePayments = "qr-code-payments",
-  Blik = "blik"
+  Blik = "blik",
+  ExpressPay = "express-pay"
 }
 
 export enum ApmEvents {
@@ -63,7 +64,8 @@ export enum ApmProviders {
   OpenBanking = "OPEN_BANKING",
   PayPal = "PayPal",
   WeChat = "WeChat",
-  Blik = "blik"
+  Blik = "blik",
+  ExpressPay = "ExpressPay"
 }
 
 export enum QRCodePaymentsWeChatProviderBrands {
@@ -72,8 +74,22 @@ export enum QRCodePaymentsWeChatProviderBrands {
   WeChatAccountResponse = "WeChat Pay",
 }
 
+export const phoneNumberLength = 10;
+
 export const HostedFieldStyles = HostedFieldStylesAlias;
 
 export const BrandThemes = BrandThemesAlias;
 
 export const BankNames = BankDisplayNames;
+
+export enum HostedFieldFooterLinks {
+  LearnMore = "https://www.google.com/",
+  Terms = "https://www.globalpayments.com/en-gb/terms-of-use",
+  PrivacyPolicy = "https://www.globalpayments.com/en-eu/privacy-statement"
+}
+
+export enum ExpressPayEvents {
+  ExpressPayActionDetail = "express-pay-action-details",
+}
+
+export const OTPLength = 6;

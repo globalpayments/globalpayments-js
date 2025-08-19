@@ -130,9 +130,23 @@ $accessToken = $response->token ?? '';
                 {
                     provider: GlobalPayments.enums.ApmProviders.Blik,
                     enabled:  true
+                },
+                {
+                    provider: GlobalPayments.enums.ApmProviders.ExpressPay,
+                    enabled: true
                 }]
             }
-        }
+        },
+        expressPay: {
+            enabled: true,
+            cancelUri: "https://webhook.site/6dc0caed-3230-4cf8-86a9-0e0ff8ed6a9a",
+            paymentUri: "https://webhook.site/6dc0caed-3230-4cf8-86a9-0e0ff8ed6a9a",
+            isShippingRequired: true,
+            payButtonLabel: ""
+        },
+        fieldValidation: {
+            enabled: true
+        },
     });
 
     GlobalPayments.on("error", error => {
@@ -140,7 +154,7 @@ $accessToken = $response->token ?? '';
     });
     const cardForm = GlobalPayments.creditCard.form('#credit-card-form', {
         amount: "60",
-        style: "gp-default",
+        style: "gp-default2",
         apms: [
             GlobalPayments.enums.Apm.ClickToPay,
             GlobalPayments.enums.Apm.GooglePay,
@@ -153,12 +167,13 @@ $accessToken = $response->token ?? '';
     });
 
     cardForm.on(GlobalPayments.enums.ApmEvents.PaymentMethodSelection, paymentProviderData => {
-        const { 
+        const {
             provider, 
             countryCode,
             currencyCode,
             bankName,
-            acquirer } = paymentProviderData;
+            acquirer,
+            redirectUrl } = paymentProviderData;
         console.log('Selected provider: ' + provider);
 
         let detail = {};
@@ -195,6 +210,16 @@ $accessToken = $response->token ?? '';
                     qr_code: "weixin://wxpay/bizpayurl?pr=0gWQb9Zzz",
                 };
                 break;
+            case GlobalPayments.enums.ApmProviders.ExpressPay: {
+                    const merchantCustomEventProvideDetails = new CustomEvent(GlobalPayments.enums.ExpressPayEvents.ExpressPayActionDetail, {
+                    detail : {
+                        redirectUrl
+                    }
+                    });
+                    window.dispatchEvent(merchantCustomEventProvideDetails);
+                    return;
+                }
+            break;
             default:
                 detail = {
                     seconds_to_expire: "900",
@@ -210,6 +235,15 @@ $accessToken = $response->token ?? '';
         });
         console.log(merchantCustomEventProvideDetails)
         window.dispatchEvent(merchantCustomEventProvideDetails);
+    });
+    cardForm?.on("token-success", resp => {
+        console.log(resp);
+        if(resp.expressPayEnabled){
+            const merchantCustomEventProvideDetails = new CustomEvent(GlobalPayments.enums.ExpressPayEvents.ExpressPayActionDetail, {
+            detail: resp
+        });
+        window.dispatchEvent(merchantCustomEventProvideDetails);
+        }
     });
 </script>
 </body>

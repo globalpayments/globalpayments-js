@@ -36,7 +36,7 @@ export function addFooterBrandedIcons(
   });
 
   const sslImage = createHtmlImageElement({
-    src: `${assetUrl}images/ssl_logo_ico.svg`,
+    src: `${assetUrl}images/Encrypted_Badge.png.png`,
     alt: translations[language].footer['ssl-msg-alt'],
     className: "ssl-logo_ico",
   });

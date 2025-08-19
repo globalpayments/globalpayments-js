@@ -30,18 +30,18 @@ export default (id: string, type: string, data: IDictionary) => {
   const installment = data.data.installment;
   const currencyConversion = data.data.currencyConversion;
 
-  pm.post(
-    {
-      data: {
-        target: data.data.target,
-        type,
-        value,
-        ...(installment ? {installment} : {}),
-        ...(currencyConversion ? {currencyConversion} : {})
+    pm.post(
+      {
+        data: {
+          target: data.data.target,
+          type,
+          value,
+          ...(installment ? { installment } : {}),
+          ...(currencyConversion ? { currencyConversion } : {})
+        },
+        id,
+        type: "ui:iframe-field:pass-data",
       },
-      id,
-      type: "ui:iframe-field:pass-data",
-    },
-    "parent",
-  );
+      "parent",
+    );
 };

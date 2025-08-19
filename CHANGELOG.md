@@ -4,8 +4,11 @@
 
 # Changelog
 
-## Latest Version - v4.1.12 (7/24/25)
-- [Globalpayments-js][4.1.12] Added MMA config 
+## Latest Version - v4.1.13 (08/19/25)
+- [Globalpayments-js][4.1.13]  Added Express pay Feature
+
+## v4.1.12 (07/29/25)
+- [Globalpayments-js][4.1.12] Added MMA config
 
 ## v4.1.11 (6/10/25)
 - [Globalpayments-js][4.1.11] Drop-in UI Submit button configurable changes.

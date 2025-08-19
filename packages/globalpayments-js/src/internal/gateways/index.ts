@@ -40,6 +40,7 @@ export interface ISuccess {
     cardNumber?: string;
     cardSecurityCode?: boolean;
     cardType?: string;
+    masked_number_last4?:string;
     // matches PaymentRequest spec naming for cardholder name
     cardholderName?: string;
     expiryMonth?: string;

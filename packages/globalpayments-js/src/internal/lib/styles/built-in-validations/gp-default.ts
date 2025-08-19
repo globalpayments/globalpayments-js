@@ -2,25 +2,28 @@ import {
     fieldStyles as getCommonBuiltInValidationFieldStyles,
   } from './common';
 
-export const fieldStyles = (assetBaseUrl: string) => {
+export const fieldStyles = (assetBaseUrl: string,theme?:string | undefined) => {
     const imageBase = assetBaseUrl + "images/";
     const fontBase = assetBaseUrl + "fonts/";
 
     return {
-      ...getCommonBuiltInValidationFieldStyles(assetBaseUrl),
+      ...getCommonBuiltInValidationFieldStyles(assetBaseUrl,theme),
 
-      "img.card-number-icon": {
-        background: `transparent url(${imageBase}gp-cc-generic.svg) no-repeat right center`,
-        right: "10px",
-        top: "13px",
-        width: "24px",
-        height: "16px",
-        "background-size": "20px",
+      // "img.card-number-icon": {
+      //   background: `transparent url(${imageBase}gp-cc-generic.svg) no-repeat right center`,
+      //   right: "10px",
+      //   top: "13px",
+      //   width: "24px",
+      //   height: "16px",
+      //   "background-size": "20px",
+      // },
+      ".secure-payment-form label::after":{
+            "content": ' 003A'
       },
     };
   };
 
-export const styles = (assetBaseUrl: string) => {
+export const styles = (assetBaseUrl: string,theme?:string) => {
     const imageBase = assetBaseUrl + "images/";
 
     const cvvTooltipInvalidStyle = {
