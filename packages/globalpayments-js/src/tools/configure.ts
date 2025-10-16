@@ -38,6 +38,7 @@ export interface IConfiguration extends IDictionary {
   serviceURL?: string;
   allowedCardTypes?: string[];
   useNetworkToken?: boolean;
+  disablePayButton?: boolean;
   // Specific configuration properties for
   // Digital Wallets
   apms?: {

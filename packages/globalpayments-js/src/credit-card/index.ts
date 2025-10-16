@@ -14,13 +14,14 @@ import {DCC_KEY} from "../internal/lib/currency-conversion/contracts/constants";
 import { isBrandTheme, isEserviceThemeApplied } from "../internal/lib/styles/themes/helpers";
 import { addFooterBrandedIcons } from "../internal/lib/add-footer-branded-icons";
 import addOrderInformation from "../ui/components/order-information/action-add-order-information";
-import { isBlikAvailable, isExpressPayAvailable, isOpenBankingAvailable } from "../internal/built-in-validations/helpers";
-import { Apm, ApmProviders, HostedFieldFooterLinks } from "../internal/lib/enums";
+import { isBlikAvailable, isOpenBankingAvailable } from "../internal/built-in-validations/helpers";
+import { Apm, formMaxWidth, HostedFieldFooterLinks } from "../internal/lib/enums";
 import CountryList from "country-list-with-dial-code-and-flag";
 import CountryFlagSvg from "country-list-with-dial-code-and-flag/dist/flag-svg";
 import getAssetBaseUrl from "../internal/gateways/gp-api/get-asset-base-url";
-import { ExpressPayFieldNames } from "../common/enums";
+import { CardFormFieldNames, ExpressPayFieldNames } from "../common/enums";
 import { HOSTED_FIELDS_SHIPPING_KEYS } from "../common/constants";
+import getExpressPayBaseUrl from "../internal/gateways/gp-api/get-express-pay-base-url";
 
 export const defaultOptions: IUIFormOptions = {
   labels: {
@@ -145,7 +146,13 @@ export function form(
     ExpressPayFieldNames.ShippingCity,
     ExpressPayFieldNames.ShippingState,
     ExpressPayFieldNames.ShippingPostalCode,
-  ]
+  ];
+
+  if(options.expressPay?.enabled){
+    // tslint:disable-next-line:no-console
+    console.error("Express Pay is not available. Its configuration is ignored");
+    options.expressPay.enabled = false;
+  }
 
   if (options.expressPay?.enabled) {
     if (!options.expressPay?.cancelUri || !options.expressPay?.paymentUri) {
@@ -172,10 +179,16 @@ export function form(
 
   const firstFieldCardForm = fieldTypes[0];
 
-  if (formOptions.apms) {
-    if (isExpressPayAvailable(options?.apms?.nonCardPayments)) {
+  if(options.expressPay?.enabled){
+    if(formOptions.apms){
       formOptions.apms.splice(1, 0, Apm.ExpressPay);
+    } else{
+      formOptions.apms = [];
+      formOptions.apms.push(Apm.ExpressPay)
     }
+  }
+
+  if (formOptions.apms) {
     if (isBlikAvailable(options?.apms?.countryCode, options?.apms?.currencyCode, options?.apms?.nonCardPayments)) {
       formOptions.apms.push(Apm.Blik);
     }
@@ -195,14 +208,14 @@ export function form(
   // Order Information block
   if (options.orderInformation) {
     if ((options.orderInformation?.enabled) || ((options.orderInformation?.enabled === undefined) && (isEserviceThemeApplied(formOptions?.style)))) {
-      addOrderInformation(target, {
-        merchantName: options.orderInformation.merchantName,
-        orderTotalAmount: `${options.orderInformation.orderTotalAmount || 0}`,
-        orderReference: options.orderInformation.orderReference,
-        currencyCode: options.orderInformation.currencyCode,
-      });
+        addOrderInformation(target, {
+          merchantName: options.orderInformation.merchantName,
+          orderTotalAmount: `${options.orderInformation.orderTotalAmount || 0}`,
+          orderReference: options.orderInformation.orderReference,
+          currencyCode: options.orderInformation.currencyCode,
+        });
+      }
     }
-  }
 
   for (const i in fieldTypes) {
     if (!fieldTypes.hasOwnProperty(i)) {
@@ -245,7 +258,7 @@ export function form(
       target.appendChild(encryptedBadgeImage);
     }
     else {
-      target.appendChild(wrapper);
+    target.appendChild(wrapper);
     }
 
     if (type === ExpressPayFieldNames.BillingCity) {
@@ -313,15 +326,16 @@ export function form(
       const checkBoxText = createHtmlSpanElement({
         "textContent": "Save card to Express Pay for faster checkouts "
       });
+      const expressPayBaseUrl = getExpressPayBaseUrl('')?.slice(0, getExpressPayBaseUrl('')?.lastIndexOf("/"))
       const learnMoreLink = createHtmlAnchorElement({
-        "href": HostedFieldFooterLinks.LearnMore,
+        "href": `${expressPayBaseUrl}/${HostedFieldFooterLinks.LearnMore}`,
         "textContent": "Learn More",
         "target": HtmlAnchorTarget.Blank,
         "className": "learn-more"
       });
       const footerText = document.createElement("p");
       footerText.className = "terms-and-conditions";
-      footerText.innerHTML = `By continuing you agree to Global Payments Express Pay <a href=${HostedFieldFooterLinks.Terms} target='_blank'> Terms </a> and <a href=${HostedFieldFooterLinks.PrivacyPolicy} target='_blank'>Privacy Policy</a>. Cell phone data rates may apply.`
+      footerText.innerHTML = `By continuing you agree to Global Payments Express Pay <a href=${expressPayBaseUrl}/${HostedFieldFooterLinks.Terms} target='_blank'> Terms </a> and <a href=${expressPayBaseUrl}/${HostedFieldFooterLinks.PrivacyPolicy} target='_blank'>Privacy Policy</a>. Cell phone data rates may apply.`
       wrapper.appendChild(checkbox);
       wrapper.appendChild(checkBoxText);
       wrapper.appendChild(learnMoreLink);
@@ -392,6 +406,27 @@ export function form(
       }
       wrapper.appendChild(labelEl);
     }
+
+    const parent:any = document.querySelector('.secure-payment-form');
+    const CardDetailElements:any = [
+      `.credit-card-${CardFormFieldNames.CardNumber}`,
+      `.credit-card-${CardFormFieldNames.CardExpiration}`,`.credit-card-${ExpressPayFieldNames.BillingState}`,
+      `.credit-card-${ExpressPayFieldNames.BillingPostalCode}`,`.credit-card-${ExpressPayFieldNames.BillingCity}`,
+      `.credit-card-${ExpressPayFieldNames.ShippingState}`, `.credit-card-${ExpressPayFieldNames.ShippingPostalCode}`,
+      `.credit-card-${ExpressPayFieldNames.ShippingCity}`
+    ];
+
+    setTimeout(() => {
+      CardDetailElements.forEach((child: any) => {
+        const childElement: any = document.querySelector(child);
+        const originalClass = childElement?.classList[0];
+        if (parent.offsetWidth < formMaxWidth) {
+          childElement?.classList?.replace(originalClass, `${originalClass}-small`);
+        } else {
+          childElement?.classList?.replace(`${originalClass}-small`, originalClass);
+        }
+      });
+    }, 0);
 
     const el = createHtmlDivElement({
       className: formOptions.prefix + type + "-target"

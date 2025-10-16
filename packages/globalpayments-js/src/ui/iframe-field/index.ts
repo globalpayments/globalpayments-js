@@ -1,5 +1,4 @@
 import { EventEmitter, generateGuid } from "globalpayments-lib";
-
 import { bus, loadedFrames, options, postMessage } from "../../internal";
 import Card from "../../internal/lib/card";
 import Events from "../../internal/lib/events";
@@ -29,12 +28,13 @@ import actionCurrencyConversion from "./currency-conversion/action-request-start
 import actionGetCurrencyConversionValue from "./currency-conversion/action-get-value";
 import { InstallmentEvents } from "../../internal/lib/installments/contracts/enums";
 import assetBaseUrl from "../../internal/lib/asset-base-url";
+import { CardFormFieldNames, ExpressPayFieldNames,HostedFieldValidationEvents } from "../../common/enums";
 
-import { CardFormFieldNames, ExpressPayFieldNames, HostedFieldValidationEvents } from "../../common/enums";
 import actionShowValidation from "./action-show-validation";
 import actionHideValidation from "./action-hide-validation";
 import actionValidateValue from "./action-validate-value";
 import actionValidateForm from "./action-validate-form";
+import actionEnableSubmitButton from "./action-enable-submit-button";
 import {translateMessage} from "../../internal/lib/translate";
 import translations from "../../internal/lib/translations/translations";
 
@@ -47,6 +47,7 @@ import { IUIFormOptions } from "../form";
 import CountryList from "country-list-with-dial-code-and-flag";
 import CountryFlagSvg from 'country-list-with-dial-code-and-flag/dist/flag-svg';
 import { Country, State, City } from 'country-state-city';
+import { ApmProviders, ExpressPayEvents } from "../../internal/lib/enums";
 
 export interface IFrameCollection {
   [key: string]: IframeField | undefined;
@@ -92,8 +93,9 @@ export class IframeField extends EventEmitter {
     const id: string = data.id;
     const enableAutocomplete = data.enableAutocomplete !== undefined ? data.enableAutocomplete : true;
     const fieldOptions = data.fieldOptions;
+    const disablePayButton = data.disabledPayButton || false;
     IframeField.setHtmlLang(data.lang);
-    IframeField.createField(id, type, data.type, enableAutocomplete, fieldOptions);
+    IframeField.createField(id, type, data.type, enableAutocomplete, fieldOptions, disablePayButton);
     IframeField.addMessageListener(id, type, data.targetOrigin,fieldOptions);
 
     postMessage.post(
@@ -146,7 +148,8 @@ export class IframeField extends EventEmitter {
     name: string,
     type: string,
     enableAutocomplete: boolean,
-    fieldOptions?: any
+    fieldOptions?: any,
+    disabledPayButton?: boolean,
   ) {
     // type = "button";
     const query = window.location.hash.replace("#", "");
@@ -198,9 +201,6 @@ export class IframeField extends EventEmitter {
         const option = document.createElement("option");
         option.value = element.isoCode;
         option.text = element.name;
-        if(element.name === "California"){
-          option.setAttribute("selected","selected");
-        }
         input.appendChild(option);
       })
     }
@@ -227,6 +227,9 @@ export class IframeField extends EventEmitter {
       // const message = translateMessage(data.lang, translations.en.values.submit);
       const message = formOptionFields?.submit ? formOptionFields?.submit : translateMessage(data.lang, translations.en.values.submit);
       input.appendChild(document.createTextNode(message));
+      if(disabledPayButton){
+        input.classList.add('disabled-submit-button');
+      }
     }
 
     const label = document.createElement("label");
@@ -576,7 +579,7 @@ export class IframeField extends EventEmitter {
               validationMessage = data.data.validationMessage;
             }
           }
-          actionShowValidation(id, validationMessage, data.data.fieldType,fieldOptions.styleType);
+          actionShowValidation(id, validationMessage, data.data.fieldType,fieldOptions?.styleType);
           IframeField.triggerResize(id);
           break;
         case HostedFieldValidationEvents.SetCustomValidationMessages:
@@ -687,6 +690,7 @@ export class IframeField extends EventEmitter {
           type: this.type,
           fieldOptions: opts.fieldOptions,
           formOptionFields:this.formOptionFields,
+          disabledPayButton: options.disablePayButton,
           frame: this.frame
         }),
       );
@@ -751,21 +755,21 @@ export class IframeField extends EventEmitter {
           if(this.expressPayEnabled){
             shippingSameAsBilling = document.getElementById('shipping-as-billing-checkbox');
           }
-            postMessage.post(
-              {
-                data: {
-                  type: data.data.type,
-                  value: data.data.value,
-                  isShippingSameAsBilling: shippingSameAsBilling?.checked,
-                  expressPayOptions: this.expressPayEnabled ? options.expressPay : {},
-                  ...(installment ? { installment } : {}),
-                  ...(currencyConversion ? { currencyConversion } : {})
-                },
-                id: data.data.target,
-                type: "ui:iframe-field:accumulate-data",
+          postMessage.post(
+            {
+              data: {
+                type: data.data.type,
+                value: data.data.value,
+                isShippingSameAsBilling: shippingSameAsBilling?.checked,
+                expressPayOptions: this.expressPayEnabled ? options.expressPay : {},
+                ...(installment ? { installment } : {}),
+                ...(currencyConversion ? { currencyConversion } : {})
               },
-              data.data.target,
-            );
+              id: data.data.target,
+              type: "ui:iframe-field:accumulate-data",
+            },
+            data.data.target,
+          );
           return;
         case HostedFieldValidationEvents.ValidatePassData:
           postMessage.post(
@@ -790,7 +794,7 @@ export class IframeField extends EventEmitter {
             data.data.target,
           );
           break;
-          case CurrencyConversionEvents.CurrencyConversionPassData:
+        case CurrencyConversionEvents.CurrencyConversionPassData:
           postMessage.post(
             {
               data: {
@@ -803,6 +807,21 @@ export class IframeField extends EventEmitter {
             data.data.target,
           );
           break;
+      // TODO
+      //  case HostedFieldValidationEvents.EnableSubmitButton:
+      //     actionEnableSubmitButton(data)
+      //     break;
+        case "token-success":
+          if (data.data.expressPayEnabled) {
+            if(this.formOptionFields?.provider === ApmProviders.ExpressPay){
+              data.data.provider = ApmProviders.ExpressPay;
+            }
+            const merchantCustomEventProvideDetails = new CustomEvent(ExpressPayEvents.ExpressPayActionDetail, {
+              detail: data.data
+            });
+            window.dispatchEvent(merchantCustomEventProvideDetails);
+            return;
+          }
         default:
           break;
       }
@@ -815,6 +834,15 @@ export class IframeField extends EventEmitter {
     // with the iframe
     loadedFrames[this.id] = this;
   }
+
+  // getButtonIframe(){
+  //   for (const frameId in loadedFrames) {
+  //       if (loadedFrames[frameId]?.type === "button") {
+  //         return loadedFrames[frameId];
+  //       }
+  //     }
+  //   return null;
+  // }
 
   /**
    * Appends additional CSS rules to the hosted field

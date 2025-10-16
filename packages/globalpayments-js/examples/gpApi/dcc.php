@@ -29,7 +29,7 @@ $request = json_encode([
 
 $headers = [ 'X-GP-Version' => '2021-03-22' ];
 
-[$response,,] = $curl('https://apis.sandbox.globalpay.com', '/ucp/accesstoken', '', $headers, $request);
+[$response,,] = $curl('https://apis.sandbox.globalpay.com/', '/ucp/accesstoken', '', $headers, $request);
 
 $response = json_decode($response);
 
@@ -51,13 +51,13 @@ $accessToken = $response->token ?? '';
     <div id="credit-card-form"></div>
 </main>
 
-<script src="../../dist/globalpayments.js"></script>
+<script src="https://js-cert.globalpay.com/<?= $version ?>/globalpayments.js"></script>
 <script>
     const amount = "87.90";
 
     GlobalPayments.configure({
         accessToken: "<?= $accessToken ?>",
-        env: "local",
+        env: "sandbox",
         apiVersion: "2021-03-22",
         currencyConversion: {
             enabled: false,
@@ -75,14 +75,7 @@ $accessToken = $response->token ?? '';
             orderReference: "XXXX12345",
             currencyCode: "USD",
         },
-        expressPay: {
-            enabled: true,
-            cancelUri: "https://webhook.site/6dc0caed-3230-4cf8-86a9-0e0ff8ed6a9a",
-            paymentUri: "https://webhook.site/6dc0caed-3230-4cf8-86a9-0e0ff8ed6a9a",
-            isShippingRequired: false,
-            payButtonLabel: ""
-        },
-        // useNetworkToken: true
+        useNetworkToken: true
     });
 
     GlobalPayments.on("error", function (error) {
@@ -93,7 +86,7 @@ $accessToken = $response->token ?? '';
         '#credit-card-form',
         {
             amount,
-            style: "gp-default2",
+            style: "gp-default",
             // style: GlobalPayments.enums.HostedFieldStyles.Default,
             // style: GlobalPayments.enums.HostedFieldStyles.Simple,
 
@@ -102,7 +95,6 @@ $accessToken = $response->token ?? '';
             // style: GlobalPayments.enums.BrandThemes.BrandThemeCOMMERZBANK,
             // style: GlobalPayments.enums.BrandThemes.BrandThemeNBGPAY,
             // style: GlobalPayments.enums.BrandThemes.BrandThemeESERVICE,
-            apms: [],
             fields: {
                 "submit": "Pay"
             }
@@ -110,12 +102,6 @@ $accessToken = $response->token ?? '';
     
     cardForm?.on("token-success", resp => {
         console.log(resp);
-        if(resp.expressPayEnabled){
-            const merchantCustomEventProvideDetails = new CustomEvent(GlobalPayments.enums.ExpressPayEvents.ExpressPayActionDetail, {
-            detail: resp
-        });
-        window.dispatchEvent(merchantCustomEventProvideDetails);
-        }
     });
     cardForm?.on("token-error", resp => { console.log(resp); });
 </script>

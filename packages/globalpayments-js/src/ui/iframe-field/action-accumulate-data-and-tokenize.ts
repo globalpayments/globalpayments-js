@@ -127,12 +127,9 @@ export default (id: string, type: string, data: IDictionary) => {
 
         const redirectUrl = getExpressPayBaseUrl('') + query;
 
-        const isCardPayment = localStorage.getItem("Card-Payment") === "true";
-
         postMessage.post({
           data: {
             redirectUrl,
-            isCardPayment,
             expressPayEnabled: options.expressPay?.enabled,
             details: {
               ...(response.details),

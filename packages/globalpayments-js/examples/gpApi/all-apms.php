@@ -26,7 +26,7 @@ $request = json_encode([
     'grant_type' => 'client_credentials',
     'nonce' => $nonce,
     'interval_to_expire' => '1_HOUR',
-    'permissions' => ['PMT_POST_Create_Single', 'ACC_GET_Single']
+    'permissions' => ['PMT_POST_Create_Single']
 ]);
 
 $headers = [ 'X-GP-Version' => '2021-03-22' ];
@@ -58,12 +58,12 @@ $accessToken = $response->token ?? '';
     <div id="credit-card-form"></div>
 </main>
 
-<script src="https://js-cert.globalpay.com/<?= $version ?>/globalpayments.js"></script>
-<!-- <script src="../../dist/globalpayments.js"></script> -->
+<!-- <script src="https://js-cert.globalpay.com/<?= $version ?>/globalpayments.js"></script> -->
+<script src="../../dist/globalpayments.js"></script>
 <script>
     GlobalPayments.configure({
         accessToken: "<?= $accessToken ?>",
-        env: "sandbox",
+        env: "local",
         apiVersion: "2021-03-22",
         language: "en",
         account: "<?= $account ?>",
@@ -131,18 +131,8 @@ $accessToken = $response->token ?? '';
                     provider: GlobalPayments.enums.ApmProviders.Blik,
                     enabled:  true
                 },
-                {
-                    provider: GlobalPayments.enums.ApmProviders.ExpressPay,
-                    enabled: true
-                }]
+            ]
             }
-        },
-        expressPay: {
-            enabled: true,
-            cancelUri: "https://webhook.site/6dc0caed-3230-4cf8-86a9-0e0ff8ed6a9a",
-            paymentUri: "https://webhook.site/6dc0caed-3230-4cf8-86a9-0e0ff8ed6a9a",
-            isShippingRequired: true,
-            payButtonLabel: ""
         },
         fieldValidation: {
             enabled: true
@@ -154,7 +144,7 @@ $accessToken = $response->token ?? '';
     });
     const cardForm = GlobalPayments.creditCard.form('#credit-card-form', {
         amount: "60",
-        style: "gp-default2",
+        style: "gp-default",
         apms: [
             GlobalPayments.enums.Apm.ClickToPay,
             GlobalPayments.enums.Apm.GooglePay,
@@ -213,7 +203,8 @@ $accessToken = $response->token ?? '';
             case GlobalPayments.enums.ApmProviders.ExpressPay: {
                     const merchantCustomEventProvideDetails = new CustomEvent(GlobalPayments.enums.ExpressPayEvents.ExpressPayActionDetail, {
                     detail : {
-                        redirectUrl
+                        redirectUrl,
+                        provider
                     }
                     });
                     window.dispatchEvent(merchantCustomEventProvideDetails);
@@ -238,12 +229,6 @@ $accessToken = $response->token ?? '';
     });
     cardForm?.on("token-success", resp => {
         console.log(resp);
-        if(resp.expressPayEnabled){
-            const merchantCustomEventProvideDetails = new CustomEvent(GlobalPayments.enums.ExpressPayEvents.ExpressPayActionDetail, {
-            detail: resp
-        });
-        window.dispatchEvent(merchantCustomEventProvideDetails);
-        }
     });
 </script>
 </body>

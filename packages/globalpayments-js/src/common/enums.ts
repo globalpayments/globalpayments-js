@@ -46,6 +46,7 @@ export enum HostedFieldValidationEvents {
     ValidateFormInvalid = "hosted-field-validate-form-invalid",
 
     ValidationCurrencyConversionShow = "hosted-field-validation-currency-conversion-show",
+    EnableSubmitButton = "hosted-field-enable-submit-button",
 }
 
 export enum CardFormFieldValidationTestEvents {

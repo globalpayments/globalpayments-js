@@ -84,6 +84,14 @@ export const fieldStyles = (assetBaseUrl: string) => {
       color: "#ffffff",
       outline: "none",
     },
+    "#secure-payment-field.disabled-submit-button[type=button]": {
+      "background-color": "#B0B4B5",
+      "color": "#FCFCFC",
+    },
+    "#secure-payment-field.disabled-submit-button[type=button]:hover": {
+      "background-color": "#B0B4B5",
+      "color": "#FCFCFC",
+    },
     "#secure-payment-field[type=button]:hover": {
       "background-color": "#258851",
     },

@@ -180,8 +180,18 @@ export async function handleInitiateAuthentication(
       throw new Error("Invalid challenge state. Missing challenge URL");
     }
 
+    // Browsers can sometimes malform the URL's query string parameters,
+    // turning `&` into `&amp;` which messes up the query string parameter
+    // and causes the challenge page to load incorrectly.
+    //
+    // We use the textarea element as a way to decode the HTML entities
+    // and grab the expected text/URL.
+    var url = document.createElement("textarea");
+    url.innerHTML = data.challenge.requestUrl;
+
     const response = await postToIframe(
       data.challenge.requestUrl,
+      // url.value,
       [
         { name: "creq", value: data.challenge.encodedChallengeRequest },
         // TODO: support session data

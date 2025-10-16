@@ -279,7 +279,9 @@ export const changeCreditCardFormFieldsVisibility = (visible: boolean): void => 
     '.paypal-button-wrapper',
     // Credit card common
     '.credit-card-card-number',
+    '.credit-card-card-number-small',
     '.credit-card-card-expiration',
+    '.credit-card-card-expiration-small',
     '.credit-card-card-cvv',
     '.credit-card-card-holder-name',
     '.credit-card-email-id',

@@ -83,9 +83,9 @@ export const BrandThemes = BrandThemesAlias;
 export const BankNames = BankDisplayNames;
 
 export enum HostedFieldFooterLinks {
-  LearnMore = "https://www.google.com/",
-  Terms = "https://www.globalpayments.com/en-gb/terms-of-use",
-  PrivacyPolicy = "https://www.globalpayments.com/en-eu/privacy-statement"
+  LearnMore = "learnmore.html",
+  Terms = "termsofservice.html",
+  PrivacyPolicy = "privacypolicy.html"
 }
 
 export enum ExpressPayEvents {
@@ -93,3 +93,5 @@ export enum ExpressPayEvents {
 }
 
 export const OTPLength = 6;
+
+export const formMaxWidth = 1000;

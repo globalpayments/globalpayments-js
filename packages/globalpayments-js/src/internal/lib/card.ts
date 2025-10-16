@@ -9,8 +9,8 @@ import { options } from './options';
 import { InstallmentEvents } from "./installments/contracts/enums";
 
 import { hideHostedFieldValidation, showHostedFieldValidation } from "../built-in-validations/helpers";
+import { CardFormFieldNames, CardFormFieldValidationTestEvents, HostedFieldValidationEvents,ExpressPayFieldNames } from "../../common/enums";
 import { expressPayFieldsValidate, validate } from "../built-in-validations/field-validator";
-import { CardFormFieldNames, CardFormFieldValidationTestEvents, ExpressPayFieldNames } from "../../common/enums";
 import { isSafari } from "../../common/browser-helpers";
 import { CurrencyConversionEvents } from "./currency-conversion/contracts/enums";
 import { hasCurrencyConversionSensitiveValueChanged, removeCurrencyConversionAvailabilityStatus, removeCurrencyConversionPreviousValue } from "./currency-conversion/utils/helpers";
@@ -389,7 +389,9 @@ export default class Card {
 
     classList = classList.filter((str) => str !== '');
     target.className = classList.join(" ");
-
+    if(options.disablePayButton){
+      Card.validateToEnable(e, isValid, CardFormFieldNames.CardNumber);
+    }
     // Set the cursor position
     const finalPosition = Math.min(formattedSelectionStart, target.value.length);
     target.setSelectionRange(finalPosition, finalPosition);
@@ -468,7 +470,9 @@ export default class Card {
         );
       }
     }
-
+    if(options.disablePayButton){
+      Card.validateToEnable(e, isValid, CardFormFieldNames.CardCvv);
+    }
     target.className = classList.join(" ").replace(/^\s+|\s+$/gm, "");
   }
 
@@ -537,7 +541,9 @@ export default class Card {
         );
       }
     }
-
+    if(options.disablePayButton){
+      Card.validateToEnable(e, isValid, CardFormFieldNames.CardExpiration);
+    }
     target.className = classList.join(" ").replace(/^\s+|\s+$/gm, "");
   }
 
@@ -579,7 +585,9 @@ export default class Card {
     if (!options.fieldValidation?.enabled) return;
 
     classList.push(valid ? "valid" : "invalid");
-
+    if(options.disablePayButton){
+      Card.validateToEnable(e, valid, CardFormFieldNames.CardHolderName);
+    }
     target.className = classList.join(" ").replace(/^\s+|\s+$/gm, "");
   }
 
@@ -1217,6 +1225,20 @@ export default class Card {
     const cardType = classList.find(x => x.indexOf("card-type-") !== -1)?.replace("card-type-", "");
 
     return cardType || unknownCardType;
+  }
+
+  public static validateToEnable(eventData: Event, isValid: boolean, fieldName: string) {
+    const target = (eventData.currentTarget ? eventData.currentTarget : eventData.srcElement) as HTMLInputElement;
+    const id = target.getAttribute("data-id");
+    // TODO
+    // postMessage.post(
+    //   {
+    //     data: { id, isValid, fieldName },
+    //     id,
+    //     type: `ui:iframe-field:${HostedFieldValidationEvents.EnableSubmitButton}`,
+    //   },
+    //   "parent",
+    // );
   }
 }
 

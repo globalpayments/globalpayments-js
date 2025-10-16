@@ -113,6 +113,15 @@ function getWindowMessageEventHandler(
       return;
     }
 
+    // if (data.origin) {
+    //   const allowedOrigins = Array.isArray(data.origin) ? data.origin : [data.origin];
+    //   // include some defaults from Global Payments' sandbox
+    //   allowedOrigins.push(...['https://api.sandbox.globalpay-ecommerce.com']);
+    //   if (!allowedOrigins.includes(e.origin)) {
+    //     return;
+    //   }
+    // }
+
     ensureIframeClosed(data.timeout || 0);
     resolve(e.data);
   };

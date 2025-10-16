@@ -20,7 +20,7 @@ import getAssetBaseUrl from "../../../internal/gateways/gp-api/get-asset-base-ur
 export default function addPaymentMethod(iframeField: IframeField | undefined, apmProvider: ApmProviders, apm: Apm): void {
   if (!iframeField) return;
   const apmAllowedPaymentMethods = options.apms?.nonCardPayments?.allowedPaymentMethods;
-  if (!apmAllowedPaymentMethods || !isApmProviderConfigured(apmAllowedPaymentMethods, apmProvider)) return;
+  if ((!apmAllowedPaymentMethods || !isApmProviderConfigured(apmAllowedPaymentMethods, apmProvider)) && !options.expressPay?.enabled) return;
 
   displayPaymentMethods(iframeField, apmProvider, apm,options.apms?.countryCode);
 
@@ -53,7 +53,8 @@ function displayPaymentMethods(iframeField: IframeField, apmProvider: ApmProvide
     attributes: [
       { alt: formatProvider(apmProvider) },
       { title: formatProvider(apmProvider) },
-      { "aria-label": paymentMethodButtonAriaLabel }
+      { "aria-label": paymentMethodButtonAriaLabel },
+      { type: 'button' }
     ],
   });
   paymentMethodButton.style.background = backgroundImage;

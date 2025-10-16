@@ -77,7 +77,8 @@ export interface IUIFormOptions {
   values?: IDictionary;
   amount?: number;
   apms?: IDictionary;
-  fields?:IDictionary
+  fields?:IDictionary;
+  provider?:string;
 }
 
 export const frameFieldTypes = [
@@ -330,13 +331,15 @@ export default class UIForm {
     // support tokenization data flows to `card-number` / `account-number`
     if (this.frames.submit !== undefined) {
       this.frames.submit.on("click", () => {
-        localStorage.setItem("Card-Payment","true");
         if (options.fieldValidation?.enabled) {
           this.validateForm(this.frames);
         } else {
           this.submitForm();
         }
         if(options.expressPay?.enabled){
+          if (this.formOptionFields) {
+            this.formOptionFields.provider = '';
+          }
           addExpressPayDetailsEventListener();
         }
       });
@@ -504,116 +507,22 @@ export default class UIForm {
   private addExpressPayBtnEventListener(iframeField: IframeField): void {
     const accountCardNumberFrameTarget = this.frames[CardFormFieldNames.CardNumber] || this.frames[CardFormFieldNames.CardAccountNumber];
     if (!accountCardNumberFrameTarget) return;
-    const fieldsRequiredForTokenization = [
-      CardFormFieldNames.CardNumber,
-      CardFormFieldNames.CardExpiration,
-      CardFormFieldNames.CardCvv
-    ]
+
     const expressPayBtn: any = document.getElementById(Apm.ExpressPay);
     const details: { [key: string]: any } = {};
-    const detailsMap = getExpressPayDetailsKeys();
-
-    const billingFields = [
-      ExpressPayFieldNames.BillingAddress,
-      ExpressPayFieldNames.BillingApt,
-      ExpressPayFieldNames.BillingCity,
-      ExpressPayFieldNames.BillingState,
-      ExpressPayFieldNames.BillingPostalCode
-    ];
-
-    const shippingFields = [
-      ExpressPayFieldNames.ShippingAddress,
-      ExpressPayFieldNames.ShippingApt,
-      ExpressPayFieldNames.ShippingCity,
-      ExpressPayFieldNames.ShippingState,
-      ExpressPayFieldNames.ShippingPostalCode
-    ];
-
-    let isTokenized: boolean = false;
-
-    const shippingSameAsBilling: any = localStorage.getItem("shippingSameAsBilling");
 
     expressPayBtn.addEventListener('click', () => {
 
-      localStorage.setItem("Card-Payment", "false");
-      // Reset validation round counter
-      resetValidationRoundCounter();
-
-      const hostedFieldsToValidate = this.getHostedFieldsToValidate(this.frames, accountCardNumberFrameTarget,true);
-
-      const valuePromises = hostedFieldsToValidate.map((field: any) => {
-        return (field) ? field.getValue().then((value: any) => ({ field, value, name: field.frame.contentWindow.name })) : Promise.resolve(null)
-      })
-
-      let filledFields: any[] = [];
-
-      Promise.all(valuePromises).then(results => {
-        filledFields = results.filter((item: any) => item && item.value && item.value.trim() !== "");
-
-        // Check if all required fields for tokenization are filled
-        isTokenized = fieldsRequiredForTokenization.every(requiredField =>
-          filledFields.some(f => f.name === requiredField)
-        );
-        const selectedBillingState = filledFields.find((field: any) => field.name === ExpressPayFieldNames.BillingState)?.value;
-        const selectedShippingState = filledFields.find((field: any) => field.name === ExpressPayFieldNames.ShippingState)?.value;
-
-        if (filledFields && filledFields.length > 0) {
-          let billingCount:number = 0;
-          let shippingCount:number = 0;
-          for (const field of filledFields) {
-            if (!field.field) return;
-            postMessage.post(
-              {
-                data: {
-                  target: accountCardNumberFrameTarget.id,
-                  expressPayValidation: true
-                },
-                id: field.field.id,
-                type: `ui:iframe-field:${HostedFieldValidationEvents.Validate}`,
-                target: accountCardNumberFrameTarget.id,
-              },
-              field.field.id,
-            );
-            if (billingFields.includes(field.name) && billingCount < 1) {
-              details.billingAddress = formatBillingAddress(filledFields, selectedBillingState);
-              billingCount++;
-            }
-            else if (shippingFields.includes(field.name) && shippingCount < 1) {
-              details.shippingAddress = formatShippingAddress(filledFields, selectedShippingState);
-              shippingCount++;
-            }
-            else {
-              const key: any = detailsMap.get(field.name);
-              if (key) {
-                details[key] = field.value;
-              }
-          }
-          }
-        } else {
-          const query = getExpressPayQueryParams(options.expressPay, details);
-          const redirectUrl = getExpressPayBaseUrl('') + query;
-          this.expressPayEventEmitter(details, iframeField, redirectUrl)
-        }
-
-      });
-      const cleanUpFormValidationDataAndEmitValidityState = (isFormValid: boolean) => {
-        const w = window as any;
-        delete w.formValidations;
-        bus.emit(CardFormEvents.ValidityState, { isFormValid });
-      };
-
-      accountCardNumberFrameTarget.on(HostedFieldValidationEvents.ValidateFormValid, (_validationData?: any) => {
-        cleanUpFormValidationDataAndEmitValidityState(true);
-        if (!isTokenized) {
-          const query = getExpressPayQueryParams(options.expressPay, details);
-          const redirectUrl = getExpressPayBaseUrl('') + query;
-          this.expressPayEventEmitter(details, iframeField, redirectUrl);
-        }
-      });
-
-      accountCardNumberFrameTarget.on(HostedFieldValidationEvents.ValidateFormInvalid, (_validationData?: any) => cleanUpFormValidationDataAndEmitValidityState(false));
+      if(this.formOptionFields){
+        this.formOptionFields.provider = ApmProviders.ExpressPay;
+      }
 
       addExpressPayDetailsEventListener();
+
+      const query = getExpressPayQueryParams(options.expressPay, details);
+      const redirectUrl = getExpressPayBaseUrl('') + query;
+      this.expressPayEventEmitter(details, iframeField, redirectUrl);
+
     });
 
   }

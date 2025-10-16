@@ -68,7 +68,7 @@ export const getImageUrl = (assetBaseUrl: string, provider: string, countryCode?
 export const addExpressPayDetailsEventListener = (): void => {
     window.addEventListener(ExpressPayEvents.ExpressPayActionDetail, (event: any) => {
         let redirectUrl:string = '';
-        if(event.detail.isCardPayment === true) {
+        if(event.detail.provider !== ApmProviders.ExpressPay){
             const saveCardEnabled:any = document.getElementById('save-card-checkbox');
             if(saveCardEnabled.checked){
                 redirectUrl = event.detail.redirectUrl
@@ -165,8 +165,13 @@ export const getExpressPayQueryParams = (expressPayOptions: any, details?: any):
     }
     const options: any = {
         paramName: "options",
-        isShippingRequired: expressPayOptions.isShippingRequired,
-        payButtonLabel: expressPayOptions.payButtonLabel
+    }
+
+    if(expressPayOptions.isShippingRequired !== undefined){
+        options.isShippingRequired = expressPayOptions.isShippingRequired;
+    }
+    if(expressPayOptions.payButtonLabel){
+        options.payButtonLabel = expressPayOptions.payButtonLabel;
     }
 
     const merchantInfo: any = {

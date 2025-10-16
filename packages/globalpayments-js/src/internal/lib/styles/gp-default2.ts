@@ -374,6 +374,25 @@ export const parentStyles = (assetBaseUrl: string, theme?: string) => {
                 flex: "100 auto",
             },
         },
+
+        ".secure-payment-form .credit-card-card-number-small": {
+            "display":"block"
+        },
+        ".secure-payment-form .credit-card-card-expiration-small": {
+            "margin-left":"0",
+            "flex":"1 1"
+        },
+        ".secure-payment-form .credit-card-billing-state-small, .secure-payment-form .credit-card-shipping-state-small": {
+            "flex":"1 auto",
+            "margin-left": "16px"
+        },
+        ".secure-payment-form .credit-card-billing-postal-code-small, .secure-payment-form .credit-card-shipping-postal-code-small": {
+            "flex":"1 auto",
+            "margin-left": "16px"
+        },
+        ".secure-payment-form .credit-card-billing-city-small, .secure-payment-form .credit-card-shipping-city-small": {
+            "display":"block"
+        },
         ".secure-payment-form .credit-card-phone-number label": {
             "visibility": "hidden"
         },
