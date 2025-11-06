@@ -190,8 +190,8 @@ export async function handleInitiateAuthentication(
     url.innerHTML = data.challenge.requestUrl;
 
     const response = await postToIframe(
-      data.challenge.requestUrl,
-      // url.value,
+      // data.challenge.requestUrl,
+      url.value,
       [
         { name: "creq", value: data.challenge.encodedChallengeRequest },
         // TODO: support session data
