@@ -1230,15 +1230,15 @@ export default class Card {
   public static validateToEnable(eventData: Event, isValid: boolean, fieldName: string) {
     const target = (eventData.currentTarget ? eventData.currentTarget : eventData.srcElement) as HTMLInputElement;
     const id = target.getAttribute("data-id");
-    // TODO
-    // postMessage.post(
-    //   {
-    //     data: { id, isValid, fieldName },
-    //     id,
-    //     type: `ui:iframe-field:${HostedFieldValidationEvents.EnableSubmitButton}`,
-    //   },
-    //   "parent",
-    // );
+
+    postMessage.post(
+      {
+        data: { id, isValid, fieldName },
+        id,
+        type: `ui:iframe-field:${HostedFieldValidationEvents.EnableSubmitButton}`,
+      },
+      "parent",
+    );
   }
 }
 

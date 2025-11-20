@@ -4,7 +4,10 @@
 
 # Changelog
 
-## Latest Version - v4.1.15 (11/06/25)
+## Latest Version - v4.1.16 (11/20/25)
+- [Globalpayments-js][4.1.16]  Disable Submit Button
+
+## v4.1.15 (11/06/25)
 - [Globalpayments-3ds][4.1.15] Fixed issue with 3DS functionality in sandbox environment
 
 ## v4.1.14 (10/16/25)

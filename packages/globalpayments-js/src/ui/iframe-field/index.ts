@@ -601,6 +601,16 @@ export class IframeField extends EventEmitter {
         case ApmInternalEvents.PaymentMethodsRequestStart:
           actionQRCodePaymentMethodsRequestStart(id, data.data);
           break;
+        case HostedFieldValidationEvents.EnableSubmitButton:
+          const button = document.getElementById(paymentFieldId) as HTMLButtonElement;
+          if (button && button.type === "button") {
+            if (data.data.shouldEnable) {
+              button.classList.remove('disabled-submit-button');
+            } else {
+              button.classList.add('disabled-submit-button');
+            }
+          }
+          break;
         default:
           break;
       }
@@ -807,10 +817,9 @@ export class IframeField extends EventEmitter {
             data.data.target,
           );
           break;
-      // TODO
-      //  case HostedFieldValidationEvents.EnableSubmitButton:
-      //     actionEnableSubmitButton(data)
-      //     break;
+        case HostedFieldValidationEvents.EnableSubmitButton:
+          actionEnableSubmitButton(data);
+          break;
         case "token-success":
           if (data.data.expressPayEnabled) {
             if(this.formOptionFields?.provider === ApmProviders.ExpressPay){

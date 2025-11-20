@@ -1,7 +1,7 @@
-import { CardFormFieldNames } from "../../common/enums";
+import { CardFormFieldNames, HostedFieldValidationEvents } from "../../common/enums";
+import { loadedFrames, postMessage } from "../../internal";
 
 export default function actionEnableSubmitButton(data: any): void {
-    // Implementation for enabling the submit button
     const { fieldName, isValid } = data.data;
     const windowObject = window as any;
     // Initialize only once
@@ -15,29 +15,32 @@ export default function actionEnableSubmitButton(data: any): void {
     }
 
     windowObject.enableSubmitButtonIfValid[fieldName] = isValid;
-    // More efficient validation check - early exit on first false
+
     const validationState = windowObject.enableSubmitButtonIfValid;
-    let allFieldsValid = true;
-    for (const key in validationState) {
-        if (!validationState[key]) {
-            allFieldsValid = false;
+    const allFieldsValid = validationState[CardFormFieldNames.CardNumber] &&
+        validationState[CardFormFieldNames.CardExpiration] &&
+        validationState[CardFormFieldNames.CardCvv] &&
+        validationState[CardFormFieldNames.CardHolderName];
+
+    let submitButtonFrameId: string | null = null;
+    for (const frameId in loadedFrames) {
+        if (loadedFrames[frameId]?.frame?.name === "submit") {
+            submitButtonFrameId = frameId;
             break;
         }
     }
-    const submitButtonIframe = document.querySelector('iframe[name="submit"]') as HTMLIFrameElement;
-    if (!submitButtonIframe) return;
 
-    const updateButtonState = () => {
-        const submitButtonContentDoc = submitButtonIframe.contentDocument;
-        if (!submitButtonContentDoc) return;
-        const submitButton = submitButtonContentDoc.querySelector("button") as HTMLButtonElement | null;
-        if (!submitButton) return;
-        submitButton.classList.toggle('disabled-submit-button', !allFieldsValid);
-    };
+    if (!submitButtonFrameId) return;
 
-    if (submitButtonIframe.contentDocument?.readyState === 'complete') {
-        updateButtonState();
-    } else {
-        submitButtonIframe.addEventListener('load', updateButtonState, { once: true });
-    }
+    // Send message to submit button iframe to toggle the disabled class
+    postMessage.post(
+        {
+            data: {
+                shouldEnable: allFieldsValid
+            },
+            id: submitButtonFrameId,
+            type: `ui:iframe-field:${HostedFieldValidationEvents.EnableSubmitButton}`,
+        },
+        submitButtonFrameId,
+    );
 }

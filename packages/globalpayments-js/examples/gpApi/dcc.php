@@ -24,7 +24,7 @@ $request = json_encode([
     'grant_type' => 'client_credentials',
     'nonce' => $nonce,
     'interval_to_expire' => '1_HOUR',
-    'permissions' => [ 'CCS_POST_DCC', 'PMT_POST_Create_Single' ]
+    'permissions' => [ 'PMT_POST_Create_Single' ]
 ]);
 
 $headers = [ 'X-GP-Version' => '2021-03-22' ];
@@ -52,8 +52,9 @@ $accessToken = $response->token ?? '';
 </main>
 
 <script src="https://js-cert.globalpay.com/<?= $version ?>/globalpayments.js"></script>
+<!-- <script src="../../dist/globalpayments.js"></script> -->
 <script>
-    const amount = "87.90";
+    const amount = "6000";
 
     GlobalPayments.configure({
         accessToken: "<?= $accessToken ?>",
@@ -75,7 +76,8 @@ $accessToken = $response->token ?? '';
             orderReference: "XXXX12345",
             currencyCode: "USD",
         },
-        useNetworkToken: true
+        useNetworkToken: true,
+        disablePayButton:true
     });
 
     GlobalPayments.on("error", function (error) {
