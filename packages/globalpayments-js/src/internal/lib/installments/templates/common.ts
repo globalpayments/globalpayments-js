@@ -1,81 +1,50 @@
-import getAssetBaseUrl from "../../../gateways/gp-api/get-asset-base-url";
+import { createHtmlImageElement } from "../../../../common/html-element";
+import getAssetBaseUrl from "../../asset-base-url";
+import { getCurrentLanguage, getTranslationSet } from "../../detectLanguage";
 import {
-    createHtmlButtonElement,
     createHtmlDivElement,
-    createHtmlImageElement,
     createHtmlSpanElement,
 } from "../helpers/html-element";
 
-export const getProvidedByIssuerTemplate = (props: { providerImageSrc: string, providerImageAlt: string }): HTMLElement => {
-    const { providerImageSrc, providerImageAlt } = props;
-    const providedBySpan = createHtmlSpanElement({ className: 'provided-by', textContent: 'Provided by ' });
-    const providerImage = createHtmlImageElement({
-        src: providerImageSrc,
-        alt: providerImageAlt,
-        attributes: [
-            { width: '64' },
-            { height: '13' },
-        ],
-    });
-    providedBySpan.append(providerImage);
 
-    return providedBySpan;
-};
+export const addInstallmentEligibilityBadge = (): HTMLElement => {
 
-export const getChangePaymentMethodTemplate = (buttonId: string): HTMLElement => {
-    return createHtmlButtonElement({
-        id: buttonId,
-        className: 'installment-link',
-        textContent: 'Or choose another payment method',
-        attributes: [
-            { 'aria-label': 'Change the payment method' },
-        ],
-    });
-};
+    const lang = getCurrentLanguage();
+    const installmentTranslations = getTranslationSet(lang, 'installments');
 
-export const getHaveVirginMoneyCreditCardBannerTemplate = (): HTMLElement => {
+    const assetUrl = getAssetBaseUrl();
+    // Create a badge styled like the provided image
     const content = createHtmlDivElement({
-        id: 'virgin-money-credit-card-banner',
-        attributes: [
-            { style: 'display: flex; justify-content: center; width: 100%;' },
-        ],
+        className: 'installment-eligibility-badge',
     });
 
-    const issuerPanelBannerDiv = createHtmlDivElement({ className: 'installment-issuer-panel' });
-
-    const haveVirginMoneyCreditCardBannerHeaderDiv = createHtmlDivElement({
-        className: 'installment-issuer-panel-header',
+    const badge = createHtmlDivElement({
+        className: 'installment-badge',
+        id: 'installment-badge',
     });
 
-    const haveVirginCreditCardTitleSpan = createHtmlSpanElement({
-        className: 'installment-issuer-panel-title',
-        textContent: 'Have a Virgin Money credit card?'
+    // SVG checkmark icon (optimized)
+    // TODO
+    const checkIcon = createHtmlImageElement({
+        src: `${assetUrl}images/installment-eligibility-check.svg`,
+        alt: 'Checkmark icon',
+        className: 'installment-badge-icon',
     });
-    haveVirginMoneyCreditCardBannerHeaderDiv.append(haveVirginCreditCardTitleSpan);
 
-    const virginMoneyLogoImage = createHtmlImageElement({
-        src: `${getAssetBaseUrl('')}images/virgin-money-logo.png` ,
-        alt: 'Virgin Money logo',
-        attributes: [
-            { width: '64' },
-            { height: '13' },
-        ],
+    const badgeText = createHtmlSpanElement({
+        className: 'installment-badge-text',
+        textContent: installmentTranslations.eligibleForInstallmentBadgeText,
     });
-    haveVirginMoneyCreditCardBannerHeaderDiv.append(virginMoneyLogoImage);
 
-    // Missing Virgin Money Image
-
-    issuerPanelBannerDiv.append(haveVirginMoneyCreditCardBannerHeaderDiv);
-
-    const haveVirginMoneyCreditCardBannerContentDiv = createHtmlDivElement({ className: 'installment-options-content' });
-    const enterYourCreditCardDetailsSpan = createHtmlSpanElement({
-        className: 'installment-issuer-panel-content',
-        textContent: 'Enter your card details to check for flexible instalment payment plans and spread the cost over multiple bills.',
-    });
-    haveVirginMoneyCreditCardBannerContentDiv.append(enterYourCreditCardDetailsSpan);
-    issuerPanelBannerDiv.append(haveVirginMoneyCreditCardBannerContentDiv);
-
-    content.append(issuerPanelBannerDiv);
-
+    badge.append(checkIcon, badgeText);
+    content.append(badge);
     return content;
 }
+
+export const getInstallmentSection = (): HTMLElement => {
+    const content = createHtmlDivElement({
+        className: 'installment-option-section',
+        id: 'installment-option-section',
+    });
+    return content;
+};

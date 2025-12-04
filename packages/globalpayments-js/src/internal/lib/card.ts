@@ -950,7 +950,14 @@ export default class Card {
    */
   public static postInstallmentFieldValidatedEvent(e: Event) {
     if (!options.installments) return;
-
+    const installmentsPanel = document.querySelector(".installment-eligibility-badge");
+    if (installmentsPanel) {
+      installmentsPanel.setAttribute("style", "display: flex !important");
+    }
+    const installmentsContainer = document.querySelector("#installment-option-section");
+    if(installmentsContainer) {
+      installmentsContainer.setAttribute("style", "display: flex !important");
+    }
     const target = (e.currentTarget
       ? e.currentTarget
       : e.srcElement) as HTMLInputElement;

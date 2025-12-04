@@ -28,9 +28,92 @@ const styles = (assetBaseUrl: string) => {
         linkActiveBlue: '#6583EA',
     };
 
+    const commonButtonStyle = {
+        padding: "1px 39px",
+        display: "flex",
+        gap: "8px",
+    }
+
     return {
-        ".secure-payment-form .credit-card-installments" : {
+        ".secure-payment-form .credit-card-installments": {
             "font-family": "DMSans",
+        },
+
+        ".secure-payment-form .installment-eligibility-badge": {
+            display: "none",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "100%",
+            margin: "16px 0",
+        },
+
+        ".secure-payment-form .installment-badge": {
+            display: "flex",
+            "align-items": "center",
+            background: "#f3fbf8",
+            border: "1px solid #009E61",
+            "border-radius": "10px",
+            padding: "4px 8px",
+            "font-size": "1rem",
+            color: "#00663F",
+            "font-weight": "400",
+            gap: "5px",
+        },
+
+        ".secure-payment-form .pay-in-full-option": {
+            ...commonButtonStyle,
+            "padding-left": "10px",
+            border: `1px solid #BCBFC8`,
+            '&.checked': {
+                border: `2px solid ${customColors.azure39Blue}`,
+            }
+        },
+
+        ".secure-payment-form .pay-in-full-option label": {
+            "font-size": "12px",
+            "font-weight": "600",
+        },
+
+        ".secure-payment-form .payment-option-content": {
+            display: "flex",
+            "flex-direction": "column",
+            gap: "10px",
+            width: "100%",
+        },
+
+        ".secure-payment-form .installment-section": {
+            border: "1px solid #BCBFC8",
+        },
+
+        ".secure-payment-form .payment-option-text": {
+            color: "#394046",
+            "font-size": "14px",
+            "font-weight": "600",
+        },
+
+        ".secure-payment-form .section-title": {
+            display: "flex",
+            "font-size": "12px",
+            "font-weight": "600",
+            width: "100%",
+            height: "47px",
+            gap: "0 8px",
+            padding: "0px 39px",
+            "align-items": "center",
+            "border-bottom": "1px solid #BCBFC8",
+            "text-transform": "uppercase",
+        },
+
+        ".secure-payment-form .installment-content": {
+            padding: "15px 0px"
+        },
+
+        ".secure-payment-form .installment-months-button": {
+            ...commonButtonStyle,
+            padding: "1px 39px",
+            '&.checked': {
+                border: `2px solid ${customColors.azure39Blue}`,
+            }
         },
 
         ".secure-payment-form .installment-issuer-panel": {
@@ -229,7 +312,7 @@ const styles = (assetBaseUrl: string) => {
         ".secure-payment-form .installment-button-learn-more::after": {
             content: `url("${imageBase}info.svg")`,
             "padding-top": "7px",
-            filter:" grayscale(1)",
+            filter: " grayscale(1)",
         },
         ".secure-payment-form .installment-button-learn-more:hover": {
             color: customColors.azure39Blue,

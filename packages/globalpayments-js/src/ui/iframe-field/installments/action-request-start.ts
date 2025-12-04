@@ -2,7 +2,7 @@ import { postMessage } from "../../../internal";
 import queryInstallmentPlans from "../../../internal/lib/installments/requests/query-installment-plans";
 import { InstallmentEvents } from "../../../internal/lib/installments/contracts/enums";
 import { IDictionary } from "../../../internal/lib/util";
-import { typeByNumber } from "../../../internal/lib/card-types";
+import { installmentPlansDataMapper } from "../../../internal/lib/installments/contracts/installment-plans-data";
 
 /**
  * Requests the installment plans data for a valid credit card number
@@ -10,14 +10,13 @@ import { typeByNumber } from "../../../internal/lib/card-types";
 export default (id: string, data: IDictionary): void => {
   if (!id) return;
 
-  const { cardNumber, amount, cardExpiration } = data;
+  const { cardNumber, amount, cardExpiration, cardCvv } = data;
   const [expiryMonth, fullExpiryYear] = cardExpiration.replace(' ', '').split('/');
-  const { code: brand } = typeByNumber(cardNumber) || {};
 
   queryInstallmentPlans({
     number: cardNumber,
     amount,
-    brand,
+    cvv: cardCvv,
     expiryMonth,
     expiryYear: fullExpiryYear.slice(-2),
   }).then((responseData: any) => {
@@ -25,6 +24,10 @@ export default (id: string, data: IDictionary): void => {
 
     if (responseData[`error_code`]) {
       eventType = InstallmentEvents.CardInstallmentsRequestFailed;
+    }
+
+    if(eventType === InstallmentEvents.CardInstallmentsRequestCompleted) {
+      responseData = installmentPlansDataMapper(responseData);
     }
 
     postMessage.post(

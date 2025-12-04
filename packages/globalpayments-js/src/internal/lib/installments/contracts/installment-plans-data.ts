@@ -20,8 +20,6 @@ export default class InstallmentPlansData {
     public accountId: string;
     public accountName: string;
     public reference: string;
-    public termsAndConditionsUrl: string;
-    public providerImageUrl: string;
     public terms: InstallmentTerm[];
     public paymentMethod: InstallmentPaymentMethod;
     public action: InstallmentAction;
@@ -40,9 +38,6 @@ export default class InstallmentPlansData {
         _accountId: string,
         _accountName: string,
         _reference: string,
-        _termsAndConditionsUrl: string,
-        _providerImageUrl: string,
-
         _terms: InstallmentTerm[],
         _paymentMethod: InstallmentPaymentMethod,
         _action: InstallmentAction,
@@ -60,8 +55,6 @@ export default class InstallmentPlansData {
             this.accountId = _accountId;
             this.accountName = _accountName;
             this.reference = _reference;
-            this.termsAndConditionsUrl = _termsAndConditionsUrl;
-            this.providerImageUrl = _providerImageUrl;
             this.paymentMethod = _paymentMethod;
             this.terms = _terms;
             this.action = _action;
@@ -82,13 +75,10 @@ export function installmentPlansDataMapper(origin: {
     account_id: string,
     account_name: string,
     reference: string,
-    terms_and_conditions_url: string,
-    provider_image_url: string,
     terms: any[],
     payment_method: any,
     action: any,
 }): InstallmentPlansData {
-    const compareTerms = (x: { totalTimeUnitCount: string }, y: { totalTimeUnitCount: string }) => (+x.totalTimeUnitCount > +y.totalTimeUnitCount) ? 1 : ((+y.totalTimeUnitCount > +x.totalTimeUnitCount) ? -1 : 0);
 
     return {
         id: origin.id,
@@ -104,10 +94,8 @@ export function installmentPlansDataMapper(origin: {
         accountId: origin.account_id,
         accountName: origin.account_name,
         reference: origin.reference,
-        termsAndConditionsUrl: origin.terms_and_conditions_url,
-        providerImageUrl: origin.provider_image_url,
         paymentMethod: installmentPaymentMethodMapper(origin.payment_method),
-        terms: origin.terms.map(x => installmentTermMapper(x)).sort(compareTerms),
+        terms: origin.terms.map((x) => installmentTermMapper(x)),
         action: installmentActionMapper(origin.action),
     };
 }

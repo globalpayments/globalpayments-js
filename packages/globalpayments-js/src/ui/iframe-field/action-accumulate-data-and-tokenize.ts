@@ -129,12 +129,12 @@ export default (id: string, type: string, data: IDictionary) => {
 
         postMessage.post({
           data: {
-            redirectUrl,
-            expressPayEnabled: options.expressPay?.enabled,
+            // redirectUrl,
+            // expressPayEnabled: options.expressPay?.enabled,
+            ...(installment ?  {installment} : {}),
             details: {
               ...(response.details),
-              ...(installment ? { installment } : {}),
-              ...(currencyConversion ? { currencyConversion } : {}),
+              ...(currencyConversion ?  {currencyConversion} : {}),
             },
             ...response
           },

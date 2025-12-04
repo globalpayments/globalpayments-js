@@ -20,11 +20,10 @@ import addApplePay from "../iframe-field/apple-pay/action-add";
 import {Apm, ApmEvents, ApmProviders, CardFormEvents, ExpressPayEvents} from "../../internal/lib/enums";
 import addInstallments from "../iframe-field/installments/action-add";
 import { InstallmentEvents } from "../../internal/lib/installments/contracts/enums";
-import { verifyInstallmentAvailability } from "../../internal/lib/installments/contracts/installment-plans-data";
+import InstallmentPlansData, { verifyInstallmentAvailability } from "../../internal/lib/installments/contracts/installment-plans-data";
 import { INSTALLMENTS_KEY } from "../../internal/lib/installments/contracts/constants";
-import { InstallmentPaymentData } from "../../internal/lib/installments/installments-handler";
-import addIssuerBanner from "../../internal/lib/installments/components/add-issuer-banner";
-import { getHaveVirginMoneyCreditCardBannerTemplate } from "../../internal/lib/installments/templates/common";
+import { InstallmentPaymentData } from "../../internal/lib/installments/contracts/interfaces";
+import addInstallmentsOptions from "../../internal/lib/installments/components/add-installments-options";
 import { CardFormFieldNames, ExpressPayFieldNames, HostedFieldValidationEvents } from "../../common/enums";
 import { resetValidationRoundCounter } from "../../internal/built-in-validations/helpers";
 
@@ -402,11 +401,11 @@ export default class UIForm {
     if (options.installments) {
       const installmentsFrame = this.frames[INSTALLMENTS_KEY];
       if (installmentsFrame) {
-        installmentsFrame?.container?.querySelector('iframe')?.remove();
+        installmentsFrame?.container?.querySelector('iframe')?.classList.add('hidden');
       }
-      addIssuerBanner(installmentsFrame);
+      addInstallmentsOptions(installmentsFrame);
 
-      this.configureCardInstallmentsEvents();
+      this.configureCardInstallmentsEvents(installmentsFrame);
     }
 
     if (options.currencyConversion?.enabled) {
@@ -527,9 +526,10 @@ export default class UIForm {
 
   }
 
-  private configureCardInstallmentsEvents(): void {
-    let installmentRequestInProgress = false;
 
+  private configureCardInstallmentsEvents(installmentField : IframeField | undefined): void {
+    let installmentRequestInProgress = false;
+    if(installmentField) {
     const cardNumberFrame = this.frames["card-number"];
     const cardExpirationFrame = this.frames["card-expiration"];
     const cardCvvFrame = this.frames["card-cvv"];
@@ -560,20 +560,15 @@ export default class UIForm {
         });
       });
 
-      cardFieldFrame.on(InstallmentEvents.CardInstallmentsRequestCompleted, (installmentPlansData?: any) => {
+      cardFieldFrame.on(InstallmentEvents.CardInstallmentsRequestCompleted, (installmentPlansData?: InstallmentPlansData) => {
         if (!installmentPlansData || installmentPlansData && !verifyInstallmentAvailability(installmentPlansData)) return;
 
-        const installments = this.frames[INSTALLMENTS_KEY];
-        if (installments) {
-          installments?.container?.querySelector('iframe')?.remove();
-          addInstallments(installments, installmentPlansData, (installment) => {
+          addInstallments(installmentField, installmentPlansData, (installment: InstallmentPaymentData) => {
             const target = this.frames[`card-number`] || this.frames[`account-number`];
 
             if (!target) return;
-
-            this.requestDataFromAll(target, installment);
+            this.installmentResponseData = installment;
           });
-        }
 
         installmentRequestInProgress = false;
       });
@@ -582,8 +577,11 @@ export default class UIForm {
         // TBD (Installments): Emit an event? A 'token-error' error? or any installment error type?
         this.removeInstallmentsPanel();
         installmentRequestInProgress = false;
+        // tslint:disable-next-line:no-console
+        console.log(_data);
       });
     });
+  }
   }
 
   private startCardInstallmentDataRequest(args: {id: string, cardNumber:string, cardExpiration: string, data?: any}): void {
@@ -595,7 +593,7 @@ export default class UIForm {
     } = args;
 
     const installmentFields = this.fields[INSTALLMENTS_KEY];
-    const amount = installmentFields.amount || 0;
+    const amount = installmentFields.amount;
     const eventType = `ui:iframe-field:${InstallmentEvents.CardInstallmentsRequestStart}`;
     postMessage.post(
       {
@@ -613,19 +611,18 @@ export default class UIForm {
   }
 
   private removeInstallmentsPanel(): void {
-    const installmentsPanel = document.getElementsByClassName("installment-step-container")[0];
+    const installmentsPanel = document.querySelector(".installment-eligibility-badge");
     if (installmentsPanel) {
-      installmentsPanel.remove();
+      installmentsPanel.setAttribute("style", "display: none !important");
     }
-
-    const installmentsIssuerBanner = document.getElementById("virgin-money-credit-card-banner");
-    if (installmentsIssuerBanner) {
-      const content = getHaveVirginMoneyCreditCardBannerTemplate();
-      installmentsIssuerBanner.outerHTML = content.outerHTML;
+    const installmentsContainer = document.querySelector(".installment-option-section");
+    if(installmentsContainer) {
+      installmentsContainer.setAttribute("style", "display: none !important");
     }
   }
 
   private currencyConversionResponseData: any;
+  private installmentResponseData: InstallmentPaymentData | null = null;
 
   /**
    * Configures event listeners related to currency conversion for the specified iframe field.
@@ -793,6 +790,10 @@ export default class UIForm {
       && getCurrencyConversionAvailabilityStatus()
       ? this.currencyConversionResponseData.response : '';
 
+    if(this.installmentResponseData){
+      installment = this.installmentResponseData;
+    }
+
     for (const type of fields) {
       if (type === "submit") {
         continue;
@@ -835,9 +836,9 @@ export default class UIForm {
 
     // Required fields to be completed and validated to call the endpoint
     const fields = [
-      "card-number",
-      "card-expiration",
-      "card-cvv",
+      CardFormFieldNames.CardNumber,
+      CardFormFieldNames.CardExpiration,
+      CardFormFieldNames.CardCvv,
     ];
 
     fields.forEach((type) => {

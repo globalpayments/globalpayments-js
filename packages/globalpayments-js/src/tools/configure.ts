@@ -120,8 +120,9 @@ export interface IConfiguration extends IDictionary {
     country: string,
     mcc: string,
     currency: string,
+    accountID?: string;
+    accountName?: string;
   };
-
   currencyConversion?: {
     accountName: string,
     enabled: boolean,

@@ -24,6 +24,7 @@ import actionSetText from "./action-set-text";
 import actionSetValue from "./action-set-value";
 import actionSetTypeCvv from "./action-set-type-cvv";
 import actionCardRequestInstallments from "./installments/action-request-start";
+import actionGetCardInstallmentValue from "./installments/action-get-value";
 import actionCurrencyConversion from "./currency-conversion/action-request-start";
 import actionGetCurrencyConversionValue from "./currency-conversion/action-get-value";
 import { InstallmentEvents } from "../../internal/lib/installments/contracts/enums";
@@ -555,6 +556,8 @@ export class IframeField extends EventEmitter {
         case InstallmentEvents.CardInstallmentsRequestStart:
           actionCardRequestInstallments(id, data.data);
           break;
+        case InstallmentEvents.CardInstallmentSendValue:
+          actionGetCardInstallmentValue(id, data.data);
         case CurrencyConversionEvents.CurrencyConversionRequestStart:
           actionCurrencyConversion(id, data.data);
           break;

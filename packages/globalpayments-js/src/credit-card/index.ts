@@ -21,6 +21,7 @@ import CountryFlagSvg from "country-list-with-dial-code-and-flag/dist/flag-svg";
 import getAssetBaseUrl from "../internal/gateways/gp-api/get-asset-base-url";
 import { CardFormFieldNames, ExpressPayFieldNames } from "../common/enums";
 import { HOSTED_FIELDS_SHIPPING_KEYS } from "../common/constants";
+import { InstallmentConfigs } from "../internal/lib/installments/contracts/enums";
 import getExpressPayBaseUrl from "../internal/gateways/gp-api/get-express-pay-base-url";
 
 export const defaultOptions: IUIFormOptions = {
@@ -169,13 +170,24 @@ export function form(
     fieldTypes.push("save-enable");
   }
 
-  fieldTypes.push("submit");
 
   // If Currency Conversion option is present, insert the field between cardholder and submit button
-  if (options.currencyConversion?.enabled) fieldTypes.splice(fieldTypes.length - 1, 0, DCC_KEY);
+  if (options.currencyConversion?.enabled) fieldTypes.push( DCC_KEY);
 
   // If installments option is present insert the field between card holder and submit button
-  if (options.installments) fieldTypes.splice(fieldTypes.length - 1, 0, INSTALLMENTS_KEY);
+  if (options.installments) {
+    if(options.installments.country === InstallmentConfigs.Country && options.installments.currency === InstallmentConfigs.Currency){
+      fieldTypes.push(INSTALLMENTS_KEY);
+    }else if(options.installments.country === InstallmentConfigs.Country && options.installments.currency !== InstallmentConfigs.Currency){
+      // tslint:disable-next-line:no-console
+      console.warn("Country/currency combination is not eligible for installments");
+    } else if(options.installments.country !== InstallmentConfigs.Country){
+      // tslint:disable-next-line:no-console
+      console.warn("Country is not eligible for installments");
+    }
+  }
+
+  fieldTypes.push("submit");
 
   const firstFieldCardForm = fieldTypes[0];
 
@@ -459,8 +471,7 @@ export function form(
       }
       return obj;
     });
-    // // tslint:disable-next-line:no-console
-    // console.log("countryDialCodes",countryDialCodes)
+
     if (type === ExpressPayFieldNames.CountryCode) {
       const ul = document.createElement('ul');
       ul.className = 'options';

@@ -10,6 +10,7 @@ import getAssetBaseUrl from "./get-asset-base-url";
 import getEnv from "./get-env";
 import getQRCodePaymentMethods from "./get-apm-payment-methods";
 import { Environments } from "../../../common/enums";
+import { INSTALLMENTS_KEY } from "../../lib/installments/contracts/constants";
 
 export const supports = {
   apm: {
@@ -53,7 +54,7 @@ export const urls = {
   tokenization: (prod: boolean) => {
     let domain = prod ? domains.production : domains.sandbox;
 
-    if (options.env && options.env === "qa") {
+    if (options.env === "qa") {
       domain = domains.qa;
     }
 
@@ -71,7 +72,7 @@ export const urls = {
   },
   queryInstallmentPlans: (prod: boolean) => {
     let domain = prod ? domains.production : domains.sandbox;
-
+    let endpoint = INSTALLMENTS_KEY;
     if (options.env && (options.env === "qa")) {
       domain = domains.qa;
     }
@@ -80,9 +81,8 @@ export const urls = {
       domain = options.serviceURL;
     }
 
-    let endpoint = "installments";
-    if (options.merchantId) {
-      endpoint = `merchants/${options.merchantId}/${endpoint}`;
+    if( options.merchantId) {
+      endpoint = (options.merchantManagementAccountId ? `accounts/${options.merchantManagementAccountId}/`:'') +`merchants/${options.merchantId}/${endpoint}`;
     }
 
     return `${domain}/ucp/${endpoint}`;

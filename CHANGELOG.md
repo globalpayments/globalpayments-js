@@ -4,7 +4,10 @@
 
 # Changelog
 
-## Latest Version - v4.1.16 (11/20/25)
+## Latest Version - v4.1.17 (12/04/25)
+- [Globalpayments-js][4.1.17]  CNP Mexico Installments
+
+## v4.1.16 (11/20/25)
 - [Globalpayments-js][4.1.16]  Disable Submit Button
 
 ## v4.1.15 (11/06/25)
@@ -20,7 +23,7 @@
 ## v4.1.17 (*Unreleased to Prod*)
 - [Globalpayments-js][4.1.17]  Express pay SIT Integration issues for cert deployment
 
-## Latest Version - v4.1.16 (*Unreleased to Prod*)
+## v4.1.16 (*Unreleased to Prod*)
 - [Globalpayments-js][4.1.16]  Express pay SIT Integration issues for cert deployment
 
 ## v4.1.15 (08/22/25) (*Unreleased to Prod*)

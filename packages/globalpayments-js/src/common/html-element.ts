@@ -177,8 +177,9 @@ export const createHtmlRadioButtonElement = (
     checked: boolean,
     target?: string,
     value?: string,
+    radioButtonClassList?:string
   }): HTMLDivElement => {
-  const { id, className, attributes, name, labelText, additionalInfo, checked, target, value } = props || {};
+  const { id, className, attributes, name, labelText, additionalInfo, checked, target, value, radioButtonClassList } = props || {};
 
   const radioButton = createHtmlElement('input', props) as HTMLInputElement;
   radioButton.type = 'radio';
@@ -200,6 +201,11 @@ export const createHtmlRadioButtonElement = (
       "data-target": target || ''
     }]
   });
+  if(radioButtonClassList){
+    radioButtonClassList.split(" ").forEach(radioButtonClass => {
+      if (radioButtonClass.trim()) container.classList.add(radioButtonClass);
+    });
+  }
   container.addEventListener('click', (_ev: MouseEvent) => {
     radioButton.click();
   });
@@ -298,6 +304,7 @@ export const changeCreditCardFormFieldsVisibility = (visible: boolean): void => 
     '.encrypted',
     '.credit-card-save-enable',
     '.credit-card-submit',
+    '.credit-card-installments'
     // '.credit-card-shield',
     // '.credit-card-logo',
   ];

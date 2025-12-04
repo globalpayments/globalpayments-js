@@ -9,6 +9,7 @@ export enum InstallmentEvents {
     CardInstallmentsRequestData = 'card-installments-request-data',
     CardInstallmentsPassData = 'card-installments-pass-data',
     CardInstallmentsAccumulateData = 'card-installments-accumulate-data',
+    CardInstallmentSendValue = "card-installment-send-value",
 }
 
 export enum InstallmentAvailableStatus {
@@ -17,6 +18,11 @@ export enum InstallmentAvailableStatus {
 }
 
 export enum InstallmentTermModes {
-    APR = "APR",
-    FEE = "FEE",
+    MWI = "NO_INTEREST",
+    BNPL = "BNPL",
+}
+
+export enum InstallmentConfigs {
+    Country = "MX",
+    Currency = "MXN",
 }

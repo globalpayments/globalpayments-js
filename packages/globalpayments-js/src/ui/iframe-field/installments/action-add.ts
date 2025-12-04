@@ -1,14 +1,17 @@
 import { IframeField } from "../index";
 import { bus, options } from "../../../internal";
 import { IError } from "../../../internal/gateways";
-import { installmentPlansDataMapper } from "../../../internal/lib/installments/contracts/installment-plans-data";
-import { InstallmentPaymentData, InstallmentsHandler } from "../../../internal/lib/installments/installments-handler";
+import { InstallmentPaymentData } from "../../../internal/lib/installments/contracts/interfaces";
+import { createInstallmentOptions } from "../../../internal/lib/installments/templates/create-installment-options";
+import { InstallmentAvailableStatus, InstallmentEvents } from "../../../internal/lib/installments/contracts/enums";
+import InstallmentPlansData from "../../../internal/lib/installments/contracts/installment-plans-data";
+import InstallmentAction from "../../../internal/lib/installments/contracts/installment-action";
 
 export default function addInstallments(
-    iframeField: IframeField | undefined,
-    installmentPlans: any,
-    tokenizationCallback: (installment: InstallmentPaymentData) => void,
-  ): void {
+  iframeField: IframeField | undefined,
+  installmentPlans: InstallmentPlansData,
+  installmentCallback: (installment: InstallmentPaymentData) => void,
+): void {
   if (!options.installments) return;
 
   const missingRequiredConfig = getMissingRequiredConfigs();
@@ -17,14 +20,21 @@ export default function addInstallments(
 
     return;
   }
+  if (installmentPlans.status === InstallmentAvailableStatus.Available) {
+    const badgeEls = iframeField?.container?.querySelector('.installment-eligibility-badge');
+    if (badgeEls) {
+      // Enable/show the badge by removing 'hidden' or setting display
+      const badge = badgeEls as HTMLElement;
+      badge.style.display = 'flex';
+      createInstallmentOptions(iframeField, installmentPlans);
+    }
+  }
 
-  new InstallmentsHandler(
-    iframeField,
-    installmentPlansDataMapper(installmentPlans),
-    tokenizationCallback,
-  ).init();
+  iframeField?.on(InstallmentEvents.CardInstallmentSendValue, (data?: InstallmentPaymentData) : void => {
+    const { installmentReference = "", installmentId = "" } = data || {};
+    installmentCallback({ installmentReference, installmentId });
+  });
 }
-
 function getMissingRequiredConfigs(): string[] {
   const missingConfig: string[] = [];
   const requiredConfigs = [

@@ -6,8 +6,8 @@ $appKey = 'wgivciJePTEPO2gs';
 'permissions' => [ 'MER_PMT_SINGLE_USE' ]
 */
 
-$appId = '4gPqnGBkppGYvoE5UX9EWQlotTxGUDbs';
-$appKey = 'FQyJA5VuEQfcji2M';
+$appId = 'sXN0hMDKevHZATYJcgJvbFMfCem1Ksr4';
+$appKey = 'ylOi5KA6x3DYGLzZ';
 
 $nonce = date(DateTime::ISO8601);
 $secret = hash('sha512', sprintf('%s%s', $nonce, $appKey));
@@ -24,7 +24,13 @@ $request = json_encode([
     'grant_type' => 'client_credentials',
     'nonce' => $nonce,
     'interval_to_expire' => '1_HOUR',
-    'permissions' => [ 'PMT_POST_Create_Single' ]
+    'permissions' => [
+        "INS_POST_Query",
+        "BIN_GET_Details",
+         "PMT_POST_Create",
+        "PMT_POST_Create_Single"
+    ]
+//  'permissions' => [ 'PMT_POST_Create_Single' ]
 ]);
 
 $headers = [ 'X-GP-Version' => '2021-03-22' ];
@@ -60,6 +66,7 @@ $accessToken = $response->token ?? '';
         accessToken: "<?= $accessToken ?>",
         env: "sandbox",
         apiVersion: "2021-03-22",
+        language: "en",
         currencyConversion: {
             enabled: false,
             accountName: "dcc",
@@ -76,8 +83,15 @@ $accessToken = $response->token ?? '';
             orderReference: "XXXX12345",
             currencyCode: "USD",
         },
-        useNetworkToken: true,
-        disablePayButton:true
+        merchantId: "MER_e6e949b0ddc64883aba10803fd3f7c08",
+        account:"TKA_6531636e3e2748b2a1bf77934939de28",
+        accountName: "Tokenization Processing",
+        installments: {
+            currency: "MXN",
+            country: "MX",
+            accountID: "TRA_a2ec2f30dd974b7689d66f67866f059e",
+            accountName: "IPP_Transaction_Processing_MP",
+        }
     });
 
     GlobalPayments.on("error", function (error) {

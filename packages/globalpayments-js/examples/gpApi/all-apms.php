@@ -1,15 +1,19 @@
 <?php
 
 /* Sandbox standalone merchant */
-$appId = 'bvKLJsu6vYC9zxX2BpOgNK95kbboP3Uw';
-$appKey = '7aH9QlA3yVFwpESQ';
-$account = 'TRA_1366cd0db8c14fffb130ab49be84d944';
+// $appId = 'bvKLJsu6vYC9zxX2BpOgNK95kbboP3Uw';
+// $appKey = '7aH9QlA3yVFwpESQ';
+// $account = 'TRA_1366cd0db8c14fffb130ab49be84d944';
 
 /* Sandbox single MMA */
 //$appId = 'gYLpOwjMRpfQSoMZAPdA4adwp0HbvK7u';
 //$appKey = 'Mx66UqG2RQ16LhiT';
 //$account = 'TRA_c7fdc03bc9354fd3b674dddb22583553';
 //$merchant_id = 'MER_48054b882b1847c8a11214e3ad6b5f02';
+
+$appId = 'PJoqXXSANSbA8292ASpE0ChpAPrmOwqO';
+$appKey = 'DwUQD4kIgA9cJEKZ';
+$account = 'TRA_89e47e02d3954f4c9999006e23b22375';
 
 $nonce = date(DateTime::ISO8601);
 $secret = hash('sha512', sprintf('%s%s', $nonce, $appKey));
@@ -26,7 +30,12 @@ $request = json_encode([
     'grant_type' => 'client_credentials',
     'nonce' => $nonce,
     'interval_to_expire' => '1_HOUR',
-    'permissions' => ['PMT_POST_Create_Single']
+    // 'permissions' => ['PMT_POST_Create_Single']
+    'permissions' => [
+        "MER_BIN",
+        "MER_INS",
+        "MER_PMT_SINGLE_USE"
+    ]
 ]);
 
 $headers = [ 'X-GP-Version' => '2021-03-22' ];
@@ -137,6 +146,16 @@ $accessToken = $response->token ?? '';
         fieldValidation: {
             enabled: true
         },
+        merchantId: "MER_20c2b3fcfedd484e9c3723347db56b71",
+        // merchantManagementAccountId:"MMA_00709dd629a34a2a9fc688f51041d538",
+        account:"TKA_5b79e8b070e64987883d8aa3c21fad14",
+        accountName: "Ecom_Tokenization_Account",
+        installments: {
+            currency: "MXN",
+            country: "MX",
+            accountID: "TRA_89e47e02d3954f4c9999006e23b22375",
+            accountName: "IPP_Transaction_Processing_MP",
+        }
     });
 
     GlobalPayments.on("error", error => {
@@ -230,6 +249,7 @@ $accessToken = $response->token ?? '';
     cardForm?.on("token-success", resp => {
         console.log(resp);
     });
+    cardForm?.on("token-error", resp => { console.log(resp); });
 </script>
 </body>
 </html>

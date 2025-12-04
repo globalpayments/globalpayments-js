@@ -96,6 +96,14 @@ const hu = {
   },
   bankSelection: {
     pleaseSelectYourPreferredBank: "Kérjük, válassza ki a kívánt bankot",
+  },
+  installments: {
+    choosePaymentOption: 'Choose to pay the full amount or pay in installments',
+    payInFull: 'PAY IN FULL',
+    monthsWithoutInterest: 'MONTHS WITHOUT INTEREST',
+    buyNowPayLater: 'BUY NOW PAY LATER',
+    months: "MONTHS",
+    eligibleForInstallmentBadgeText: "Eligible for Installments",
   }
 }
 
