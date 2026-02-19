@@ -4,7 +4,10 @@
 
 # Changelog
 
-## Latest Version - v4.1.17 (12/04/25)
+## v4.1.18 (02/12/26)
+- [Globalpayments-js][4.1.18]  CNP Mexico Installments Issue fix
+
+## v4.1.17 (12/04/25)
 - [Globalpayments-js][4.1.17]  CNP Mexico Installments
 
 ## v4.1.16 (11/20/25)

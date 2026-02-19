@@ -6,8 +6,8 @@ $appKey = 'wgivciJePTEPO2gs';
 'permissions' => [ 'MER_PMT_SINGLE_USE' ]
 */
 
-$appId = 'sXN0hMDKevHZATYJcgJvbFMfCem1Ksr4';
-$appKey = 'ylOi5KA6x3DYGLzZ';
+$appId = 'hkjrcsGDhWiDt8GEhoDMKy3pzFz5R0Bo';
+$appKey = 'cQOKHoAAvNIcEN8s';
 
 $nonce = date(DateTime::ISO8601);
 $secret = hash('sha512', sprintf('%s%s', $nonce, $appKey));

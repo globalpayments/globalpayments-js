@@ -31,6 +31,7 @@ export default (id: string, type: string, data: IDictionary) => {
   (w.dataReceivedFields as string[]).push(data.data.type);
 
   const installment = data.data.installment;
+  const isInstallmentActive = installment?.installmentReference && installment?.installmentId;
   const currencyConversion = data.data.currencyConversion;
 
   // proceed with tokenization once we have all expected field data
@@ -131,7 +132,7 @@ export default (id: string, type: string, data: IDictionary) => {
           data: {
             // redirectUrl,
             // expressPayEnabled: options.expressPay?.enabled,
-            ...(installment ?  {installment} : {}),
+            ...(isInstallmentActive ?  {installment} : {}),
             details: {
               ...(response.details),
               ...(currencyConversion ?  {currencyConversion} : {}),

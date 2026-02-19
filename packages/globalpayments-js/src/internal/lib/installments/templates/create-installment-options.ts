@@ -85,6 +85,11 @@ function setInstallmentEventsToInstallmentOptions(iFrameField: IframeField | und
           installmentId : installmentPlans.id,
           installmentReference: target.value,
         }
+      } else {
+        installmentData = {
+          installmentId : "",
+          installmentReference: "",
+        };
       }
       postMessage.post(
         {
@@ -92,7 +97,7 @@ function setInstallmentEventsToInstallmentOptions(iFrameField: IframeField | und
           id: iFrameField ? iFrameField.id : '',
           type: `ui:iframe-field:${InstallmentEvents.CardInstallmentSendValue}`,
         },
-    iFrameField && iFrameField.id ? iFrameField.id : '',
+        iFrameField && iFrameField.id ? iFrameField.id : '',
       );
     });
   });
