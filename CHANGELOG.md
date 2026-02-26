@@ -4,6 +4,9 @@
 
 # Changelog
 
+## latest v4.1.19 (02/26/26)
+- [Globalpayments-js][4.1.18]  EU Data Residency feature
+
 ## v4.1.18 (02/12/26)
 - [Globalpayments-js][4.1.18]  CNP Mexico Installments Issue fix
 

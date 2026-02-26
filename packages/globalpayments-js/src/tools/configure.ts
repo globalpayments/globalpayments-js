@@ -156,6 +156,9 @@ export interface IConfiguration extends IDictionary {
     isShippingRequired?:boolean,
     payButtonLabel?:string
   }
+
+  // Specific config property for Data Residency
+  dataResidency?: string;
 }
 
 /**

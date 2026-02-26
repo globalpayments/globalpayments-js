@@ -31,11 +31,17 @@ export const supports = {
   },
 };
 
-const domains = {
+const domains:any = {
   production: "https://apis.globalpay.com",
   qa: "https://apis-qa.globalpay.com",
   sandbox: "https://apis.sandbox.globalpay.com",
 };
+
+const euDomains: any = {
+  production: "https://apis.eu.globalpay.com",
+  qa: "https://apis.qa.eu.globalpay.com",
+  sandbox: "https://apis.sandbox.eu.globalpay.com",
+}
 
 /**
  * Validates if the provided service URL matches the domain pattern *.globalpay.com.
@@ -49,14 +55,25 @@ function validateServiceUrl(serviceUrl: string): boolean {
   return pattern.test(serviceUrl);
 }
 
+function createResidencyBasedUrl(): string {
+  // let domain = prod ? domains.production : domains.sandbox;
+  const environment: any = options.env === Environments.Local ? Environments.Sandbox : options.env;
+  if (options.dataResidency && options.dataResidency?.toLowerCase() === "eu") {
+    return euDomains[environment];
+  }
+  return domains[environment];
+}
+
 export const urls = {
   assetBaseUrl: getAssetBaseUrl,
   tokenization: (prod: boolean) => {
-    let domain = prod ? domains.production : domains.sandbox;
+    // let domain = prod ? domains.production : domains.sandbox;
+    // const environment = options.env === 'local' ? 'sandbox' : options.env;
+    // if (options.env === "qa") {
+    //   domain = domains.qa;
+    // }
 
-    if (options.env === "qa") {
-      domain = domains.qa;
-    }
+    let domain:any = createResidencyBasedUrl();
 
     if (options.serviceURL && validateServiceUrl(options.serviceURL)) {
       domain = options.serviceURL;
@@ -71,11 +88,12 @@ export const urls = {
     return `${domain}/ucp/${endpoint}`;
   },
   queryInstallmentPlans: (prod: boolean) => {
-    let domain = prod ? domains.production : domains.sandbox;
+    // let domain = prod ? domains.production : domains.sandbox;
+    let domain:any = createResidencyBasedUrl();
     let endpoint = INSTALLMENTS_KEY;
-    if (options.env && (options.env === "qa")) {
-      domain = domains.qa;
-    }
+    // if (options.env && (options.env === "qa")) {
+    //   domain = domains.qa;
+    // }
 
     if (options.serviceURL) {
       domain = options.serviceURL;
@@ -88,17 +106,19 @@ export const urls = {
     return `${domain}/ucp/${endpoint}`;
   },
   queryCurrencyConversionUrl: () => {
-    let domain = domains.qa;
+    // let domain = domains.qa;
 
-    switch(options.env) {
-      case Environments.Local:
-      case Environments.Sandbox:
-        domain = domains.sandbox;
-        break;
-      case Environments.Production:
-        domain = domains.production;
-        break;
-    }
+    // switch(options.env) {
+    //   case Environments.Local:
+    //   case Environments.Sandbox:
+    //     domain = domains.sandbox;
+    //     break;
+    //   case Environments.Production:
+    //     domain = domains.production;
+    //     break;
+    // }
+
+    let domain:any = createResidencyBasedUrl();
 
     if (options.serviceURL) {
       domain = options.serviceURL;
@@ -107,17 +127,19 @@ export const urls = {
     return `${domain}/ucp/currency-conversions`;
   },
   getQRCodePaymentMethodsUrl: () => {
-    let domain = domains.qa;
+    // let domain = domains.qa;
 
-    switch(options.env) {
-      case Environments.Local:
-      case Environments.Sandbox:
-        domain = domains.sandbox;
-        break;
-      case Environments.Production:
-        domain = domains.production;
-        break;
-    }
+    // switch(options.env) {
+    //   case Environments.Local:
+    //   case Environments.Sandbox:
+    //     domain = domains.sandbox;
+    //     break;
+    //   case Environments.Production:
+    //     domain = domains.production;
+    //     break;
+    // }
+
+    let domain:any = createResidencyBasedUrl();
 
     if (options.serviceURL) {
       domain = options.serviceURL;
