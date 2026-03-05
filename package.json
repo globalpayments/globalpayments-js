@@ -30,7 +30,7 @@
     "@globalpayments/js-loader": "file:packages/globalpayments-js-loader",
     "@globalpayments/js-web-components": "file:packages/globalpayments-js-web-components",
     "country-list-with-dial-code-and-flag": "^5.1.0",
-    "dompurify": "^3.2.6",
+    "dompurify": "^3.2.7",
     "globalpayments-3ds": "file:packages/globalpayments-3ds",
     "globalpayments-lib": "file:packages/globalpayments-lib"
   },
