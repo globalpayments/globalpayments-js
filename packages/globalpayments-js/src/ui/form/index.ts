@@ -89,6 +89,10 @@ export const frameFieldTypes = [
   Apm.OpenBankingPayment,
   Apm.PayPal,
   Apm.QRCodePayments,
+  Apm.Affirm,
+  Apm.Klarna,
+  Apm.Sezzle,
+  Apm.Zip,
   CardFormFieldNames.CardNumber,
   CardFormFieldNames.CardExpiration,
   CardFormFieldNames.CardCvv,
@@ -356,6 +360,11 @@ export default class UIForm {
     const blik = this.frames[Apm.Blik];
     const expressPay = this.frames[Apm.ExpressPay];
 
+    const affirm = this.frames[Apm.Affirm];
+    const klarna = this.frames[Apm.Klarna];
+    const sezzle = this.frames[Apm.Sezzle];
+    const zip = this.frames[Apm.Zip];
+
     // support autocomplete / auto-fill from `card-number` to other fields
       if (cardNumber) {
         cardNumber.on("set-autocomplete-value", (data?: any) => {
@@ -474,6 +483,26 @@ export default class UIForm {
     if (blik) {
       blik?.container?.querySelector('iframe')?.remove();
       addPaymentMethod(blik, ApmProviders.Blik, Apm.Blik);
+    }
+
+    if(affirm) {
+      affirm?.container?.querySelector('iframe')?.remove();
+      addPaymentMethod(affirm, ApmProviders.Affirm, Apm.Affirm);
+    }
+
+    if(klarna) {
+      klarna?.container?.querySelector('iframe')?.remove();
+      addPaymentMethod(klarna, ApmProviders.Klarna, Apm.Klarna);
+    }
+
+    if(sezzle) {
+      sezzle?.container?.querySelector('iframe')?.remove();
+      addPaymentMethod(sezzle, ApmProviders.Sezzle, Apm.Sezzle);
+    }
+
+    if(zip) {
+      zip?.container?.querySelector('iframe')?.remove();
+      addPaymentMethod(zip, ApmProviders.Zip, Apm.Zip);
     }
 
     if (expressPay) {

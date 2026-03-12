@@ -108,7 +108,24 @@ const styles = (assetBaseUrl: string) => {
     },
     ".secure-payment-form .express-pay-button::after":{
       content : "Express pay"
-    }
+    },
+    ".secure-payment-form .affirm-button, .secure-payment-form .klarna-button, .secure-payment-form .sezzle-button, .secure-payment-form .zip-button": {
+      ...apmButtonStyles,
+      background: `${customColors.neutralsWhite} url(${imageBase}blik.svg) no-repeat 50% 50%`
+    },
+    ".secure-payment-form .affirm-button:hover, .secure-payment-form .klarna-button:hover, .secure-payment-form .sezzle-button:hover, .secure-payment-form .zip-button:hover": {
+      ...apmButtonHoverStyles
+    },
+    ".secure-payment-form .affirm-button:focus, .secure-payment-form .klarna-button:focus, .secure-payment-form .sezzle-button:focus, .secure-payment-form .zip-button:focus": {
+      ...apmButtonFocusStyles
+    },
+    ".secure-payment-form .affirm-button::before, .secure-payment-form .klarna-button::before, .secure-payment-form .sezzle-button::before, .secure-payment-form .zip-button::before": {
+      width: "10px",
+      height: "10px",
+      position: "absolute",
+      top: "5px",
+      right: "5px"
+    },
   };
 };
 

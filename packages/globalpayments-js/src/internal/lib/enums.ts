@@ -14,7 +14,11 @@ export enum Apm {
   PayPal = "paypal",
   QRCodePayments = "qr-code-payments",
   Blik = "blik",
-  ExpressPay = "express-pay"
+  ExpressPay = "express-pay",
+  Affirm = "affirm",
+  Klarna = "klarna",
+  Sezzle = "sezzle",
+  Zip = "zip"
 }
 
 export enum ApmEvents {
@@ -65,7 +69,11 @@ export enum ApmProviders {
   PayPal = "PayPal",
   WeChat = "WeChat",
   Blik = "blik",
-  ExpressPay = "ExpressPay"
+  ExpressPay = "ExpressPay",
+  Affirm = "Affirm",
+  Klarna = "Klarna",
+  Sezzle = "Sezzle",
+  Zip = "Zip"
 }
 
 export enum QRCodePaymentsWeChatProviderBrands {

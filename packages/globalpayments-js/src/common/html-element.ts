@@ -281,6 +281,10 @@ export const changeCreditCardFormFieldsVisibility = (visible: boolean): void => 
     '.qr-code-payment-methods-wrapper',
     '.open-banking-button-wrapper',
     '.blik-button-wrapper',
+    '.affirm-button-wrapper',
+    '.klarna-button-wrapper',
+    '.sezzle-button-wrapper',
+    '.zip-button-wrapper',
     '.express-pay-button-wrapper',
     '.paypal-button-wrapper',
     // Credit card common

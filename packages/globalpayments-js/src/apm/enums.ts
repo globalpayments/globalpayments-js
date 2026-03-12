@@ -9,3 +9,19 @@ export const enum QRCodePaymentsActions {
     RedirectInFrameAction = "REDIRECT_IN_FRAME",
     PresentQRCodeAction = "PRESENT_QR_CODE",
 }
+
+export const enum BnplCountries {
+    US = "US",
+    AU = "AU",
+    NZ = "NZ",
+    EU = "EU",
+    NO = "NO",
+    CH = "CH",
+    UK = "UK",
+    CA = "CA",
+    HK = "HK",
+    IN = "IN",
+    IL = "IL",
+    BZ = "BZ",
+    MX = "MX"
+}

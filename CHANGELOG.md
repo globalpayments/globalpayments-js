@@ -4,10 +4,13 @@
 
 # Changelog
 
-## latest v4.1.19 (02/26/26)
-- [Globalpayments-js][4.1.18]  EU Data Residency feature
+## v4.1.20 (03/12/26)
+- [Globalpayments-js][4.1.20]  BNPL with Apexx
 
-## v4.1.18 (02/12/26)
+## v4.1.19 (02/26/26)
+- [Globalpayments-js][4.1.19]  EU Data Residency feature
+
+## v4.1.18 (02/19/26)
 - [Globalpayments-js][4.1.18]  CNP Mexico Installments Issue fix
 
 ## v4.1.17 (12/04/25)

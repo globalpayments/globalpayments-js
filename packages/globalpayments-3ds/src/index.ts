@@ -186,7 +186,7 @@ export async function handleInitiateAuthentication(
     //
     // We use the textarea element as a way to decode the HTML entities
     // and grab the expected text/URL.
-    var url = document.createElement("textarea");
+    const url = document.createElement("textarea");
     url.innerHTML = data.challenge.requestUrl;
 
     const response = await postToIframe(

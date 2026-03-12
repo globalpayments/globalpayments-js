@@ -14,7 +14,7 @@ import {DCC_KEY} from "../internal/lib/currency-conversion/contracts/constants";
 import { isBrandTheme, isEserviceThemeApplied } from "../internal/lib/styles/themes/helpers";
 import { addFooterBrandedIcons } from "../internal/lib/add-footer-branded-icons";
 import addOrderInformation from "../ui/components/order-information/action-add-order-information";
-import { isBlikAvailable, isOpenBankingAvailable } from "../internal/built-in-validations/helpers";
+import { getAvailableOptionsForBnpl, isBlikAvailable, isOpenBankingAvailable } from "../internal/built-in-validations/helpers";
 import { Apm, formMaxWidth, HostedFieldFooterLinks } from "../internal/lib/enums";
 import CountryList from "country-list-with-dial-code-and-flag";
 import CountryFlagSvg from "country-list-with-dial-code-and-flag/dist/flag-svg";
@@ -207,6 +207,10 @@ export function form(
     if (isOpenBankingAvailable(options?.apms?.countryCode, options?.apms?.acquirer)) {
       formOptions.apms.push(Apm.OpenBankingPayment);
     }
+    const availableOptionsForBnpl = getAvailableOptionsForBnpl(options?.apms?.countryCode, options?.apms?.nonCardPayments);
+
+    if(availableOptionsForBnpl?.length > 0) formOptions.apms.push(...availableOptionsForBnpl);
+
     fieldTypes = [...formOptions.apms.toString().split(','), ...fieldTypes]
   }
 

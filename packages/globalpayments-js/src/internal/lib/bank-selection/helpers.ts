@@ -61,6 +61,18 @@ export const getImageUrl = (assetBaseUrl: string, provider: string, countryCode?
         case ApmProviders.ExpressPay:
             url = `#FFFFFF url(${imageBase}Express_Pay_White.svg) no-repeat 50% 50%`;
             break;
+        case ApmProviders.Affirm:
+            url = `#FFFFFF url(${imageBase}affirm.svg) no-repeat 50% 50%`;
+            break;
+        case ApmProviders.Klarna:
+            url = `#FFFFFF url(${imageBase}klarna.svg) no-repeat 50% 50%`;
+            break;
+        case ApmProviders.Sezzle:
+            url = `#FFFFFF url(${imageBase}sezzle.svg) no-repeat 50% 50%`;
+            break;
+        case ApmProviders.Zip:
+            url = `#FFFFFF url(${imageBase}zip.svg) no-repeat 50% 50%`;
+            break;
     }
     return url;
 }

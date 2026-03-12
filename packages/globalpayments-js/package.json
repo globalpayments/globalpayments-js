@@ -1,6 +1,6 @@
 {
   "name": "@globalpayments/js",
-  "version": "4.1.19",
+  "version": "4.1.20",
   "author": "Heartland Developer Portal <developers@heartland.us>",
   "license": "GPL-2.0",
   "repository": {
@@ -27,7 +27,7 @@
   },
   "cross-os": {
     "postbuild-cross": {
-      "linux": "cp -R src/assets/* dist && node bin/replace-gp-ref.js",
+      "linux": "cp -Rv src/assets/* dist && node bin/replace-gp-ref.js",
       "win32": "xcopy src\\assets dist\\ /e/y/h && node bin/replace-gp-ref.js"
     },
     "test-cross": {

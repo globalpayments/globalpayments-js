@@ -7,4 +7,5 @@ export interface PaymentMethod {
   category?: string;
   image?: string;
   enabled?:boolean;
+  country?: string[];
 }

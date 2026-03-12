@@ -5,7 +5,7 @@ import { BankCountries, CountryCurrencies } from "../lib/bank-selection/contract
 import { Apm, ApmProviders } from "../lib/enums";
 import { postMessage } from "../lib/post-message";
 import { BUILT_IN_VALIDATIONS_VALIDATION_ROUND_COUNTER_KEY, GERMANY, POLAND } from "./constants";
-
+import { countryListForAffirm, countryListForKlarna, countryListForSezzle, countryListForZip } from "../../apm/non-card-payments/bnpl-for-apex-data";
 export const showHostedFieldValidation = (fieldId: string | null, validationMessage: string, target?: string): void => {
     postMessage.post(
         {
@@ -72,4 +72,29 @@ export const isExpressPayAvailable = (options:IApmConfiguration | undefined): bo
     return item.provider === ApmProviders.ExpressPay
   })[0]?.enabled;
   return showExpressPay;
+}
+
+export const getAvailableOptionsForBnpl = (countryCode:string | undefined, options:IApmConfiguration | undefined): any => {
+  if(!countryCode) return;
+  const availableBnplOptions: Apm[] = [];
+  const bnplConfigs = [
+    { provider: ApmProviders.Affirm, apm: Apm.Affirm, countries: countryListForAffirm },
+    { provider: ApmProviders.Klarna, apm: Apm.Klarna, countries: countryListForKlarna },
+    { provider: ApmProviders.Sezzle, apm: Apm.Sezzle, countries: countryListForSezzle },
+    { provider: ApmProviders.Zip, apm: Apm.Zip, countries: countryListForZip }
+  ];
+
+  bnplConfigs.forEach(({ provider, apm, countries }) => {
+    const enabled = options?.allowedPaymentMethods?.some(item => item.provider === provider && item.enabled);
+    if (enabled) {
+      if (countries.indexOf(countryCode) > -1) {
+        availableBnplOptions.push(apm);
+      } else {
+        // tslint:disable-next-line:no-console
+        console.error(`Invalid country provided for ${provider}`);
+      }
+    }
+  });
+
+  return availableBnplOptions;
 }

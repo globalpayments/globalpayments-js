@@ -79,7 +79,7 @@ $accessToken = $response->token ?? '';
         //merchantId: "<?//= $merchant_id ?>//",
         apms: {
             currencyCode: "EUR",
-            countryCode: "SK",
+            countryCode: "US",
             acquirer: "erste",
             allowedCardNetworks: [GlobalPayments.enums.CardNetwork.Visa, GlobalPayments.enums.CardNetwork.Mastercard, GlobalPayments.enums.CardNetwork.Amex, GlobalPayments.enums.CardNetwork.Discover],
             applePay: {
@@ -140,6 +140,22 @@ $accessToken = $response->token ?? '';
                     provider: GlobalPayments.enums.ApmProviders.Blik,
                     enabled:  true
                 },
+                {
+                    provider: GlobalPayments.enums.ApmProviders.Affirm,
+                    enabled:  true
+                },
+                {
+                    provider: GlobalPayments.enums.ApmProviders.Klarna,
+                    enabled:  true
+                },
+                {
+                    provider: GlobalPayments.enums.ApmProviders.Sezzle,
+                    enabled:  true
+                },
+                {
+                    provider: GlobalPayments.enums.ApmProviders.Zip,
+                    enabled:  true
+                }
             ]
             }
         },
@@ -217,6 +233,30 @@ $accessToken = $response->token ?? '';
                     next_action: "PRESENT_QR_CODE",
                     provider,
                     qr_code: "weixin://wxpay/bizpayurl?pr=0gWQb9Zzz",
+                };
+                break;
+            case GlobalPayments.enums.ApmProviders.Affirm:
+                detail = {
+                    provider,
+                    redirect_url: "https://www.affirm.com/",
+                };
+                break;
+            case GlobalPayments.enums.ApmProviders.Klarna:
+                detail = {
+                    provider,
+                    redirect_url: "https://www.klarna.com/",
+                };
+                break;
+            case GlobalPayments.enums.ApmProviders.Sezzle:
+                detail = {
+                    provider,
+                    redirect_url: "https://www.sezzle.com/",
+                };
+                break;
+            case GlobalPayments.enums.ApmProviders.Zip:
+                detail = {
+                    provider,
+                    redirect_url: "https://zip.co"
                 };
                 break;
             case GlobalPayments.enums.ApmProviders.ExpressPay: {
