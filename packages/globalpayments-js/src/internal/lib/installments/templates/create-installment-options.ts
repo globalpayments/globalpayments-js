@@ -17,10 +17,11 @@ export function createInstallmentOptions(iFrameField: IframeField | undefined, i
   const container = document.getElementById('installment-option-section') as HTMLElement;
   container.setAttribute('style', 'display: flex');
 
-  if (document.getElementsByClassName("payment-option-content").length > 0) return;
+  if (document.getElementsByClassName("payment-options").length > 0) return;
 
   const paymentContent = createHtmlDivElement({
-    className: 'payment-option-content',
+    className: 'payment-options',
+    id: 'payment-options'
   });
 
   // Add text to choose payment option

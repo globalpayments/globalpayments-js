@@ -42,8 +42,8 @@ jspm_packages
 .node_repl_history
 
 # ignore generated declaration files
-types/*
-!types/global-type.d.ts
+# types/*
+# !types/global-type.d.ts
 
 # ide local files
 .idea

@@ -788,7 +788,11 @@ export default class UIForm {
         && type !== Apm.QRCodePayments
         && type !== Apm.OpenBankingPayment
         && type !== Apm.Blik
-        && type !== Apm.ExpressPay) {
+        && type !== Apm.ExpressPay
+        && type !== Apm.Affirm
+        && type !== Apm.Klarna
+        && type !== Apm.Sezzle
+        && type !== Apm.Zip) {
         fields.push(type);
       }
     }

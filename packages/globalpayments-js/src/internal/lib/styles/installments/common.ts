@@ -74,7 +74,7 @@ const styles = (assetBaseUrl: string) => {
             "font-weight": "600",
         },
 
-        ".secure-payment-form .payment-option-content": {
+        ".secure-payment-form .payment-options": {
             display: "flex",
             "flex-direction": "column",
             gap: "10px",

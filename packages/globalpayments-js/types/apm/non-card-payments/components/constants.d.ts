@@ -1,0 +1,1 @@
+export declare const REDIRECT_ACTION_DELAY_IN_SECONDS = 2000;
