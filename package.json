@@ -26,7 +26,7 @@
     "web-component-analyzer": "^1.1.6"
   },
   "dependencies": {
-    "@globalpayments/js": "file:packages/globalpayments-js",
+    "@globalpayments/js": "4.1.14",
     "@globalpayments/js-loader": "file:packages/globalpayments-js-loader",
     "@globalpayments/js-web-components": "file:packages/globalpayments-js-web-components",
     "country-list-with-dial-code-and-flag": "^5.1.0",
