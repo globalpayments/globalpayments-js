@@ -3,6 +3,7 @@ import queryInstallmentPlans from "../../../internal/lib/installments/requests/q
 import { InstallmentEvents } from "../../../internal/lib/installments/contracts/enums";
 import { IDictionary } from "../../../internal/lib/util";
 import { installmentPlansDataMapper } from "../../../internal/lib/installments/contracts/installment-plans-data";
+import { Program } from "../../../internal/lib/enums";
 
 /**
  * Requests the installment plans data for a valid credit card number
@@ -27,6 +28,10 @@ export default (id: string, data: IDictionary): void => {
     }
 
     if(eventType === InstallmentEvents.CardInstallmentsRequestCompleted) {
+      if(responseData.program === Program.VIS && responseData.status === "NOT_AVAILABLE"){
+        // tslint:disable-next-line:no-console
+        console.warn("No Visa Installments payment plans are available.");
+      }
       responseData = installmentPlansDataMapper(responseData);
     }
 

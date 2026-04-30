@@ -4,7 +4,9 @@ import {
   createHtmlDivElement,
   createHtmlElement,
   createHtmlRadioButtonElement,
-  createToolTip
+  createToolTip,
+  createHtmlSpanElement,
+  createHtmlImageElement
 } from "../../../../common/html-element";
 import paymentFieldId from "../../payment-field-id";
 import {DCC_KEY} from "../contracts/constants";
@@ -13,6 +15,7 @@ import translations from "../../translations/translations";
 import {CurrencyConversionStyles} from "./enums";
 import {setRadioGroupEvents} from "./events";
 import {convertAmount} from "../../../../common/currency";
+import getAssetBaseUrl from "../../../gateways/gp-api/get-asset-base-url";
 
 /**
  * Creates a radio group HTML element containing merchant and card currency radio buttons.
@@ -86,11 +89,38 @@ export const createRadioGroupHtmlElement = (iframeField: IframeField, data: any)
   fieldset.appendChild(merchantCurrencyRadio);
   fieldset.appendChild(cardCurrencyRadio);
 
+  const installmentDccWarningDiv = createHtmlDivElement({
+    className: 'installment-dcc-warning',
+    id: 'installment-dcc-warning'
+  })
+
+  const installmentAvailabilityWarningImg = createHtmlImageElement({
+    "className":"installment-warning-image",
+    "id":"installment-warning-image",
+    "src":`${getAssetBaseUrl('')}images/warning.svg`,
+    "alt":"Warning"
+  });
+  installmentAvailabilityWarningImg.style.verticalAlign = "middle";
+
+  const installmentAvailableWithDccSpan = createHtmlSpanElement({
+    className:'installment-availability-text',
+    id: 'installment-availability-text',
+    textContent: dccTranslations.installmentWithDcc
+  });
+
+  installmentDccWarningDiv.append(installmentAvailabilityWarningImg);
+  installmentDccWarningDiv.append(installmentAvailableWithDccSpan);
+
   const dccContainer = createHtmlDivElement({className: CurrencyConversionStyles.CONTAINER});
   dccContainer.appendChild(fieldset);
   dccContainer.appendChild(merchantCurrencyContent);
   dccContainer.appendChild(cardCurrencyContent);
   setRadioGroupEvents(iframeField, fieldset);
 
-  iframeField?.container?.prepend(dccContainer);
+  // Insert dccContainer and then installmentAvailableWithDccSpan after it
+  if (iframeField?.container) {
+    iframeField.container.prepend(installmentDccWarningDiv);
+    iframeField.container.prepend(dccContainer);
+    iframeField.container.insertBefore(installmentDccWarningDiv, dccContainer.nextSibling);
+  }
 }

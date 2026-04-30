@@ -324,8 +324,7 @@ export const parentStyles = (assetBaseUrl: string, theme?: string) => {
             },
 
             ".secure-payment-form .credit-card-card-cvv": {
-                flex: "1 1",
-                "margin-left": "16px",
+                flex: "1 1"
             },
             ".secure-payment-form .credit-card-card-number": {
                 flex: "3 0 auto",
@@ -339,7 +338,7 @@ export const parentStyles = (assetBaseUrl: string, theme?: string) => {
 
             ".secure-payment-form .credit-card-card-cvv": {
                 flex: "1 1",
-                "margin-left": "16px",
+                // "margin-left": "16px",
             },
             ".secure-payment-form .credit-card-billing-address": {
                 flex: "100 auto",

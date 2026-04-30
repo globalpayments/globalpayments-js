@@ -14,7 +14,7 @@ import {DCC_KEY} from "../internal/lib/currency-conversion/contracts/constants";
 import { isBrandTheme, isEserviceThemeApplied } from "../internal/lib/styles/themes/helpers";
 import { addFooterBrandedIcons } from "../internal/lib/add-footer-branded-icons";
 import addOrderInformation from "../ui/components/order-information/action-add-order-information";
-import { getAvailableOptionsForBnpl, isBlikAvailable, isOpenBankingAvailable } from "../internal/built-in-validations/helpers";
+import { checkInstallmentsAvailability, getAvailableOptionsForBnpl, isBlikAvailable, isOpenBankingAvailable } from "../internal/built-in-validations/helpers";
 import { Apm, formMaxWidth, HostedFieldFooterLinks } from "../internal/lib/enums";
 import CountryList from "country-list-with-dial-code-and-flag";
 import CountryFlagSvg from "country-list-with-dial-code-and-flag/dist/flag-svg";
@@ -176,14 +176,8 @@ export function form(
 
   // If installments option is present insert the field between card holder and submit button
   if (options.installments) {
-    if(options.installments.country === InstallmentConfigs.Country && options.installments.currency === InstallmentConfigs.Currency){
+    if(checkInstallmentsAvailability(options.installments)){
       fieldTypes.push(INSTALLMENTS_KEY);
-    }else if(options.installments.country === InstallmentConfigs.Country && options.installments.currency !== InstallmentConfigs.Currency){
-      // tslint:disable-next-line:no-console
-      console.warn("Country/currency combination is not eligible for installments");
-    } else if(options.installments.country !== InstallmentConfigs.Country){
-      // tslint:disable-next-line:no-console
-      console.warn("Country is not eligible for installments");
     }
   }
 

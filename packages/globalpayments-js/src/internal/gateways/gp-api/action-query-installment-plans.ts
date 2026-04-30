@@ -4,6 +4,7 @@ import { INSTALLMENTS_CONFIG_DEFAULT_CHANNEL, INSTALLMENTS_CONFIG_DEFAULT_ENTRY_
 import { options } from "../../lib/options";
 import { IDictionary } from "../../lib/util";
 import { setGpApiHeaders } from "../../lib/set-headers";
+import { configDefaultValues, EligiblePlans, FundingMode, Program } from "../../lib/enums";
 
 export default async (url: string, _env: string, data: IDictionary) => {
   const headers = setGpApiHeaders();
@@ -33,7 +34,7 @@ function createRequestBody(data: IDictionary): InstallmentRequest {
 
   const request: InstallmentRequest = {
     reference: options.reference || generateGuid(),
-    merchant_id: options.merchantId,
+    ...(options.installments?.program !== Program.VIS && { merchant_id: options.merchantId }),
     account_id: options.installments?.accountID,
     account_name: options.installments?.accountName,
     channel: channel ? channel : INSTALLMENTS_CONFIG_DEFAULT_CHANNEL,
@@ -51,7 +52,15 @@ function createRequestBody(data: IDictionary): InstallmentRequest {
         },
       },
   };
-
+  if(options.installments?.program === Program.VIS){
+      request.program = Program.VIS;
+      request.funding_mode = options.installments?.config?.funding_mode || FundingMode.ANY;
+      request.eligible_plans = EligiblePlans.LIMITED;
+      request.terms = {
+      max_time_unit_number: options.installments?.config?.max_time_unit_number !== undefined ? options.installments?.config?.max_time_unit_number : configDefaultValues.max_time_unit_number,
+      max_amount: options.installments?.config?.max_amount !== undefined ? options.installments?.config?.max_amount : configDefaultValues.max_amount
+    };
+  }
   return request;
 }
 
@@ -74,4 +83,13 @@ type InstallmentRequest = {
       cvv_indicator: string;
     };
   };
+  program?:string;
+  funding_mode?: string;
+  eligible_plans?: string;
+  terms?: IInstallmentTerms;
 }
+
+type IInstallmentTerms = {
+  max_time_unit_number?: number;
+  max_amount?: number;
+};

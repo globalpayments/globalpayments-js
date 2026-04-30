@@ -155,16 +155,6 @@ export declare const fieldStyles: () => {
             background: string;
             "background-size": string;
             "background-position-y": string;
-            /**
-             * Sets an event listener for an event type
-             *
-             * @param fieldTypeOrEventName The field type on which the listener should
-             *          be applied, or the type of event that should trigger the listener
-             * @param eventNameOrListener The type of event that should trigger the
-             *          listener, or the listener function
-             * @param listener The listener function when both field type and event type
-             *          are provided
-             */
             width: string;
         };
         "img.card-number-icon.valid.card-type-jcb": {
@@ -623,12 +613,7 @@ export declare const fieldStyles: () => {
         };
         "img.card-number-icon.card-type-diners": {
             "background-image": string;
-        }; /**
-         * Instantiates a new UIForm object for a group of hosted fields
-         *
-         * @param fields Hosted field configuration
-         * @param styles Custom CSS configuration
-         */
+        };
         "img.card-number-icon.card-type-carnet": {
             "background-image": string;
         };
@@ -1089,6 +1074,7 @@ export declare const parentStyles: () => {
             display: string;
             "flex-direction": string;
             "align-items": string;
+            "margin-bottom": string;
         };
         ".secure-payment-form .credit-card-currency-conversion iframe"?: {
             "min-height": string;
@@ -1182,11 +1168,6 @@ export declare const parentStyles: () => {
             right: string;
             transform: string;
             "border-width": string;
-            /**
-             * Appends additional CSS rules to the group of hosted fields
-             *
-             * @param json New CSS rules
-             */
             "border-style": string;
             "border-color": string;
         };
@@ -1194,6 +1175,7 @@ export declare const parentStyles: () => {
             ".secure-payment-form .currency-conversion-container": {
                 "flex-direction": string;
                 "align-items": string;
+                "margin-bottom": string;
             };
             ".secure-payment-form .credit-card-currency-conversion fieldset": {
                 "justify-content": string;
@@ -1373,6 +1355,9 @@ export declare const parentStyles: () => {
             "vertical-align": string;
         };
         ".secure-payment-form .ctp-info-tooltip:hover .ctp-info-tooltip-content": {
+            /**
+             * Represents logic surrounding a group of hosted fields.
+             */
             visibility: string;
             opacity: string;
         };
@@ -1443,11 +1428,6 @@ export declare const parentStyles: () => {
         };
         "#ctp-wrapper #verifyVisa label": {
             display: string;
-            /**
-             * Appends additional CSS rules to the group of hosted fields
-             *
-             * @param json New CSS rules
-             */
             "font-size": string;
             "font-family": string;
             margin: string;
@@ -1469,12 +1449,7 @@ export declare const parentStyles: () => {
         };
         "#ctp-wrapper button label": {
             margin: string;
-            "font-size": string; /**
-             * Sets a special-case event listener that fires when all hosted
-             * fields in a form have registered / loaded
-             *
-             * @param fn The listener function
-             */
+            "font-size": string;
         };
         "#ctp-wrapper .quitbanner > svg": {
             display: string;
@@ -1635,6 +1610,12 @@ export declare const parentStyles: () => {
         ".secure-payment-form div[class$='-shield'] .ssl-logo_ico": {
             height: string;
             "margin-left": string;
+            /**
+             * Sets a special-case event listener that fires when all hosted
+             * fields in a form have registered / loaded
+             *
+             * @param fn The listener function
+             */
             "vertical-align": string;
         };
         ".secure-payment-form div[class$='-shield'] .ssl-msg": {
@@ -2083,6 +2064,7 @@ export declare const parentStyles: () => {
             display: string;
             "flex-direction": string;
             "align-items": string;
+            "margin-bottom": string;
         };
         ".secure-payment-form .credit-card-currency-conversion iframe"?: {
             "min-height": string;
@@ -2190,9 +2172,6 @@ export declare const parentStyles: () => {
             visibility: boolean;
             display: string;
             "flex-direction": string;
-            /**
-             * Represents logic surrounding a group of hosted fields.
-             */
             "margin-left": string;
             "align-items": string;
             height: string;
@@ -2248,11 +2227,6 @@ export declare const parentStyles: () => {
             right: string;
             transform: string;
             "border-width": string;
-            /**
-             * Appends additional CSS rules to the group of hosted fields
-             *
-             * @param json New CSS rules
-             */
             "border-style": string;
             "border-color": string;
         };
@@ -2260,6 +2234,7 @@ export declare const parentStyles: () => {
             ".secure-payment-form .currency-conversion-container": {
                 "flex-direction": string;
                 "align-items": string;
+                "margin-bottom": string;
             };
             ".secure-payment-form .credit-card-currency-conversion fieldset": {
                 "justify-content": string;
@@ -2290,7 +2265,9 @@ export declare const parentStyles: () => {
                 "flex-flow": string;
             };
             ".secure-payment-form .credit-card-currency-conversion .radio-button": {
-                width: string;
+                width: string; /**
+                 * Deletes all hosted fields within the form
+                 */
                 "margin-bottom": string;
                 "margin-right": string;
             };
@@ -2464,6 +2441,9 @@ export declare const parentStyles: () => {
             "vertical-align": string;
         };
         ".secure-payment-form .ctp-info-tooltip:hover .ctp-info-tooltip-content": {
+            /**
+             * Represents logic surrounding a group of hosted fields.
+             */
             visibility: string;
             opacity: string;
         };
@@ -2534,11 +2514,6 @@ export declare const parentStyles: () => {
         };
         "#ctp-wrapper #verifyVisa label": {
             display: string;
-            /**
-             * Appends additional CSS rules to the group of hosted fields
-             *
-             * @param json New CSS rules
-             */
             "font-size": string;
             "font-family": string;
             margin: string;
@@ -2560,12 +2535,7 @@ export declare const parentStyles: () => {
         };
         "#ctp-wrapper button label": {
             margin: string;
-            "font-size": string; /**
-             * Sets a special-case event listener that fires when all hosted
-             * fields in a form have registered / loaded
-             *
-             * @param fn The listener function
-             */
+            "font-size": string;
         };
         "#ctp-wrapper .quitbanner > svg": {
             display: string;
@@ -2663,6 +2633,7 @@ export declare const parentStyles: () => {
             color: string;
             "font-weight": string;
             gap: string;
+            "font-family": string;
         };
         ".secure-payment-form .pay-in-full-option": {
             "padding-left": string;
@@ -2714,6 +2685,109 @@ export declare const parentStyles: () => {
             };
             display: string;
             gap: string;
+        };
+        ".secure-payment-form .installment-details-container": {
+            display: string;
+            border: string;
+            margin: string;
+            "margin-left": string;
+            padding: string;
+            "padding-left": string;
+            "margin-right": string;
+            "flex-wrap": string;
+            "padding-bottom": string;
+            "padding-right": string;
+        };
+        ".secure-payment-form .installment-pay-in-visa-option": {
+            background: string;
+            padding: string;
+            "min-width": string;
+            color: string;
+            "font-weight": string;
+            "font-size": string;
+            "line-height": string;
+            "justify-content": string;
+            height: string;
+            display: string;
+            gap: string;
+        };
+        ".secure-payment-form .installment-option-details": {
+            "font-size": string;
+            "font-weight": string;
+        };
+        ".secure-payment-form .installment-option-additional-details": {
+            "margin-top": string;
+        };
+        ".secure-payment-form .installment-option-details-span": {
+            "margin-left": string;
+        };
+        ".secure-payment-form .installment-option-additional-fee-details": {
+            "margin-left": string;
+            "margin-bottom": string;
+        };
+        ".secure-payment-form .installment-terms-conditions": {
+            "flex-basis": string;
+            "margin-top": string;
+            background: string;
+        };
+        ".secure-payment-form .installment-terms-checkbox": {
+            width: string;
+        };
+        "@media (min-width: 1500px)": {
+            ".secure-payment-form .installment-terms-checkbox": {
+                height: string;
+            };
+        };
+        ".secure-payment-form .checkbox-error": {
+            outline: string;
+            "outline-offset": string;
+        };
+        ".secure-payment-form .installment-terms-label": {
+            display: string;
+            "align-items": string;
+            gap: string;
+            "font-weight": string;
+            "font-size": string;
+        };
+        ".secure-payment-form .mandatory-asterisk": {
+            color: string;
+            "margin-right": string;
+        };
+        ".secure-payment-form .installment-terms-conditions-flex": {
+            display: string;
+            "align-items": string;
+            gap: string;
+            padding: string;
+        };
+        ".secure-payment-form .installment-terms-error": {
+            color: string;
+            "font-size": string;
+            display: string;
+            padding: string;
+        };
+        ".secure-payment-form .installment-visa-text": {
+            color: string;
+            "font-size": string;
+        };
+        ".secure-payment-form .installment-visa-logo": {
+            width: string;
+            height: string;
+            "margin-left": string;
+        };
+        ".secure-payment-form .installment-visa-learn-more": {
+            "font-size": string;
+            "margin-left": string;
+            color: string;
+        };
+        ".secure-payment-form .installment-availability-text": {
+            "margin-left": string;
+            "font-size": string;
+            "font-family": string;
+            "vertical-align": string;
+        };
+        ".secure-payment-form .installment-dcc-warning": {
+            display: string;
+            "margin-top": string;
         };
         ".secure-payment-form .installment-issuer-panel": {
             background: string;
@@ -3113,16 +3187,6 @@ export declare const parentStyles: () => {
             "font-weight": string;
             "font-family": string;
         };
-        /**
-         * Sets an event listener for an event type
-         *
-         * @param fieldTypeOrEventName The field type on which the listener should
-         *          be applied, or the type of event that should trigger the listener
-         * @param eventNameOrListener The type of event that should trigger the
-         *          listener, or the listener function
-         * @param listener The listener function when both field type and event type
-         *          are provided
-         */
         ".secure-payment-form > div": {
             flex: string;
         };
@@ -3252,7 +3316,6 @@ export declare const parentStyles: () => {
             };
             ".secure-payment-form .credit-card-card-cvv": {
                 flex: string;
-                "margin-left": string;
             };
             ".secure-payment-form .credit-card-billing-address": {
                 flex: string;
@@ -3469,6 +3532,7 @@ export declare const parentStyles: () => {
             display: string;
             "flex-direction": string;
             "align-items": string;
+            "margin-bottom": string;
         };
         ".secure-payment-form .credit-card-currency-conversion iframe"?: {
             "min-height": string;
@@ -3568,11 +3632,6 @@ export declare const parentStyles: () => {
             right: string;
             transform: string;
             "border-width": string;
-            /**
-             * Appends additional CSS rules to the group of hosted fields
-             *
-             * @param json New CSS rules
-             */
             "border-style": string;
             "border-color": string;
         };
@@ -3580,6 +3639,7 @@ export declare const parentStyles: () => {
             ".secure-payment-form .currency-conversion-container": {
                 "flex-direction": string;
                 "align-items": string;
+                "margin-bottom": string;
             };
             ".secure-payment-form .credit-card-currency-conversion fieldset": {
                 "justify-content": string;
@@ -3610,7 +3670,9 @@ export declare const parentStyles: () => {
                 "flex-flow": string;
             };
             ".secure-payment-form .credit-card-currency-conversion .radio-button": {
-                width: string;
+                width: string; /**
+                 * Deletes all hosted fields within the form
+                 */
                 "margin-bottom": string;
                 "margin-right": string;
             };
@@ -3885,6 +3947,9 @@ export declare const parentStyles: () => {
             "vertical-align": string;
         };
         ".secure-payment-form .ctp-info-tooltip:hover .ctp-info-tooltip-content": {
+            /**
+             * Represents logic surrounding a group of hosted fields.
+             */
             visibility: string;
             opacity: string;
         };
@@ -3955,11 +4020,6 @@ export declare const parentStyles: () => {
         };
         "#ctp-wrapper #verifyVisa label": {
             display: string;
-            /**
-             * Appends additional CSS rules to the group of hosted fields
-             *
-             * @param json New CSS rules
-             */
             "font-size": string;
             "font-family": string;
             margin: string;
@@ -3981,12 +4041,7 @@ export declare const parentStyles: () => {
         };
         "#ctp-wrapper button label": {
             margin: string;
-            "font-size": string; /**
-             * Sets a special-case event listener that fires when all hosted
-             * fields in a form have registered / loaded
-             *
-             * @param fn The listener function
-             */
+            "font-size": string;
         };
         "#ctp-wrapper .quitbanner > svg": {
             display: string;
@@ -4196,9 +4251,7 @@ export declare const parentStyles: () => {
         };
         ".secure-payment-form .form-row": {
             "margin-top": string;
-        }; /**
-         * Deletes all hosted fields within the form
-         */
+        };
         ".secure-payment-form .form-wrapper": {
             display: string;
             margin: string;
@@ -4623,6 +4676,7 @@ export declare const parentStyles: () => {
             display: string;
             "flex-direction": string;
             "align-items": string;
+            "margin-bottom": string;
         };
         ".secure-payment-form .credit-card-currency-conversion iframe"?: {
             "min-height": string;
@@ -4730,9 +4784,6 @@ export declare const parentStyles: () => {
             visibility: boolean;
             display: string;
             "flex-direction": string;
-            /**
-             * Represents logic surrounding a group of hosted fields.
-             */
             "margin-left": string;
             "align-items": string;
             height: string;
@@ -4788,11 +4839,6 @@ export declare const parentStyles: () => {
             right: string;
             transform: string;
             "border-width": string;
-            /**
-             * Appends additional CSS rules to the group of hosted fields
-             *
-             * @param json New CSS rules
-             */
             "border-style": string;
             "border-color": string;
         };
@@ -4800,6 +4846,7 @@ export declare const parentStyles: () => {
             ".secure-payment-form .currency-conversion-container": {
                 "flex-direction": string;
                 "align-items": string;
+                "margin-bottom": string;
             };
             ".secure-payment-form .credit-card-currency-conversion fieldset": {
                 "justify-content": string;
@@ -4830,7 +4877,9 @@ export declare const parentStyles: () => {
                 "flex-flow": string;
             };
             ".secure-payment-form .credit-card-currency-conversion .radio-button": {
-                width: string;
+                width: string; /**
+                 * Deletes all hosted fields within the form
+                 */
                 "margin-bottom": string;
                 "margin-right": string;
             };
@@ -5004,6 +5053,9 @@ export declare const parentStyles: () => {
             "vertical-align": string;
         };
         ".secure-payment-form .ctp-info-tooltip:hover .ctp-info-tooltip-content": {
+            /**
+             * Represents logic surrounding a group of hosted fields.
+             */
             visibility: string;
             opacity: string;
         };
@@ -5074,11 +5126,6 @@ export declare const parentStyles: () => {
         };
         "#ctp-wrapper #verifyVisa label": {
             display: string;
-            /**
-             * Appends additional CSS rules to the group of hosted fields
-             *
-             * @param json New CSS rules
-             */
             "font-size": string;
             "font-family": string;
             margin: string;
@@ -5100,12 +5147,7 @@ export declare const parentStyles: () => {
         };
         "#ctp-wrapper button label": {
             margin: string;
-            "font-size": string; /**
-             * Sets a special-case event listener that fires when all hosted
-             * fields in a form have registered / loaded
-             *
-             * @param fn The listener function
-             */
+            "font-size": string;
         };
         "#ctp-wrapper .quitbanner > svg": {
             display: string;
@@ -5203,6 +5245,7 @@ export declare const parentStyles: () => {
             color: string;
             "font-weight": string;
             gap: string;
+            "font-family": string;
         };
         ".secure-payment-form .pay-in-full-option": {
             "padding-left": string;
@@ -5254,6 +5297,109 @@ export declare const parentStyles: () => {
             };
             display: string;
             gap: string;
+        };
+        ".secure-payment-form .installment-details-container": {
+            display: string;
+            border: string;
+            margin: string;
+            "margin-left": string;
+            padding: string;
+            "padding-left": string;
+            "margin-right": string;
+            "flex-wrap": string;
+            "padding-bottom": string;
+            "padding-right": string;
+        };
+        ".secure-payment-form .installment-pay-in-visa-option": {
+            background: string;
+            padding: string;
+            "min-width": string;
+            color: string;
+            "font-weight": string;
+            "font-size": string;
+            "line-height": string;
+            "justify-content": string;
+            height: string;
+            display: string;
+            gap: string;
+        };
+        ".secure-payment-form .installment-option-details": {
+            "font-size": string;
+            "font-weight": string;
+        };
+        ".secure-payment-form .installment-option-additional-details": {
+            "margin-top": string;
+        };
+        ".secure-payment-form .installment-option-details-span": {
+            "margin-left": string;
+        };
+        ".secure-payment-form .installment-option-additional-fee-details": {
+            "margin-left": string;
+            "margin-bottom": string;
+        };
+        ".secure-payment-form .installment-terms-conditions": {
+            "flex-basis": string;
+            "margin-top": string;
+            background: string;
+        };
+        ".secure-payment-form .installment-terms-checkbox": {
+            width: string;
+        };
+        "@media (min-width: 1500px)": {
+            ".secure-payment-form .installment-terms-checkbox": {
+                height: string;
+            };
+        };
+        ".secure-payment-form .checkbox-error": {
+            outline: string;
+            "outline-offset": string;
+        };
+        ".secure-payment-form .installment-terms-label": {
+            display: string;
+            "align-items": string;
+            gap: string;
+            "font-weight": string;
+            "font-size": string;
+        };
+        ".secure-payment-form .mandatory-asterisk": {
+            color: string;
+            "margin-right": string;
+        };
+        ".secure-payment-form .installment-terms-conditions-flex": {
+            display: string;
+            "align-items": string;
+            gap: string;
+            padding: string;
+        };
+        ".secure-payment-form .installment-terms-error": {
+            color: string;
+            "font-size": string;
+            display: string;
+            padding: string;
+        };
+        ".secure-payment-form .installment-visa-text": {
+            color: string;
+            "font-size": string;
+        };
+        ".secure-payment-form .installment-visa-logo": {
+            width: string;
+            height: string;
+            "margin-left": string;
+        };
+        ".secure-payment-form .installment-visa-learn-more": {
+            "font-size": string;
+            "margin-left": string;
+            color: string;
+        };
+        ".secure-payment-form .installment-availability-text": {
+            "margin-left": string;
+            "font-size": string;
+            "font-family": string;
+            "vertical-align": string;
+        };
+        ".secure-payment-form .installment-dcc-warning": {
+            display: string;
+            "margin-top": string;
         };
         ".secure-payment-form .installment-issuer-panel": {
             background: string;
@@ -5696,7 +5842,6 @@ export declare const parentStyles: () => {
             };
             ".secure-payment-form .credit-card-card-cvv": {
                 flex: string;
-                "margin-left": string;
             };
             ".secure-payment-form .credit-card-card-number": {
                 flex: string;
@@ -5708,7 +5853,6 @@ export declare const parentStyles: () => {
             };
             ".secure-payment-form .credit-card-card-cvv": {
                 flex: string;
-                "margin-left": string;
             };
             ".secure-payment-form .credit-card-billing-address": {
                 flex: string;

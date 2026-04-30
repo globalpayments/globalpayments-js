@@ -1,6 +1,7 @@
 import { IQRCodePaymentsConfiguration } from "../apm/qr-code-payments/contracts";
 import { IDictionary } from "../internal/lib/util";
 import { IApmConfiguration } from "../apm/non-card-payments/contracts";
+import { IInstallmentAdditionalConfig } from "../internal/lib/installments/contracts/interfaces";
 /**
  * Defines expected configuration properties for using the
  * library with the supported gateway implementations.
@@ -84,12 +85,14 @@ export interface IConfiguration extends IDictionary {
     apiVersion?: string;
     reference?: string;
     installments?: {
+        program: string;
         channel: string;
         country: string;
         mcc: string;
         currency: string;
         accountID?: string;
         accountName?: string;
+        config?: IInstallmentAdditionalConfig;
     };
     currencyConversion?: {
         accountName: string;

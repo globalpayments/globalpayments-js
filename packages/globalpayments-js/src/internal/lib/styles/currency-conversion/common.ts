@@ -14,7 +14,8 @@ const styles = () => {
     ".secure-payment-form .currency-conversion-container" : {
       display: "flex",
       "flex-direction": "row",
-      "align-items": "end"
+      "align-items": "end",
+      "margin-bottom":"15px"
     },
     ".secure-payment-form .credit-card-currency-conversion iframe": {
       "min-height": "1px!important",
@@ -184,7 +185,8 @@ const styles = () => {
     "@media only screen and (max-width: 768px)": {
       ".secure-payment-form .currency-conversion-container" : {
         "flex-direction": "column",
-        "align-items": "normal"
+        "align-items": "normal",
+        "margin-bottom":"15px"
       },
       ".secure-payment-form .credit-card-currency-conversion fieldset" : {
         "justify-content": "space-between",

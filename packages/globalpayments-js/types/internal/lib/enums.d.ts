@@ -83,3 +83,32 @@ export declare enum ExpressPayEvents {
 }
 export declare const OTPLength = 6;
 export declare const formMaxWidth = 1000;
+export declare enum FundingMode {
+    MERCHANT_FUNDED = "MERCHANT_FUNDED",
+    CONSUMER_FUNDED = "CONSUMER_FUNDED",
+    HYBRID_FUNDED = "HYBRID_FUNDED",
+    BILATERAL = "BILATERAL",
+    ANY = "ANY"
+}
+export declare enum Program {
+    VIS = "VIS",
+    LATAM = "LATAM"
+}
+export declare enum EligiblePlans {
+    FULL = "FULL",
+    LIMITED = "LIMITED"
+}
+export declare enum EligibleCountries {
+    UK = "UK",
+    CA = "CA",
+    MX = "MX"
+}
+export declare enum EligibleCurrencies {
+    UK = "GBP",
+    CA = "CAD",
+    MX = "MXN"
+}
+export declare enum configDefaultValues {
+    max_time_unit_number = 32,
+    max_amount = 1000
+}

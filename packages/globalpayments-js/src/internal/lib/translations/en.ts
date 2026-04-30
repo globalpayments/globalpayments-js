@@ -145,7 +145,8 @@ const en = {
           .replace('##VALUE2##', exchangeRateTimeCreated);
       },
       "aria-label": "Information about Currency Conversion"
-    }
+    },
+    installmentWithDcc : 'Currency conversion does not support installments. You can still pay the full amount in your own currency, or switch to the merchant\'s currency if you wish to use the installment option.'
   },
   orderInformation: {
     amount: "Amount",
@@ -156,11 +157,24 @@ const en = {
   },
   installments: {
     choosePaymentOption: 'Choose to pay the full amount or pay in installments',
-    payInFull: 'PAY IN FULL',
+    payInFullLatam: 'PAY IN FULL',
+    payInFullVisa: 'PAY NOW',
     monthsWithoutInterest: 'MONTHS WITHOUT INTEREST',
     buyNowPayLater: 'BUY NOW PAY LATER',
     months: "MONTHS",
     eligibleForInstallmentBadgeText: "Eligible for Installments",
+    payInInstallmentsText: 'PAY IN ',
+    apr: 'APR',
+    total: 'Total',
+    fees: 'Fees',
+    additionalTerms: 'Additional terms',
+    mandatoryError : "Acceptance of Terms and Conditions is required",
+    learnMoreText : "Learn more",
+    month:'month',
+    includeFees:'incl. fee',
+    include: 'incl.',
+    furtherInfoText : 'Further Information and Privacy Policy',
+    footerInstallmentsText: 'Installments enabled by'
   }
 }
 

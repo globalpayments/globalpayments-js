@@ -9,8 +9,11 @@ import { IframeField } from "../../../../ui/iframe-field/index";
 import InstallmentPlansData from "../contracts/installment-plans-data";
 import InstallmentTerm from "../contracts/installment-term";
 import { InstallmentPaymentData } from "../contracts/interfaces";
+import { options } from "../../options";
+import { Program } from "../../enums";
+import { createVisaInstallmentSection } from "./create-visa-installment-section";
 
-export function createInstallmentOptions(iFrameField: IframeField | undefined, installmentPlans: InstallmentPlansData): HTMLElement | undefined {
+export function createInstallmentOptions(iFrameField: IframeField | undefined, installmentPlans: InstallmentPlansData, amount:string | undefined): HTMLElement | undefined {
 
   const lang = getCurrentLanguage();
   const installmentTranslations = getTranslationSet(lang, 'installments');
@@ -31,41 +34,61 @@ export function createInstallmentOptions(iFrameField: IframeField | undefined, i
   paymentOptionText.textContent = installmentTranslations.choosePaymentOption;
   paymentContent.appendChild(paymentOptionText);
 
-  // Pay in Full radio
-  const payInFullDiv = createHtmlRadioButtonElement({
-    id: InstallmentLabels.INSTALLMENT_DEFAULT_PAYMENT_OPTION,
-    name: InstallmentLabels.INSTALLMENT_PAYMENT_OPTION_NAME,
-    value: 'full',
-    checked: true,
-    labelText: installmentTranslations.payInFull,
-    radioButtonClassList: "pay-in-full-option"
-  })
-  paymentContent.appendChild(payInFullDiv);
+  if (options.installments?.program === Program.LATAM) {
+    paymentOptionText.style.marginBottom = "15px";
+    // Pay in Full radio
+    const payInFullDiv = createHtmlRadioButtonElement({
+      id: InstallmentLabels.INSTALLMENT_DEFAULT_PAYMENT_OPTION,
+      name: InstallmentLabels.INSTALLMENT_PAYMENT_OPTION_NAME,
+      value: 'full',
+      checked: true,
+      labelText: installmentTranslations.payInFullLatam,
+      radioButtonClassList: "pay-in-full-option"
+    })
+    paymentContent.appendChild(payInFullDiv);
 
-  const refinedPlans = refineInstallmentPlans(installmentPlans.terms);
-  // Installment sections
-  if (refinedPlans.MWI.length > 0) {
-    const monthsSection = createInstallmentSection(
-      installmentTranslations.monthsWithoutInterest,
-      refinedPlans.MWI,
-      installmentTranslations.months
-    );
-    paymentContent.appendChild(monthsSection);
+    const refinedPlans = refineInstallmentPlans(installmentPlans.terms);
+    // Installment sections
+    if (refinedPlans.MWI.length > 0) {
+      const monthsSection = createInstallmentSection(
+        installmentTranslations.monthsWithoutInterest,
+        refinedPlans.MWI,
+        installmentTranslations.months
+      );
+      paymentContent.appendChild(monthsSection);
+    }
+    if (refinedPlans.BNPL.length > 0) {
+      const buyNowSection = createInstallmentSection(
+        installmentTranslations.buyNowPayLater,
+        refinedPlans.BNPL,
+        installmentTranslations.months
+      );
+      paymentContent.appendChild(buyNowSection);
+    }
+    container.appendChild(paymentContent);
+
+    // Attach change event directly to each radio button
+    setInstallmentEventsToInstallmentOptions(iFrameField, installmentPlans);
+
+    iFrameField?.container?.append(container);
   }
-  if (refinedPlans.BNPL.length > 0) {
-    const buyNowSection = createInstallmentSection(
-      installmentTranslations.buyNowPayLater,
-      refinedPlans.BNPL,
-      installmentTranslations.months
-    );
-    paymentContent.appendChild(buyNowSection);
+
+  else if (options.installments?.program === Program.VIS) {
+    if (installmentPlans.terms.length > 0) {
+      const firstTerm = {
+        name: installmentTranslations.payInFullVisa,
+        count: InstallmentLabels.INSTALLMENT_DEFAULT_PAYMENT_OPTION,
+        planAmount: amount,
+        currency: options.installments?.currency
+      }
+      installmentPlans.terms.unshift(firstTerm as InstallmentTerm);
+      const sortedPlans = sortInstallmentPlans(installmentPlans.terms);
+      const plansToDisplay: any = createVisaInstallmentSection(sortedPlans, iFrameField, installmentTranslations);
+      paymentContent.appendChild(plansToDisplay);
+      container.appendChild(paymentContent);
+      iFrameField?.container?.append(container);
+    }
   }
-  container.appendChild(paymentContent);
-
-  // Attach change event directly to each radio button
-  setInstallmentEventsToInstallmentOptions(iFrameField, installmentPlans);
-
-  iFrameField?.container?.append(container);
 }
 
 function setInstallmentEventsToInstallmentOptions(iFrameField: IframeField | undefined, installmentPlans: InstallmentPlansData) {
@@ -140,5 +163,14 @@ function filterCountAndGrace(termPlans: InstallmentTerm[]) {
   if (termPlans.length > 4) {
     termPlans.splice(4);
   }
+  return termPlans;
+}
+
+function sortInstallmentPlans(termPlans:InstallmentTerm[]){
+  termPlans.sort((a, b) => {
+    if (a.count === InstallmentLabels.INSTALLMENT_DEFAULT_PAYMENT_OPTION) return -1;
+    if (b.count === InstallmentLabels.INSTALLMENT_DEFAULT_PAYMENT_OPTION) return 1;
+    return Number(a.count) - Number(b.count);
+  });
   return termPlans;
 }

@@ -101,12 +101,25 @@ const es = {
     pleaseSelectYourPreferredBank: "Por favor seleccione su banco preferido",
   },
   installments: {
-    choosePaymentOption: 'Elige pagar el importe total o pagar en cuotas',
-    payInFull: 'AGAR TODO',
-    monthsWithoutInterest: 'MESES SIN INTERESES',
-    buyNowPayLater: 'COMPRA AHORA PAGA DESPUÉS',
-    months: "MESES",
-    eligibleForInstallmentBadgeText: "Elegible para cuotas",
+    choosePaymentOption: 'Choose to pay the full amount or pay in installments',
+    payInFullLatam: 'PAY IN FULL',
+    payInFullVisa: 'PAY NOW',
+    monthsWithoutInterest: 'MONTHS WITHOUT INTEREST',
+    buyNowPayLater: 'BUY NOW PAY LATER',
+    months: "MONTHS",
+    eligibleForInstallmentBadgeText: "Eligible for Installments",
+    payInInstallmentsText: 'PAY IN ',
+    apr: 'APR',
+    total: 'Total',
+    fees: 'Fees',
+    additionalTerms: 'Additional terms',
+    mandatoryError : "Acceptance of Terms and Conditions is required",
+    learnMoreText : "Learn more",
+    month:'month',
+    includeFees:'incl. fee',
+    include: 'incl.',
+    furtherInfoText : 'Further Information and Privacy Policy',
+    footerInstallmentsText: 'Installments enabled by'
   }
 
 }

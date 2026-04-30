@@ -5,6 +5,7 @@ export declare const resetValidationRoundCounter: () => void;
 export declare const getValidationRoundCounter: () => number;
 export declare const increaseValidationRoundCounter: () => void;
 export declare const removeValidationRoundCounter: () => void;
+export declare const checkInstallmentsAvailability: (installmentsData: any) => boolean;
 export declare const isOpenBankingAvailable: (countryCode: string | undefined, aquirer: string | undefined) => boolean;
 export declare const isBlikAvailable: (countryCode: string | undefined, currencyCode: string | undefined, options: IApmConfiguration | undefined) => boolean;
 export declare const isExpressPayAvailable: (options: IApmConfiguration | undefined) => boolean | undefined;

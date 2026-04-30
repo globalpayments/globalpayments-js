@@ -1,6 +1,7 @@
 import { options, postMessage } from "../../internal";
 import getExpressPayBaseUrl from "../../internal/gateways/gp-api/get-express-pay-base-url";
 import { addIfValue, getExpressPayQueryParams } from "../../internal/lib/bank-selection/helpers";
+import { Program } from "../../internal/lib/enums";
 import paymentFieldId from "../../internal/lib/payment-field-id";
 import { IDictionary } from "../../internal/lib/util";
 import tokenize from "../../internal/requests/tokenize";
@@ -31,7 +32,12 @@ export default (id: string, type: string, data: IDictionary) => {
   (w.dataReceivedFields as string[]).push(data.data.type);
 
   const installment = data.data.installment;
-  const isInstallmentActive = installment?.installmentReference && installment?.installmentId;
+  const isInstallmentActive = installment?.installmentReference
+  && (
+    (options.installments?.program === Program.VIS
+      ? !!installment?.installmentName
+      : !!installment?.installmentId)
+  );
   const currencyConversion = data.data.currencyConversion;
 
   // proceed with tokenization once we have all expected field data

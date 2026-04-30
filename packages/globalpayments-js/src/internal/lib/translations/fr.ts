@@ -97,12 +97,25 @@ const fr = {
     pleaseSelectYourPreferredBank: "Veuillez sélectionner votre banque préférée",
   },
   installments: {
-    choosePaymentOption: 'Choose to pay the full amount or pay in installments',
-    payInFull: 'PAY IN FULL',
+    choosePaymentOption: 'Choisissez de payer le montant total, ou payer en versements',
+    payInFullLatam: 'PAYER AU COMPLET',
+    payInFullVisa: 'PAYER MAINTENANT',
     monthsWithoutInterest: 'MONTHS WITHOUT INTEREST',
     buyNowPayLater: 'BUY NOW PAY LATER',
-    months: "MONTHS",
-    eligibleForInstallmentBadgeText: "Eligible for Installments",
+    months: "MOIS",
+    eligibleForInstallmentBadgeText: "Éligible aux versements échelonnés",
+    payInInstallmentsText: 'PAYER EN ',
+    apr: 'TAP',
+    total: 'Total',
+    fees: 'Frais',
+    additionalTerms: 'Conditions supplémentaires',
+    mandatoryError : "L'acceptation des Termes et Conditions est requise",
+    learnMoreText : "En savoir plus",
+    month:'mois',
+    includeFees:'frais inclus',
+    include:'inclus',
+    furtherInfoText : 'Plus d\'Information et Politique de confidentialité',
+    footerInstallmentsText: 'Versements Rendus Possible par'
   }
 }
 

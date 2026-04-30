@@ -58,6 +58,7 @@ const styles = (assetBaseUrl: string) => {
             color: "#00663F",
             "font-weight": "400",
             gap: "5px",
+            "font-family":"DMSans"
         },
 
         ".secure-payment-form .pay-in-full-option": {
@@ -114,6 +115,128 @@ const styles = (assetBaseUrl: string) => {
             '&.checked': {
                 border: `2px solid ${customColors.azure39Blue}`,
             }
+        },
+
+        ".secure-payment-form .installment-details-container": {
+            "display": "flex",
+            "border": "1px solid #BCBFC8",
+            "margin": "20px",
+            "margin-left": "0",
+            "padding": "12px",
+            "padding-left": "0",
+            "margin-right": "0",
+            "flex-wrap": "wrap",
+            /* margin-top: 20px; */
+            "padding-bottom": "0",
+            "padding-right": "0",
+        },
+
+        ".secure-payment-form .installment-pay-in-visa-option": {
+            ...commonButtonStyle,
+            "background": "#F1F2F4",
+            "padding": "6px",
+            "min-width":"93px",
+            // width: "93px",
+            color: "#394046",
+            "font-weight": "400",
+            "font-size": "14px",
+            "line-height": "27px",
+            "justify-content": "center",
+            "height": "38px"
+        },
+
+        ".secure-payment-form .installment-option-details": {
+            "font-size": "14px",
+            "font-weight": "400",
+        },
+
+        ".secure-payment-form .installment-option-additional-details": {
+            "margin-top":"2%"
+        },
+
+        ".secure-payment-form .installment-option-details-span": {
+            "margin-left": "20px"
+        },
+
+        ".secure-payment-form .installment-option-additional-fee-details": {
+            "margin-left":"20px",
+            "margin-bottom":"2%"
+        },
+
+        ".secure-payment-form .installment-terms-conditions": {
+            "flex-basis": "100%",
+            "margin-top": "20px",
+            "background": "#F1F2F4"
+        },
+
+        ".secure-payment-form .installment-terms-checkbox": {
+            "width": "32px",
+        },
+        "@media (min-width: 1500px)": {
+            ".secure-payment-form .installment-terms-checkbox": {
+                "height": "22px"
+            }
+        },
+
+        ".secure-payment-form .checkbox-error": {
+            "outline": "2px solid red",
+            "outline-offset": "-2px"
+        },
+
+        ".secure-payment-form .installment-terms-label": {
+            "display": "inline",
+            "align-items": "center",
+            "gap": "0.5em",
+            "font-weight":"400",
+            "font-size":"0.79em"
+        },
+
+        ".secure-payment-form .mandatory-asterisk": {
+            "color": "red",
+            "margin-right": "0.25em",
+        },
+
+        ".secure-payment-form .installment-terms-conditions-flex": {
+            "display": "none",
+            "align-items": "center",
+            "gap": "0.5em",
+            "padding": "10px",
+        },
+
+        ".secure-payment-form .installment-terms-error": {
+            "color": "red",
+            "font-size": "0.79em",
+            "display":"none",
+            "padding": "0 30px 10px 40px"
+        },
+
+        ".secure-payment-form .installment-visa-text": {
+            "color": "#1434CB",
+            "font-size": "14px",
+        },
+
+        ".secure-payment-form .installment-visa-logo": {
+            "width": "30px",
+            "height": "9px",
+            "margin-left": "3px"
+        },
+
+        ".secure-payment-form .installment-visa-learn-more": {
+            "font-size": "14px",
+            "margin-left": "20px",
+            "color": "#006DBB",
+        },
+
+        ".secure-payment-form .installment-availability-text": {
+            "margin-left": "8px",
+            "font-size": "14px",
+            "font-family": 'DMSans',
+            "vertical-align": "middle"
+        },
+
+        ".secure-payment-form .installment-dcc-warning": {
+            "display":"none",
+            "margin-top":"20px"
         },
 
         ".secure-payment-form .installment-issuer-panel": {

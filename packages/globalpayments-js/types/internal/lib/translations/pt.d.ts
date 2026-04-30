@@ -89,11 +89,24 @@ declare const pt: {
     };
     installments: {
         choosePaymentOption: string;
-        payInFull: string;
+        payInFullLatam: string;
+        payInFullVisa: string;
         monthsWithoutInterest: string;
         buyNowPayLater: string;
         months: string;
         eligibleForInstallmentBadgeText: string;
+        payInInstallmentsText: string;
+        apr: string;
+        total: string;
+        fees: string;
+        additionalTerms: string;
+        mandatoryError: string;
+        learnMoreText: string;
+        month: string;
+        includeFees: string;
+        include: string;
+        furtherInfoText: string;
+        footerInstallmentsText: string;
     };
 };
 export default pt;

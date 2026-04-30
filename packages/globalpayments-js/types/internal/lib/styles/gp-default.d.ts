@@ -502,6 +502,7 @@ export declare const parentStyles: (assetBaseUrl: string, theme?: string | undef
         display: string;
         "flex-direction": string;
         "align-items": string;
+        "margin-bottom": string;
     };
     ".secure-payment-form .credit-card-currency-conversion iframe"?: {
         "min-height": string;
@@ -671,6 +672,7 @@ export declare const parentStyles: (assetBaseUrl: string, theme?: string | undef
         ".secure-payment-form .currency-conversion-container": {
             "flex-direction": string;
             "align-items": string;
+            "margin-bottom": string;
         };
         ".secure-payment-form .credit-card-currency-conversion fieldset": {
             "justify-content": string;
@@ -1064,6 +1066,7 @@ export declare const parentStyles: (assetBaseUrl: string, theme?: string | undef
         color: string;
         "font-weight": string;
         gap: string;
+        "font-family": string;
     };
     ".secure-payment-form .pay-in-full-option": {
         "padding-left": string;
@@ -1115,6 +1118,109 @@ export declare const parentStyles: (assetBaseUrl: string, theme?: string | undef
         };
         display: string;
         gap: string;
+    };
+    ".secure-payment-form .installment-details-container": {
+        display: string;
+        border: string;
+        margin: string;
+        "margin-left": string;
+        padding: string;
+        "padding-left": string;
+        "margin-right": string;
+        "flex-wrap": string;
+        "padding-bottom": string;
+        "padding-right": string;
+    };
+    ".secure-payment-form .installment-pay-in-visa-option": {
+        background: string;
+        padding: string;
+        "min-width": string;
+        color: string;
+        "font-weight": string;
+        "font-size": string;
+        "line-height": string;
+        "justify-content": string;
+        height: string;
+        display: string;
+        gap: string;
+    };
+    ".secure-payment-form .installment-option-details": {
+        "font-size": string;
+        "font-weight": string;
+    };
+    ".secure-payment-form .installment-option-additional-details": {
+        "margin-top": string;
+    };
+    ".secure-payment-form .installment-option-details-span": {
+        "margin-left": string;
+    };
+    ".secure-payment-form .installment-option-additional-fee-details": {
+        "margin-left": string;
+        "margin-bottom": string;
+    };
+    ".secure-payment-form .installment-terms-conditions": {
+        "flex-basis": string;
+        "margin-top": string;
+        background: string;
+    };
+    ".secure-payment-form .installment-terms-checkbox": {
+        width: string;
+    };
+    "@media (min-width: 1500px)": {
+        ".secure-payment-form .installment-terms-checkbox": {
+            height: string;
+        };
+    };
+    ".secure-payment-form .checkbox-error": {
+        outline: string;
+        "outline-offset": string;
+    };
+    ".secure-payment-form .installment-terms-label": {
+        display: string;
+        "align-items": string;
+        gap: string;
+        "font-weight": string;
+        "font-size": string;
+    };
+    ".secure-payment-form .mandatory-asterisk": {
+        color: string;
+        "margin-right": string;
+    };
+    ".secure-payment-form .installment-terms-conditions-flex": {
+        display: string;
+        "align-items": string;
+        gap: string;
+        padding: string;
+    };
+    ".secure-payment-form .installment-terms-error": {
+        color: string;
+        "font-size": string;
+        display: string;
+        padding: string;
+    };
+    ".secure-payment-form .installment-visa-text": {
+        color: string;
+        "font-size": string;
+    };
+    ".secure-payment-form .installment-visa-logo": {
+        width: string;
+        height: string;
+        "margin-left": string;
+    };
+    ".secure-payment-form .installment-visa-learn-more": {
+        "font-size": string;
+        "margin-left": string;
+        color: string;
+    };
+    ".secure-payment-form .installment-availability-text": {
+        "margin-left": string;
+        "font-size": string;
+        "font-family": string;
+        "vertical-align": string;
+    };
+    ".secure-payment-form .installment-dcc-warning": {
+        display: string;
+        "margin-top": string;
     };
     ".secure-payment-form .installment-issuer-panel": {
         background: string;
@@ -1643,7 +1749,6 @@ export declare const parentStyles: (assetBaseUrl: string, theme?: string | undef
         };
         ".secure-payment-form .credit-card-card-cvv": {
             flex: string;
-            "margin-left": string;
         };
         ".secure-payment-form .credit-card-billing-address": {
             flex: string;

@@ -4,6 +4,7 @@ import getGateway from "../internal/lib/get-gateway";
 import { options as opts } from "../internal/lib/options";
 import { IDictionary } from "../internal/lib/util";
 import { IApmConfiguration } from "../apm/non-card-payments/contracts";
+import { IInstallmentAdditionalConfig } from "../internal/lib/installments/contracts/interfaces";
 
 /**
  * Defines expected configuration properties for using the
@@ -116,12 +117,14 @@ export interface IConfiguration extends IDictionary {
   // Specific configuration properties for
   // Installments
   installments?: {
+    program: string,
     channel: string,
     country: string,
     mcc: string,
     currency: string,
     accountID?: string;
     accountName?: string;
+    config?: IInstallmentAdditionalConfig;
   };
   currencyConversion?: {
     accountName: string,

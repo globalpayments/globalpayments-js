@@ -333,7 +333,6 @@ export const parentStyles = (assetBaseUrl: string, theme?: string) => {
 
       ".secure-payment-form .credit-card-card-cvv": {
         flex: "1 1 auto",
-        "margin-left": "16px",
       },
 
       ".secure-payment-form .credit-card-billing-address": {

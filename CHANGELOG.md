@@ -4,7 +4,10 @@
 
 # Changelog
 
-## latest v4.1.21 (03/19/26)
+## latest v4.1.22 (04/30/26)
+- [Globalpayments-js][4.1.22]  VISA Installments
+
+## v4.1.21 (03/19/26)
 - [Globalpayments-js][4.1.21]  Update Class Name in GlobalPayments JS Library for Adobe Commerce (LATAM)
 
 ## v4.1.20 (03/12/26)

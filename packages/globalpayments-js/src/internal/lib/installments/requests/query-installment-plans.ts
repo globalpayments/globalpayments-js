@@ -14,8 +14,8 @@ export default (data: IDictionary) => {
     const url = gateway.urls.queryInstallmentPlans(false);
     gateway.actions.queryInstallmentPlans(url, options.env || "", data)
       .then((response: IDictionary) => {
-        return response;
-      })
+          return response;
+})
       .then((response: any) => {
         if ((response as IError).error) {
           reject(response);

@@ -453,8 +453,7 @@ const parentStyles = (assetBaseUrl: string, themePreset?: IThemePreset) => {
       },
 
       ".secure-payment-form .credit-card-card-cvv": {
-        flex: "1 1 auto",
-        "margin-left": "16px",
+        flex: "1 1 auto"
       },
 
       // ".secure-payment-form .credit-card-billing-address": {

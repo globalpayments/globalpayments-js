@@ -10,6 +10,7 @@ export declare const styles: () => {
         display: string;
         "flex-direction": string;
         "align-items": string;
+        "margin-bottom": string;
     };
     ".secure-payment-form .credit-card-currency-conversion iframe": {
         "min-height": string;
@@ -179,6 +180,7 @@ export declare const styles: () => {
         ".secure-payment-form .currency-conversion-container": {
             "flex-direction": string;
             "align-items": string;
+            "margin-bottom": string;
         };
         ".secure-payment-form .credit-card-currency-conversion fieldset": {
             "justify-content": string;

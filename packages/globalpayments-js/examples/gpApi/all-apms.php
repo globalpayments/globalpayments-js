@@ -1,18 +1,13 @@
 <?php
 
-/* Sandbox standalone merchant */
-// $appId = 'bvKLJsu6vYC9zxX2BpOgNK95kbboP3Uw';
-// $appKey = '7aH9QlA3yVFwpESQ';
-// $account = 'TRA_1366cd0db8c14fffb130ab49be84d944';
+// Installments
+$appId = 'hkjrcsGDhWiDt8GEhoDMKy3pzFz5R0Bo';
+$appKey = 'cQOKHoAAvNIcEN8s';
 
-/* Sandbox single MMA */
-//$appId = 'gYLpOwjMRpfQSoMZAPdA4adwp0HbvK7u';
-//$appKey = 'Mx66UqG2RQ16LhiT';
-//$account = 'TRA_c7fdc03bc9354fd3b674dddb22583553';
-//$merchant_id = 'MER_48054b882b1847c8a11214e3ad6b5f02';
+// DCC
+// $appId = '4gPqnGBkppGYvoE5UX9EWQlotTxGUDbs';
+// $appKey = 'FQyJA5VuEQfcji2M';
 
-$appId = 'PJoqXXSANSbA8292ASpE0ChpAPrmOwqO';
-$appKey = 'DwUQD4kIgA9cJEKZ';
 $account = 'TRA_89e47e02d3954f4c9999006e23b22375';
 
 $nonce = date(DateTime::ISO8601);
@@ -30,12 +25,7 @@ $request = json_encode([
     'grant_type' => 'client_credentials',
     'nonce' => $nonce,
     'interval_to_expire' => '1_HOUR',
-    // 'permissions' => ['PMT_POST_Create_Single']
-    'permissions' => [
-        "MER_BIN",
-        "MER_INS",
-        "MER_PMT_SINGLE_USE"
-    ]
+    'permissions' => ['PMT_POST_Create_Single', 'INS_POST_Query','CCS_POST_DCC']
 ]);
 
 $headers = [ 'X-GP-Version' => '2021-03-22' ];
@@ -49,6 +39,7 @@ if (isset($has_error)) {
 }
 
 $response = json_decode($response);
+
 $accessToken = $response->token ?? '';
 
 ?><!doctype html>
@@ -138,23 +129,23 @@ $accessToken = $response->token ?? '';
                 },
                 {
                     provider: GlobalPayments.enums.ApmProviders.Blik,
-                    enabled:  true
+                    enabled:  false
                 },
                 {
                     provider: GlobalPayments.enums.ApmProviders.Affirm,
-                    enabled:  true
+                    enabled:  false
                 },
                 {
                     provider: GlobalPayments.enums.ApmProviders.Klarna,
-                    enabled:  true
+                    enabled:  false
                 },
                 {
                     provider: GlobalPayments.enums.ApmProviders.Sezzle,
-                    enabled:  true
+                    enabled:  false
                 },
                 {
                     provider: GlobalPayments.enums.ApmProviders.Zip,
-                    enabled:  true
+                    enabled:  false
                 }
             ]
             }
@@ -162,15 +153,24 @@ $accessToken = $response->token ?? '';
         fieldValidation: {
             enabled: true
         },
-        merchantId: "MER_20c2b3fcfedd484e9c3723347db56b71",
-        // merchantManagementAccountId:"MMA_00709dd629a34a2a9fc688f51041d538",
-        account:"TKA_5b79e8b070e64987883d8aa3c21fad14",
-        accountName: "Ecom_Tokenization_Account",
+        currencyConversion: {
+            enabled: true,
+            accountName: "dcc",
+            currency: "EUR",
+            country: "GB",
+        },
+        // merchantId: "MER_20c2b3fcfedd484e9c3723347db56b71",
         installments: {
-            currency: "MXN",
-            country: "MX",
-            accountID: "TRA_89e47e02d3954f4c9999006e23b22375",
-            accountName: "IPP_Transaction_Processing_MP",
+            program: GlobalPayments.enums.Program.LATAM,
+            country: GlobalPayments.enums.EligibleCountries.MX,
+            currency: GlobalPayments.enums.EligibleCurrencies,
+            // accountName: "Portico_VISA_IPP_CNP_CERT" // CA,
+            accountName: "GPECOM_Installments_Processing", // UK,
+            // config:{
+            //     funding_mode: GlobalPayments.enums.FundingMode.MERCHANT_FUNDED,
+            //     max_time_unit_number: 32,
+            //     max_amount: 10000
+            // },
         }
     });
 
@@ -178,7 +178,7 @@ $accessToken = $response->token ?? '';
         console.error(error);
     });
     const cardForm = GlobalPayments.creditCard.form('#credit-card-form', {
-        amount: "60",
+        amount: "60000",
         style: "gp-default",
         apms: [
             GlobalPayments.enums.Apm.ClickToPay,

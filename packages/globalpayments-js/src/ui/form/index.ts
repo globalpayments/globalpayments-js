@@ -17,12 +17,12 @@ import { IFrameCollection, IframeField, IUIFormField } from "../iframe-field";
 import addClickToPay from "../iframe-field/click-to-pay/action-add";
 import addGooglePay from "../iframe-field/google-pay/action-add";
 import addApplePay from "../iframe-field/apple-pay/action-add";
-import {Apm, ApmEvents, ApmProviders, CardFormEvents, ExpressPayEvents} from "../../internal/lib/enums";
+import {Apm, ApmEvents, ApmProviders, CardFormEvents, ExpressPayEvents, Program} from "../../internal/lib/enums";
 import addInstallments from "../iframe-field/installments/action-add";
 import { InstallmentEvents } from "../../internal/lib/installments/contracts/enums";
 import InstallmentPlansData, { verifyInstallmentAvailability } from "../../internal/lib/installments/contracts/installment-plans-data";
 import { INSTALLMENTS_KEY } from "../../internal/lib/installments/contracts/constants";
-import { InstallmentPaymentData } from "../../internal/lib/installments/contracts/interfaces";
+import { InstallmentPaymentData, VisaInstallmentPaymentData } from "../../internal/lib/installments/contracts/interfaces";
 import addInstallmentsOptions from "../../internal/lib/installments/components/add-installments-options";
 import { CardFormFieldNames, ExpressPayFieldNames, HostedFieldValidationEvents } from "../../common/enums";
 import { resetValidationRoundCounter } from "../../internal/built-in-validations/helpers";
@@ -44,6 +44,7 @@ import addPaymentMethod from "../iframe-field/payment-methods/action-add";
 import { getFieldStyles, getParentStyles } from "../../internal/lib/styles/themes/brand-themes/brand-themes";
 import { addExpressPayDetailsEventListener, formatBillingAddress, formatShippingAddress, getExpressPayDetailsKeys, getExpressPayQueryParams } from "../../internal/lib/bank-selection/helpers";
 import getExpressPayBaseUrl from "../../internal/gateways/gp-api/get-express-pay-base-url";
+import { addInstallmentEligibilityBadge } from "../../internal/lib/installments/templates/common";
 
 export { IUIFormField } from "../iframe-field";
 
@@ -412,8 +413,10 @@ export default class UIForm {
       if (installmentsFrame) {
         installmentsFrame?.container?.querySelector('iframe')?.classList.add('hidden');
       }
+      const contest = addInstallmentEligibilityBadge();
+      const cardHolderNameContainer = this.frames[CardFormFieldNames.CardHolderName]?.container;
+      if(cardHolderNameContainer) cardHolderNameContainer.after(contest);
       addInstallmentsOptions(installmentsFrame);
-
       this.configureCardInstallmentsEvents(installmentsFrame);
     }
 
@@ -591,8 +594,8 @@ export default class UIForm {
 
       cardFieldFrame.on(InstallmentEvents.CardInstallmentsRequestCompleted, (installmentPlansData?: InstallmentPlansData) => {
         if (!installmentPlansData || installmentPlansData && !verifyInstallmentAvailability(installmentPlansData)) return;
-
-          addInstallments(installmentField, installmentPlansData, (installment: InstallmentPaymentData) => {
+          const installmentFields = this.fields[INSTALLMENTS_KEY];
+          addInstallments(installmentField, installmentPlansData, installmentFields.amount, (installment: InstallmentPaymentData | VisaInstallmentPaymentData) => {
             const target = this.frames[`card-number`] || this.frames[`account-number`];
 
             if (!target) return;
@@ -651,7 +654,7 @@ export default class UIForm {
   }
 
   private currencyConversionResponseData: any;
-  private installmentResponseData: InstallmentPaymentData | null = null;
+  private installmentResponseData: InstallmentPaymentData | VisaInstallmentPaymentData | null = null;
 
   /**
    * Configures event listeners related to currency conversion for the specified iframe field.
@@ -714,8 +717,36 @@ export default class UIForm {
           // Add the currency conversion data to the specified iframe field and update response data
           addCurrencyConversion(dccField, data, (response, value) => {
               this.currencyConversionResponseData = {response, value};
+              const installmentDiv = document.getElementById('installment-option-section');
+              const installmentAvailabilityDiv = document.getElementById('installment-dcc-warning');
+            if (installmentDiv) {
+              if ((options.installments?.program === Program.VIS) &&
+                (this.currencyConversionResponseData.response.currencyConversionAccepted === "YES")) {
+                installmentDiv.style.display = 'none';
+                const installmentData = {
+                  installmentName: "",
+                  installmentReference: ""
+                }
+                const iframeField = this.frames[INSTALLMENTS_KEY];
+                postMessage.post(
+                  {
+                    data: installmentData,
+                    id: iframeField ? iframeField.id : '',
+                    type: `ui:iframe-field:${InstallmentEvents.CardInstallmentSendValue}`,
+                  },
+                  iframeField && iframeField.id ? iframeField.id : ''
+                );
+                if (installmentAvailabilityDiv) {
+                  installmentAvailabilityDiv.style.display = 'block';
+                }
+              } else {
+                installmentDiv.style.display = 'flex';
+                if (installmentAvailabilityDiv) {
+                  installmentAvailabilityDiv.style.display = 'none';
+                }
+              }
+            }
           });
-
           currencyConversionRequestInProgress = false;
         });
       });
@@ -771,7 +802,7 @@ export default class UIForm {
    */
   private requestDataFromAll(
     target: IframeField,
-    installment?: InstallmentPaymentData
+    installment?: InstallmentPaymentData | VisaInstallmentPaymentData
   ) {
     // Initialize an array to store field names
     const fields: string[] = [];
@@ -823,8 +854,21 @@ export default class UIForm {
       && getCurrencyConversionAvailabilityStatus()
       ? this.currencyConversionResponseData.response : '';
 
-    if(this.installmentResponseData){
+    if (this.installmentResponseData) {
       installment = this.installmentResponseData;
+      const targetInstallmentContainer: HTMLElement | null = document.getElementById(`installment-details-container-${installment.installmentReference}`);
+      if (targetInstallmentContainer) {
+        const checkbox = targetInstallmentContainer?.querySelector('input[type="checkbox"]');
+        if (!checkbox || !(checkbox as HTMLInputElement).checked) {
+          checkbox?.classList.add('checkbox-error');
+          targetInstallmentContainer.style.border = "2px solid red";
+          const addErrorElement: HTMLElement | null = document.getElementById(`installment-terms-error-${installment.installmentReference}`);
+          if(addErrorElement){
+              addErrorElement.style.display = "block";
+          }
+          return;
+        }
+      }
     }
 
     for (const type of fields) {
