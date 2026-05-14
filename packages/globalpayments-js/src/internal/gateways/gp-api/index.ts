@@ -1,6 +1,6 @@
 import { IActions } from "..";
 import { options } from "../../lib/options";
-
+import actionKonekConsents from "./action-konek-consents";
 import actionNormalizeResponse from "./action-normalize-response";
 import actionTokenize from "./action-tokenize";
 import actionValidateData from "./action-validate-data";
@@ -151,6 +151,13 @@ export const urls = {
     }
 
     return `${domain}/ucp/${endpoint}`;
+  },
+
+  getInteracKonekUrl: ()=>{
+    const domain : string = createResidencyBasedUrl();
+    const endpoint:string = `consents`;
+
+    return `${domain}/ucp/${endpoint}`;
   }
 };
 
@@ -161,6 +168,7 @@ export const actions: IActions = {
   queryInstallmentPlans: actionQueryInstallmentPlans,
   queryCurrencyConversion: actionQueryCurrencyConversion,
   getQRCodePaymentMethods,
+  getInteracKonek: actionKonekConsents,
 };
 
 export const requiredSettings = ["accessToken"];

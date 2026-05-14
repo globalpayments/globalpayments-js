@@ -24,6 +24,7 @@ export declare const urls: {
     queryInstallmentPlans: (prod: boolean) => string;
     queryCurrencyConversionUrl: () => string;
     getQRCodePaymentMethodsUrl: () => string;
+    getInteracKonekUrl: () => string;
 };
 export declare const actions: IActions;
 export declare const requiredSettings: string[];

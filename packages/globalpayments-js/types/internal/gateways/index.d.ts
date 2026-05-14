@@ -4,6 +4,7 @@ export interface ICapabilitiesList {
         applePay?: boolean;
         googlePay?: boolean;
         clickToPay?: boolean;
+        konek?: boolean;
     };
     binCheck?: {
         hsaFsa?: boolean;
@@ -76,6 +77,7 @@ export interface IActions {
     queryInstallmentPlans?: (url: string, env: string, data: IDictionary) => Promise<any>;
     queryCurrencyConversion?: (url: string, env: string, data: IDictionary) => Promise<any>;
     getQRCodePaymentMethods?: (url: string, env: string, data: IDictionary) => Promise<any>;
+    getInteracKonek?: (url: string, env: string) => Promise<any>;
 }
 export interface IUrlGenerators {
     assetBaseUrl?: (result: string) => string;
@@ -83,6 +85,7 @@ export interface IUrlGenerators {
     queryInstallmentPlans?: (prod: boolean) => string;
     queryCurrencyConversionUrl?: () => string;
     getQRCodePaymentMethodsUrl?: () => string;
+    getInteracKonekUrl?: () => string;
 }
 export interface IGatewayModule {
     [key: string]: any;

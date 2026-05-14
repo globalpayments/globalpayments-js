@@ -73,6 +73,62 @@ export interface IConfiguration extends IDictionary {
             merchantId?: string;
             merchantName?: string;
         };
+        konek?: {
+            buttonColor?: string;
+            buttonLocale?: string;
+            countryCode?: string;
+            enabled?: boolean;
+            accountName: string;
+            channel: string;
+            mcc: string;
+            reference: string;
+            addresses: {
+                functions: string[];
+                reference: string;
+                buildingName: string;
+                line1: string;
+                line2: string;
+                line3: string;
+                city: string;
+                state: string;
+                postalCode: string;
+                country: string;
+                poBoxNumber: string;
+                contactPhone: {
+                    countryCode: string;
+                    subscriberNumber: string;
+                };
+            };
+            order: {
+                reference: string;
+                deliveryTimeframe: string;
+                shippingType: string;
+                shippingCost: string;
+                amount: string;
+                currency: string;
+                taxAmount: string;
+                firstAmount: string;
+                items: {
+                    label: string;
+                    reference: string;
+                    type: string;
+                    amount: string;
+                    quantity: string;
+                    description: string;
+                    paymentType: string;
+                }[];
+            };
+            fees: {
+                name: string;
+                amount: string;
+            }[];
+            paymentMethod: {
+                digitalWallet: {
+                    provider: string;
+                };
+            };
+            supportedPaymentMethods: string[];
+        };
         qrCodePayments?: IQRCodePaymentsConfiguration;
     };
     webApiKey?: string;

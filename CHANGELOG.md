@@ -4,7 +4,11 @@
 
 # Changelog
 
-## latest v4.1.22 (04/30/26)
+## latest v4.1.23 (05/14/26)
+- [Globalpayments-js][4.1.23]  Konek Integration 
+- [Globalpayments-js][4.1.23]  VISA Installments Funding Mode warning conditions enhanced
+
+## v4.1.22 (04/30/26)
 - [Globalpayments-js][4.1.22]  VISA Installments
 
 ## v4.1.21 (03/19/26)

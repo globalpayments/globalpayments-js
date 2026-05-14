@@ -16,7 +16,8 @@ export declare enum Apm {
     Affirm = "affirm",
     Klarna = "klarna",
     Sezzle = "sezzle",
-    Zip = "zip"
+    Zip = "zip",
+    Konek = "konek"
 }
 export declare enum ApmEvents {
     PaymentMethodActionDetail = "apm-action-details",
@@ -62,7 +63,8 @@ export declare enum ApmProviders {
     Affirm = "Affirm",
     Klarna = "Klarna",
     Sezzle = "Sezzle",
-    Zip = "Zip"
+    Zip = "Zip",
+    Konek = "Konek"
 }
 export declare enum QRCodePaymentsWeChatProviderBrands {
     WeChatBrand = "WeChat",
@@ -111,4 +113,12 @@ export declare enum EligibleCurrencies {
 export declare enum configDefaultValues {
     max_time_unit_number = 32,
     max_amount = 1000
+}
+export declare enum KonekLocal {
+    en = "en-CA",
+    fr = "fr-CA"
+}
+export declare enum KonekButtonColor {
+    BlackYellow = "black-yellow",
+    WhiteBlack = "white-black"
 }

@@ -12,6 +12,7 @@ export interface ICapabilitiesList {
     applePay?: boolean;
     googlePay?: boolean;
     clickToPay?: boolean;
+    konek?: boolean;
   };
   binCheck?: {
     hsaFsa?: boolean;
@@ -97,6 +98,7 @@ export interface IActions {
 
   // QR Code Payments gateway implementation
   getQRCodePaymentMethods?: (url: string, env: string, data: IDictionary) => Promise<any>;
+  getInteracKonek?: (url: string, env: string) => Promise<any>;
 }
 
 export interface IUrlGenerators {
@@ -111,6 +113,7 @@ export interface IUrlGenerators {
 
   // QR Code Payments urls
   getQRCodePaymentMethodsUrl?: () => string;
+  getInteracKonekUrl?: () => string;
 }
 
 export interface IGatewayModule {

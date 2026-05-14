@@ -66,12 +66,6 @@ export const checkInstallmentsAvailability = (installmentsData: any): boolean =>
     },
   ];
 
-  // if (!installmentsData || !installmentsData.country || !installmentsData.currency) {
-  //   // tslint:disable-next-line:no-console
-  //   console.warn('Missing country or currency in installmentsData', installmentsData);
-  //   return false;
-  // }
-
   const mapping = eligibleCountryCurrencyMapping.find(
     (item) => item.country === installmentsData.country
   );
@@ -109,25 +103,13 @@ export const checkInstallmentsAvailability = (installmentsData: any): boolean =>
     if (!installmentsData.config || typeof installmentsData.config !== 'object') {
       // tslint:disable-next-line:no-console
       console.warn('Visa Installments has no configuration and is using default values. Check integration guide on how to set a configuration.');
-    } else if (installmentsData.config.funding_mode === undefined || installmentsData.config.max_time_unit_number === undefined || installmentsData.config.max_amount === undefined) {
+    } else if (installmentsData.config.max_time_unit_number === undefined || installmentsData.config.max_amount === undefined) {
       // tslint:disable-next-line:no-console
       console.warn('Installments has a partial configuration and is using default values');
     }
-    const invalidFields = [];
-    // if (installmentsData.config?.max_time_unit_number < 1) invalidFields.push('max_time_unit_number');
-    // if (installmentsData.config?.max_amount < 1) invalidFields.push('max_amount');
-    if (installmentsData.config?.funding_mode) {
-      const allowedFundingModes = [
-        FundingMode.MERCHANT_FUNDED, FundingMode.ANY, FundingMode.BILATERAL, FundingMode.CONSUMER_FUNDED, FundingMode.HYBRID_FUNDED
-      ];
-      if (allowedFundingModes.indexOf(installmentsData.config.funding_mode) === -1) {
-        invalidFields.push('funding_mode');
-      }
-    }
-    if (invalidFields.length > 0) {
+    if(!installmentsData.config.hasOwnProperty('funding_mode')){
       // tslint:disable-next-line:no-console
-      console.error('Mandatory details are invalid in config:', invalidFields);
-      return false;
+      console.warn('Installments has no funding_mode configuration and is using default values');
     }
   }
   return true;

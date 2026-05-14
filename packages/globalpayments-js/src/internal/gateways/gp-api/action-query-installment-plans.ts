@@ -54,7 +54,8 @@ function createRequestBody(data: IDictionary): InstallmentRequest {
   };
   if(options.installments?.program === Program.VIS){
       request.program = Program.VIS;
-      request.funding_mode = options.installments?.config?.funding_mode || FundingMode.ANY;
+      const configKeys = Object.keys(options.installments.config || {});
+      request.funding_mode = configKeys.includes('funding_mode') ? options.installments?.config?.funding_mode : FundingMode.ANY;
       request.eligible_plans = EligiblePlans.LIMITED;
       request.terms = {
       max_time_unit_number: options.installments?.config?.max_time_unit_number !== undefined ? options.installments?.config?.max_time_unit_number : configDefaultValues.max_time_unit_number,

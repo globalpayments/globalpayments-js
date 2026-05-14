@@ -793,7 +793,9 @@ export declare const parentStyles: () => {
             "flex-direction": string;
             "justify-content": string;
             padding: string;
-            "font-size": string;
+            "font-size": string; /**
+             * Represents logic surrounding a group of hosted fields.
+             */
             "line-height": string;
         };
         ".secure-payment-form .qr-code-expired-alert-message-title"?: {
@@ -1186,7 +1188,12 @@ export declare const parentStyles: () => {
             };
             ".secure-payment-form .credit-card-currency-conversion .radio-button:first-child": {
                 margin: string;
-            };
+            }; /**
+             * Sets a special-case event listener that fires when all hosted
+             * fields in a form have registered / loaded
+             *
+             * @param fn The listener function
+             */
             ".secure-payment-form .credit-card-currency-conversion .card-currency-content": {
                 width: string;
                 "margin-top": string;
@@ -1355,9 +1362,6 @@ export declare const parentStyles: () => {
             "vertical-align": string;
         };
         ".secure-payment-form .ctp-info-tooltip:hover .ctp-info-tooltip-content": {
-            /**
-             * Represents logic surrounding a group of hosted fields.
-             */
             visibility: string;
             opacity: string;
         };
@@ -1610,12 +1614,6 @@ export declare const parentStyles: () => {
         ".secure-payment-form div[class$='-shield'] .ssl-logo_ico": {
             height: string;
             "margin-left": string;
-            /**
-             * Sets a special-case event listener that fires when all hosted
-             * fields in a form have registered / loaded
-             *
-             * @param fn The listener function
-             */
             "vertical-align": string;
         };
         ".secure-payment-form div[class$='-shield'] .ssl-msg": {
@@ -1871,7 +1869,9 @@ export declare const parentStyles: () => {
             "flex-direction": string;
             "justify-content": string;
             padding: string;
-            "font-size": string;
+            "font-size": string; /**
+             * Represents logic surrounding a group of hosted fields.
+             */
             "line-height": string;
         };
         ".secure-payment-form .qr-code-expired-alert-message-title"?: {
@@ -2245,7 +2245,12 @@ export declare const parentStyles: () => {
             };
             ".secure-payment-form .credit-card-currency-conversion .radio-button:first-child": {
                 margin: string;
-            };
+            }; /**
+             * Sets a special-case event listener that fires when all hosted
+             * fields in a form have registered / loaded
+             *
+             * @param fn The listener function
+             */
             ".secure-payment-form .credit-card-currency-conversion .card-currency-content": {
                 width: string;
                 "margin-top": string;
@@ -2265,9 +2270,7 @@ export declare const parentStyles: () => {
                 "flex-flow": string;
             };
             ".secure-payment-form .credit-card-currency-conversion .radio-button": {
-                width: string; /**
-                 * Deletes all hosted fields within the form
-                 */
+                width: string;
                 "margin-bottom": string;
                 "margin-right": string;
             };
@@ -2441,9 +2444,6 @@ export declare const parentStyles: () => {
             "vertical-align": string;
         };
         ".secure-payment-form .ctp-info-tooltip:hover .ctp-info-tooltip-content": {
-            /**
-             * Represents logic surrounding a group of hosted fields.
-             */
             visibility: string;
             opacity: string;
         };
@@ -2813,7 +2813,12 @@ export declare const parentStyles: () => {
         };
         ".secure-payment-form .installment-issuer-panel-content": {
             color: string;
-            "font-style": string;
+            "font-style": string; /**
+             * Sets a special-case event listener that fires when all hosted
+             * fields in a form have registered / loaded
+             *
+             * @param fn The listener function
+             */
             "font-weight": string;
             "line-height": string;
             "font-size": string;
@@ -3168,6 +3173,9 @@ export declare const parentStyles: () => {
             "border-right": string;
             "border-bottom": string;
         };
+        /**
+         * Represents logic surrounding a group of hosted fields.
+         */
         "@font-face": {
             "font-family": string;
             src: string;
@@ -3650,7 +3658,12 @@ export declare const parentStyles: () => {
             };
             ".secure-payment-form .credit-card-currency-conversion .radio-button:first-child": {
                 margin: string;
-            };
+            }; /**
+             * Sets a special-case event listener that fires when all hosted
+             * fields in a form have registered / loaded
+             *
+             * @param fn The listener function
+             */
             ".secure-payment-form .credit-card-currency-conversion .card-currency-content": {
                 width: string;
                 "margin-top": string;
@@ -3670,9 +3683,7 @@ export declare const parentStyles: () => {
                 "flex-flow": string;
             };
             ".secure-payment-form .credit-card-currency-conversion .radio-button": {
-                width: string; /**
-                 * Deletes all hosted fields within the form
-                 */
+                width: string;
                 "margin-bottom": string;
                 "margin-right": string;
             };
@@ -3785,7 +3796,9 @@ export declare const parentStyles: () => {
             "flex-direction": string;
             "justify-content": string;
             padding: string;
-            "font-size": string;
+            "font-size": string; /**
+             * Represents logic surrounding a group of hosted fields.
+             */
             "line-height": string;
         };
         ".secure-payment-form .qr-code-expired-alert-message-title"?: {
@@ -3947,9 +3960,6 @@ export declare const parentStyles: () => {
             "vertical-align": string;
         };
         ".secure-payment-form .ctp-info-tooltip:hover .ctp-info-tooltip-content": {
-            /**
-             * Represents logic surrounding a group of hosted fields.
-             */
             visibility: string;
             opacity: string;
         };
@@ -4209,7 +4219,11 @@ export declare const parentStyles: () => {
             "font-weight": string;
             "font-family": string;
             color: string;
-            "line-height": string;
+            "line-height": string; /**
+             * Appends additional CSS rules to the group of hosted fields
+             *
+             * @param json New CSS rules
+             */
             display: string;
             "vertical-align": string;
             "text-align": string;
@@ -4483,7 +4497,9 @@ export declare const parentStyles: () => {
             "flex-direction": string;
             "justify-content": string;
             padding: string;
-            "font-size": string;
+            "font-size": string; /**
+             * Represents logic surrounding a group of hosted fields.
+             */
             "line-height": string;
         };
         ".secure-payment-form .qr-code-expired-alert-message-title"?: {
@@ -4857,7 +4873,12 @@ export declare const parentStyles: () => {
             };
             ".secure-payment-form .credit-card-currency-conversion .radio-button:first-child": {
                 margin: string;
-            };
+            }; /**
+             * Sets a special-case event listener that fires when all hosted
+             * fields in a form have registered / loaded
+             *
+             * @param fn The listener function
+             */
             ".secure-payment-form .credit-card-currency-conversion .card-currency-content": {
                 width: string;
                 "margin-top": string;
@@ -4877,9 +4898,7 @@ export declare const parentStyles: () => {
                 "flex-flow": string;
             };
             ".secure-payment-form .credit-card-currency-conversion .radio-button": {
-                width: string; /**
-                 * Deletes all hosted fields within the form
-                 */
+                width: string;
                 "margin-bottom": string;
                 "margin-right": string;
             };
@@ -5053,9 +5072,6 @@ export declare const parentStyles: () => {
             "vertical-align": string;
         };
         ".secure-payment-form .ctp-info-tooltip:hover .ctp-info-tooltip-content": {
-            /**
-             * Represents logic surrounding a group of hosted fields.
-             */
             visibility: string;
             opacity: string;
         };
@@ -5425,7 +5441,12 @@ export declare const parentStyles: () => {
         };
         ".secure-payment-form .installment-issuer-panel-content": {
             color: string;
-            "font-style": string;
+            "font-style": string; /**
+             * Sets a special-case event listener that fires when all hosted
+             * fields in a form have registered / loaded
+             *
+             * @param fn The listener function
+             */
             "font-weight": string;
             "line-height": string;
             "font-size": string;

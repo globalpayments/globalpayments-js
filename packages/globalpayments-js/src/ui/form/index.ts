@@ -45,6 +45,7 @@ import { getFieldStyles, getParentStyles } from "../../internal/lib/styles/theme
 import { addExpressPayDetailsEventListener, formatBillingAddress, formatShippingAddress, getExpressPayDetailsKeys, getExpressPayQueryParams } from "../../internal/lib/bank-selection/helpers";
 import getExpressPayBaseUrl from "../../internal/gateways/gp-api/get-express-pay-base-url";
 import { addInstallmentEligibilityBadge } from "../../internal/lib/installments/templates/common";
+import addKonek from "../iframe-field/konek/action-add";
 
 export { IUIFormField } from "../iframe-field";
 
@@ -94,6 +95,7 @@ export const frameFieldTypes = [
   Apm.Klarna,
   Apm.Sezzle,
   Apm.Zip,
+  Apm.Konek,
   CardFormFieldNames.CardNumber,
   CardFormFieldNames.CardExpiration,
   CardFormFieldNames.CardCvv,
@@ -289,6 +291,11 @@ export default class UIForm {
       )
     }
     for (const type of frameFieldTypes) {
+      // Do not create Konek iframe unless Konek configuration exists in options.
+      if (type === Apm.Konek && (options.apms?.konek && (!options.apms?.konek?.enabled || options.apms?.konek.countryCode !== "CA"))) {
+        continue;
+      }
+
       if (!this.fields[type]) {
         continue;
       }
@@ -357,7 +364,7 @@ export default class UIForm {
     const openBanking = this.frames[Apm.OpenBankingPayment];
     const paypal = this.frames[Apm.PayPal];
     const qrCodePayments = this.frames[Apm.QRCodePayments];
-
+    const konek = this.frames[Apm.Konek];
     const blik = this.frames[Apm.Blik];
     const expressPay = this.frames[Apm.ExpressPay];
 
@@ -441,6 +448,11 @@ export default class UIForm {
     if(ctp) {
       ctp?.container?.querySelector('iframe')?.remove();
       addClickToPay(ctp, this.fields[Apm.ClickToPay]);
+    }
+
+    if(konek) {
+      konek?.container?.querySelector('iframe')?.remove();
+      addKonek(konek, this.fields[Apm.Konek]);
     }
 
     if (qrCodePayments) {
@@ -823,7 +835,8 @@ export default class UIForm {
         && type !== Apm.Affirm
         && type !== Apm.Klarna
         && type !== Apm.Sezzle
-        && type !== Apm.Zip) {
+        && type !== Apm.Zip
+        && type !== Apm.Konek) {
         fields.push(type);
       }
     }

@@ -308,7 +308,8 @@ export const changeCreditCardFormFieldsVisibility = (visible: boolean): void => 
     '.encrypted',
     '.credit-card-save-enable',
     '.credit-card-submit',
-    '.credit-card-installments'
+    '.credit-card-installments',
+    '.konek-button-wrapper',
     // '.credit-card-shield',
     // '.credit-card-logo',
   ];
