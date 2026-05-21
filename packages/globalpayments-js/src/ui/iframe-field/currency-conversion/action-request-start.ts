@@ -17,8 +17,8 @@ export default (id: string, data: IDictionary): void => {
 
   // Destructure required data from the input
   const { cardNumber, cardExpiration } = data;
-  let { amount } = data;
-  amount = convertAmount(amount, true, 0);
+  const { amount } = data;
+  // amount = convertAmount(amount, true, 0);
 
   // Extract expiry month and year from the card expiration date
   const [expiryMonth, fullExpiryYear] = cardExpiration.replace(' ', '').split('/');

@@ -11,6 +11,7 @@ import { EligibleCountries } from "../../enums";
 import getAssetBaseUrl from "../../../gateways/gp-api/get-asset-base-url";
 import { getLearnMoreLink } from "../helpers/currency";
 import { InstallmentLabels } from "./enum";
+import { formatAmount } from "../../../../common/currency";
 
 export function createVisaInstallmentSection(
     installmentOptions: any[],
@@ -67,12 +68,12 @@ export function createVisaInstallmentSection(
 
         let amountToDisplay:any = Number(option.fees?.total_upfront_amount) + Number(option.fees?.subsequent_amount) + Number(option.planAmount);
         if(amountToDisplay > 0) {
-            amountToDisplay = (Number(amountToDisplay)/100).toFixed(2);
+            amountToDisplay = formatAmount((Number(amountToDisplay)),option.currency);
         }
         const span = createHtmlSpanElement({
             textContent: option.reference && amountToDisplay
                 ? `${amountToDisplay} ${option.currency}/${installmentTranslations[option.timeUnit.toLowerCase()]} ${options.installments?.country === EligibleCountries.UK ? ` (${installmentTranslations.includeFees})` : ''}`
-                : `${Number(option.planAmount / 100).toFixed(2)} ${option.currency}`,
+                : `${formatAmount(Number(option.planAmount),option.currency)} ${option.currency}`,
             className: "installment-option-details-span",
             id: `installment-option-details-${option.reference ? option.reference : "pay-in-full"}`,
         });
@@ -115,7 +116,7 @@ export function createVisaInstallmentSection(
                 });
 
                 const totalAmountFeesSpan = createHtmlSpanElement({
-                    textContent: `${installmentTranslations.fees}: ${(Number(option.fees?.subsequent_amount) / 100).toFixed(2)} ${option.currency}/${installmentTranslations[option.timeUnit.toLowerCase()]} (${installmentTranslations.apr}: ${formatCostPercentage(option.costPercentage)}%)`,
+                    textContent: `${installmentTranslations.fees}: ${formatAmount(Number(option.fees?.subsequent_amount), option.currency)} ${option.currency}/${installmentTranslations[option.timeUnit.toLowerCase()]} (${installmentTranslations.apr}: ${formatCostPercentage(option.costPercentage)}%)`,
                     className: "installment-option-fee-details-span",
                     id: `installment-option-fee-details-${option.reference}`,
                 });
@@ -125,8 +126,8 @@ export function createVisaInstallmentSection(
             }
 
             const totalAmountSpan = createHtmlSpanElement({
-                textContent: `${installmentTranslations.total}: ${(Number(option.totalPlanCost) / 100).toFixed(2)} ${option.currency}
-                ${options.installments?.country === EligibleCountries.UK ? `(${installmentTranslations.include} ${(Number(option.fees?.total_amount) / 100).toFixed(2)} ${option.currency} ${installmentTranslations.fees.toLowerCase()})` : ''}`,
+                textContent: `${installmentTranslations.total}: ${formatAmount((Number(option.totalPlanCost)),option.currency)} ${option.currency}
+                ${options.installments?.country === EligibleCountries.UK ? `(${installmentTranslations.include} ${(formatAmount(Number(option.fees?.total_amount), option.currency))} ${option.currency} ${installmentTranslations.fees.toLowerCase()})` : ''}`,
                 className: "installment-option-details-span",
                 id: `installment-option-details-${option.reference}`,
             });

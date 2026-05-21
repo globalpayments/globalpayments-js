@@ -1,4 +1,4 @@
-import { addCurrencyToAmount } from "../../../common/currency";
+import { addCurrencyToAmount, formatAmount } from "../../../common/currency";
 import { createHtmlDivElement, createHtmlSpanElement } from "../../../common/html-element";
 import { bus } from "../../../internal";
 import { IError } from "../../../internal/gateways";
@@ -18,7 +18,7 @@ export default function addOrderInformation (cardFormContainerElement: HTMLEleme
     const titleFieldNames = 'title';
 
     const fields = [
-        { fieldName: 'order-total-amount', label: orderInformationTranslations.amount, value: addCurrencyToAmount(currencyCode, orderTotalAmount) },
+        { fieldName: 'order-total-amount', label: orderInformationTranslations.amount, value: addCurrencyToAmount(currencyCode, formatAmount(orderTotalAmount,currencyCode)) },
         { fieldName: 'order-reference', label: orderInformationTranslations.orderReference, value: orderReference },
     ];
 

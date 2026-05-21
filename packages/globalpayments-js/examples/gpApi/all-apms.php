@@ -10,8 +10,8 @@ $appKey = 'cQOKHoAAvNIcEN8s';
 //$account = 'TRA_c7fdc03bc9354fd3b674dddb22583553';
 //$merchant_id = 'MER_48054b882b1847c8a11214e3ad6b5f02';
 
-$appId = 'cXlj8KVAF1xlr8wYAhQDLgRpmdxEUwa2';
-$appKey = 'GR7iVxV9N2ngvnIf';
+// $appId = 'cXlj8KVAF1xlr8wYAhQDLgRpmdxEUwa2';
+// $appKey = 'GR7iVxV9N2ngvnIf';
 // $account = 'TRA_89e47e02d3954f4c9999006e23b22375';
 
 $nonce = date(DateTime::ISO8601);

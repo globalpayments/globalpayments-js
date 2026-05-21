@@ -14,7 +14,7 @@ import {translateMessage} from "../../translate";
 import translations from "../../translations/translations";
 import {CurrencyConversionStyles} from "./enums";
 import {setRadioGroupEvents} from "./events";
-import {convertAmount} from "../../../../common/currency";
+import {convertAmount, formatAmount} from "../../../../common/currency";
 import getAssetBaseUrl from "../../../gateways/gp-api/get-asset-base-url";
 
 /**
@@ -38,7 +38,8 @@ export const createRadioGroupHtmlElement = (iframeField: IframeField, data: any)
   const legend = createHtmlElement('legend');
   legend.textContent = translateMessage(lang, translations.en?.dcc?.label);
 
-  const merchantCurrencyValueText = `${convertAmount(data.amount, false)} ${data.currency}`;
+  // const merchantCurrencyValueText = `${convertAmount(data.amount, false)} ${data.currency}`;
+  const merchantCurrencyValueText = `${formatAmount(data.amount, data.currency)} ${data.currency}`;
   const merchantCurrencyRadio = createHtmlRadioButtonElement({
     id: CurrencyConversionStyles.MERCHANT_CURRENCY_ID,
     className: "merchant-currency",
@@ -55,7 +56,7 @@ export const createRadioGroupHtmlElement = (iframeField: IframeField, data: any)
       'aria-label': dccTranslations.merchantCurrency['aria-label']
     }]
   });
-  const cardCurrencyValueText = `${convertAmount(data.payer_amount, false)} ${data.payer_currency}`;
+  const cardCurrencyValueText = `${formatAmount(data.payer_amount, data.payer_currency)} ${data.payer_currency}`;
   const cardCurrencyRadio = createHtmlRadioButtonElement({
     id: CurrencyConversionStyles.CARD_CURRENCY_ID,
     className: "card-currency",

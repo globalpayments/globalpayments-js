@@ -229,9 +229,10 @@ export const availableCurrencies = [
         "symbol": "Ft"
     },
     {
-        "description": "Iceland Krona",
+        "description": "ICELANDIC KRONA",
         "code": "ISK",
-        "symbol": "kr"
+        "symbol": "kr",
+        "exponents" : 0
     },
     {
         "description": "India Rupee",
@@ -264,9 +265,10 @@ export const availableCurrencies = [
         "symbol": "J$"
     },
     {
-        "description": "Japan Yen",
+        "description": "YEN",
         "code": "JPY",
-        "symbol": "¥"
+        "symbol": "¥",
+        "exponents" : 0
     },
     {
         "description": "Jersey Pound",
@@ -284,9 +286,10 @@ export const availableCurrencies = [
         "symbol": "₩"
     },
     {
-        "description": "Korea (South) Won",
+        "description": "Won",
         "code": "KRW",
-        "symbol": "₩"
+        "symbol": "₩",
+        "exponents" : 0
     },
     {
         "description": "Kyrgyzstan Som",
@@ -379,9 +382,10 @@ export const availableCurrencies = [
         "symbol": "kr"
     },
     {
-        "description": "Oman Rial",
+        "description": "RIAL OMANI",
         "code": "OMR",
-        "symbol": "﷼"
+        "symbol": "﷼",
+        "exponents" : 3
     },
     {
         "description": "Pakistan Rupee",
@@ -559,9 +563,10 @@ export const availableCurrencies = [
         "symbol": "Bs"
     },
     {
-        "description": "Viet Nam Dong",
+        "description": "Dong",
         "code": "VND",
-        "symbol": "₫"
+        "symbol": "₫",
+        "exponents" : 0
     },
     {
         "description": "Yemen Rial",
@@ -572,7 +577,21 @@ export const availableCurrencies = [
         "description": "Zimbabwe Dollar",
         "code": "ZWD",
         "symbol": "Z$"
-    }
+    },
+    // Newly added currencies
+    {
+        "description": "BAHRAINI DINAR",
+        "code": "BHD",
+        "symbol": "د.ب",
+        "exponents" : 3
+    },
+    {
+        "description": "KUWAITI DINAR",
+        "code": "KWD",
+        "symbol": "د.ك",
+        "exponents" : 3
+    },
+
 ];
 
 export const convertAmount = (amount: string, withoutDecimals = true, decimalPlaces = 2) => {
@@ -597,4 +616,40 @@ export const convertAmount = (amount: string, withoutDecimals = true, decimalPla
 
     // Ensure the amount has two decimal places
     return parsedAmount.toFixed(decimalPlaces);
+}
+
+export const formatAmount = (
+    amount: string | number | undefined,
+    currencyCode: string
+): string => {
+    // Replace commas with dots for proper parsing (if string)
+    const sanitizedAmount = typeof amount === 'string' ? amount.replace(',', '.') : String(amount);
+
+    // Parse the amount to a floating point number
+    const parsedAmount = parseFloat(sanitizedAmount);
+
+    // Return error if parsing fails
+    if (isNaN(parsedAmount)) {
+        bus.emit("error", {
+            error: true,
+            reasons: [
+                { code: "INVALID_AMOUNT", message: NaN },
+            ],
+        });
+        return "";
+    }
+
+    const currency = availableCurrencies.find(x => x.code === currencyCode);
+    if (!currency) {
+        bus.emit("warning", { code: "UNKNOWN_CURRENCY", currencyCode });
+    }
+    const exponent: number = currency?.exponents ?? 2;
+    // const exponent:any = currency?.hasOwnProperty("exponents") ? currency.exponents : 2;
+
+    // Convert from lowest unit to display value
+    const divisor = Math.pow(10, exponent);
+    const displayAmount = parsedAmount / divisor;
+
+    // Ensure the amount has the correct number of decimal places
+    return displayAmount.toFixed(exponent);
 }

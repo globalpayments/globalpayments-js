@@ -4,7 +4,10 @@
 
 # Changelog
 
-## latest v4.1.23 (05/14/26)
+## latest v4.1.24 (05/21/26)
+- [Globalpayments-js][4.1.24]  Amount Setting Behavior Consolidation. Adding exponents to displayed amounts based on currency.
+
+## v4.1.23 (05/14/26)
 - [Globalpayments-js][4.1.23]  Konek Integration 
 - [Globalpayments-js][4.1.23]  VISA Installments Funding Mode warning conditions enhanced
 
