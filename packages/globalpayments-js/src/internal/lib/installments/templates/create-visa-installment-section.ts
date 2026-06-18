@@ -14,6 +14,7 @@ import { InstallmentLabels } from "./enum";
 import { formatAmount } from "../../../../common/currency";
 
 export function createVisaInstallmentSection(
+    installmentId:string,
     installmentOptions: any[],
     iFrameField: IframeField | undefined,
     installmentTranslations:any
@@ -92,9 +93,11 @@ export function createVisaInstallmentSection(
 
         installmentDetailsDiv.appendChild(span);
 
-        if (option.reference) {
-            const getTermsAndConditionsObject = option.termsAndConditions?.find((term: any) => term.language === getCurrentLanguage());
+        const getTermsAndConditionsObject =
+            option.termsAndConditions?.find((term: any) => term?.language === getCurrentLanguage())
+            ?? option.termsAndConditions?.find((term: any) => term?.language === 'en');
 
+        if (option.reference) {
             const additionalDetailsDiv = createHtmlDivElement({
                 className: "installment-option-additional-details",
                 id: `installment-option-additional-details-${option.reference}`
@@ -195,7 +198,7 @@ export function createVisaInstallmentSection(
         }
 
         detailsContainerDiv.addEventListener("click", (event) => {
-            handleInstallmentOptionClick(flexContainer, payInDiv, detailsContainerDiv, checkbox,option,iFrameField);
+            handleInstallmentOptionClick(installmentId,flexContainer, payInDiv, detailsContainerDiv, checkbox,option,iFrameField,getTermsAndConditionsObject);
             event.stopPropagation();
         });
         detailsContainerDiv.appendChild(payInDiv);
@@ -207,14 +210,18 @@ export function createVisaInstallmentSection(
         className: "installment-footer-section",
         id: "installment-footer-section"
     });
-    const visaSpan = createHtmlSpanElement({
+    const visaSpanStart = createHtmlSpanElement({
         className: "installment-visa-text",
-        textContent: `${installmentTranslations.footerInstallmentsText}`
+        textContent: `${installmentTranslations.footerInstallmentsTextStart}`
     });
     const visaLogo =  createHtmlImageElement({
         className: "installment-visa-logo",
         src: `${getAssetBaseUrl('')}images/visa.svg`,
         alt: "Visa Logo"
+    });
+    const visaSpanEnd = createHtmlSpanElement({
+        className: "installment-visa-text",
+        textContent: `${installmentTranslations.footerInstallmentsTextEnd}`
     });
     const learnMoreLink = createHtmlAnchorElement({
         href: `${getLearnMoreLink(options.installments?.country)}`,
@@ -222,20 +229,23 @@ export function createVisaInstallmentSection(
         className: "installment-visa-learn-more",
         target: HtmlAnchorTarget.Blank
     });
-    footerSection.appendChild(visaSpan);
+    footerSection.appendChild(visaSpanStart);
     footerSection.appendChild(visaLogo);
+    footerSection.appendChild(visaSpanEnd);
     footerSection.appendChild(learnMoreLink);
     section.appendChild(footerSection);
     return section;
 }
 
 function handleInstallmentOptionClick(
+    installmentId: string,
     flexContainer: HTMLElement,
     payInDiv: HTMLElement,
     detailsContainerDiv: HTMLElement,
     checkbox: HTMLInputElement,
     installmentPlan: InstallmentTerm,
-    iFrameField: IframeField | undefined
+    iFrameField: IframeField | undefined,
+    getTermsAndConditionsObject: any
 ) {
 
     // If the error is present (red border) and the checkbox is still unchecked, do not reset styles
@@ -283,13 +293,17 @@ function handleInstallmentOptionClick(
     let installmentData : InstallmentPaymentData | VisaInstallmentPaymentData | null = null;
     if (installmentPlan.reference) {
         installmentData = {
-            installmentName: installmentPlan.name,
-            installmentReference: installmentPlan.reference
+            installmentReference: installmentPlan.reference,
+            installmentId,
+            language: getTermsAndConditionsObject.language,
+            version: getTermsAndConditionsObject.version
         }
     } else {
         installmentData = {
-            installmentName: "",
-            installmentReference: ""
+            installmentReference: "",
+            installmentId: "",
+            language: "",
+            version: ""
         }
     }
 

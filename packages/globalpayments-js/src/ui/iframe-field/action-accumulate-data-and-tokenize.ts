@@ -32,13 +32,16 @@ export default (id: string, type: string, data: IDictionary) => {
   (w.dataReceivedFields as string[]).push(data.data.type);
 
   const installment = data.data.installment;
+  const currencyConversion = data.data.currencyConversion;
+
   const isInstallmentActive = installment?.installmentReference
   && (
     (options.installments?.program === Program.VIS
-      ? !!installment?.installmentName
+      ? !!installment?.installmentId && !!installment?.language && !!installment?.version
       : !!installment?.installmentId)
   );
-  const currencyConversion = data.data.currencyConversion;
+
+  const sendInstallment = currencyConversion ? (currencyConversion?.currencyConversionAccepted === 'NO' ? isInstallmentActive : false) : isInstallmentActive;
 
   // proceed with tokenization once we have all expected field data
   if (
@@ -138,7 +141,7 @@ export default (id: string, type: string, data: IDictionary) => {
           data: {
             // redirectUrl,
             // expressPayEnabled: options.expressPay?.enabled,
-            ...(isInstallmentActive ?  {installment} : {}),
+            ...(sendInstallment ?  {installment} : {}),
             details: {
               ...(response.details),
               ...(currencyConversion ?  {currencyConversion} : {}),

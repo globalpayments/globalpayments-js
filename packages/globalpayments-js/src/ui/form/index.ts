@@ -735,19 +735,6 @@ export default class UIForm {
               if ((options.installments?.program === Program.VIS) &&
                 (this.currencyConversionResponseData.response.currencyConversionAccepted === "YES")) {
                 installmentDiv.style.display = 'none';
-                const installmentData = {
-                  installmentName: "",
-                  installmentReference: ""
-                }
-                const iframeField = this.frames[INSTALLMENTS_KEY];
-                postMessage.post(
-                  {
-                    data: installmentData,
-                    id: iframeField ? iframeField.id : '',
-                    type: `ui:iframe-field:${InstallmentEvents.CardInstallmentSendValue}`,
-                  },
-                  iframeField && iframeField.id ? iframeField.id : ''
-                );
                 if (installmentAvailabilityDiv) {
                   installmentAvailabilityDiv.style.display = 'block';
                 }
@@ -876,10 +863,12 @@ export default class UIForm {
           checkbox?.classList.add('checkbox-error');
           targetInstallmentContainer.style.border = "2px solid red";
           const addErrorElement: HTMLElement | null = document.getElementById(`installment-terms-error-${installment.installmentReference}`);
-          if(addErrorElement){
-              addErrorElement.style.display = "block";
+          if (addErrorElement) {
+            addErrorElement.style.display = "block";
           }
-          return;
+          if(currencyConversion) {
+            if (this.currencyConversionResponseData.response.currencyConversionAccepted === "NO") return;
+          } else return;
         }
       }
     }

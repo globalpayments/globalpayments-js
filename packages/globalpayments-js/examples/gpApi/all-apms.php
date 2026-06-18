@@ -29,8 +29,8 @@ $request = json_encode([
     'grant_type' => 'client_credentials',
     'nonce' => $nonce,
     'interval_to_expire' => '1_HOUR',
-    // 'permissions' => ['PMT_POST_Create_Single']
-    'permissions' => ['CON_POST_Create']
+    'permissions' => ['PMT_POST_Create_Single','INS_POST_Query','CCS_POST_DCC']
+    // 'permissions' => ['CON_POST_Create']
 ]);
 
 $headers = ['X-GP-Version' => '2021-03-22'];
@@ -69,9 +69,10 @@ $accessToken = $response->token ?? '';
     <script>
         GlobalPayments.configure({
             accessToken: "<?= $accessToken ?>",
-            env: "local",
+            env: "sandbox",
             apiVersion: "2021-03-22",
-            language: "en",
+            language: "zh-tw",
+            // language: "en",
             reference: "",
             //merchantId: "<?//= $merchant_id ?>//",
             apms: {
@@ -250,8 +251,8 @@ $accessToken = $response->token ?? '';
             // merchantId: "MER_20c2b3fcfedd484e9c3723347db56b71",
             installments: {
                 program: GlobalPayments.enums.Program.VIS,
-                country: GlobalPayments.enums.EligibleCountries.CA,
-                currency: GlobalPayments.enums.EligibleCurrencies.CA,
+                country: GlobalPayments.enums.EligibleCountries.UK,
+                currency: GlobalPayments.enums.EligibleCurrencies.UK,
                 // accountName: "Portico_VISA_IPP_CNP_CERT" // CA,
                 accountName: "GPECOM_Installments_Processing", // UK,
                 config:{

@@ -2649,7 +2649,7 @@ export declare const parentStyles: () => {
             "font-size": string;
             "font-weight": string;
         };
-        ".secure-payment-form .payment-options": {
+        ".secure-payment-form .payment-options-installment": {
             display: string;
             "flex-direction": string;
             gap: string;
@@ -2741,7 +2741,12 @@ export declare const parentStyles: () => {
         ".secure-payment-form .checkbox-error": {
             outline: string;
             "outline-offset": string;
-        };
+        }; /**
+         * Instantiates a new UIForm object for a group of hosted fields
+         *
+         * @param fields Hosted field configuration
+         * @param styles Custom CSS configuration
+         */
         ".secure-payment-form .installment-terms-label": {
             display: string;
             "align-items": string;
@@ -2813,12 +2818,7 @@ export declare const parentStyles: () => {
         };
         ".secure-payment-form .installment-issuer-panel-content": {
             color: string;
-            "font-style": string; /**
-             * Sets a special-case event listener that fires when all hosted
-             * fields in a form have registered / loaded
-             *
-             * @param fn The listener function
-             */
+            "font-style": string;
             "font-weight": string;
             "line-height": string;
             "font-size": string;
@@ -2842,6 +2842,9 @@ export declare const parentStyles: () => {
             "line-height": string;
             "font-size": string;
         };
+        /**
+         * Deletes all hosted fields within the form
+         */
         ".secure-payment-form .installment-plan-details": {
             "border-top": string;
             "border-bottom": string;
@@ -5277,7 +5280,7 @@ export declare const parentStyles: () => {
             "font-size": string;
             "font-weight": string;
         };
-        ".secure-payment-form .payment-options": {
+        ".secure-payment-form .payment-options-installment": {
             display: string;
             "flex-direction": string;
             gap: string;
@@ -5369,7 +5372,12 @@ export declare const parentStyles: () => {
         ".secure-payment-form .checkbox-error": {
             outline: string;
             "outline-offset": string;
-        };
+        }; /**
+         * Instantiates a new UIForm object for a group of hosted fields
+         *
+         * @param fields Hosted field configuration
+         * @param styles Custom CSS configuration
+         */
         ".secure-payment-form .installment-terms-label": {
             display: string;
             "align-items": string;
@@ -5441,12 +5449,7 @@ export declare const parentStyles: () => {
         };
         ".secure-payment-form .installment-issuer-panel-content": {
             color: string;
-            "font-style": string; /**
-             * Sets a special-case event listener that fires when all hosted
-             * fields in a form have registered / loaded
-             *
-             * @param fn The listener function
-             */
+            "font-style": string;
             "font-weight": string;
             "line-height": string;
             "font-size": string;
@@ -5470,6 +5473,9 @@ export declare const parentStyles: () => {
             "line-height": string;
             "font-size": string;
         };
+        /**
+         * Deletes all hosted fields within the form
+         */
         ".secure-payment-form .installment-plan-details": {
             "border-top": string;
             "border-bottom": string;

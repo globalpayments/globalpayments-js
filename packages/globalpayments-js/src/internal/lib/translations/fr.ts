@@ -115,7 +115,8 @@ const fr = {
     includeFees:'frais inclus',
     include:'inclus',
     furtherInfoText : 'Plus d\'Information et Politique de confidentialité',
-    footerInstallmentsText: 'Versements Rendus Possible par'
+    footerInstallmentsTextStart: 'Versements Rendus Possible par',
+    footerInstallmentsTextEnd: ''
   }
 }
 

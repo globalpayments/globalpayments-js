@@ -106,7 +106,8 @@ declare const pt: {
         includeFees: string;
         include: string;
         furtherInfoText: string;
-        footerInstallmentsText: string;
+        footerInstallmentsTextStart: string;
+        footerInstallmentsTextEnd: string;
     };
 };
 export default pt;

@@ -56,7 +56,7 @@ declare const styles: (assetBaseUrl: string) => {
         "font-size": string;
         "font-weight": string;
     };
-    ".secure-payment-form .payment-options": {
+    ".secure-payment-form .payment-options-installment": {
         display: string;
         "flex-direction": string;
         gap: string;

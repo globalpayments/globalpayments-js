@@ -1,4 +1,4 @@
-declare const en: {
+declare const zhCn: {
     labels: {
         "card-number": string;
         "card-expiration": string;
@@ -99,10 +99,7 @@ declare const en: {
             redirectingToPaymentPageMessage: string;
         };
     };
-    apms: {
-        button: {
-            getAriaLabel: (paymentMethod: string) => string;
-        };
+    apm: {
         redirectToBank: string;
     };
     dcc: {
@@ -116,6 +113,7 @@ declare const en: {
             tooltip: (exchangeRateSource: string, exchangeRateTimeCreated: string) => string;
             "aria-label": string;
         };
+        installmentWithDcc: string;
     };
     orderInformation: {
         amount: string;
@@ -147,4 +145,4 @@ declare const en: {
         footerInstallmentsTextEnd: string;
     };
 };
-export default en;
+export default zhCn;

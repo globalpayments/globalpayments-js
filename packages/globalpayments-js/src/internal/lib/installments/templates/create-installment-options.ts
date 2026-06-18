@@ -20,11 +20,11 @@ export function createInstallmentOptions(iFrameField: IframeField | undefined, i
   const container = document.getElementById('installment-option-section') as HTMLElement;
   container.setAttribute('style', 'display: flex');
 
-  if (document.getElementsByClassName("payment-options").length > 0) return;
+  if (document.getElementsByClassName("payment-options-installment").length > 0) return;
 
   const paymentContent = createHtmlDivElement({
-    className: 'payment-options',
-    id: 'payment-options'
+    className: 'payment-options-installment',
+    id: 'payment-options-installment'
   });
 
   // Add text to choose payment option
@@ -83,7 +83,7 @@ export function createInstallmentOptions(iFrameField: IframeField | undefined, i
       }
       installmentPlans.terms.unshift(firstTerm as InstallmentTerm);
       const sortedPlans = sortInstallmentPlans(installmentPlans.terms);
-      const plansToDisplay: any = createVisaInstallmentSection(sortedPlans, iFrameField, installmentTranslations);
+      const plansToDisplay: any = createVisaInstallmentSection(installmentPlans.id, sortedPlans, iFrameField, installmentTranslations);
       paymentContent.appendChild(plansToDisplay);
       container.appendChild(paymentContent);
       iFrameField?.container?.append(container);

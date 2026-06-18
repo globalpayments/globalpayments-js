@@ -13,15 +13,13 @@ export default (id: string, data: IDictionary): void => {
   if (!id) return;
 
   // Destructure required data from the input based on program
-  const { installmentReference } = data;
-  const payload: any = { installmentReference };
+  const { installmentReference, installmentId } = data;
+  const payload: any = { installmentReference, installmentId };
 
   if (options.installments?.program === Program.VIS) {
-    const { installmentName = "" } = data;
-    payload.installmentName = installmentName;
-  } else {
-    const { installmentId = "" } = data;
-    payload.installmentId = installmentId;
+    const { language = "", version = "" } = data;
+    payload.language = language;
+    payload.version = version;
   }
 
   postMessage.post(

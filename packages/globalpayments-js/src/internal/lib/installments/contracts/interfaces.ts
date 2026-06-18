@@ -10,6 +10,8 @@ export interface IInstallmentAdditionalConfig {
 }
 
 export interface VisaInstallmentPaymentData {
-    installmentName: string;
+    installmentId: string;
     installmentReference : string;
+    language: string;
+    version: string;
 }

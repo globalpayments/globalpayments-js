@@ -116,7 +116,8 @@ const sl = {
     includeFees:'incl. fee',
     include: 'incl.',
     furtherInfoText : 'Further Information and Privacy Policy',
-    footerInstallmentsText: 'Installments enabled by'
+    footerInstallmentsTextStart: 'Installments enabled by',
+    footerInstallmentsTextEnd: ''
   }
 }
 

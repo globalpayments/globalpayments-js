@@ -8,6 +8,8 @@ export interface IInstallmentAdditionalConfig {
     max_amount: number;
 }
 export interface VisaInstallmentPaymentData {
-    installmentName: string;
+    installmentId: string;
     installmentReference: string;
+    language: string;
+    version: string;
 }

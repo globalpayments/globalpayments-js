@@ -1220,7 +1220,7 @@ declare const parentStyles: (assetBaseUrl: string, themePreset?: IThemePreset | 
         "font-size": string;
         "font-weight": string;
     };
-    ".secure-payment-form .payment-options": {
+    ".secure-payment-form .payment-options-installment": {
         display: string;
         "flex-direction": string;
         gap: string;

@@ -21,13 +21,13 @@ import nl from "./nl";
 import uk from "./uk";
 import vi from "./vi";
 import mt from "./mt";
-
 import {IDictionary} from "../util";
 import ga from "./ga";
 import lv from "./lv";
 import et from "./et";
 import lt from "./lt";
-
+import zhCn from "./zh-cn";
+import zhTw from "./zh-tw";
 type Translations = {
   [key: string]: IDictionary;
 };
@@ -59,7 +59,13 @@ const translations: Translations = {
   ga, // IE - Gaelic Irish
   lv, // LV - Latvia
   et, // EE - Estonia
-  lt  // Lt - Lithuanian
+  lt, // Lt - Lithuanian
+  "zh-tw": zhTw, // zh-TW - Chinese (Traditional)
+  "yue-hant": zhTw, // yue-Hant - Cantonese (Traditional)
+  "cmn-hant": zhTw, // cmn-Hant - Mandarin (Traditional)
+  "zh-cn": zhCn, // zh-CN - Chinese (Simplified)
+  "yue-hans": zhCn, // yue-Hans - Cantonese (Simplified)
+  "cmn-hans": zhCn, // cmn-Hans - Mandarin (Simplified)
 };
 
 export default translations;

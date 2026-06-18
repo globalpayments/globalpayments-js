@@ -114,6 +114,12 @@ export const availableCurrencies = [
         "symbol": "$"
     },
     {
+        "description": "CFA franc BCEAO",
+        "code": "XOF",
+        "symbol": "F",
+        "exponents" : 0
+    },
+    {
         "description": "Chile Peso",
         "code": "CLP",
         "symbol": "$"
@@ -276,9 +282,20 @@ export const availableCurrencies = [
         "symbol": "£"
     },
     {
+        "description": "Jordanian dinar",
+        "code": "JOD",
+        "symbol": "\u2066د.ا. \u2069",
+        "exponents" : 3
+    },
+    {
         "description": "Kazakhstan Tenge",
         "code": "KZT",
         "symbol": "лв"
+    },
+    {
+        "description": "Kenyan shilling",
+        "code": "KES",
+        "symbol": "KSh"
     },
     {
         "description": "Korea (North) Won",
@@ -290,6 +307,11 @@ export const availableCurrencies = [
         "code": "KRW",
         "symbol": "₩",
         "exponents" : 0
+    },
+     {
+        "description": "Kina",
+        "code": "PGK",
+        "symbol": "K"
     },
     {
         "description": "Kyrgyzstan Som",
@@ -338,8 +360,8 @@ export const availableCurrencies = [
     },
     {
         "description": "Moroccan-dirham",
-        "code": "MNT",
-        "symbol": "د.إ"
+        "code": "MAD",
+        "symbol": "Dhs"
     },
     {
         "description": "Mozambique Metical",
@@ -403,6 +425,11 @@ export const availableCurrencies = [
         "symbol": "Gs"
     },
     {
+        "description": "PATACA",
+        "code": "MOP",
+        "symbol": "$"
+    },
+    {
         "description": "Peru Sol",
         "code": "PEN",
         "symbol": "S/."
@@ -426,6 +453,11 @@ export const availableCurrencies = [
         "description": "Romania Leu",
         "code": "RON",
         "symbol": "lei"
+    },
+    {
+        "description": "RUFIYAA",
+        "code": "MVR",
+        "symbol": "MVR"
     },
     {
         "description": "Russia Ruble",
@@ -490,7 +522,8 @@ export const availableCurrencies = [
     {
         "description": "Switzerland Franc",
         "code": "CHF",
-        "symbol": "CHF"
+        "symbol": "F",
+        "exponents": 2
     },
     {
         "description": "Suriname Dollar",
@@ -501,6 +534,11 @@ export const availableCurrencies = [
         "description": "Syria Pound",
         "code": "SYP",
         "symbol": "£"
+    },
+    {
+        "description": "Bangladeshi Taka",
+        "code": "BDT",
+        "symbol": "৳",
     },
     {
         "description": "Taiwan New Dollar",

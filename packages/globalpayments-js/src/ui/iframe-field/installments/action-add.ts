@@ -38,8 +38,8 @@ export default function addInstallments(
       const { installmentReference = "", installmentId = "" } = data as InstallmentPaymentData || {};
       installmentCallback({ installmentReference, installmentId } as InstallmentPaymentData);
     } else if (options.installments?.program === Program.VIS) {
-      const { installmentReference = "", installmentName = "" } = data as VisaInstallmentPaymentData || {};
-      installmentCallback({ installmentReference, installmentName } as VisaInstallmentPaymentData);
+      const { installmentReference = "", installmentId = "", language = "", version = "" } = data as VisaInstallmentPaymentData || {};
+      installmentCallback({ installmentReference, installmentId, language, version } as VisaInstallmentPaymentData);
     }
   });
 }

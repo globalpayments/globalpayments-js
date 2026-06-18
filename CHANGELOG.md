@@ -2,9 +2,13 @@
     <img src="https://developer.globalpay.com/static/media/logo.dab7811d.svg" alt="Global Payments logo" title="Global Payments" align="right" width="225" />
 </a>
 
-# Changelog
+# Changelog (MM/DD/YY)
 
-## latest v4.1.24 (05/21/26)
+## latest v4.1.25 (06/18/26)
+- [Globalpayments-js][4.1.25]  Localization with chinese (Simplified/Traditional)
+- [Globalpayments-js][4.1.25]  Localization for currencies 
+
+## v4.1.24 (05/21/26)
 - [Globalpayments-js][4.1.24]  Amount Setting Behavior Consolidation. Adding exponents to displayed amounts based on currency.
 
 ## v4.1.23 (05/14/26)
