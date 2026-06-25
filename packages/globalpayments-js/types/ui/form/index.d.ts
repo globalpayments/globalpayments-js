@@ -484,13 +484,13 @@ export declare const fieldStyles: () => {
         ".secure-payment-form label::after"?: {
             content: string;
         };
-        "#secure-payment-field[type=text].field-validation-wrapper"?: {
+        "#secure-payment-field[type=text].field-validation-wrapper": {
             "font-family": string;
         };
-        "#secure-payment-field[type=tel].hf-invalid"?: {
+        "#secure-payment-field[type=tel].hf-invalid": {
             border: string;
         };
-        "#secure-payment-field[type=text].hf-invalid"?: {
+        "#secure-payment-field[type=text].hf-invalid": {
             border: string;
         };
         "#secure-payment-field[hidden]"?: {
@@ -793,9 +793,7 @@ export declare const parentStyles: () => {
             "flex-direction": string;
             "justify-content": string;
             padding: string;
-            "font-size": string; /**
-             * Represents logic surrounding a group of hosted fields.
-             */
+            "font-size": string;
             "line-height": string;
         };
         ".secure-payment-form .qr-code-expired-alert-message-title"?: {
@@ -945,6 +943,66 @@ export declare const parentStyles: () => {
             position: string;
             top: string;
             right: string;
+        };
+        ".secure-payment-form .cashpresso30days-button": {
+            background: string;
+            "background-size": string;
+            position: string;
+            color: string;
+            height: string;
+            width: string;
+            "border-radius": string;
+            border: string;
+            margin: string;
+            cursor: string;
+        };
+        ".secure-payment-form .cashpressoflexible-button": {
+            background: string;
+            "background-size": string;
+            position: string;
+            color: string;
+            height: string;
+            width: string;
+            "border-radius": string;
+            border: string;
+            margin: string;
+            cursor: string;
+        };
+        ".secure-payment-form .cashpresso3inst-button": {
+            background: string;
+            "background-size": string;
+            position: string;
+            color: string;
+            height: string;
+            width: string;
+            "border-radius": string;
+            border: string;
+            margin: string;
+            cursor: string;
+        };
+        ".secure-payment-form .cashpresso30days-button:hover": {
+            "border-color": string;
+            "background-color": string;
+        };
+        ".secure-payment-form .cashpressoflexible-button:hover": {
+            "border-color": string;
+            "background-color": string;
+        };
+        ".secure-payment-form .cashpresso3inst-button:hover": {
+            "border-color": string;
+            "background-color": string;
+        };
+        ".secure-payment-form .cashpresso30days-button:focus": {
+            outline: string;
+            "outline-offset": string;
+        };
+        ".secure-payment-form .cashpressoflexible-button:focus": {
+            outline: string;
+            "outline-offset": string;
+        };
+        ".secure-payment-form .cashpresso3inst-button:focus": {
+            outline: string;
+            "outline-offset": string;
         };
         ".secure-payment-form .link-button": {
             display: string;
@@ -1143,6 +1201,16 @@ export declare const parentStyles: () => {
         ".secure-payment-form .credit-card-currency-conversion .tooltip"?: {
             width: string;
             height: string;
+            /**
+             * Sets an event listener for an event type
+             *
+             * @param fieldTypeOrEventName The field type on which the listener should
+             *          be applied, or the type of event that should trigger the listener
+             * @param eventNameOrListener The type of event that should trigger the
+             *          listener, or the listener function
+             * @param listener The listener function when both field type and event type
+             *          are provided
+             */
             "min-width": string;
             "border-left": string;
             display: string;
@@ -1188,12 +1256,7 @@ export declare const parentStyles: () => {
             };
             ".secure-payment-form .credit-card-currency-conversion .radio-button:first-child": {
                 margin: string;
-            }; /**
-             * Sets a special-case event listener that fires when all hosted
-             * fields in a form have registered / loaded
-             *
-             * @param fn The listener function
-             */
+            };
             ".secure-payment-form .credit-card-currency-conversion .card-currency-content": {
                 width: string;
                 "margin-top": string;
@@ -1390,6 +1453,16 @@ export declare const parentStyles: () => {
             width: string;
             height: string;
             border: string;
+            /**
+             * Sets an event listener for an event type
+             *
+             * @param fieldTypeOrEventName The field type on which the listener should
+             *          be applied, or the type of event that should trigger the listener
+             * @param eventNameOrListener The type of event that should trigger the
+             *          listener, or the listener function
+             * @param listener The listener function when both field type and event type
+             *          are provided
+             */
             "border-width": string;
             display: string;
             padding: string;
@@ -1495,7 +1568,9 @@ export declare const parentStyles: () => {
             "font-size": string;
         };
         "#ctp-wrapper .TransitionLabel": {
-            "font-size": string;
+            "font-size": string; /**
+             * Deletes all hosted fields within the form
+             */
             "line-height": string;
             "text-align": string;
             float: string;
@@ -1619,6 +1694,12 @@ export declare const parentStyles: () => {
         ".secure-payment-form div[class$='-shield'] .ssl-msg": {
             "font-size": string;
             "font-weight": string;
+            /**
+             * Sets a special-case event listener that fires when all hosted
+             * fields in a form have registered / loaded
+             *
+             * @param fn The listener function
+             */
             "font-family": string;
             color: string;
             "line-height": string;
@@ -1869,9 +1950,7 @@ export declare const parentStyles: () => {
             "flex-direction": string;
             "justify-content": string;
             padding: string;
-            "font-size": string; /**
-             * Represents logic surrounding a group of hosted fields.
-             */
+            "font-size": string;
             "line-height": string;
         };
         ".secure-payment-form .qr-code-expired-alert-message-title"?: {
@@ -2021,6 +2100,66 @@ export declare const parentStyles: () => {
             position: string;
             top: string;
             right: string;
+        };
+        ".secure-payment-form .cashpresso30days-button": {
+            background: string;
+            "background-size": string;
+            position: string;
+            color: string;
+            height: string;
+            width: string;
+            "border-radius": string;
+            border: string;
+            margin: string;
+            cursor: string;
+        };
+        ".secure-payment-form .cashpressoflexible-button": {
+            background: string;
+            "background-size": string;
+            position: string;
+            color: string;
+            height: string;
+            width: string;
+            "border-radius": string;
+            border: string;
+            margin: string;
+            cursor: string;
+        };
+        ".secure-payment-form .cashpresso3inst-button": {
+            background: string;
+            "background-size": string;
+            position: string;
+            color: string;
+            height: string;
+            width: string;
+            "border-radius": string;
+            border: string;
+            margin: string;
+            cursor: string;
+        };
+        ".secure-payment-form .cashpresso30days-button:hover": {
+            "border-color": string;
+            "background-color": string;
+        };
+        ".secure-payment-form .cashpressoflexible-button:hover": {
+            "border-color": string;
+            "background-color": string;
+        };
+        ".secure-payment-form .cashpresso3inst-button:hover": {
+            "border-color": string;
+            "background-color": string;
+        };
+        ".secure-payment-form .cashpresso30days-button:focus": {
+            outline: string;
+            "outline-offset": string;
+        };
+        ".secure-payment-form .cashpressoflexible-button:focus": {
+            outline: string;
+            "outline-offset": string;
+        };
+        ".secure-payment-form .cashpresso3inst-button:focus": {
+            outline: string;
+            "outline-offset": string;
         };
         ".secure-payment-form .link-button": {
             display: string;
@@ -2197,6 +2336,16 @@ export declare const parentStyles: () => {
         ".secure-payment-form .credit-card-currency-conversion .tooltip"?: {
             width: string;
             height: string;
+            /**
+             * Sets an event listener for an event type
+             *
+             * @param fieldTypeOrEventName The field type on which the listener should
+             *          be applied, or the type of event that should trigger the listener
+             * @param eventNameOrListener The type of event that should trigger the
+             *          listener, or the listener function
+             * @param listener The listener function when both field type and event type
+             *          are provided
+             */
             "min-width": string;
             "border-left": string;
             display: string;
@@ -2245,12 +2394,7 @@ export declare const parentStyles: () => {
             };
             ".secure-payment-form .credit-card-currency-conversion .radio-button:first-child": {
                 margin: string;
-            }; /**
-             * Sets a special-case event listener that fires when all hosted
-             * fields in a form have registered / loaded
-             *
-             * @param fn The listener function
-             */
+            };
             ".secure-payment-form .credit-card-currency-conversion .card-currency-content": {
                 width: string;
                 "margin-top": string;
@@ -2472,6 +2616,16 @@ export declare const parentStyles: () => {
             width: string;
             height: string;
             border: string;
+            /**
+             * Sets an event listener for an event type
+             *
+             * @param fieldTypeOrEventName The field type on which the listener should
+             *          be applied, or the type of event that should trigger the listener
+             * @param eventNameOrListener The type of event that should trigger the
+             *          listener, or the listener function
+             * @param listener The listener function when both field type and event type
+             *          are provided
+             */
             "border-width": string;
             display: string;
             padding: string;
@@ -2577,7 +2731,9 @@ export declare const parentStyles: () => {
             "font-size": string;
         };
         "#ctp-wrapper .TransitionLabel": {
-            "font-size": string;
+            "font-size": string; /**
+             * Deletes all hosted fields within the form
+             */
             "line-height": string;
             "text-align": string;
             float: string;
@@ -2735,18 +2891,16 @@ export declare const parentStyles: () => {
         };
         "@media (min-width: 1500px)": {
             ".secure-payment-form .installment-terms-checkbox": {
+                /**
+                 * Represents logic surrounding a group of hosted fields.
+                 */
                 height: string;
             };
         };
         ".secure-payment-form .checkbox-error": {
             outline: string;
             "outline-offset": string;
-        }; /**
-         * Instantiates a new UIForm object for a group of hosted fields
-         *
-         * @param fields Hosted field configuration
-         * @param styles Custom CSS configuration
-         */
+        };
         ".secure-payment-form .installment-terms-label": {
             display: string;
             "align-items": string;
@@ -2805,7 +2959,11 @@ export declare const parentStyles: () => {
             width: string;
         };
         ".secure-payment-form .installment-issuer-panel-header": {
-            display: string;
+            display: string; /**
+             * Appends additional CSS rules to the group of hosted fields
+             *
+             * @param json New CSS rules
+             */
             "justify-content": string;
             "align-items": string;
         };
@@ -2842,9 +3000,6 @@ export declare const parentStyles: () => {
             "line-height": string;
             "font-size": string;
         };
-        /**
-         * Deletes all hosted fields within the form
-         */
         ".secure-payment-form .installment-plan-details": {
             "border-top": string;
             "border-bottom": string;
@@ -3176,9 +3331,6 @@ export declare const parentStyles: () => {
             "border-right": string;
             "border-bottom": string;
         };
-        /**
-         * Represents logic surrounding a group of hosted fields.
-         */
         "@font-face": {
             "font-family": string;
             src: string;
@@ -3209,6 +3361,16 @@ export declare const parentStyles: () => {
             flex: string;
             "margin-right": string;
         };
+        /**
+         * Sets an event listener for an event type
+         *
+         * @param fieldTypeOrEventName The field type on which the listener should
+         *          be applied, or the type of event that should trigger the listener
+         * @param eventNameOrListener The type of event that should trigger the
+         *          listener, or the listener function
+         * @param listener The listener function when both field type and event type
+         *          are provided
+         */
         ".secure-payment-form div[class$='-shield'] .ssl-text-logo": {
             "border-radius": string;
             height: string;
@@ -3621,6 +3783,16 @@ export declare const parentStyles: () => {
         ".secure-payment-form .credit-card-currency-conversion .tooltip"?: {
             width: string;
             height: string;
+            /**
+             * Sets an event listener for an event type
+             *
+             * @param fieldTypeOrEventName The field type on which the listener should
+             *          be applied, or the type of event that should trigger the listener
+             * @param eventNameOrListener The type of event that should trigger the
+             *          listener, or the listener function
+             * @param listener The listener function when both field type and event type
+             *          are provided
+             */
             "min-width": string;
             "border-left": string;
             display: string;
@@ -3661,12 +3833,7 @@ export declare const parentStyles: () => {
             };
             ".secure-payment-form .credit-card-currency-conversion .radio-button:first-child": {
                 margin: string;
-            }; /**
-             * Sets a special-case event listener that fires when all hosted
-             * fields in a form have registered / loaded
-             *
-             * @param fn The listener function
-             */
+            };
             ".secure-payment-form .credit-card-currency-conversion .card-currency-content": {
                 width: string;
                 "margin-top": string;
@@ -3799,9 +3966,7 @@ export declare const parentStyles: () => {
             "flex-direction": string;
             "justify-content": string;
             padding: string;
-            "font-size": string; /**
-             * Represents logic surrounding a group of hosted fields.
-             */
+            "font-size": string;
             "line-height": string;
         };
         ".secure-payment-form .qr-code-expired-alert-message-title"?: {
@@ -3991,6 +4156,16 @@ export declare const parentStyles: () => {
             width: string;
             height: string;
             border: string;
+            /**
+             * Sets an event listener for an event type
+             *
+             * @param fieldTypeOrEventName The field type on which the listener should
+             *          be applied, or the type of event that should trigger the listener
+             * @param eventNameOrListener The type of event that should trigger the
+             *          listener, or the listener function
+             * @param listener The listener function when both field type and event type
+             *          are provided
+             */
             "border-width": string;
             display: string;
             padding: string;
@@ -4096,7 +4271,9 @@ export declare const parentStyles: () => {
             "font-size": string;
         };
         "#ctp-wrapper .TransitionLabel": {
-            "font-size": string;
+            "font-size": string; /**
+             * Deletes all hosted fields within the form
+             */
             "line-height": string;
             "text-align": string;
             float: string;
@@ -4222,11 +4399,7 @@ export declare const parentStyles: () => {
             "font-weight": string;
             "font-family": string;
             color: string;
-            "line-height": string; /**
-             * Appends additional CSS rules to the group of hosted fields
-             *
-             * @param json New CSS rules
-             */
+            "line-height": string;
             display: string;
             "vertical-align": string;
             "text-align": string;
@@ -4500,9 +4673,7 @@ export declare const parentStyles: () => {
             "flex-direction": string;
             "justify-content": string;
             padding: string;
-            "font-size": string; /**
-             * Represents logic surrounding a group of hosted fields.
-             */
+            "font-size": string;
             "line-height": string;
         };
         ".secure-payment-form .qr-code-expired-alert-message-title"?: {
@@ -4652,6 +4823,66 @@ export declare const parentStyles: () => {
             position: string;
             top: string;
             right: string;
+        };
+        ".secure-payment-form .cashpresso30days-button": {
+            background: string;
+            "background-size": string;
+            position: string;
+            color: string;
+            height: string;
+            width: string;
+            "border-radius": string;
+            border: string;
+            margin: string;
+            cursor: string;
+        };
+        ".secure-payment-form .cashpressoflexible-button": {
+            background: string;
+            "background-size": string;
+            position: string;
+            color: string;
+            height: string;
+            width: string;
+            "border-radius": string;
+            border: string;
+            margin: string;
+            cursor: string;
+        };
+        ".secure-payment-form .cashpresso3inst-button": {
+            background: string;
+            "background-size": string;
+            position: string;
+            color: string;
+            height: string;
+            width: string;
+            "border-radius": string;
+            border: string;
+            margin: string;
+            cursor: string;
+        };
+        ".secure-payment-form .cashpresso30days-button:hover": {
+            "border-color": string;
+            "background-color": string;
+        };
+        ".secure-payment-form .cashpressoflexible-button:hover": {
+            "border-color": string;
+            "background-color": string;
+        };
+        ".secure-payment-form .cashpresso3inst-button:hover": {
+            "border-color": string;
+            "background-color": string;
+        };
+        ".secure-payment-form .cashpresso30days-button:focus": {
+            outline: string;
+            "outline-offset": string;
+        };
+        ".secure-payment-form .cashpressoflexible-button:focus": {
+            outline: string;
+            "outline-offset": string;
+        };
+        ".secure-payment-form .cashpresso3inst-button:focus": {
+            outline: string;
+            "outline-offset": string;
         };
         ".secure-payment-form .link-button": {
             display: string;
@@ -4828,6 +5059,16 @@ export declare const parentStyles: () => {
         ".secure-payment-form .credit-card-currency-conversion .tooltip"?: {
             width: string;
             height: string;
+            /**
+             * Sets an event listener for an event type
+             *
+             * @param fieldTypeOrEventName The field type on which the listener should
+             *          be applied, or the type of event that should trigger the listener
+             * @param eventNameOrListener The type of event that should trigger the
+             *          listener, or the listener function
+             * @param listener The listener function when both field type and event type
+             *          are provided
+             */
             "min-width": string;
             "border-left": string;
             display: string;
@@ -4876,12 +5117,7 @@ export declare const parentStyles: () => {
             };
             ".secure-payment-form .credit-card-currency-conversion .radio-button:first-child": {
                 margin: string;
-            }; /**
-             * Sets a special-case event listener that fires when all hosted
-             * fields in a form have registered / loaded
-             *
-             * @param fn The listener function
-             */
+            };
             ".secure-payment-form .credit-card-currency-conversion .card-currency-content": {
                 width: string;
                 "margin-top": string;
@@ -5103,6 +5339,16 @@ export declare const parentStyles: () => {
             width: string;
             height: string;
             border: string;
+            /**
+             * Sets an event listener for an event type
+             *
+             * @param fieldTypeOrEventName The field type on which the listener should
+             *          be applied, or the type of event that should trigger the listener
+             * @param eventNameOrListener The type of event that should trigger the
+             *          listener, or the listener function
+             * @param listener The listener function when both field type and event type
+             *          are provided
+             */
             "border-width": string;
             display: string;
             padding: string;
@@ -5208,7 +5454,9 @@ export declare const parentStyles: () => {
             "font-size": string;
         };
         "#ctp-wrapper .TransitionLabel": {
-            "font-size": string;
+            "font-size": string; /**
+             * Deletes all hosted fields within the form
+             */
             "line-height": string;
             "text-align": string;
             float: string;
@@ -5366,18 +5614,16 @@ export declare const parentStyles: () => {
         };
         "@media (min-width: 1500px)": {
             ".secure-payment-form .installment-terms-checkbox": {
+                /**
+                 * Represents logic surrounding a group of hosted fields.
+                 */
                 height: string;
             };
         };
         ".secure-payment-form .checkbox-error": {
             outline: string;
             "outline-offset": string;
-        }; /**
-         * Instantiates a new UIForm object for a group of hosted fields
-         *
-         * @param fields Hosted field configuration
-         * @param styles Custom CSS configuration
-         */
+        };
         ".secure-payment-form .installment-terms-label": {
             display: string;
             "align-items": string;
@@ -5436,7 +5682,11 @@ export declare const parentStyles: () => {
             width: string;
         };
         ".secure-payment-form .installment-issuer-panel-header": {
-            display: string;
+            display: string; /**
+             * Appends additional CSS rules to the group of hosted fields
+             *
+             * @param json New CSS rules
+             */
             "justify-content": string;
             "align-items": string;
         };
@@ -5473,9 +5723,6 @@ export declare const parentStyles: () => {
             "line-height": string;
             "font-size": string;
         };
-        /**
-         * Deletes all hosted fields within the form
-         */
         ".secure-payment-form .installment-plan-details": {
             "border-top": string;
             "border-bottom": string;
@@ -5784,7 +6031,11 @@ export declare const parentStyles: () => {
             "justify-content": string;
             "align-items": string;
             width: string;
-        };
+        }; /**
+         * Appends additional CSS rules to the group of hosted fields
+         *
+         * @param json New CSS rules
+         */
         ".secure-payment-form div[class$='-shield'] .ssl-logo_ico": {
             height: string;
             "margin-left": string;
@@ -5799,7 +6050,12 @@ export declare const parentStyles: () => {
             display: string;
             "vertical-align": string;
             "text-align": string;
-            "margin-left": string;
+            "margin-left": string; /**
+             * Sets a special-case event listener that fires when all hosted
+             * fields in a form have registered / loaded
+             *
+             * @param fn The listener function
+             */
             "margin-right": string;
             "margin-top": string;
         };
@@ -5869,6 +6125,7 @@ export declare const parentStyles: () => {
             };
             ".secure-payment-form .credit-card-card-cvv": {
                 flex: string;
+                "margin-left": string;
             };
             ".secure-payment-form .credit-card-card-number": {
                 flex: string;
@@ -5880,6 +6137,7 @@ export declare const parentStyles: () => {
             };
             ".secure-payment-form .credit-card-card-cvv": {
                 flex: string;
+                "margin-left": string;
             };
             ".secure-payment-form .credit-card-billing-address": {
                 flex: string;

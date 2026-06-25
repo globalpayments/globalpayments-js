@@ -2,10 +2,11 @@ import { IApmConfiguration } from "../../apm/non-card-payments/contracts";
 import { HostedFieldValidationEvents } from "../../common/enums";
 import { bankListData, countryList } from "../lib/bank-selection/available-banks-data";
 import { BankCountries, CountryCurrencies } from "../lib/bank-selection/contracts";
-import { Apm, ApmProviders, EligibleCountries, EligibleCurrencies, FundingMode, Program } from "../lib/enums";
+import { Apm, ApmProviders, CashpressoAmounts, EligibleCountries, EligibleCurrencies, FundingMode, Program } from "../lib/enums";
 import { postMessage } from "../lib/post-message";
 import { BUILT_IN_VALIDATIONS_VALIDATION_ROUND_COUNTER_KEY, GERMANY, POLAND } from "./constants";
 import { countryListForAffirm, countryListForKlarna, countryListForSezzle, countryListForZip } from "../../apm/non-card-payments/bnpl-for-apex-data";
+import { formatAmount } from "../../common/currency";
 export const showHostedFieldValidation = (fieldId: string | null, validationMessage: string, target?: string): void => {
   postMessage.post(
     {
@@ -167,4 +168,34 @@ export const getAvailableOptionsForBnpl = (countryCode: string | undefined, opti
   });
 
   return availableBnplOptions;
+}
+
+export const isCashpressoAvailable = (countryCode:string | undefined,currencyCode:string | undefined):boolean => {
+  let showCashPresso = false;
+  if(!countryCode || !currencyCode) return showCashPresso;
+  if(countryCode === GERMANY && currencyCode === "EUR"){
+    showCashPresso = true;
+  } else{
+    // tslint:disable-next-line:no-console
+    console.warn("Cashpresso: Invalid country/currency combination");
+  }
+  return showCashPresso;
+}
+
+export const availableCashpressoOptions = (amount:number | undefined, currencyCode:string | undefined): Apm[] => {
+  const cashPressoOptions = [];
+  const formattedAmount = formatAmount(amount,currencyCode);
+  if(formattedAmount && parseFloat(formattedAmount) >= CashpressoAmounts.installments3MinAmount){
+    cashPressoOptions.push(Apm.Cashpresso3Installments, Apm.Cashpresso30Days, Apm.CashpressoInstallments);
+  }
+  else if(formattedAmount && parseFloat(formattedAmount) >= CashpressoAmounts.installmentsFlexibleMinAmount){
+    cashPressoOptions.push(Apm.Cashpresso30Days, Apm.CashpressoInstallments)
+  }
+  else if(formattedAmount && parseFloat(formattedAmount) >= CashpressoAmounts.installments30MinAmount){
+    cashPressoOptions.push(Apm.Cashpresso30Days)
+  } else {
+    // tslint:disable-next-line:no-console
+    console.warn("Cashpresso: Amount below minimum threshold (30). Cannot display buttons.")
+  }
+  return cashPressoOptions;
 }

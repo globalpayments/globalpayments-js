@@ -1,4 +1,5 @@
 import { IApmConfiguration } from "../../apm/non-card-payments/contracts";
+import { Apm } from "../lib/enums";
 export declare const showHostedFieldValidation: (fieldId: string | null, validationMessage: string, target?: string | undefined) => void;
 export declare const hideHostedFieldValidation: (fieldId: string | null, target?: string | undefined) => void;
 export declare const resetValidationRoundCounter: () => void;
@@ -10,3 +11,5 @@ export declare const isOpenBankingAvailable: (countryCode: string | undefined, a
 export declare const isBlikAvailable: (countryCode: string | undefined, currencyCode: string | undefined, options: IApmConfiguration | undefined) => boolean;
 export declare const isExpressPayAvailable: (options: IApmConfiguration | undefined) => boolean | undefined;
 export declare const getAvailableOptionsForBnpl: (countryCode: string | undefined, options: IApmConfiguration | undefined) => any;
+export declare const isCashpressoAvailable: (countryCode: string | undefined, currencyCode: string | undefined) => boolean;
+export declare const availableCashpressoOptions: (amount: number | undefined, currencyCode: string | undefined) => Apm[];

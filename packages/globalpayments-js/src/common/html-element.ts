@@ -310,6 +310,9 @@ export const changeCreditCardFormFieldsVisibility = (visible: boolean): void => 
     '.credit-card-submit',
     '.credit-card-installments',
     '.konek-button-wrapper',
+    '.cashpresso30days-button-wrapper',
+    '.cashpresso3inst-button-wrapper',
+    '.cashpressoflexible-button-wrapper',
     // '.credit-card-shield',
     // '.credit-card-logo',
   ];

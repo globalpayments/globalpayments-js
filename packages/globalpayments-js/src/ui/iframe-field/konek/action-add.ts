@@ -1,4 +1,5 @@
 
+import { formatAmount } from "../../../common/currency";
 import { Environments } from "../../../common/enums";
 import { createHtmlDivElement } from "../../../common/html-element";
 import { bus, options } from "../../../internal";
@@ -140,7 +141,7 @@ export default function addKonek(iframeField: IframeField | undefined, field: IU
         const consentId = response.payment_method.digital_wallet.reference;
         const correlationId = response.payment_method.digital_wallet.provider_reference;
         const deviceProfileSessionId = response.device.session_reference;
-        const totalAmount = response.order.amount;
+        const totalAmount = formatAmount(response.order.amount, response.order.currency);
         const merchantName = response.dba;
 
         konekClient.setConsentData({

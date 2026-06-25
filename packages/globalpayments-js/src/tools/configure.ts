@@ -120,7 +120,7 @@ export interface IConfiguration extends IDictionary {
         amount: string,
         currency: string,
         taxAmount: string,
-        firstAmount: string,
+        itemAmount: string,
         items: {
           label: string,
           reference: string,
@@ -128,7 +128,20 @@ export interface IConfiguration extends IDictionary {
           amount: string,
           quantity: string,
           description: string,
-          paymentType: string
+          paymentType: string,
+          recurring: {
+            type: string,
+            amount_capped: string,
+            amount_variance: string,
+            interval: string,
+            interval_count: string,
+            day_of_month: string,
+            day_of_week: string,
+            week_of_month: string,
+            start_date: string,
+            end_date: string,
+            max_count: string
+          }
         }[],
       },
       fees: {

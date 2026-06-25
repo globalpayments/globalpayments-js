@@ -19,7 +19,10 @@ export enum Apm {
   Klarna = "klarna",
   Sezzle = "sezzle",
   Zip = "zip",
-  Konek = "konek"
+  Konek = "konek",
+  Cashpresso3Installments = "cashpresso3inst",
+  Cashpresso30Days = "cashpresso30days",
+  CashpressoInstallments = "cashpressoflexible"
 }
 
 export enum ApmEvents {
@@ -75,7 +78,10 @@ export enum ApmProviders {
   Klarna = "Klarna",
   Sezzle = "Sezzle",
   Zip = "Zip",
-  Konek = "Konek"
+  Konek = "Konek",
+  Cashpresso3Installments = "cashpresso3inst",
+  Cashpresso30Days = "cashpresso30days",
+  CashpressoInstallments = "cashpressoflexible"
 }
 
 export enum QRCodePaymentsWeChatProviderBrands {
@@ -149,4 +155,10 @@ export enum KonekLocal{
 export enum KonekButtonColor {
   BlackYellow = "black-yellow",
   WhiteBlack = "white-black"
+}
+
+export enum CashpressoAmounts {
+  installments30MinAmount = 0.3,
+  installmentsFlexibleMinAmount = 20,
+  installments3MinAmount = 60
 }

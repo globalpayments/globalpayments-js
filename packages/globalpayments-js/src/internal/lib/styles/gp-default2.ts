@@ -16,6 +16,9 @@ import {
 
 import getOrderInformationCommonStyles from './order-information/common';
 import getBankSelectionCommonStyles from './bank-selection/common';
+import {
+    fieldStyles as getCommonBuiltInValidationFieldStyles,
+  } from './built-in-validations/common';
 
 
 // tslint:disable:object-literal-key-quotes
@@ -37,6 +40,7 @@ export const fieldStyles = (assetBaseUrl: string, theme?: string) => {
     const fontBase = assetBaseUrl + "fonts/";
 
     return {
+        ...getCommonBuiltInValidationFieldStyles(assetBaseUrl,theme),
         "@font-face": {
             "font-family": "Inter",
             src: `url("${fontBase}Inter-Regular.ttf")`,
@@ -324,7 +328,8 @@ export const parentStyles = (assetBaseUrl: string, theme?: string) => {
             },
 
             ".secure-payment-form .credit-card-card-cvv": {
-                flex: "1 1"
+                flex: "1 1",
+                "margin-left": "16px",
             },
             ".secure-payment-form .credit-card-card-number": {
                 flex: "3 0 auto",
@@ -338,7 +343,7 @@ export const parentStyles = (assetBaseUrl: string, theme?: string) => {
 
             ".secure-payment-form .credit-card-card-cvv": {
                 flex: "1 1",
-                // "margin-left": "16px",
+                "margin-left": "16px",
             },
             ".secure-payment-form .credit-card-billing-address": {
                 flex: "100 auto",

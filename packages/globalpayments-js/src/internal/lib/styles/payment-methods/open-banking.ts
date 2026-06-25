@@ -126,6 +126,39 @@ const styles = (assetBaseUrl: string) => {
       top: "5px",
       right: "5px"
     },
+    ".secure-payment-form .cashpresso30days-button": {
+      ...apmButtonStyles,
+      background: `transparent url(${imageBase}Cashpresso30Days.svg) no-repeat 50% 50%`,
+      "background-size":"100px"
+    },
+    ".secure-payment-form .cashpressoflexible-button": {
+      ...apmButtonStyles,
+      background: `transparent url(${imageBase}CashpressoInstallments.svg) no-repeat 50% 50%`,
+      "background-size":"100px"
+    },
+    ".secure-payment-form .cashpresso3inst-button": {
+      ...apmButtonStyles,
+      background: `transparent url(${imageBase}Cashpresso3Installments.svg) no-repeat 50% 50%`,
+      "background-size":"100px"
+    },
+    ".secure-payment-form .cashpresso30days-button:hover": {
+      ...apmButtonHoverStyles
+    },
+    ".secure-payment-form .cashpressoflexible-button:hover": {
+      ...apmButtonHoverStyles
+    },
+    ".secure-payment-form .cashpresso3inst-button:hover": {
+      ...apmButtonHoverStyles
+    },
+    ".secure-payment-form .cashpresso30days-button:focus": {
+      ...apmButtonFocusStyles
+    },
+    ".secure-payment-form .cashpressoflexible-button:focus": {
+      ...apmButtonFocusStyles
+    },
+    ".secure-payment-form .cashpresso3inst-button:focus": {
+      ...apmButtonFocusStyles
+    },
   };
 };
 

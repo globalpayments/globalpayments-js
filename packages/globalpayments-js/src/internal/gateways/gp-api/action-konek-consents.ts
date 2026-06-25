@@ -27,7 +27,7 @@ export default async (url: string, data: any) => {
         return request;
     }
 
-    function konekFieldMapper(konekFields: any): KonekConsentRequest{
+    function konekFieldMapper(konekFields: any): KonekConsentRequest {
         return {
             reference: konekFields?.reference || "",
             account_name: konekFields?.accountName || "",
@@ -35,13 +35,13 @@ export default async (url: string, data: any) => {
             merchant_category_code: konekFields?.mcc || "",
             addresses: konekFields?.addresses ? [mapAddress(konekFields.addresses[0])] : [],
             order: mapOrder(konekFields?.order),
-            fees:   konekFields?.fees || [] as Fees[],
+            fees: konekFields?.fees || [] as Fees[],
             payment_method: {
                 digital_wallet: {
                     provider: "KONEK"
                 }
             },
-            supported_payment_methods: konekFields?.supportedPaymentMethods|| []
+            supported_payment_methods: konekFields?.supportedPaymentMethods || []
         };
     }
 
@@ -74,7 +74,7 @@ export default async (url: string, data: any) => {
             amount: order?.amount || "",
             currency: order?.currency || "",
             tax_amount: order?.taxAmount || "",
-            first_amount: order?.firstAmount || "",
+            item_amount: order?.itemAmount || "",
             items: (order?.items || []).map((item: any) => ({
                 label: item?.label || "",
                 reference: item?.reference || "",
@@ -83,6 +83,19 @@ export default async (url: string, data: any) => {
                 quantity: item?.quantity || "",
                 description: item?.description || "",
                 payment_type: item?.paymentType || "",
+                recurring: {
+                    type: item?.recurring?.type || "",
+                    amount_capped: item?.recurring?.amount_capped || "",
+                    amount_variance: item?.recurring?.amount_variance || "",
+                    interval: item?.recurring?.interval || "",
+                    interval_count: item?.recurring?.interval_count || "",
+                    day_of_month: item?.recurring?.day_of_month || "",
+                    day_of_week: item?.recurring?.day_of_week || "",
+                    week_of_month: item?.recurring?.week_of_month || "",
+                    start_date: item?.recurring?.start_date || "",
+                    end_date: item?.recurring?.end_date || "",
+                    max_count: item?.recurring?.max_count || ""
+                }
             })),
         };
     }
@@ -129,7 +142,7 @@ export default async (url: string, data: any) => {
         amount: string,
         currency: string,
         tax_amount: string,
-        first_amount: string,
+        item_amount: string,
         items: Item[]
     }
 

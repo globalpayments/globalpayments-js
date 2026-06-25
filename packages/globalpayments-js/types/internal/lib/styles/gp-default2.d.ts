@@ -2,13 +2,13 @@ export declare const fieldStyles: (assetBaseUrl: string, theme?: string | undefi
     ".secure-payment-form label::after"?: {
         content: string;
     };
-    "#secure-payment-field[type=text].field-validation-wrapper"?: {
+    "#secure-payment-field[type=text].field-validation-wrapper": {
         "font-family": string;
     };
-    "#secure-payment-field[type=tel].hf-invalid"?: {
+    "#secure-payment-field[type=tel].hf-invalid": {
         border: string;
     };
-    "#secure-payment-field[type=text].hf-invalid"?: {
+    "#secure-payment-field[type=text].hf-invalid": {
         border: string;
     };
     "#secure-payment-field[hidden]"?: {
@@ -458,6 +458,66 @@ export declare const parentStyles: (assetBaseUrl: string, theme?: string | undef
         position: string;
         top: string;
         right: string;
+    };
+    ".secure-payment-form .cashpresso30days-button": {
+        background: string;
+        "background-size": string;
+        position: string;
+        color: string;
+        height: string;
+        width: string;
+        "border-radius": string;
+        border: string;
+        margin: string;
+        cursor: string;
+    };
+    ".secure-payment-form .cashpressoflexible-button": {
+        background: string;
+        "background-size": string;
+        position: string;
+        color: string;
+        height: string;
+        width: string;
+        "border-radius": string;
+        border: string;
+        margin: string;
+        cursor: string;
+    };
+    ".secure-payment-form .cashpresso3inst-button": {
+        background: string;
+        "background-size": string;
+        position: string;
+        color: string;
+        height: string;
+        width: string;
+        "border-radius": string;
+        border: string;
+        margin: string;
+        cursor: string;
+    };
+    ".secure-payment-form .cashpresso30days-button:hover": {
+        "border-color": string;
+        "background-color": string;
+    };
+    ".secure-payment-form .cashpressoflexible-button:hover": {
+        "border-color": string;
+        "background-color": string;
+    };
+    ".secure-payment-form .cashpresso3inst-button:hover": {
+        "border-color": string;
+        "background-color": string;
+    };
+    ".secure-payment-form .cashpresso30days-button:focus": {
+        outline: string;
+        "outline-offset": string;
+    };
+    ".secure-payment-form .cashpressoflexible-button:focus": {
+        outline: string;
+        "outline-offset": string;
+    };
+    ".secure-payment-form .cashpresso3inst-button:focus": {
+        outline: string;
+        "outline-offset": string;
     };
     ".secure-payment-form .link-button": {
         display: string;
@@ -1662,6 +1722,7 @@ export declare const parentStyles: (assetBaseUrl: string, theme?: string | undef
         };
         ".secure-payment-form .credit-card-card-cvv": {
             flex: string;
+            "margin-left": string;
         };
         ".secure-payment-form .credit-card-card-number": {
             flex: string;
@@ -1673,6 +1734,7 @@ export declare const parentStyles: (assetBaseUrl: string, theme?: string | undef
         };
         ".secure-payment-form .credit-card-card-cvv": {
             flex: string;
+            "margin-left": string;
         };
         ".secure-payment-form .credit-card-billing-address": {
             flex: string;

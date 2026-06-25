@@ -1,8 +1,8 @@
 <?php
 
 // Installments
-$appId = 'hkjrcsGDhWiDt8GEhoDMKy3pzFz5R0Bo';
-$appKey = 'cQOKHoAAvNIcEN8s';
+$appId = 'cXlj8KVAF1xlr8wYAhQDLgRpmdxEUwa2';
+$appKey = 'GR7iVxV9N2ngvnIf';
 
 /* Sandbox single MMA */
 //$appId = 'gYLpOwjMRpfQSoMZAPdA4adwp0HbvK7u';
@@ -29,8 +29,8 @@ $request = json_encode([
     'grant_type' => 'client_credentials',
     'nonce' => $nonce,
     'interval_to_expire' => '1_HOUR',
-    'permissions' => ['PMT_POST_Create_Single','INS_POST_Query','CCS_POST_DCC']
-    // 'permissions' => ['CON_POST_Create']
+    // 'permissions' => ['PMT_POST_Create_Single','INS_POST_Query','CCS_POST_DCC']
+    'permissions' => ['CON_POST_Create']
 ]);
 
 $headers = ['X-GP-Version' => '2021-03-22'];
@@ -71,13 +71,13 @@ $accessToken = $response->token ?? '';
             accessToken: "<?= $accessToken ?>",
             env: "sandbox",
             apiVersion: "2021-03-22",
-            language: "zh-tw",
+            language: "en",
             // language: "en",
             reference: "",
             //merchantId: "<?//= $merchant_id ?>//",
             apms: {
                 currencyCode: "EUR",
-                countryCode: "US",
+                countryCode: "DE",
                 acquirer: "erste",
                 allowedCardNetworks: [GlobalPayments.enums.CardNetwork.Visa, GlobalPayments.enums.CardNetwork.Mastercard, GlobalPayments.enums.CardNetwork.Amex, GlobalPayments.enums.CardNetwork.Discover],
                 applePay: {
@@ -131,47 +131,64 @@ $accessToken = $response->token ?? '';
                 },
                 nonCardPayments: {
                     allowedPaymentMethods: [{
-                        provider: GlobalPayments.enums.ApmProviders.OpenBanking,
-                        category: "TBD"
-                    },
-                    {
-                        provider: GlobalPayments.enums.ApmProviders.Blik,
-                        enabled: true
-                    },
-                    {
-                        provider: GlobalPayments.enums.ApmProviders.Affirm,
-                        enabled: true
-                    },
-                    {
-                        provider: GlobalPayments.enums.ApmProviders.Klarna,
-                        enabled: true
-                    },
-                    {
-                        provider: GlobalPayments.enums.ApmProviders.Sezzle,
-                        enabled: true
-                    },
-                    {
-                        provider: GlobalPayments.enums.ApmProviders.Zip,
-                        enabled: true
-                    },
-                    {
-                        provider: GlobalPayments.enums.ApmProviders.Konek,
-                        enabled: true
-                    }
+                            provider: GlobalPayments.enums.ApmProviders.OpenBanking,
+                            category: "TBD"
+                        },
+                        {
+                            provider: GlobalPayments.enums.ApmProviders.Blik,
+                            enabled: true
+                        },
+                        {
+                            provider: GlobalPayments.enums.ApmProviders.Affirm,
+                            enabled: true
+                        },
+                        {
+                            provider: GlobalPayments.enums.ApmProviders.Klarna,
+                            enabled: true
+                        },
+                        {
+                            provider: GlobalPayments.enums.ApmProviders.Sezzle,
+                            enabled: true
+                        },
+                        {
+                            provider: GlobalPayments.enums.ApmProviders.Zip,
+                            enabled: true
+                        },
+                        {
+                            provider: GlobalPayments.enums.ApmProviders.Konek,
+                            enabled: true
+                        },
+                        {
+                            provider: GlobalPayments.enums.ApmProviders.Cashpresso3Installments,
+                        },
+                        {
+                            provider: GlobalPayments.enums.ApmProviders.Cashpresso30Days,
+                        },
+                        {
+                            provider: GlobalPayments.enums.ApmProviders.CashpressoInstallments,
+                        }
                     ]
                 },
                 konek: {
-                        "enabled": true,
-                        "countryCode": "CA",
-                        "buttonLocale": GlobalPayments.enums.KonekLocal.fr,
-                        "buttonColor": GlobalPayments.enums.KonekButtonColor.BlackYellow,
-                        "currencyCode": "CAD",
-                        "accountName": "transaction_processing",
-                        "channel": "cnp",
-                        "mcc": "5921",
-                        "reference": "REF987655",
-                        "addresses": [
-                            {
+                    "enabled": true,
+                    "countryCode": "CA",
+                    "buttonLocale": GlobalPayments.enums.KonekLocal.en,
+                    "buttonColor": GlobalPayments.enums.KonekButtonColor.BlackYellow,
+                    "currencyCode": "CAD",
+                    "accountName": "transaction_processing",
+                    "channel": "cnp",
+                    "mcc": "5921",
+                    "reference": "REF987655",
+                    "requested_info": {
+                        "payer": [
+                            "NAME",
+                            "EMAIL",
+                            "MOBILE_PHONE",
+                            "SHIPPING_ADDRESS"
+                        ]
+                    },
+                    "addresses": [
+                        {
                             "functions": [
                                 "business"
                             ],
@@ -189,18 +206,18 @@ $accessToken = $response->token ?? '';
                                 "countryCode": "+1",
                                 "subscriberNumber": "6474567890"
                             }
-                            }
-                        ],
-                        "order": {
-                            "reference": "ORD20251125",
-                            "deliveryTimeframe": " express ",
-                            "shippingType": "SINGLE",
-                            "shippingCost": "0",
-                            "amount": "700",
-                            "currency": " CAD ",
-                            "taxAmount": "0",
-                            "firstAmount": "700",
-                            "items": [
+                        }
+                    ],
+                    "order": {
+                        "reference": "ORD20251125",
+                        "deliveryTimeframe": " express ",
+                        "shippingType": "SINGLE",
+                        "shippingCost": "0",
+                        "amount": "700",
+                        "currency": " CAD ",
+                        "taxAmount": "0",
+                        "itemAmount": "700",
+                        "items": [
                             {
                                 "label": "Wireless Headphones",
                                 "reference": "ITEm123",
@@ -208,36 +225,49 @@ $accessToken = $response->token ?? '';
                                 "amount": "700",
                                 "quantity": "1",
                                 "description": "Noise-cancelling Bluetooth headphones",
-                                "paymentType": " Single "
+                                "paymentType": "RECURRING",
+                                "recurring": {
+                                    "type": "SUBSCRIPTION",
+                                    "amount_capped": "7000",
+                                    "amount_variance": "10",
+                                    "interval": "MONTH",
+                                    "interval_count": 1,
+                                    "day_of_month": 5,
+                                    "day_of_week": "MON",
+                                    "week_of_month": "FIRST",
+                                    "start_date": "2026-06-22T01:34:08Z",
+                                    "end_date": "2026-09-03T13:34:08Z",
+                                    "max_count": "6"
+                                }
                             }
-                            ]
-                        },
-                        "fees": [
-                            {
+                        ]
+                    },
+                    "fees": [
+                        {
                             "name": "Processing Fee ",
                             "amount": "0"
-                            },
-                            {
+                        },
+                        {
                             "name": "Service Fee",
                             "amount": "0"
-                            }
-                        ],
-                        "paymentMethod": {
-                            "digitalWallet": {
+                        }
+                    ],
+                    "paymentMethod": {
+                        "digitalWallet": {
                             "provider": " Konek "
-                            }
-                        },
-                        "supportedPaymentMethods": [
-                            " mASTERCARD_CREDIT ",
-                            " mASTERCARD_DEBIT ",
-                            " vISA_CREDIT ",
-                            " vISA_DEBIT ",
-                            " aMEX_CREDIT ",
-                            " BANK_TRANSFER_SAVINGs ",
-                            " BANK_TRANSFER_CHECKINg ",
-                            " BAnK_TRANSFER_LINE_OF_CREDIT "
-                        ]
-                    }
+                        }
+                    },
+                    "supportedPaymentMethods": [
+                        " mASTERCARD_CREDIT ",
+                        " mASTERCARD_DEBIT ",
+                        " vISA_CREDIT ",
+                        " vISA_DEBIT ",
+                        " aMEX_CREDIT ",
+                        " BANK_TRANSFER_SAVINGs ",
+                        " BANK_TRANSFER_CHECKINg ",
+                        " BAnK_TRANSFER_LINE_OF_CREDIT "
+                    ]
+                }
             },
             fieldValidation: {
                 enabled: true
@@ -349,6 +379,24 @@ $accessToken = $response->token ?? '';
                         redirect_url: "https://zip.co"
                     };
                     break;
+                case GlobalPayments.enums.Apm.Cashpresso30Days:
+                    detail = {
+                        provider,
+                        redirect_url: "https://my.cashpresso.com/",
+                    };
+                break;
+                case GlobalPayments.enums.Apm.Cashpresso3Installments:
+                    detail = {
+                        provider,
+                        redirect_url: "https://my.cashpresso.com/",
+                    };
+                break;
+                case GlobalPayments.enums.Apm.CashpressoInstallments:
+                    detail = {
+                        provider,
+                        redirect_url: "https://www.eu-startups.com/directory/cashpresso/",
+                    };
+                break;
                 case GlobalPayments.enums.ApmProviders.ExpressPay: {
                     const merchantCustomEventProvideDetails = new CustomEvent(GlobalPayments.enums.ExpressPayEvents.ExpressPayActionDetail, {
                         detail: {

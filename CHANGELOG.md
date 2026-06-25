@@ -4,7 +4,12 @@
 
 # Changelog (MM/DD/YY)
 
-## latest v4.1.25 (06/18/26)
+## latest v4.1.26 (06/25/26)
+- [Globalpayments-js][4.1.26]  Cashpresso APM
+- [Globalpayments-js][4.1.26]  Fixed broken footer images for Brand Themes
+- [Globalpayments-js][4.1.26]  Recurring Payment Type added to Konek 
+
+## v4.1.25 (06/18/26)
 - [Globalpayments-js][4.1.25]  Localization with chinese (Simplified/Traditional)
 - [Globalpayments-js][4.1.25]  Localization for currencies 
 

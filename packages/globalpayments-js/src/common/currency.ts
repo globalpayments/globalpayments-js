@@ -658,7 +658,7 @@ export const convertAmount = (amount: string, withoutDecimals = true, decimalPla
 
 export const formatAmount = (
     amount: string | number | undefined,
-    currencyCode: string
+    currencyCode: string | undefined
 ): string => {
     // Replace commas with dots for proper parsing (if string)
     const sanitizedAmount = typeof amount === 'string' ? amount.replace(',', '.') : String(amount);

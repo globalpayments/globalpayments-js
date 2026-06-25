@@ -12,4 +12,4 @@ export declare const availableCurrencies: ({
     exponents: number;
 })[];
 export declare const convertAmount: (amount: string, withoutDecimals?: boolean, decimalPlaces?: number) => string | void;
-export declare const formatAmount: (amount: string | number | undefined, currencyCode: string) => string;
+export declare const formatAmount: (amount: string | number | undefined, currencyCode: string | undefined) => string;

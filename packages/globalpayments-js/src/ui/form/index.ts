@@ -96,6 +96,9 @@ export const frameFieldTypes = [
   Apm.Sezzle,
   Apm.Zip,
   Apm.Konek,
+  Apm.Cashpresso30Days,
+  Apm.Cashpresso3Installments,
+  Apm.CashpressoInstallments,
   CardFormFieldNames.CardNumber,
   CardFormFieldNames.CardExpiration,
   CardFormFieldNames.CardCvv,
@@ -366,6 +369,9 @@ export default class UIForm {
     const qrCodePayments = this.frames[Apm.QRCodePayments];
     const konek = this.frames[Apm.Konek];
     const blik = this.frames[Apm.Blik];
+    const Cashpresso30Days = this.frames[Apm.Cashpresso30Days];
+    const Cashpresso3Installments = this.frames[Apm.Cashpresso3Installments];
+    const CashpressoInstallments = this.frames[Apm.CashpressoInstallments];
     const expressPay = this.frames[Apm.ExpressPay];
 
     const affirm = this.frames[Apm.Affirm];
@@ -518,6 +524,21 @@ export default class UIForm {
     if(zip) {
       zip?.container?.querySelector('iframe')?.remove();
       addPaymentMethod(zip, ApmProviders.Zip, Apm.Zip);
+    }
+
+    if(Cashpresso30Days){
+      Cashpresso30Days?.container?.querySelector('iframe')?.remove();
+      addPaymentMethod(Cashpresso30Days, ApmProviders.Cashpresso30Days, Apm.Cashpresso30Days);
+    }
+
+    if(Cashpresso3Installments){
+      Cashpresso3Installments?.container?.querySelector('iframe')?.remove();
+      addPaymentMethod(Cashpresso3Installments, ApmProviders.Cashpresso3Installments, Apm.Cashpresso3Installments);
+    }
+
+    if(CashpressoInstallments){
+      CashpressoInstallments?.container?.querySelector('iframe')?.remove();
+      addPaymentMethod(CashpressoInstallments, ApmProviders.CashpressoInstallments, Apm.CashpressoInstallments);
     }
 
     if (expressPay) {
@@ -823,7 +844,10 @@ export default class UIForm {
         && type !== Apm.Klarna
         && type !== Apm.Sezzle
         && type !== Apm.Zip
-        && type !== Apm.Konek) {
+        && type !== Apm.Konek
+        && type !== Apm.Cashpresso30Days
+        && type !== Apm.Cashpresso3Installments
+        && type !== Apm.CashpressoInstallments) {
         fields.push(type);
       }
     }

@@ -36,17 +36,17 @@ export function addFooterBrandedIcons(
   });
 
   const sslImage = createHtmlImageElement({
-    src: `${assetUrl}images/Encrypted_Badge.png.png`,
+    src: `${assetUrl}images/Encrypted_Badge.png`,
     alt: translations[language].footer['ssl-msg-alt'],
     className: "ssl-logo_ico",
   });
   sslLogoContainerDiv.appendChild(sslImage);
 
-  const sslEncryptedTextSpan = createHtmlSpanElement({
-    textContent: translations[language].footer['ssl-msg'],
-    className: "ssl-msg",
-  });
-  sslLogoContainerDiv.appendChild(sslEncryptedTextSpan);
+  // const sslEncryptedTextSpan = createHtmlSpanElement({
+  //   textContent: translations[language].footer['ssl-msg'],
+  //   className: "ssl-msg",
+  // });
+  // sslLogoContainerDiv.appendChild(sslEncryptedTextSpan);
 
   sslEncryptedContainerDiv.appendChild(sslLogoContainerDiv);
   footerContainerDiv.appendChild(sslEncryptedContainerDiv);

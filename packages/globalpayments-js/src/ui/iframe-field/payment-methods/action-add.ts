@@ -81,7 +81,6 @@ function addMerchantEventListeners(iframeField: IframeField, apmProvider: ApmPro
     const {
       redirect_url: redirectUrl,
       provider,
-      // TODO (Bank Selection): Get the country and currency to evaluate the feature
       countryCode,
       currencyCode,
       bankName
