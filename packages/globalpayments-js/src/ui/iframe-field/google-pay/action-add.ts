@@ -12,7 +12,7 @@ export default function addGooglePay(iframeField: IframeField | undefined, field
   const amount = field.amount;
   const allowedCardNetworks = options.apms?.googlePay?.allowedCardNetworks ? options.apms?.googlePay?.allowedCardNetworks : options.apms?.allowedCardNetworks;
   const allowedCardAuthMethods = options.apms?.googlePay?.allowedAuthMethods;
-  const currencyCode = options.apms?.googlePay?.currencyCode ? options.apms?.googlePay?.currencyCode : options.apms?.currencyCode;
+  const currencyCode = options.apms?.currencyCode;
 
   if(!allowedCardNetworks || allowedCardNetworks.length === 0) {
     missingConfig.push('allowedCardNetworks');
@@ -280,7 +280,7 @@ export default function addGooglePay(iframeField: IframeField | undefined, field
    */
   function getGoogleTransactionInfo() {
     return {
-      countryCode: options.apms?.googlePay?.countryCode,
+      countryCode: options.apms?.countryCode,
       currencyCode,
       totalPriceStatus: 'FINAL',
       totalPrice: amount,

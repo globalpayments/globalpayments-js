@@ -8,7 +8,7 @@ export default function addClickToPay(iframeField: IframeField | undefined, fiel
   if (!options.apms?.clickToPay || gateway?.supports.apm?.clickToPay === false) return;
 
   const allowedCardNetworks = options.apms?.clickToPay?.allowedCardNetworks ? options.apms?.clickToPay?.allowedCardNetworks : options.apms?.allowedCardNetworks;
-  const currencyCode = options.apms?.clickToPay?.currencyCode ? options.apms?.clickToPay?.currencyCode : options.apms?.currencyCode;
+  const currencyCode = options.apms?.currencyCode;
   const canadianDebit = options.apms?.clickToPay?.canadianDebit;
   const ctpClientId = options.apms?.clickToPay?.ctpClientId!;
   const subtotal = field.amount;

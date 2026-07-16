@@ -55,8 +55,6 @@ export interface IConfiguration extends IDictionary {
       buttonLocale?: string;
       buttonStyle?: string;
       buttonType?: string;
-      countryCode?: string;
-      currencyCode?: string;
       globalPaymentsClientID?: string;
       merchantCapabilities?: string[];
       merchantIdentifier?: string;
@@ -68,7 +66,6 @@ export interface IConfiguration extends IDictionary {
       allowedCardNetworks?: string[];
       canadianDebit?: boolean;
       ctpClientId: string;
-      currencyCode?: string;
       subtotal: number;
       wrapper?: boolean;
       buttonless: boolean;
@@ -80,8 +77,6 @@ export interface IConfiguration extends IDictionary {
       buttonLocale?: string;
       buttonSizeMode?: string;
       buttonType?: string;
-      countryCode?: string;
-      currencyCode?: string;
       globalPaymentsClientID?: string;
       merchantId?: string;
       merchantName?: string;
@@ -89,7 +84,6 @@ export interface IConfiguration extends IDictionary {
     konek?: {
       buttonColor?: string;
       buttonLocale?: string;
-      countryCode?: string;
       enabled?: boolean;
       accountName: string;
       channel: string;

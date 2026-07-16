@@ -88,18 +88,17 @@ function addMerchantEventListeners(iframeField: IframeField, apmProvider: ApmPro
 
     const BANK_SELECTION_KEY = "bank-selection";
 
-    // if (provider !== apmProvider) {
-    //   return;
-    // }
-
-    const existing = document.getElementById(`${BANK_SELECTION_KEY}-wrapper`);
-    if(existing) existing.remove();
+    if (provider !== apmProvider) {
+      return;
+    }
 
     // TODO (Bank Selection): Bank Selection evaluation
     if (isBankSelectionAvailable(countryCode, currencyCode)
       && provider === ApmProviders.OpenBanking
       && iframeField?.container
       && !bankName) {
+      const existing = document.getElementById(`${BANK_SELECTION_KEY}-wrapper`);
+      if(existing) existing.remove();
       addBankSelection((iframeField), {
         countryCode,
         currencyCode
@@ -115,6 +114,9 @@ function addMerchantEventListeners(iframeField: IframeField, apmProvider: ApmPro
 
         return;
       }
+
+      const existing = document.getElementById(`${BANK_SELECTION_KEY}-wrapper`);
+      if(existing) existing.remove();
 
       const existingRedirectContent = document.getElementById(`redirect-content`);
       if(existingRedirectContent) existingRedirectContent.remove();

@@ -3,3 +3,5 @@ export const INSTALLMENTS_KEY = 'installments';
 export const INSTALLMENTS_CONFIG_DEFAULT_CHANNEL = 'CNP';
 export const INSTALLMENTS_CONFIG_DEFAULT_ENTRY_MODE = 'ECOM';
 export const INSTALLMENTS_CONFIG_DEFAULT_CVV_INDICATOR = 'PRESENT';
+
+export const INSTALLMENT_VALIDITY_KEY = 'installment-validity';

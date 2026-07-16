@@ -5,11 +5,15 @@ import { translateMessage } from "../../../internal/lib/translate";
 import translations from "../../../internal/lib/translations/translations";
 import { REDIRECT_ACTION_DELAY_IN_SECONDS } from "./constants";
 import { ApmInternalEvents } from "../../enums";
-import {getSelectAnotherPaymentMethodButton} from "./common";
+import { getSelectAnotherPaymentMethodButton, isUrlValid } from "./common";
 
 export default function handleRedirectAction (content: HTMLDivElement, props: any) {
   const { redirectUrl, onClickSelectAnotherPaymentMethod } = props;
   const lang = getCurrentLanguage();
+
+  if (!redirectUrl || !isUrlValid(redirectUrl)) {
+    return;
+  }
 
   const redirectingToPaymentPageDiv = createHtmlDivElement({
     id: 'apms-redirecting-to-page',

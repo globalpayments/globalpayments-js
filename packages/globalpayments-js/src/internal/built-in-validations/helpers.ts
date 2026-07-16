@@ -104,13 +104,9 @@ export const checkInstallmentsAvailability = (installmentsData: any): boolean =>
     if (!installmentsData.config || typeof installmentsData.config !== 'object') {
       // tslint:disable-next-line:no-console
       console.warn('Visa Installments has no configuration and is using default values. Check integration guide on how to set a configuration.');
-    } else if (installmentsData.config.max_time_unit_number === undefined || installmentsData.config.max_amount === undefined) {
+    } else if (installmentsData.config?.funding_mode === undefined || installmentsData.config?.max_time_unit_number === undefined || installmentsData.config?.max_amount === undefined) {
       // tslint:disable-next-line:no-console
       console.warn('Installments has a partial configuration and is using default values');
-    }
-    if(!installmentsData.config.hasOwnProperty('funding_mode')){
-      // tslint:disable-next-line:no-console
-      console.warn('Installments has no funding_mode configuration and is using default values');
     }
   }
   return true;

@@ -11,7 +11,7 @@ export default function addApplePay(iframeField: IframeField | undefined, field:
 
   const total = field.amount;
   const allowedCardNetworks = options.apms?.applePay?.allowedCardNetworks ? options.apms?.applePay?.allowedCardNetworks : options.apms?.allowedCardNetworks;
-  const currencyCode = options.apms?.applePay?.currencyCode ? options.apms?.applePay?.currencyCode : options.apms?.currencyCode;
+  const currencyCode = options.apms?.currencyCode;
 
   if (!allowedCardNetworks || allowedCardNetworks.length === 0) {
     missingConfig.push('allowedCardNetworks');
@@ -90,8 +90,8 @@ export default function addApplePay(iframeField: IframeField | undefined, field:
   function onApplePayButtonClicked() {
     // Initialise the Apple Pay Payment Request
     const applePayPaymentRequest = {
-      countryCode: options.apms?.applePay?.countryCode,
-      currencyCode: options.apms?.applePay?.currencyCode,
+      countryCode: options.apms?.countryCode,
+      currencyCode: options.apms?.currencyCode,
       merchantCapabilities: options.apms?.applePay?.merchantCapabilities,
       requiredBillingContactFields: ['postalAddress', 'name', 'phone', 'email'],
       requiredShippingContactFields: ['postalAddress', 'name', 'phone', 'email'],

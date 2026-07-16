@@ -77,13 +77,11 @@ $accessToken = $response->token ?? '';
             //merchantId: "<?//= $merchant_id ?>//",
             apms: {
                 currencyCode: "EUR",
-                countryCode: "DE",
+                countryCode: "UK",
                 acquirer: "erste",
                 allowedCardNetworks: [GlobalPayments.enums.CardNetwork.Visa, GlobalPayments.enums.CardNetwork.Mastercard, GlobalPayments.enums.CardNetwork.Amex, GlobalPayments.enums.CardNetwork.Discover],
                 applePay: {
                     applePayVersionNumber: 3,
-                    currencyCode: "USD",
-                    countryCode: "US",
                     buttonStyle: "black",
                     buttonType: "pay",
                     merchantName: 'GP Store',
@@ -102,12 +100,9 @@ $accessToken = $response->token ?? '';
                     canadianDebit: true,
                     cardForm: false,
                     ctpClientId: "d83e8615-9d0a-46fe-9677-8040887e27fa",
-                    currencyCode: "EUR",
                     wrapper: false
                 },
                 googlePay: {
-                    currencyCode: "EUR",
-                    countryCode: "US",
                     merchantName: 'Merchant Name',
                     allowedAuthMethods: ["PAN_ONLY"],
                     allowedCardNetworks: ["AMEX", "DISCOVER", "INTERAC", "JCB", "MASTERCARD", "MIR", "VISA"],
@@ -171,10 +166,8 @@ $accessToken = $response->token ?? '';
                 },
                 konek: {
                     "enabled": true,
-                    "countryCode": "CA",
                     "buttonLocale": GlobalPayments.enums.KonekLocal.en,
                     "buttonColor": GlobalPayments.enums.KonekButtonColor.BlackYellow,
-                    "currencyCode": "CAD",
                     "accountName": "transaction_processing",
                     "channel": "cnp",
                     "mcc": "5921",
@@ -235,7 +228,7 @@ $accessToken = $response->token ?? '';
                                     "day_of_month": 5,
                                     "day_of_week": "MON",
                                     "week_of_month": "FIRST",
-                                    "start_date": "2026-06-22T01:34:08Z",
+                                    "start_date": "2026-06-23T01:34:08Z",
                                     "end_date": "2026-09-03T13:34:08Z",
                                     "max_count": "6"
                                 }

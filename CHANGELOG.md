@@ -4,10 +4,15 @@
 
 # Changelog (MM/DD/YY)
 
-## latest v4.1.26 (06/25/26)
+## latest v5.0.0 (07/16/26)
+- [Globalpayments-js][5.0.0]  Removed multiple error messages for APMs
+- [Globalpayments-js][5.0.0]  Fixed VIS T&C validation to emit the existing card-form-validity event so plugins can clear the loader when terms are not accepted.
+- [Globalpayments-js][5.0.0] Updated Drop-In UI config to set Country and Currency only once for APMs
+
+## v4.1.26 (06/25/26)
 - [Globalpayments-js][4.1.26]  Cashpresso APM
-- [Globalpayments-js][4.1.26]  Fixed broken footer images for Brand Themes
-- [Globalpayments-js][4.1.26]  Recurring Payment Type added to Konek 
+- [Globalpayments-js][4.1.26]  Fixed broken footer badge for Brand Themes
+- [Globalpayments-js][4.1.26]  Recurring Payment Type added to Konek
 
 ## v4.1.25 (06/18/26)
 - [Globalpayments-js][4.1.25]  Localization with chinese (Simplified/Traditional)

@@ -24,6 +24,24 @@ import { HOSTED_FIELDS_SHIPPING_KEYS } from "../common/constants";
 import { InstallmentConfigs } from "../internal/lib/installments/contracts/enums";
 import getExpressPayBaseUrl from "../internal/gateways/gp-api/get-express-pay-base-url";
 
+const APM_REQUIRED_FIELDS: Partial<Record<Apm, string[]>> = {
+  [Apm.ApplePay]: ["countryCode", "currencyCode"],
+  [Apm.GooglePay]: ["currencyCode"],
+  [Apm.ClickToPay]: ["currencyCode"],
+  [Apm.Blik]: ["countryCode", "currencyCode"],
+  [Apm.OpenBankingPayment]: ["countryCode"],
+  [Apm.Affirm]: ["countryCode"],
+  [Apm.Klarna]: ["countryCode"],
+  [Apm.Sezzle]: ["countryCode"],
+  [Apm.Zip]: ["countryCode"],
+  [Apm.Cashpresso3Installments]: ["countryCode", "currencyCode"],
+  [Apm.Cashpresso30Days]: ["countryCode", "currencyCode"],
+  [Apm.CashpressoInstallments]: ["countryCode", "currencyCode"],
+  [Apm.Konek]: ["countryCode"],
+  [Apm.QRCodePayments]: [],
+  [Apm.PayPal]: [],
+};
+
 export const defaultOptions: IUIFormOptions = {
   labels: {
     "card-cvv": translations.en.labels['card-cvv'],
@@ -192,6 +210,37 @@ export function form(
       formOptions.apms = [];
       formOptions.apms.push(Apm.ExpressPay)
     }
+  }
+
+  const countryCode = options?.apms?.countryCode;
+  const currencyCode = options?.apms?.currencyCode;
+  const hasCountryCode = typeof countryCode === "string" ? countryCode.trim().length > 0 : !!countryCode;
+  const hasCurrencyCode = typeof currencyCode === "string" ? currencyCode.trim().length > 0 : !!currencyCode;
+
+  if (formOptions.apms) {
+    const allowedApms: string[] = [];
+    const blockedApms: string[] = [];
+
+    (formOptions.apms as string[]).forEach((apm) => {
+      const requiredFields = APM_REQUIRED_FIELDS[apm as Apm] || [];
+      const missingFields = requiredFields.filter((field) => {
+        return field === "countryCode" ? !hasCountryCode : !hasCurrencyCode;
+      });
+
+      if (missingFields.length > 0) {
+        blockedApms.push(`${apm} [${missingFields.join(", ")}]`);
+        return;
+      }
+
+      allowedApms.push(apm);
+    });
+
+    if (blockedApms.length > 0) {
+      // tslint:disable-next-line:no-console
+      console.error(`APM buttons were not rendered due to missing required field(s): ${blockedApms.join("; ")}`);
+    }
+
+    formOptions.apms = allowedApms.length > 0 ? allowedApms : undefined;
   }
 
   if (formOptions.apms) {

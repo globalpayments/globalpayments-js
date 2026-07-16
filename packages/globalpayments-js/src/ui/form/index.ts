@@ -21,7 +21,7 @@ import {Apm, ApmEvents, ApmProviders, CardFormEvents, ExpressPayEvents, Program}
 import addInstallments from "../iframe-field/installments/action-add";
 import { InstallmentEvents } from "../../internal/lib/installments/contracts/enums";
 import InstallmentPlansData, { verifyInstallmentAvailability } from "../../internal/lib/installments/contracts/installment-plans-data";
-import { INSTALLMENTS_KEY } from "../../internal/lib/installments/contracts/constants";
+import { INSTALLMENTS_KEY, INSTALLMENT_VALIDITY_KEY } from "../../internal/lib/installments/contracts/constants";
 import { InstallmentPaymentData, VisaInstallmentPaymentData } from "../../internal/lib/installments/contracts/interfaces";
 import addInstallmentsOptions from "../../internal/lib/installments/components/add-installments-options";
 import { CardFormFieldNames, ExpressPayFieldNames, HostedFieldValidationEvents } from "../../common/enums";
@@ -124,6 +124,7 @@ export default class UIForm {
   public styles: object;
   public formOptionFields: IUIFormOptions | undefined;
   private totalNumberOfFields = 0;
+  private hasInstallmentValidationError = false;
 
   /**
    * Instantiates a new UIForm object for a group of hosted fields
@@ -295,7 +296,7 @@ export default class UIForm {
     }
     for (const type of frameFieldTypes) {
       // Do not create Konek iframe unless Konek configuration exists in options.
-      if (type === Apm.Konek && (options.apms?.konek && (!options.apms?.konek?.enabled || options.apms?.konek.countryCode !== "CA"))) {
+      if (type === Apm.Konek && (options.apms?.konek && (!options.apms?.konek?.enabled || options.apms?.countryCode !== "CA"))) {
         continue;
       }
 
@@ -880,20 +881,13 @@ export default class UIForm {
 
     if (this.installmentResponseData) {
       installment = this.installmentResponseData;
-      const targetInstallmentContainer: HTMLElement | null = document.getElementById(`installment-details-container-${installment.installmentReference}`);
-      if (targetInstallmentContainer) {
-        const checkbox = targetInstallmentContainer?.querySelector('input[type="checkbox"]');
-        if (!checkbox || !(checkbox as HTMLInputElement).checked) {
-          checkbox?.classList.add('checkbox-error');
-          targetInstallmentContainer.style.border = "2px solid red";
-          const addErrorElement: HTMLElement | null = document.getElementById(`installment-terms-error-${installment.installmentReference}`);
-          if (addErrorElement) {
-            addErrorElement.style.display = "block";
-          }
-          if(currencyConversion) {
-            if (this.currencyConversionResponseData.response.currencyConversionAccepted === "NO") return;
-          } else return;
-        }
+      const isInstallmentAccepted = this.isInstallmentAccepted(installment);
+      const shouldSkipInstallmentValidation = this.shouldSkipInstallmentValidation();
+      if (!isInstallmentAccepted && !shouldSkipInstallmentValidation) {
+        this.showInstallmentsError(installment);
+        target.emit(CardFormEvents.ValidityState, false);
+        bus.emit(CardFormEvents.ValidityState, { isFormValid: false });
+        return;
       }
     }
 
@@ -1041,11 +1035,18 @@ export default class UIForm {
       // Clean up form validation data
       const w = window as any;
       delete w.formValidations;
+      localStorage.removeItem(INSTALLMENT_VALIDITY_KEY);
 
+      cardNumberFrame.emit(CardFormEvents.ValidityState, isFormValid);
       bus.emit(CardFormEvents.ValidityState, { isFormValid });
     };
 
     cardNumberFrame.on(HostedFieldValidationEvents.ValidateFormValid, (_validationData?: any) => {
+      if (this.hasInstallmentValidationError) {
+        cleanUpFormValidationDataAndEmitValidityState(false);
+        return;
+      }
+
       cleanUpFormValidationDataAndEmitValidityState(true);
 
       // Submit the VALID form
@@ -1058,6 +1059,25 @@ export default class UIForm {
   private validateForm(frames: IFrameCollection): void {
     const accountCardNumberFrameTarget = this.frames[CardFormFieldNames.CardNumber] || this.frames[CardFormFieldNames.CardAccountNumber];
     if (!accountCardNumberFrameTarget) return;
+
+    this.hasInstallmentValidationError = false;
+
+    if (options.installments?.program === Program.VIS && this.installmentResponseData) {
+      const installment = this.installmentResponseData;
+      const shouldSkipInstallmentValidation = this.shouldSkipInstallmentValidation();
+      if (installment.installmentReference) {
+        const checkboxValid = shouldSkipInstallmentValidation || this.isInstallmentAccepted(installment);
+        localStorage.setItem(INSTALLMENT_VALIDITY_KEY, checkboxValid ? "1" : "0");
+        if (!checkboxValid) {
+          this.showInstallmentsError(installment);
+          this.hasInstallmentValidationError = true;
+        }
+      } else {
+        localStorage.removeItem(INSTALLMENT_VALIDITY_KEY);
+      }
+    } else {
+      localStorage.removeItem(INSTALLMENT_VALIDITY_KEY);
+    }
 
     const hostedFieldsToValidate: IframeField[] = this.getHostedFieldsToValidate(frames, accountCardNumberFrameTarget);
 
@@ -1074,6 +1094,49 @@ export default class UIForm {
         },
         field.id,
       );
+    }
+  }
+
+  private isInstallmentAccepted(installment: InstallmentPaymentData | VisaInstallmentPaymentData): boolean {
+    if (!installment.installmentReference) {
+      return true;
+    }
+
+    const targetInstallmentContainer: HTMLElement | null = document.getElementById(`installment-details-container-${installment.installmentReference}`);
+    if (!targetInstallmentContainer) {
+      return true;
+    }
+
+    const checkbox = targetInstallmentContainer.querySelector('input[type="checkbox"]') as HTMLInputElement | null;
+    return !!checkbox && checkbox.checked;
+  }
+
+  private shouldSkipInstallmentValidation(): boolean {
+    return !!(
+      this.currencyConversionResponseData
+      && getCurrencyConversionAvailabilityStatus()
+      && this.currencyConversionResponseData.response
+      && this.currencyConversionResponseData.response.currencyConversionAccepted === "YES"
+    );
+  }
+
+  private showInstallmentsError(installment: InstallmentPaymentData | VisaInstallmentPaymentData): void {
+    if (!installment.installmentReference) {
+      return;
+    }
+
+    const targetInstallmentContainer: HTMLElement | null = document.getElementById(`installment-details-container-${installment.installmentReference}`);
+    if (!targetInstallmentContainer) {
+      return;
+    }
+
+    const checkbox = targetInstallmentContainer.querySelector('input[type="checkbox"]') as HTMLInputElement | null;
+    checkbox?.classList.add('checkbox-error');
+    targetInstallmentContainer.style.border = "2px solid red";
+
+    const addErrorElement: HTMLElement | null = document.getElementById(`installment-terms-error-${installment.installmentReference}`);
+    if (addErrorElement) {
+      addErrorElement.style.display = "block";
     }
   }
 

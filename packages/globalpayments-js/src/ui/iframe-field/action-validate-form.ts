@@ -5,6 +5,7 @@ import { CardFormFieldNames, ExpressPayFieldNames, HostedFieldValidationEvents }
 import { getValidationRoundCounter, increaseValidationRoundCounter, removeValidationRoundCounter } from "../../internal/built-in-validations/helpers";
 import { DCC_KEY } from "../../internal/lib/currency-conversion/contracts/constants";
 import { getCurrencyConversionAvailabilityStatus, handleCurrencyConversionValidationSetup } from "../../internal/lib/currency-conversion/utils/helpers";
+import { INSTALLMENT_VALIDITY_KEY } from "../../internal/lib/installments/contracts/constants";
 
 export default (id: string, data: IDictionary) => {
   const w = window as any;
@@ -82,6 +83,11 @@ export default (id: string, data: IDictionary) => {
     const shouldCurrencyConversionBeValidated = isCurrencyConversionEnabled && isCurrencyConversionAvailable;
     if (shouldCurrencyConversionBeValidated) {
       isFormValid = isFormValid && w.formValidations[DCC_KEY];
+    }
+
+    const visInstallmentValidity = localStorage.getItem(INSTALLMENT_VALIDITY_KEY);
+    if (visInstallmentValidity !== null) {
+      isFormValid = isFormValid && visInstallmentValidity === "1";
     }
 
     let validFieldsCount = Object.values(formFields).filter(x => x).length;
