@@ -70,13 +70,12 @@ export default (data: IDictionary) => {
         }
 
         if (data["card-number"]) {
-          resp.details.masked_number_last4 = resp.details.cardNumber;
           const cardNumber = data["card-number"].replace(/\D/g, "");
           const bin = cardNumber.substr(0, 6);
           const last4 = cardNumber.substr(-4);
           const type = typeByNumber(cardNumber);
-
           resp.details = resp.details || {};
+          resp.details.masked_number_last4 = resp.details.cardNumber;
           resp.details.cardNumber =
             bin + "*".repeat(cardNumber.length - 10) + last4;
           resp.details.cardBin = bin;

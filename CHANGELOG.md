@@ -4,7 +4,10 @@
 
 # Changelog (MM/DD/YY)
 
-## latest v5.0.0 (07/16/26)
+## latest v5.0.1 (07/16/26)
+- [Globalpayments-js][5.0.1]  Fixed TransIT empty object in response issue
+
+## v5.0.0 (07/16/26)
 - [Globalpayments-js][5.0.0]  Removed multiple error messages for APMs
 - [Globalpayments-js][5.0.0]  Fixed VIS T&C validation to emit the existing card-form-validity event so plugins can clear the loader when terms are not accepted.
 - [Globalpayments-js][5.0.0] Updated Drop-In UI config to set Country and Currency only once for APMs

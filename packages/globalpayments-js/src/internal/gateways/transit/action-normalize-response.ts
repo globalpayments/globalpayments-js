@@ -23,7 +23,7 @@ export default (data: IDictionary) => {
 
   const response: any = {
     paymentReference: data.tsepToken,
-    requestId: data.transactionId,
+    requestId: data.transactionID,
   };
 
   return response;
