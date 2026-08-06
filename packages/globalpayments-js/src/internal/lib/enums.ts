@@ -157,6 +157,12 @@ export enum KonekButtonColor {
   WhiteBlack = "white-black"
 }
 
+export enum CardCvvOption {
+    Mandatory = "MANDATORY",
+    Optional = "OPTIONAL",
+    NotDisplayed = "NOT_DISPLAYED",
+}
+
 export enum CashpressoAmounts {
   installments30MinAmount = 0.3,
   installmentsFlexibleMinAmount = 20,

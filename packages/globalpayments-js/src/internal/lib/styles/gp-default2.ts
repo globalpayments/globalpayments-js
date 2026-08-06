@@ -212,6 +212,15 @@ export const parentStyles = (assetBaseUrl: string, theme?: string) => {
             flex: "100%",
         },
 
+        ".secure-payment-form.no-cvv .credit-card-card-expiration": {
+            flex: "1 1",
+            "margin-left": "16px",
+        },
+
+        ".secure-payment-form.no-cvv .credit-card-card-holder-name": {
+            flex: "1 1",
+        },
+
         ".secure-payment-form .credit-card-card-cvv iframe": {
             width: "100%",
             float: "left",

@@ -5,6 +5,7 @@ import { options as opts } from "../internal/lib/options";
 import { IDictionary } from "../internal/lib/util";
 import { IApmConfiguration } from "../apm/non-card-payments/contracts";
 import { IInstallmentAdditionalConfig } from "../internal/lib/installments/contracts/interfaces";
+import { CardCvvOption } from "../internal/lib/enums";
 
 /**
  * Defines expected configuration properties for using the
@@ -17,7 +18,7 @@ export interface IConfiguration extends IDictionary {
   enableTwoDigitExpirationYear?: boolean;
   enableCardFingerPrinting?:boolean;
   requireCardHolderName?:boolean;
-
+  cardCvvOption?: `${CardCvvOption}`;
   // Specific configuration properties for
   // Portico (heartland)
   publicApiKey?: string;

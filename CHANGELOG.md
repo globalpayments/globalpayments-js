@@ -4,7 +4,10 @@
 
 # Changelog (MM/DD/YY)
 
-## latest v5.0.1 (07/16/26)
+## latest v5.1.0 (07/30/26)
+- [Globalpayments-js][5.1.0]  CVV optional
+
+## v5.0.1 (07/16/26)
 - [Globalpayments-js][5.0.1]  Fixed TransIT empty object in response issue
 
 ## v5.0.0 (07/16/26)

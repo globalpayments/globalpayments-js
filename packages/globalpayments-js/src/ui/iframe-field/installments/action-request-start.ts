@@ -21,6 +21,9 @@ export default (id: string, data: IDictionary): void => {
     expiryMonth,
     expiryYear: fullExpiryYear.slice(-2),
   }).then((responseData: any) => {
+    // Clean up the installment local data used for this request (prevents stale expiration/card data on re-triggers)
+    delete (window as any).installmentData;
+
     let eventType = InstallmentEvents.CardInstallmentsRequestCompleted;
 
     if (responseData[`error_code`]) {

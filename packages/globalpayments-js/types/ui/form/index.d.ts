@@ -3310,6 +3310,13 @@ export declare const parentStyles: () => {
         ".secure-payment-form > div": {
             flex: string;
         };
+        ".secure-payment-form.no-cvv .credit-card-card-expiration": {
+            flex: string;
+            "margin-right": string;
+        };
+        ".secure-payment-form.no-cvv .credit-card-card-holder-name": {
+            flex: string;
+        };
         ".secure-payment-form .credit-card-card-cvv iframe": {
             width: string;
             float: string;
@@ -5915,6 +5922,13 @@ export declare const parentStyles: () => {
         ".secure-payment-form > div": {
             flex: string;
         };
+        ".secure-payment-form.no-cvv .credit-card-card-expiration": {
+            flex: string;
+            "margin-left": string;
+        };
+        ".secure-payment-form.no-cvv .credit-card-card-holder-name": {
+            flex: string;
+        };
         ".secure-payment-form .credit-card-card-cvv iframe": {
             width: string;
             float: string;
@@ -5926,7 +5940,11 @@ export declare const parentStyles: () => {
         ".secure-payment-form div[class$='-shield'] .ssl-text-logo": {
             "border-radius": string;
             height: string;
-            "text-align": string;
+            "text-align": string; /**
+             * Appends additional CSS rules to the group of hosted fields
+             *
+             * @param json New CSS rules
+             */
             margin: string;
             display: string;
             "justify-content": string;

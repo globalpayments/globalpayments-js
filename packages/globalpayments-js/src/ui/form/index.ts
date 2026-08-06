@@ -428,8 +428,7 @@ export default class UIForm {
         installmentsFrame?.container?.querySelector('iframe')?.classList.add('hidden');
       }
       const contest = addInstallmentEligibilityBadge();
-      const cardHolderNameContainer = this.frames[CardFormFieldNames.CardHolderName]?.container;
-      if(cardHolderNameContainer) cardHolderNameContainer.after(contest);
+      installmentsFrame?.container?.querySelector('iframe')?.after(contest);
       addInstallmentsOptions(installmentsFrame);
       this.configureCardInstallmentsEvents(installmentsFrame);
     }
@@ -598,10 +597,9 @@ export default class UIForm {
     if(installmentField) {
     const cardNumberFrame = this.frames["card-number"];
     const cardExpirationFrame = this.frames["card-expiration"];
-    const cardCvvFrame = this.frames["card-cvv"];
-    if (!cardNumberFrame || !cardExpirationFrame || !cardCvvFrame) return;
+    if (!cardNumberFrame || !cardExpirationFrame) return;
 
-    [cardNumberFrame, cardExpirationFrame, cardCvvFrame].forEach(cardFieldFrame => {
+    [cardNumberFrame, cardExpirationFrame].forEach(cardFieldFrame => {
       cardFieldFrame.on(InstallmentEvents.CardInstallmentsHide, (_data?: any) => {
         this.removeInstallmentsPanel();
         installmentRequestInProgress = false;
@@ -935,7 +933,6 @@ export default class UIForm {
     const fields = [
       CardFormFieldNames.CardNumber,
       CardFormFieldNames.CardExpiration,
-      CardFormFieldNames.CardCvv,
     ];
 
     fields.forEach((type) => {
@@ -962,7 +959,7 @@ export default class UIForm {
     const hostedFieldsToValidate = [
       cardNumberFrame,
       frames[CardFormFieldNames.CardExpiration],
-      frames[CardFormFieldNames.CardCvv ],
+      ...(frames[CardFormFieldNames.CardCvv] ? [frames[CardFormFieldNames.CardCvv]] : []),
       frames[CardFormFieldNames.CardHolderName]
     ];
 
@@ -1084,7 +1081,7 @@ export default class UIForm {
     resetValidationRoundCounter();
 
     for (const field of hostedFieldsToValidate) {
-      if (!field) return;
+      if (!field) continue;
       postMessage.post(
         {
           data: { target: accountCardNumberFrameTarget.id },

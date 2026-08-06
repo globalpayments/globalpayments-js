@@ -5,13 +5,14 @@ import { expressPayFieldsValidate, validate } from "../../internal/built-in-vali
 import { hideHostedFieldValidation, showHostedFieldValidation } from "../../internal/built-in-validations/helpers";
 import paymentFieldId from "../../internal/lib/payment-field-id";
 import { handleCurrencyConversionValidationSetup } from "../../internal/lib/currency-conversion/utils/helpers";
+import { CardCvvOption } from "../../internal/lib/enums";
 
 /**
  * Validate the value for a hosted field
  */
 export default (id: string, type: string, target: string, expressPayValidation?: boolean) => {
   // Set the initial set of fields to validate
-  let fieldsToValidate = HOSTED_FIELD_NAME_KEYS.map(x => x);
+  let fieldsToValidate = HOSTED_FIELD_NAME_KEYS.filter(fieldName => !(fieldName === CardFormFieldNames.CardCvv && options.cardCvvOption === CardCvvOption.NotDisplayed));
 
   let additionalFieldsToValidate = HOSTED_FIELDS_ADDITIONAL_KEYS.map(x => x);
 

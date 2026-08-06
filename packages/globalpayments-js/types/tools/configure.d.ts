@@ -2,6 +2,7 @@ import { IQRCodePaymentsConfiguration } from "../apm/qr-code-payments/contracts"
 import { IDictionary } from "../internal/lib/util";
 import { IApmConfiguration } from "../apm/non-card-payments/contracts";
 import { IInstallmentAdditionalConfig } from "../internal/lib/installments/contracts/interfaces";
+import { CardCvvOption } from "../internal/lib/enums";
 /**
  * Defines expected configuration properties for using the
  * library with the supported gateway implementations.
@@ -12,6 +13,7 @@ export interface IConfiguration extends IDictionary {
     enableTwoDigitExpirationYear?: boolean;
     enableCardFingerPrinting?: boolean;
     requireCardHolderName?: boolean;
+    cardCvvOption?: `${CardCvvOption}`;
     publicApiKey?: string;
     binCheck?: {
         hsaFsa?: boolean;

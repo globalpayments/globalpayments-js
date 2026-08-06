@@ -14,14 +14,13 @@ import {DCC_KEY} from "../internal/lib/currency-conversion/contracts/constants";
 import { isBrandTheme, isEserviceThemeApplied } from "../internal/lib/styles/themes/helpers";
 import { addFooterBrandedIcons } from "../internal/lib/add-footer-branded-icons";
 import addOrderInformation from "../ui/components/order-information/action-add-order-information";
+import { Apm, CardCvvOption, formMaxWidth, HostedFieldFooterLinks } from "../internal/lib/enums";
 import { availableCashpressoOptions, checkInstallmentsAvailability, getAvailableOptionsForBnpl, isBlikAvailable, isCashpressoAvailable, isOpenBankingAvailable } from "../internal/built-in-validations/helpers";
-import { Apm, formMaxWidth, HostedFieldFooterLinks } from "../internal/lib/enums";
 import CountryList from "country-list-with-dial-code-and-flag";
 import CountryFlagSvg from "country-list-with-dial-code-and-flag/dist/flag-svg";
 import getAssetBaseUrl from "../internal/gateways/gp-api/get-asset-base-url";
 import { CardFormFieldNames, ExpressPayFieldNames } from "../common/enums";
 import { HOSTED_FIELDS_SHIPPING_KEYS } from "../common/constants";
-import { InstallmentConfigs } from "../internal/lib/installments/contracts/enums";
 import getExpressPayBaseUrl from "../internal/gateways/gp-api/get-express-pay-base-url";
 
 const APM_REQUIRED_FIELDS: Partial<Record<Apm, string[]>> = {
@@ -126,6 +125,10 @@ export function form(
 
   target.className = target.className + " secure-payment-form";
 
+  if (options.cardCvvOption === CardCvvOption.NotDisplayed) {
+    target.className += " no-cvv";
+  }
+
   const gateway = getGateway();
   if (gateway && gateway.getEnv(options) !== "production") {
     addSandboxAlert(target);
@@ -137,7 +140,7 @@ export function form(
   let fieldTypes:string[] = [
     "card-number",
     "card-expiration",
-    "card-cvv",
+    ...(options.cardCvvOption === CardCvvOption.NotDisplayed ? [] : ["card-cvv"]),
     "card-holder-name",
   ];
 
@@ -450,10 +453,18 @@ export function form(
       label.appendChild(document.createTextNode(formOptions.labels[type]));
       const shippingTypes: string[] = HOSTED_FIELDS_SHIPPING_KEYS.map(x => x);
       const isShippingRequired: any = options.expressPay?.enabled && (options.expressPay?.isShippingRequired !== false);
+      const isShippingField = shippingTypes.includes(type);
+      const isAptField = type === ExpressPayFieldNames.BillingApt || type === ExpressPayFieldNames.ShippingApt;
+      const isCvvOptional = type === CardFormFieldNames.CardCvv && options.cardCvvOption === CardCvvOption.Optional;
+      const showRequiredAsterisk = (!isShippingField || isShippingRequired) && !isAptField && !isCvvOptional;
       const span = document.createElement("span");
       span.textContent = " *"
       span.className = "required";
-      if (((shippingTypes.indexOf(type) === -1) || (shippingTypes.indexOf(type) > -1 && isShippingRequired)) && type !== ExpressPayFieldNames.BillingApt && type !== ExpressPayFieldNames.ShippingApt) {
+      if (showRequiredAsterisk) {
+        label.appendChild(span);
+      }
+      if(isCvvOptional){
+        span.textContent = " (Optional)";
         label.appendChild(span);
       }
       labelEl.appendChild(label);

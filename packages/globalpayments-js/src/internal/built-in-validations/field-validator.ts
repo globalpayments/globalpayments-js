@@ -2,7 +2,7 @@ import { CardFormFieldNames, ExpressPayFieldNames } from "../../common/enums";
 import { luhnCheck, typeByNumber } from "../lib/card-types";
 import { ValidationMessages } from "./messages";
 import { options } from "../lib/options";
-import { CharacterValidation, phoneNumberLength } from "../lib/enums";
+import { CardCvvOption, CharacterValidation, phoneNumberLength } from "../lib/enums";
 import containsOnlyEnglishCharacters from "./english-characters-validation";
 import { DCC_KEY } from "../lib/currency-conversion/contracts/constants";
 
@@ -41,6 +41,12 @@ export const validate = (fieldType: string, value: string, extraData?: any): { i
 
             return createValidationResult(true);
         case CardFormFieldNames.CardCvv:
+
+            // If Security code is not displayed or optional and empty, treat as valid
+            if (options.cardCvvOption === CardCvvOption.NotDisplayed || (options.cardCvvOption === CardCvvOption.Optional && isEmpty(value))) {
+                return createValidationResult(true);
+            }
+
             // If user clicks but does not enter any value
             // The Security Code is not valid
             if (isEmpty(value)) return createValidationResult(false, ValidationMessages.CardCvv.CodeIsNotValid);

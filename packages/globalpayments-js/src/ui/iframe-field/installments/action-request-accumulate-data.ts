@@ -13,16 +13,13 @@ export default (id: string, _type: string, data: IDictionary) => {
   const installmentData = {
     cardNumber: w.installmentData['card-number'],
     cardExpiration: w.installmentData['card-expiration'],
-    cardCvv: w.installmentData['card-cvv'],
   };
-  const { cardNumber, cardExpiration, cardCvv } = installmentData;
+  const { cardNumber, cardExpiration } = installmentData;
 
   if (!cardNumber
     || !new CardNumberValidator().validate(cardNumber)
     || !cardExpiration
     || !new CardExpirationValidator().validate(cardExpiration)
-    || !cardCvv
-    || cardCvv && cardCvv.length < 3
     ) {
       return;
     };

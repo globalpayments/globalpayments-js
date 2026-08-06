@@ -15,6 +15,7 @@ import { isSafari } from "../../common/browser-helpers";
 import { CurrencyConversionEvents } from "./currency-conversion/contracts/enums";
 import { hasCurrencyConversionSensitiveValueChanged, removeCurrencyConversionAvailabilityStatus, removeCurrencyConversionPreviousValue } from "./currency-conversion/utils/helpers";
 import { HOSTED_FIELDS_ADDITIONAL_KEYS, HOSTED_FIELDS_SHIPPING_KEYS } from "../../common/constants";
+import { CardCvvOption } from "./enums";
 
 export default class Card {
   /**
@@ -412,65 +413,58 @@ export default class Card {
       : e.srcElement) as HTMLInputElement;
     const id = target.getAttribute("data-id");
     const value = target.value;
-    const classList = target.className.split(" ");
-    const length = classList.length;
-    let c = "";
-    let cardType = "unknown";
 
-    for (let i = 0; i < length; i++) {
-      c = classList[i];
-      if (c.indexOf("valid") !== -1) {
-        delete classList[i];
-      }
+    // Strip stale validity classes; capture the card type in one pass
+    let cardType = "unknown";
+    const classList = target.className.split(" ").filter(c => {
       if (c.indexOf("card-type-") !== -1) {
         cardType = c.replace("card-type-", "");
       }
-    }
+      return c.indexOf("valid") === -1; // removes valid / possibly-valid / invalid
+    });
 
     const isAmex = cardType === "amex";
-    const maxLength = isAmex ? 4 : 3;
+    const cvvDisabled = options.cardCvvOption === CardCvvOption.NotDisplayed;
+    const cvvOptionalAndEmpty =
+      options.cardCvvOption === CardCvvOption.Optional && value === "";
 
-    if (value.length < maxLength) {
-      classList.push("possibly-valid");
-    }
+    let isValid: boolean;
 
-    let isValid = new CvvValidator().validate(
+    if (cvvDisabled || cvvOptionalAndEmpty) {
+      // Treat as valid; skip all validators
+      isValid = true;
+    } else {
+      // Same path for Mandatory and Optional-with-value
+      isValid = new CvvValidator().validate(
         value,
         cardType === "unknown" ? undefined : isAmex,
       );
-    if (options.fieldValidation?.enabled) {
-      const validationResult = validate(CardFormFieldNames.CardCvv, value, { isAmex });
-      isValid = isValid && (validationResult && validationResult.isValid);
-    }
 
-    if (isValid) {
-      classList.push("valid");
-
-      if (id) {
-        postMessage.post(
-          {
-            data: {valid: true},
-            id,
-            type: `ui:iframe-field:${CardFormFieldValidationTestEvents.CardCvv}`,
-          },
-          "parent",
-        );
+      if (options.fieldValidation?.enabled) {
+        const validationResult = validate(CardFormFieldNames.CardCvv, value, { isAmex });
+        isValid = isValid && !!(validationResult && validationResult.isValid);
       }
-    } else {
-      classList.push("invalid");
 
-      if (id) {
-        postMessage.post(
-          {
-            data: {valid: false},
-            id,
-            type: `ui:iframe-field:${CardFormFieldValidationTestEvents.CardCvv}`,
-          },
-          "parent",
-        );
+      // "possibly-valid" only while the user is mid-typing
+      const maxLength = isAmex ? 4 : 3;
+      if (!isValid && value.length > 0 && value.length < maxLength) {
+        classList.push("possibly-valid");
       }
     }
-    if(options.disablePayButton){
+
+    classList.push(isValid ? "valid" : "invalid");
+
+    if (id) {
+      postMessage.post(
+        {
+          data: { valid: isValid },
+          id,
+          type: `ui:iframe-field:${CardFormFieldValidationTestEvents.CardCvv}`,
+        },
+        "parent",
+      );
+    }
+    if (options.disablePayButton) {
       Card.validateToEnable(e, isValid, CardFormFieldNames.CardCvv);
     }
     target.className = classList.join(" ").replace(/^\s+|\s+$/gm, "");
@@ -794,18 +788,6 @@ export default class Card {
     if (fieldType === CardFormFieldNames.CardExpiration ) {
       installmentFieldValid = new ExpirationValidator().validate(value);
     }
-    if (fieldType === CardFormFieldNames.CardCvv ) {
-      const CARD_TYPE_UNKNOWN = "unknown";
-      const CARD_TYPE_CLASS_PREFIX = "card-type-";
-      const classList = target.className.split(" ");
-      const [cardTypeClass] = classList.filter(c => new RegExp(`/${CARD_TYPE_CLASS_PREFIX}\\b`, 'g').test(c));
-      const cardType = cardTypeClass ? cardTypeClass.replace(CARD_TYPE_CLASS_PREFIX, "") : CARD_TYPE_UNKNOWN;
-
-      installmentFieldValid = new CvvValidator().validate(
-        value,
-        cardType === CARD_TYPE_UNKNOWN ? undefined : cardType === "amex",
-      );
-    }
     if (installmentFieldValid) return;
 
     const eventType = `ui:iframe-field:${InstallmentEvents.CardInstallmentsHide}`;
@@ -1057,7 +1039,6 @@ export default class Card {
     Events.addHandler(el, "input", Card.validateCvv);
     Events.addHandler(el, "blur", Card.validateCvv);
     Events.addHandler(el, "blur", Card.postInstallmentFieldValidatedEvent);
-    Events.addHandler(el, "input", (e: Event) => { Card.validateInstallmentFields(e, CardFormFieldNames.CardCvv) });
 
     Events.addHandler(el, "blur", (e: Event) => { Card.focusOutHostedFieldValidationHandler(e, CardFormFieldNames.CardCvv) });
     Events.addHandler(el, "input", (e: Event) => { Card.focusInHostedFieldValidationHandler(e) });

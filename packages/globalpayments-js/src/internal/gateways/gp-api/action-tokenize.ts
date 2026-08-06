@@ -3,6 +3,7 @@ import { generateGuid } from "globalpayments-lib";
 import { options } from "../../lib/options";
 import { IDictionary } from "../../lib/util";
 import { setGpApiHeaders } from "../../lib/set-headers";
+import { CardCvvOption } from "../../lib/enums";
 
 export default async (url: string, env: string, data: IDictionary) => {
   const request: any = {
@@ -19,9 +20,14 @@ export default async (url: string, env: string, data: IDictionary) => {
     request.card.number = data["card-number"].replace(/\s/g, "");
   }
 
-  if (data["card-cvv"]) {
+  const cvvMode = options.cardCvvOption || CardCvvOption.Mandatory;
+  const cvvValue = typeof data["card-cvv"] === "string" ? data["card-cvv"].trim() : "";
+  const shouldSendCvv = cvvMode === CardCvvOption.Mandatory || (cvvMode === CardCvvOption.Optional && !!cvvValue);
+  request.cvv_present = shouldSendCvv ? "YES" : "NO";
+
+  if (shouldSendCvv && cvvValue) {
     request.card = request.card || {};
-    request.card.cvv = data["card-cvv"];
+    request.card.cvv = cvvValue;
   }
 
   if (

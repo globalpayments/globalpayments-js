@@ -47,8 +47,6 @@ function createRequestBody(data: IDictionary): InstallmentRequest {
           number: cardNumber.replace(/\s/g, ""),
           expiry_month: expiryMonth,
           expiry_year: expiryYear,
-          cvv_indicator: INSTALLMENTS_CONFIG_DEFAULT_CVV_INDICATOR,
-          cvv,
         },
       },
   };
@@ -80,8 +78,6 @@ type InstallmentRequest = {
       number: string;
       expiry_month: string;
       expiry_year: string;
-      cvv: string;
-      cvv_indicator: string;
     };
   };
   program?:string;

@@ -1,16 +1,20 @@
 import { CardFormFieldNames, HostedFieldValidationEvents } from "../../common/enums";
-import { loadedFrames, postMessage } from "../../internal";
+import { loadedFrames, options, postMessage } from "../../internal";
+import { CardCvvOption } from "../../internal/lib/enums";
 
 export default function actionEnableSubmitButton(data: any): void {
     const { fieldName, isValid } = data.data;
     const windowObject = window as any;
+    const cvvPreValid =
+    options.cardCvvOption === CardCvvOption.NotDisplayed ||
+    options.cardCvvOption === CardCvvOption.Optional;
     // Initialize only once
     if (!windowObject.enableSubmitButtonIfValid) {
         windowObject.enableSubmitButtonIfValid = {
             [CardFormFieldNames.CardNumber]: false,
             [CardFormFieldNames.CardHolderName]: false,
             [CardFormFieldNames.CardExpiration]: false,
-            [CardFormFieldNames.CardCvv]: false,
+            [CardFormFieldNames.CardCvv]: cvvPreValid,
         };
     }
 

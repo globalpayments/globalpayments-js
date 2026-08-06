@@ -1,8 +1,8 @@
 <?php
 
 // Installments
-$appId = 'cXlj8KVAF1xlr8wYAhQDLgRpmdxEUwa2';
-$appKey = 'GR7iVxV9N2ngvnIf';
+$appId = 'hkjrcsGDhWiDt8GEhoDMKy3pzFz5R0Bo';
+$appKey = 'cQOKHoAAvNIcEN8s';
 
 /* Sandbox single MMA */
 //$appId = 'gYLpOwjMRpfQSoMZAPdA4adwp0HbvK7u';
@@ -29,8 +29,8 @@ $request = json_encode([
     'grant_type' => 'client_credentials',
     'nonce' => $nonce,
     'interval_to_expire' => '1_HOUR',
-    // 'permissions' => ['PMT_POST_Create_Single','INS_POST_Query','CCS_POST_DCC']
-    'permissions' => ['CON_POST_Create']
+    'permissions' => ['PMT_POST_Create_Single','INS_POST_Query']
+    // 'permissions' => ['CON_POST_Create']
 ]);
 
 $headers = ['X-GP-Version' => '2021-03-22'];
@@ -69,11 +69,12 @@ $accessToken = $response->token ?? '';
     <script>
         GlobalPayments.configure({
             accessToken: "<?= $accessToken ?>",
-            env: "sandbox",
+            env: "local",
             apiVersion: "2021-03-22",
             language: "en",
-            // language: "en",
             reference: "",
+            cardCvvOption: GlobalPayments.enums.CardCvvOption.Mandatory,
+            disablePayButton:true,
             //merchantId: "<?//= $merchant_id ?>//",
             apms: {
                 currencyCode: "EUR",

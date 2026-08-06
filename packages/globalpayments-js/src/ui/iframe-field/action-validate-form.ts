@@ -5,6 +5,7 @@ import { CardFormFieldNames, ExpressPayFieldNames, HostedFieldValidationEvents }
 import { getValidationRoundCounter, increaseValidationRoundCounter, removeValidationRoundCounter } from "../../internal/built-in-validations/helpers";
 import { DCC_KEY } from "../../internal/lib/currency-conversion/contracts/constants";
 import { getCurrencyConversionAvailabilityStatus, handleCurrencyConversionValidationSetup } from "../../internal/lib/currency-conversion/utils/helpers";
+import { CardCvvOption } from "../../internal/lib/enums";
 import { INSTALLMENT_VALIDITY_KEY } from "../../internal/lib/installments/contracts/constants";
 
 export default (id: string, data: IDictionary) => {
@@ -21,6 +22,9 @@ export default (id: string, data: IDictionary) => {
 
   // Set the initial set of fields to validate
   let fieldsToValidate = HOSTED_FIELD_NAME_KEYS.map(x => x);
+  if (options.cardCvvOption === CardCvvOption.NotDisplayed) {
+    fieldsToValidate = fieldsToValidate.filter(fieldName => fieldName !== CardFormFieldNames.CardCvv);
+  }
 
   let additionalFieldsToValidate = HOSTED_FIELDS_ADDITIONAL_KEYS.map(x => x);
 
@@ -76,7 +80,11 @@ export default (id: string, data: IDictionary) => {
 
       expressPayFieldsValid = emailId && countryCode && phone && billingAddress && country && billingCity && billingState && billingPostalCode && validateShippingDetails;
     }
-    isFormValid = cardNumber && cardExpiration && cardCvv && (cardHolderName || cardHolderNotPresent) && expressPayFieldsValid;
+    const cvvNotPresent =
+    options.cardCvvOption === CardCvvOption.NotDisplayed ||
+    w.formValidations[CardFormFieldNames.CardCvv] === undefined;
+
+    isFormValid = cardNumber && cardExpiration && (cardCvv || cvvNotPresent) && (cardHolderName || cardHolderNotPresent) && expressPayFieldsValid;
 
     const isCurrencyConversionEnabled = options.currencyConversion?.enabled;
     const isCurrencyConversionAvailable = getCurrencyConversionAvailabilityStatus();
