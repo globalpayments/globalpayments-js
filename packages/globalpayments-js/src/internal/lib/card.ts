@@ -145,7 +145,12 @@ export default class Card {
     }
 
     // used for triggering the keyup event on safari
-    target.value = new ExpirationFormatter().format(value, e.type === "blur" || (e.type === "keyup" && target !== document.activeElement && isSafari));
+    target.value = new ExpirationFormatter().format(
+      value,
+      e.type === "blur" ||
+        e.type === "change" ||
+        (e.type === "keyup" && target !== document.activeElement && isSafari),
+    );
   }
 
   /**
@@ -265,8 +270,14 @@ export default class Card {
 
     const { value, target } = Card.getFieldEventData(e);
 
+    // The expiration field carries a separator. The field formats it as " / ",
+    // but a value written by the browser's AutoFill keeps whatever separator
+    // the browser used, typically a bare "/".
+    const separators =
+      target.name === CardFormFieldNames.CardExpiration ? /[\s/]/g : /\s/g;
+
     const integerRegex = /^\d+$/;
-    if (!integerRegex.test(value.replaceAll(' / ', '').replaceAll(' ', ''))) {
+    if (!integerRegex.test(value.replace(separators, ""))) {
       target.value = "";
     }
   }
@@ -1010,6 +1021,12 @@ export default class Card {
     Events.addHandler(el, "keydown", Card.restrictLength(9));
     Events.addHandler(el, "keyup", Card.formatExpiration);
     Events.addHandler(el, "blur", Card.formatExpiration);
+    // AutoFill writes the field without any keyboard event, so `change` is the
+    // only opportunity to format a value the cardholder never typed. Validity is
+    // re-tested afterwards so it reflects the formatted value rather than the
+    // raw one the `input` handler saw.
+    Events.addHandler(el, "change", Card.formatExpiration);
+    Events.addHandler(el, "change", Card.validateExpiration);
     Events.addHandler(el, "input", Card.validateExpiration);
     Events.addHandler(el, "blur", Card.validateExpiration);
     Events.addHandler(el, "blur", Card.postInstallmentFieldValidatedEvent);

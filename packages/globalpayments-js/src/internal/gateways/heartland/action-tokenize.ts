@@ -1,4 +1,5 @@
 import { IDictionary } from "../../lib/util";
+import parseExpiration from "../../lib/parse-expiration";
 
 export default async (url: string, env: string, data: IDictionary) => {
   const request: any = {
@@ -16,14 +17,12 @@ export default async (url: string, env: string, data: IDictionary) => {
     request.card.cvc = data["card-cvv"];
   }
 
-  if (
-    data["card-expiration"] &&
-    data["card-expiration"].indexOf(" / ") !== -1
-  ) {
-    const exp = data["card-expiration"].split(" / ");
+  const expiration = parseExpiration(data["card-expiration"]);
+
+  if (expiration) {
     request.card = request.card || {};
-    request.card.exp_month = exp[0] || "";
-    request.card.exp_year = exp[1] || "";
+    request.card.exp_month = expiration.month;
+    request.card.exp_year = expiration.yearFull;
   }
 
   // TODO: Properly accept encrypted track data

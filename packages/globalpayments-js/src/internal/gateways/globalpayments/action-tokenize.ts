@@ -1,4 +1,5 @@
 import { postMessage as pm } from "../../lib/post-message";
+import parseExpiration from "../../lib/parse-expiration";
 import { IDictionary } from "../../lib/util";
 
 import actionOnload from "./action-onload";
@@ -27,13 +28,11 @@ export default async (url: string, env: string, data: IDictionary) => {
 
   let month = "";
   let year = "";
-  if (
-    data["card-expiration"] &&
-    data["card-expiration"].indexOf(" / ") !== -1
-  ) {
-    const exp = data["card-expiration"].split(" / ");
-    month = exp[0] || "";
-    year = (exp[1] || "").substr(2, 2);
+  const expiration = parseExpiration(data["card-expiration"]);
+
+  if (expiration) {
+    month = expiration.month;
+    year = expiration.year;
   }
 
   const request = {
