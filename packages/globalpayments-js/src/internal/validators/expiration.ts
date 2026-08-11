@@ -1,3 +1,4 @@
+import parseExpiration from "../lib/parse-expiration";
 import IValidator from "./validator";
 
 export default class Expiration implements IValidator {
@@ -50,17 +51,23 @@ export default class Expiration implements IValidator {
    */
   public validateDate(exp: string): boolean {
     // Regular expression to match "MM/YYYY" format
-    const dateRegex = /^(0[1-9]|1[0-9])\/(20\d{2})$/;
-
+    // const dateRegex = /^(0[1-9]|1[0-9])\/(20\d{2})$/;
     // Remove whitespace from the expiration date string
-    const val = !exp ? '': exp.replaceAll(' ', '');
+    // const val = !exp ? '': exp.replaceAll(' ', '');
+
+    const expiration = parseExpiration(exp);
+
+    // Not a usable month and year
+    if (!expiration) return false;
 
     // Check if the expiration date matches the expected format
-    if (!dateRegex.test(val)) return false;
+    // if (!dateRegex.test(val)) return false;
 
-    const [month, year] = exp.split(' / ').map(Number);
+    // const [month, year] = exp.split(' / ').map(Number);
+    const month = Number(expiration.month);
+    const year = Number(expiration.yearFull);
     const currentDate = new Date();
-    const currentMonth = currentDate.getUTCMonth() + 1;
+    const currentMonth = currentDate.getMonth() + 1;
     const currentYear = currentDate.getFullYear();
 
     // Validate the month (1-12)

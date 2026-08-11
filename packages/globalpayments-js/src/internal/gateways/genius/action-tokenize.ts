@@ -1,4 +1,5 @@
 import { IDictionary } from "../../lib/util";
+import parseExpiration from "../../lib/parse-expiration";
 
 export default async (url: string, env: string, data: IDictionary) => {
   const request: any = {
@@ -13,13 +14,20 @@ export default async (url: string, env: string, data: IDictionary) => {
     request.cvv = data["card-cvv"];
   }
 
-  if (
-    data["card-expiration"] &&
-    data["card-expiration"].indexOf(" / ") !== -1
-  ) {
-    const exp = data["card-expiration"].split(" / ");
-    request.expirationmonth = exp[0] || "";
-    request.expirationyear = (exp[1] || "").substr(2, 2);
+  // if (
+  //   data["card-expiration"] &&
+  //   data["card-expiration"].indexOf(" / ") !== -1
+  // ) {
+  //   const exp = data["card-expiration"].split(" / ");
+  //   request.expirationmonth = exp[0] || "";
+  //   request.expirationyear = (exp[1] || "").substr(2, 2);
+  // }
+
+  const expiration = parseExpiration(data["card-expiration"]);
+
+  if (expiration) {
+    request.expirationmonth = expiration.month;
+    request.expirationyear = expiration.year;
   }
 
   if (data["card-holder-name"]) {

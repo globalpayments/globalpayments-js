@@ -4,7 +4,10 @@
 
 # Changelog (MM/DD/YY)
 
-## latest v5.1.0 (07/30/26)
+## latest v5.1.1 (08/11/27)
+- [Globalpayments-js][5.1.1]  Tokenization issue with autofilled expiry dates
+
+## v5.1.0 (08/06/26)
 - [Globalpayments-js][5.1.0]  CVV optional
 
 ## v5.0.1 (07/16/26)

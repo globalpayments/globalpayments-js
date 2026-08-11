@@ -3,6 +3,7 @@ import buildUrl from "../lib/build-tokenization-url";
 import { typeByNumber, typeByTrack } from "../lib/card-types";
 import getGateway from "../lib/get-gateway";
 import { options } from "../lib/options";
+import parseExpiration from "../lib/parse-expiration";
 import { IDictionary } from "../lib/util";
 
 export default (data: IDictionary) => {
@@ -84,15 +85,23 @@ export default (data: IDictionary) => {
           resp.details.cardSecurityCode = !!data["card-cvv"];
         }
 
-        if (
-          data["card-expiration"] &&
-          data["card-expiration"].indexOf(" / ") !== -1
-        ) {
-          const exp = data["card-expiration"].split(" / ");
+        // if (
+        //   data["card-expiration"] &&
+        //   data["card-expiration"].indexOf(" / ") !== -1
+        // ) {
+        //   const exp = data["card-expiration"].split(" / ");
 
+        //   resp.details = resp.details || {};
+        //   resp.details.expiryMonth = exp[0] || "";
+        //   resp.details.expiryYear = exp[1] || "";
+        // }
+
+        const expiration = parseExpiration(data["card-expiration"]);
+
+        if (expiration) {
           resp.details = resp.details || {};
-          resp.details.expiryMonth = exp[0] || "";
-          resp.details.expiryYear = exp[1] || "";
+          resp.details.expiryMonth = expiration.month;
+          resp.details.expiryYear = expiration.yearFull;
         }
 
         if (data["card-holder-name"]) {

@@ -1,6 +1,7 @@
 import { generateGuid } from "globalpayments-lib";
 
 import { options } from "../../lib/options";
+import parseExpiration from "../../lib/parse-expiration";
 import { IDictionary } from "../../lib/util";
 import { setGpApiHeaders } from "../../lib/set-headers";
 import { CardCvvOption } from "../../lib/enums";
@@ -30,14 +31,22 @@ export default async (url: string, env: string, data: IDictionary) => {
     request.card.cvv = cvvValue;
   }
 
-  if (
-    data["card-expiration"] &&
-    data["card-expiration"].indexOf(" / ") !== -1
-  ) {
-    const exp = data["card-expiration"].split(" / ");
+  // if (
+  //   data["card-expiration"] &&
+  //   data["card-expiration"].indexOf(" / ") !== -1
+  // ) {
+  //   const exp = data["card-expiration"].split(" / ");
+  //   request.card = request.card || {};
+  //   request.card.expiry_month = exp[0] || "";
+  //   request.card.expiry_year = (exp[1] || "").length === 2 ? (exp[1] || "") : (exp[1] || "").substr(2, 2);
+  // }
+
+  const expiration = parseExpiration(data["card-expiration"]);
+
+  if (expiration) {
     request.card = request.card || {};
-    request.card.expiry_month = exp[0] || "";
-    request.card.expiry_year = (exp[1] || "").length === 2 ? (exp[1] || "") : (exp[1] || "").substr(2, 2);
+    request.card.expiry_month = expiration.month;
+    request.card.expiry_year = expiration.year;
   }
 
   if (data["card-holder-name"]) {

@@ -1,4 +1,5 @@
 import { options } from "../../lib/options";
+import parseExpiration from "../../lib/parse-expiration";
 import { IDictionary } from "../../lib/util";
 
 export default async (url: string, env: string, data: IDictionary) => {
@@ -14,14 +15,22 @@ export default async (url: string, env: string, data: IDictionary) => {
     request.card.card_security_code = data["card-cvv"];
   }
 
-  if (
-    data["card-expiration"] &&
-    data["card-expiration"].indexOf(" / ") !== -1
-  ) {
-    const exp = data["card-expiration"].split(" / ");
+  // if (
+  //   data["card-expiration"] &&
+  //   data["card-expiration"].indexOf(" / ") !== -1
+  // ) {
+  //   const exp = data["card-expiration"].split(" / ");
+  //   request.card = request.card || {};
+  //   request.card.expiry_month = exp[0] || "";
+  //   request.card.expiry_year = exp[1].slice(-2) || "";
+  // }
+
+  const expiration = parseExpiration(data["card-expiration"]);
+
+  if (expiration) {
     request.card = request.card || {};
-    request.card.expiry_month = exp[0] || "";
-    request.card.expiry_year = exp[1].slice(-2) || "";
+    request.card.expiry_month = expiration.month;
+    request.card.expiry_year = expiration.year;
   }
 
   // TODO: Properly accept encrypted track data

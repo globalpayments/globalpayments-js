@@ -1,4 +1,5 @@
 import { options } from "../../lib/options";
+import parseExpiration from "../../lib/parse-expiration";
 import { IDictionary } from "../../lib/util";
 
 export default (url: string, enbv: string, data: IDictionary) => {
@@ -16,11 +17,17 @@ export default (url: string, enbv: string, data: IDictionary) => {
       );
     }
 
-    if (
-      data["card-expiration"] &&
-      data["card-expiration"].indexOf(" / ") !== -1
-    ) {
-      request.expirationDate = data["card-expiration"].replace(" / ", "/");
+    // if (
+    //   data["card-expiration"] &&
+    //   data["card-expiration"].indexOf(" / ") !== -1
+    // ) {
+    //   request.expirationDate = data["card-expiration"].replace(" / ", "/");
+    // }
+
+    const expiration = parseExpiration(data["card-expiration"]);
+
+    if (expiration) {
+      request.expirationDate = `${expiration.month}/${expiration.yearFull}`;
     }
 
     return request;
