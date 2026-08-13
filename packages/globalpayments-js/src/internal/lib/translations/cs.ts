@@ -66,6 +66,7 @@ const cs = {
     "text": 'Další 3 číslice na zadní straně vaší karty. U karet American Express se jedná o další 4 číslice na přední straně vaší karty.'
   },
   "other-cards-label": 'Nebo zadejte údaje o kartě ručně',
+  "manual-card-entry": 'Manual Card Entry',
   QR: {
     button: {
       text: 'Vyberte jinou platební metodu',

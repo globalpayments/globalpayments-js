@@ -70,6 +70,7 @@ const it = {
     "text": 'Le 3 cifre aggiuntive sul retro della carta. Per le carte American Express, sono le ulteriori 4 cifre sulla parte anteriore.'
   },
   "other-cards-label": 'Oppure inserisci i dettagli della carta manualmente',
+  "manual-card-entry": 'Manual Card Entry',
   QR: {
     button: {
       text: 'Metodo di pagamento',

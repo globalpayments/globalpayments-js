@@ -70,6 +70,7 @@ const vi = {
     "text": '3 chữ số bổ sung ở mặt sau thẻ của bạn. Đối với American Express, đó là 4 chữ số bổ sung ở mặt trước thẻ của bạn.'
   },
   "other-cards-label": 'Hoặc nhập thông tin của thẻ theo cách thủ công',
+  "manual-card-entry": 'Manual Card Entry',
   QR: {
     button: {
       text: 'Chọn phương thức thanh toán khác',

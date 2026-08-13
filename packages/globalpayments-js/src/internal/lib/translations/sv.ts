@@ -70,6 +70,7 @@ const sv = {
     "text": 'De tre extra siffrorna på kortets baksida. För American Express är det de fyra extra siffrorna på kortets framsida.'
   },
   "other-cards-label": 'Eller ange kortuppgifterna manuellt',
+  "manual-card-entry": 'Manual Card Entry',
   QR: {
     button: {
       text: 'Betalningsalternativ',

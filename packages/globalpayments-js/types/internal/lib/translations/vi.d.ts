@@ -69,6 +69,7 @@ declare const vi: {
         text: string;
     };
     "other-cards-label": string;
+    "manual-card-entry": string;
     QR: {
         button: {
             text: string;

@@ -68,6 +68,7 @@ const zh = {
     "text": '卡片背後的末三碼。 若您持有美國運通卡，安全碼為卡片正面的末四碼。'
   },
   "other-cards-label": '或手动输入卡详细信息',
+  "manual-card-entry": 'Manual Card Entry',
   QR: {
     button: {
       text: '选择其他付款方式',

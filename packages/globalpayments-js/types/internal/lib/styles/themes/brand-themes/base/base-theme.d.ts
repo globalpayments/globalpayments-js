@@ -583,7 +583,7 @@ declare const parentStyles: (assetBaseUrl: string, themePreset?: IThemePreset | 
         margin: string;
         cursor: string;
     };
-    ".secure-payment-form .affirm-button:hover, .secure-payment-form .klarna-button:hover, .secure-payment-form .sezzle-button:hover, .secure-payment-form .zip-button:hover": {
+    ".secure-payment-form .affirm-button:hover, .secure-payment-form .klarna-button:hover, .secure-payment-form .sezzle-button:hover, .secure-payment-form .zip-button:hover, .secure-payment-form .gp-accordion__header:hover ": {
         "border-color": string;
         "background-color": string;
     };
@@ -591,7 +591,7 @@ declare const parentStyles: (assetBaseUrl: string, themePreset?: IThemePreset | 
         outline: string;
         "outline-offset": string;
     };
-    ".secure-payment-form .affirm-button::before, .secure-payment-form .klarna-button::before, .secure-payment-form .sezzle-button::before, .secure-payment-form .zip-button::before": {
+    ".secure-payment-form .affirm-button::before, .secure-payment-form .klarna-button::before, .secure-payment-form .sezzle-button::before, .secure-payment-form .zip-button::before, .secure-payment-form .gp-accordion__header:before": {
         width: string;
         height: string;
         position: string;
@@ -657,6 +657,41 @@ declare const parentStyles: (assetBaseUrl: string, themePreset?: IThemePreset | 
     ".secure-payment-form .cashpresso3inst-button:focus": {
         outline: string;
         "outline-offset": string;
+    };
+    ".secure-payment-form .gp-accordion__header": {
+        color: string;
+        background: string;
+        "font-weight": string;
+        "font-size": string;
+        display: string;
+        "align-items": string;
+        "justify-content": string;
+        position: string;
+        height: string;
+        width: string;
+        "border-radius": string;
+        border: string;
+        margin: string;
+        cursor: string;
+    };
+    ".secure-payment-form .gp-accordion__title": {
+        "line-height": string;
+        padding: string;
+    };
+    ".secure-payment-form .gp-accordion__icon-before, .secure-payment-form .gp-accordion__icon-after": {
+        width: string;
+        height: string;
+        "object-fit": string;
+        display: string;
+    };
+    ".secure-payment-form .credit-card-accordion-container:has(.gp-accordion__content--visible)": {
+        background: string;
+        border: string;
+        padding: string;
+    };
+    ".secure-payment-form .credit-card-accordion-container:has(.gp-accordion__content--visible) .gp-accordion__header": {
+        background: string;
+        border: string;
     };
     ".secure-payment-form .link-button": {
         display: string;
@@ -1829,7 +1864,6 @@ declare const parentStyles: (assetBaseUrl: string, themePreset?: IThemePreset | 
     };
     ".secure-payment-form .credit-card-card-cvv iframe": {
         width: string;
-        float: string;
     };
     ".secure-payment-form .credit-card-footer": {
         display: string;
@@ -1907,13 +1941,13 @@ declare const parentStyles: (assetBaseUrl: string, themePreset?: IThemePreset | 
     };
     ".secure-payment-form div[class$='-shield'] .ssl-text-logo": {
         "border-radius": string;
-        height: string;
         "text-align": string;
         margin: string;
         display: string;
         "justify-content": string;
         "align-items": string;
         width: string;
+        "padding-top": string;
     };
     ".secure-payment-form div[class$='-shield'] .ssl-logo_ico": {
         height: string;
@@ -2026,9 +2060,28 @@ declare const parentStyles: (assetBaseUrl: string, themePreset?: IThemePreset | 
             ".secure-payment-form .credit-card-card-expiration": {
                 flex: string;
                 "margin-right": string;
+                width: string;
+                display: string;
+                "vertical-align": string;
             };
             ".secure-payment-form .credit-card-card-cvv": {
                 flex: string;
+                width: string;
+                display: string;
+                "vertical-align": string;
+            };
+            ".secure-payment-form.no-cvv .credit-card-card-expiration": {
+                flex: string;
+                "margin-right": string;
+                width: string;
+                display: string;
+                "vertical-align": string;
+            };
+            ".secure-payment-form.no-cvv .credit-card-card-holder-name": {
+                flex: string;
+                width: string;
+                display: string;
+                "vertical-align": string;
             };
             ".secure-payment-form .credit-card-country": {
                 flex: string;

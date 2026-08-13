@@ -70,6 +70,7 @@ const et = {
     "text": 'Kaardi tagaküljel olevad kolm lisanumbrit. American Expressi puhul on need kaardi esiküljel olevad neli lisanumbrit.'
   },
   "other-cards-label": 'Või sisestage üksikasjad käsitsi',
+  "manual-card-entry": 'Manual Card Entry',
   QR: {
     scanRqCode: "Scan QR Code",
     payInApp: "to pay in app",

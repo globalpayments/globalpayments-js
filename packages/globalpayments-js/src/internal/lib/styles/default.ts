@@ -96,7 +96,7 @@ export const fieldStyles = (assetBaseUrl: string) => {
       "background-color": "#258851",
     },
     ".card-cvv": {
-      background: `transparent url(${imageBase}cvv.png) no-repeat right`,
+      background: `field url(${imageBase}cvv.png) no-repeat right`,
       "background-size": "63px 40px",
     },
     ".card-cvv.card-type-amex": {

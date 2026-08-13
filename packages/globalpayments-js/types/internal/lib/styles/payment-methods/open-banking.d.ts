@@ -104,7 +104,7 @@ declare const styles: (assetBaseUrl: string) => {
         margin: string;
         cursor: string;
     };
-    ".secure-payment-form .affirm-button:hover, .secure-payment-form .klarna-button:hover, .secure-payment-form .sezzle-button:hover, .secure-payment-form .zip-button:hover": {
+    ".secure-payment-form .affirm-button:hover, .secure-payment-form .klarna-button:hover, .secure-payment-form .sezzle-button:hover, .secure-payment-form .zip-button:hover, .secure-payment-form .gp-accordion__header:hover ": {
         "border-color": string;
         "background-color": string;
     };
@@ -112,7 +112,7 @@ declare const styles: (assetBaseUrl: string) => {
         outline: string;
         "outline-offset": string;
     };
-    ".secure-payment-form .affirm-button::before, .secure-payment-form .klarna-button::before, .secure-payment-form .sezzle-button::before, .secure-payment-form .zip-button::before": {
+    ".secure-payment-form .affirm-button::before, .secure-payment-form .klarna-button::before, .secure-payment-form .sezzle-button::before, .secure-payment-form .zip-button::before, .secure-payment-form .gp-accordion__header:before": {
         width: string;
         height: string;
         position: string;
@@ -178,6 +178,41 @@ declare const styles: (assetBaseUrl: string) => {
     ".secure-payment-form .cashpresso3inst-button:focus": {
         outline: string;
         "outline-offset": string;
+    };
+    ".secure-payment-form .gp-accordion__header": {
+        color: string;
+        background: string;
+        "font-weight": string;
+        "font-size": string;
+        display: string;
+        "align-items": string;
+        "justify-content": string;
+        position: string;
+        height: string;
+        width: string;
+        "border-radius": string;
+        border: string;
+        margin: string;
+        cursor: string;
+    };
+    ".secure-payment-form .gp-accordion__title": {
+        "line-height": string;
+        padding: string;
+    };
+    ".secure-payment-form .gp-accordion__icon-before, .secure-payment-form .gp-accordion__icon-after": {
+        width: string;
+        height: string;
+        "object-fit": string;
+        display: string;
+    };
+    ".secure-payment-form .credit-card-accordion-container:has(.gp-accordion__content--visible)": {
+        background: string;
+        border: string;
+        padding: string;
+    };
+    ".secure-payment-form .credit-card-accordion-container:has(.gp-accordion__content--visible) .gp-accordion__header": {
+        background: string;
+        border: string;
     };
 };
 export default styles;

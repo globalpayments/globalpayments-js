@@ -70,6 +70,7 @@ const sk = {
     "text": 'Ďalšie 3 číslice na zadnej strane karty. V prípade kariet od spoločnosti American Express ide o ďalšie 4 číslice na zadnej strane karty.'
   },
   "other-cards-label": 'Alebo zadajte podrobnosti o karte manuálne',
+  "manual-card-entry": 'Manual Card Entry',
   QR: {
     button: {
       text: 'Oblike plačila',

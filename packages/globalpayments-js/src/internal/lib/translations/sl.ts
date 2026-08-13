@@ -70,6 +70,7 @@ const sl = {
     "text": 'Dodatne 3 števke na hrbtni strani kartice. Za kartice American Express so to dodatne 4 števke na sprednji strani kartice.'
   },
   "other-cards-label": 'Ali pa ročno vnesite podatke o kartici',
+  "manual-card-entry": 'Manual Card Entry',
   QR: {
     button: {
       text: 'Oblike plačila',

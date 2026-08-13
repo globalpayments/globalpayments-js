@@ -78,12 +78,12 @@ export const fieldStyles = (assetBaseUrl: string, theme?: string) => {
       border: "1px solid #2B9AEC",
       outline: "none",
     },
-     "#secure-payment-field.disabled-submit-button[type=button]": {
+    "#secure-payment-field.disabled-submit-button[type=button]": {
       "background-color": "#B0B4B5",
       "color": "#FCFCFC",
       cursor: "default",
     },
-     "#secure-payment-field.disabled-submit-button[type=button]:hover": {
+    "#secure-payment-field.disabled-submit-button[type=button]:hover": {
       "background-color": "#B0B4B5",
       "color": "#FCFCFC",
       cursor: "default",
@@ -115,7 +115,7 @@ export const fieldStyles = (assetBaseUrl: string, theme?: string) => {
       "margin-right": "5px",
     },
     ".card-cvv": {
-      background: `transparent url(${imageBase}cvv.png) no-repeat right 10px center`,
+      background: `field url(${imageBase}cvv.png) no-repeat right 10px center`,
       "background-size": "20px",
     },
     ".card-cvv.card-type-amex": {
@@ -194,15 +194,20 @@ export const parentStyles = (assetBaseUrl: string, theme?: string) => {
     ".secure-payment-form.no-cvv .credit-card-card-expiration": {
       flex: "1 1 auto",
       "margin-right": "16px",
+      width: "calc(50% - 12px)",
+      display: "inline-block",
+      "vertical-align": "top"
     },
 
     ".secure-payment-form.no-cvv .credit-card-card-holder-name": {
       flex: "1 1 auto",
+      width: "calc(50% - 12px)",
+      display: "inline-block",
+      "vertical-align": "top"
     },
 
     ".secure-payment-form .credit-card-card-cvv iframe": {
       width: "90%",
-      float: "left",
     },
 
     ".secure-payment-form div[class$='-shield']": {
@@ -219,6 +224,7 @@ export const parentStyles = (assetBaseUrl: string, theme?: string) => {
       "justify-content": "start",
       "align-items": "center",
       width: "fit-content",
+      "padding-top": "16px",
     },
 
     ".secure-payment-form div[class$='-shield'] .ssl-logo_ico": {
@@ -338,10 +344,16 @@ export const parentStyles = (assetBaseUrl: string, theme?: string) => {
       ".secure-payment-form .credit-card-card-expiration": {
         flex: "1 1 auto",
         "margin-right": "16px",
+        width: "calc(50% - 12px)",
+        display: "inline-block",
+        "vertical-align": "top"
       },
 
       ".secure-payment-form .credit-card-card-cvv": {
         flex: "1 1 auto",
+        width: "calc(50% - 12px)",
+        display: "inline-block",
+        "vertical-align": "top"
       },
 
       ".secure-payment-form .credit-card-billing-address": {
@@ -372,71 +384,71 @@ export const parentStyles = (assetBaseUrl: string, theme?: string) => {
     ".credit-card-save-enable":{
             "margin-top":"3%",
             "font-family":"DMSans"
-        },
+    },
 
         ".credit-card-save-enable input":{
             "height":"24px",
             "width":"24px"
-        },
+    },
 
         ".credit-card-save-enable span":{
             "vertical-align":"super",
             "letter-spacing":"-0.5px",
             "margin-left":"8px"
-        },
+    },
 
         ".credit-card-save-enable .learn-more":{
             "vertical-align":"super",
             "color":"#203645",
-        },
+    },
 
         ".terms-and-conditions":{
             "font-size":"12px",
             "color":"#04041CA3",
             "margin-top":"25px"
-        },
+    },
 
         ".terms-and-conditions a":{
             "color":"#1D68F4",
             "font-weight":"700",
             "text-decoration":"none"
-        },
+    },
         ".credit-card-shipping-same-as-billing":{
             "margin-top":"5px",
             "font-family":"Inter",
             "margin-bottom":"15px"
-        },
+    },
 
         ".credit-card-shipping-same-as-billing input":{
             "height":"22px",
             "width":"22px"
-        },
+    },
 
         ".credit-card-shipping-same-as-billing span":{
             "vertical-align":"super",
             "letter-spacing":"-0.5px",
             "color":"#203645",
             "margin-left":"8px",
-            "font-size": "15px"
-        },
-        ".encrypted": {
-            "font-family": 'Inter',
-           " text-align": "end",
-            "font-size": "14px !important",
-            "margin-top": "10px",
+      "font-size": "15px"
+    },
+    ".encrypted": {
+      "font-family": 'Inter',
+      " text-align": "end",
+      "font-size": "14px !important",
+      "margin-top": "10px",
             "color":" #04041C80 !important",
-            "font-weight": "600",
+      "font-weight": "600",
             "margin-left":"auto"
-        },
+    },
 
         ".encrypted-shipping":{
-            "font-size": "14px !important",
-            "margin-top": "5px",
-            "color": "#04041C80 !important",
-            "font-weight": "600",
-            "float": "right",
-            "letter-spacing": "0px !important"
-        },
+      "font-size": "14px !important",
+      "margin-top": "5px",
+      "color": "#04041C80 !important",
+      "font-weight": "600",
+      "float": "right",
+      "letter-spacing": "0px !important"
+    },
 
     ...getTooltipStyles(assetBaseUrl),
     ...getInstallmentStyles(assetBaseUrl),

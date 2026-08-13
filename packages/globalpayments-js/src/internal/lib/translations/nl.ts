@@ -70,6 +70,7 @@ const nl = {
     "text": 'De 3 cijfers op de achterzijde van uw kaart. Bij AmEx-kaarten zijn dit de 4 cijfers op de achterzijde van uw kaart.'
   },
   "other-cards-label": 'U kunt de kaartgegevens ook handmatig invoeren',
+  "manual-card-entry": 'Manual Card Entry',
   QR: {
     button: {
       text: 'Betalingskeuze',

@@ -4,7 +4,10 @@
 
 # Changelog (MM/DD/YY)
 
-## latest v5.1.1 (08/11/27)
+## latest v5.1.2 (08/13/26)
+- [Globalpayments-js][5.1.2]  E-service style and layout updated
+
+## v5.1.1 (08/11/26)
 - [Globalpayments-js][5.1.1]  Tokenization issue with autofilled expiry dates
 
 ## v5.1.0 (08/06/26)

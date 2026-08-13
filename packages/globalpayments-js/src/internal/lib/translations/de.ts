@@ -70,6 +70,7 @@ const de = {
     "text": 'Die zusätzlichen drei Ziffern auf der Rückseite Ihrer Karte. Bei American Express sind es die zusätzlichen vier Ziffern auf der Vorderseite Ihrer Karte.'
   },
   "other-cards-label": 'Oder Kartendaten manuell eingeben',
+  "manual-card-entry": 'Manual Card Entry',
   QR: {
     button: {
       text: 'Zahlungsart',

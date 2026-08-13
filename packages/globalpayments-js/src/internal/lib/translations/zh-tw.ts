@@ -70,6 +70,7 @@ const zhTw = {
         "text": '您卡片背面的額外 3 位數字。如果是美國運通卡，則是卡片正面的額外 4 位數字。'
     },
     "other-cards-label": '或手動輸入卡片訊息',
+    "manual-card-entry": 'Manual Card Entry',
     QR: {
         scanRqCode: "掃描二維碼",
         payInApp: "應用程式內支付",

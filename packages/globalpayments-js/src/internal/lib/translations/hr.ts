@@ -70,6 +70,7 @@ const hr = {
     "text": 'Zadnje 3 znamenke na poleđini vaše kartice. Za American Express, to su dodatne 4 znamenke na prednjoj strani kartice.'
   },
   "other-cards-label": 'Ili ručno unesite podatke o kartici',
+  "manual-card-entry": 'Manual Card Entry',
   QR: {
     button: {
       text: 'Odabir plaćanja',

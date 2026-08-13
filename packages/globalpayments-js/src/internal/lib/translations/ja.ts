@@ -70,6 +70,7 @@ const ja = {
     "text": 'カードの裏面にある追加の 3 桁の数字です。アメリカンエキスプレスの場合は、カードの表面にある追加の 4 桁の数字です。'
   },
   "other-cards-label": 'またはカード情報を手動で入力する',
+  "manual-card-entry": 'Manual Card Entry',
   QR: {
     button: {
       text: '他の支払い方法を選択する',

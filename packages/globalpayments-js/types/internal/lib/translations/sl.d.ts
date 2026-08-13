@@ -69,6 +69,7 @@ declare const sl: {
         text: string;
     };
     "other-cards-label": string;
+    "manual-card-entry": string;
     QR: {
         button: {
             text: string;

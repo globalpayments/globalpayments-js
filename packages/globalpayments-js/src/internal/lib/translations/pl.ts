@@ -70,6 +70,7 @@ const en = {
     "text": 'Dodatkowe 3 cyfry znajdujące się na odwrocie karty W przypadku kart American Express są to dodatkowe 4 cyfry znajdujące się na przedniej stronie karty.'
   },
   "other-cards-label": 'Albo wprowadź dane karty ręcznie',
+  "manual-card-entry": 'Manual Card Entry',
   QR: {
     button: {
       text: 'Wybór sposobu płatności',

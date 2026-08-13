@@ -70,6 +70,7 @@ const es = {
     "text": 'Los 3 dígitos adicionales que figuran en la parte trasera de la tarjeta. En el caso de American Express, son los 4 dígitos adicionales que figuran en la parte delantera de la tarjeta.'
   },
   "other-cards-label": 'O bien introduce los datos de la tarjeta de forma manual',
+  "manual-card-entry": 'Manual Card Entry',
   QR: {
     button: {
       text: 'Elección de pago',

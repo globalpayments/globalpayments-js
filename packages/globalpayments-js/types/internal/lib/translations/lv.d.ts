@@ -69,6 +69,7 @@ declare const lv: {
         text: string;
     };
     "other-cards-label": string;
+    "manual-card-entry": string;
     QR: {
         scanRqCode: string;
         payInApp: string;

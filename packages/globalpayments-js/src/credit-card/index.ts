@@ -22,6 +22,7 @@ import getAssetBaseUrl from "../internal/gateways/gp-api/get-asset-base-url";
 import { CardFormFieldNames, ExpressPayFieldNames } from "../common/enums";
 import { HOSTED_FIELDS_SHIPPING_KEYS } from "../common/constants";
 import getExpressPayBaseUrl from "../internal/gateways/gp-api/get-express-pay-base-url";
+import Accordion from "../ui/components/accordion";
 
 const APM_REQUIRED_FIELDS: Partial<Record<Apm, string[]>> = {
   [Apm.ApplePay]: ["countryCode", "currencyCode"],
@@ -580,6 +581,46 @@ export function form(
     divider.classList.add('other-cards-label');
     divider.innerHTML = `<span>${translations[language]['other-cards-label']}</span>`;
     target.insertBefore(divider, firstField);
+    // Create accordion container
+    const accordionContainer = createHtmlDivElement({
+      className: 'credit-card-accordion-container'
+    });
+    // Create content wrapper for credit card fields
+    const creditCardContent = createHtmlDivElement({
+      className: 'credit-card-fields-wrapper'
+    });
+    // Initialize accordion
+    const accordion = new Accordion(accordionContainer);
+    const iconBeforeText = `${getAssetBaseUrl("")}images/credit-card.svg`;
+    const iconAfterText = `${getAssetBaseUrl("")}images/chevron-down.svg`;
+    // Add section with credit card fields
+    accordion.addSection(
+      'credit-card-section',
+      translations[language]['manual-card-entry'],
+      iconBeforeText,
+      iconAfterText,
+      creditCardContent
+    );
+    // Collapse accordion by default
+    accordion.collapseSection('credit-card-section');
+    // Insert accordion before first card field
+    target.insertBefore(accordionContainer, firstField);
+    // Move only basic card detail fields into accordion content
+    const cardDetailSelectors = [
+      '.credit-card-card-number',
+      '.credit-card-card-expiration',
+      '.credit-card-card-cvv',
+      '.credit-card-card-holder-name',
+      '.credit-card-dcc',
+      '.credit-card-installments',
+      '.credit-card-submit',
+    ];
+    cardDetailSelectors.forEach((selector) => {
+      const field = (target as HTMLElement).querySelector(selector);
+      if (field && field.parentElement === target) {
+        creditCardContent.appendChild(field);
+      }
+    });
   }
 
   // add any styles for the parent window

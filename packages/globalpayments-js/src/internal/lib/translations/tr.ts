@@ -70,6 +70,7 @@ const tr = {
     "text": 'Kartınızın arkasındaki ek 3 rakamdır. American Express’te, kartınızın önündeki ek 4 rakamdır.'
   },
   "other-cards-label": 'Veya kart bilgilerini manuel olarak girin',
+  "manual-card-entry": 'Manual Card Entry',
   QR: {
     button: {
       text: 'Başka bir ödeme yöntemi seçin',

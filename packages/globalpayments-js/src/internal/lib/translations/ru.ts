@@ -70,6 +70,7 @@ const ru = {
     "text": 'Дополнительные 3 цифры на обратной стороне карты. Для American Express это дополнительные 4 цифры на лицевой стороне карты.'
   },
   "other-cards-label": 'Либо введите данные карты вручную',
+  "manual-card-entry": 'Manual Card Entry',
   QR: {
     button: {
       text: 'Выбор способа оплаты',

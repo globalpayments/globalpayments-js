@@ -70,6 +70,7 @@ const pt = {
     "text": 'Os 3 dígitos adicionais localizados no verso do cartão. Para American Express, os 4 dígitos adicionais na frente do cartão.'
   },
   "other-cards-label": 'Ou introduza os detalhes do cartão manualmente',
+  "manual-card-entry": 'Manual Card Entry',
   QR: {
     button: {
       text: 'Opção de pagamento',

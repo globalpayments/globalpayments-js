@@ -70,6 +70,7 @@ const en = {
     "text": 'The additional 3 digits on the back of your card. For American Express, it is the additional 4 digits on the front of your card.'
   },
   "other-cards-label": 'Or enter card details manually',
+  "manual-card-entry": 'Manual Card Entry',
   QR: {
     scanRqCode: "Scan QR Code",
     payInApp: "to pay in app",

@@ -70,6 +70,7 @@ const hu = {
     "text": 'A kártya hátulján szereplő további 3 számjegy. American Express esetében ez a kártya hátulján szereplő további 4 számjegy.'
   },
   "other-cards-label": 'Vagy adja meg kézzel a kártya adatait',
+  "manual-card-entry": 'Manual Card Entry',
   QR: {
     button: {
       text: 'Választott fizetési mód',

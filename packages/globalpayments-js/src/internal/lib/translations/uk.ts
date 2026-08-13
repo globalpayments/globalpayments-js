@@ -70,6 +70,7 @@ const uk = {
     "text": 'Додаткові 3 цифри ззаду вашої картки. Для American Express це додаткові 4 цифри на лицьовому боці картки.'
   },
   "other-cards-label": 'Або введіть відомості про картку вручну',
+  "manual-card-entry": 'Manual Card Entry',
   QR: {
     button: {
       text: 'Вибрати інший спосіб оплати',

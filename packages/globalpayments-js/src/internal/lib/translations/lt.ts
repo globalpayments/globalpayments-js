@@ -50,6 +50,7 @@ const lt = {
       "text": 'Papildomi 3 skaitmenys kortelės galinėje pusėje. „American Express“ atveju tai yra papildomi 4 skaitmenys kortelės priekinėje pusėje.'
     },
     "other-cards-label": 'Arba įveskite kortelės duomenis rankiniu būdu',
+    "manual-card-entry": 'Manual Card Entry',
     QR: {
       scanRqCode: "Scan QR Code",
       payInApp: "to pay in app",

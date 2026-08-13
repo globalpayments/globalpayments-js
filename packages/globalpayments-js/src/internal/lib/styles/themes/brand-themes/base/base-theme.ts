@@ -265,7 +265,6 @@ const parentStyles = (assetBaseUrl: string, themePreset?: IThemePreset) => {
 
     ".secure-payment-form .credit-card-card-cvv iframe": {
       width: "90%",
-      float: "left",
     },
 
     ".secure-payment-form .credit-card-footer": footerCommonProps.baseFooterProps,
@@ -302,13 +301,13 @@ const parentStyles = (assetBaseUrl: string, themePreset?: IThemePreset) => {
 
     ".secure-payment-form div[class$='-shield'] .ssl-text-logo": {
       "border-radius": "3px",
-      height: "26px",
       "text-align": "center",
       margin: "0",
       "display": "flex",
       "justify-content": "start",
       "align-items": "center",
       width: "fit-content",
+      "padding-top": "8px",
     },
 
     ".secure-payment-form div[class$='-shield'] .ssl-logo_ico": {
@@ -448,12 +447,31 @@ const parentStyles = (assetBaseUrl: string, themePreset?: IThemePreset) => {
 
     "@media(min-width: 800px)": {
       ".secure-payment-form .credit-card-card-expiration": {
-        flex: "1 1 auto",
+        flex: "0 0 calc(50% - 12px)",
         "margin-right": "16px",
+        width: "calc(50% - 12px)",
+        display: "inline-block",
+        "vertical-align": "top"
       },
 
       ".secure-payment-form .credit-card-card-cvv": {
-        flex: "1 1 auto"
+        flex: "0 0 calc(50% - 12px)",
+        width: "calc(50% - 12px)",
+        display: "inline-block",
+        "vertical-align": "top"
+      },
+      ".secure-payment-form.no-cvv .credit-card-card-expiration": {
+        flex: "1 1 auto",
+        "margin-right": "16px",
+        width: "calc(50% - 12px)",
+        display: "inline-block",
+        "vertical-align": "top"
+      },
+      ".secure-payment-form.no-cvv .credit-card-card-holder-name": {
+        flex: "1 1 auto",
+        width: "calc(50% - 12px)",
+        display: "inline-block",
+        "vertical-align": "top"
       },
 
       // ".secure-payment-form .credit-card-billing-address": {

@@ -69,6 +69,7 @@ const fr = {
     "text": 'Les 3 chiffres supplémentaires figurant au dos de votre carte. Pour American Express, il s\'agit des 4 chiffres supplémentaires figurant au recto de votre carte.'
   },
   "other-cards-label": 'Vous pouvez aussi saisir manuellement les détails de la carte.',
+  "manual-card-entry": 'Manual Card Entry',
   QR: {
     button: {
       text: 'Sélectionner un autre moyen de paiement',

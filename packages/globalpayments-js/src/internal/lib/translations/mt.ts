@@ -70,6 +70,7 @@ const mt = {
     "text": 'It-3 ċifri addizzjonali fuq wara tal-kard tiegħek. Għal American Express, huma l-4 ċifri addizzjonali fuq in-naħa ta’ quddiem tal-kard tiegħek.'
   },
   "other-cards-label": 'Jew daħħal id-dettalji tal-kard manwalment',
+  "manual-card-entry": 'Manual Card Entry',
   QR: {
     button: {
       text: 'Għażla tal-Pagamenti',

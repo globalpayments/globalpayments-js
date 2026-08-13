@@ -70,6 +70,7 @@ const lv = {
     "text": 'Papildu 3 cipari kartes aizmugurē. American Express kartēm tie ir papildu 4 cipari kartes priekšpusē.'
   },
   "other-cards-label": 'Vai ievadiet kartes datus',
+  "manual-card-entry": 'Manual Card Entry',
   QR: {
     scanRqCode: "Scan QR Code",
     payInApp: "to pay in app",

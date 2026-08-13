@@ -11,7 +11,9 @@ const styles = (assetBaseUrl: string) => {
     linkActiveBlue: '#6583EA',
     warmGrey95: '#F2F2F2',
     neutralsWhite: '#FFFFFF',
-    backgroundBlue: '#262AFF'
+    backgroundBlue: '#262AFF',
+    azure25Blue: '#004A80',
+    warmGrey39: '#646264',
   };
 
   const commonColumnFlexCenterStyles = {
@@ -113,13 +115,13 @@ const styles = (assetBaseUrl: string) => {
       ...apmButtonStyles,
       background: `${customColors.neutralsWhite} url(${imageBase}blik.svg) no-repeat 50% 50%`
     },
-    ".secure-payment-form .affirm-button:hover, .secure-payment-form .klarna-button:hover, .secure-payment-form .sezzle-button:hover, .secure-payment-form .zip-button:hover": {
+    ".secure-payment-form .affirm-button:hover, .secure-payment-form .klarna-button:hover, .secure-payment-form .sezzle-button:hover, .secure-payment-form .zip-button:hover, .secure-payment-form .gp-accordion__header:hover ": {
       ...apmButtonHoverStyles
     },
     ".secure-payment-form .affirm-button:focus, .secure-payment-form .klarna-button:focus, .secure-payment-form .sezzle-button:focus, .secure-payment-form .zip-button:focus": {
       ...apmButtonFocusStyles
     },
-    ".secure-payment-form .affirm-button::before, .secure-payment-form .klarna-button::before, .secure-payment-form .sezzle-button::before, .secure-payment-form .zip-button::before": {
+    ".secure-payment-form .affirm-button::before, .secure-payment-form .klarna-button::before, .secure-payment-form .sezzle-button::before, .secure-payment-form .zip-button::before, .secure-payment-form .gp-accordion__header:before": {
       width: "10px",
       height: "10px",
       position: "absolute",
@@ -158,6 +160,35 @@ const styles = (assetBaseUrl: string) => {
     },
     ".secure-payment-form .cashpresso3inst-button:focus": {
       ...apmButtonFocusStyles
+    },
+    ".secure-payment-form .gp-accordion__header": {
+      ...apmButtonStyles,
+      color: `${customColors.azure25Blue}`,
+      background: `${customColors.neutralsWhite}`,
+      "font-weight": "bold",
+      "font-size": "16px",
+      display: "flex",
+      "align-items": "center",
+      "justify-content": "center",
+    },
+    ".secure-payment-form .gp-accordion__title": {
+      "line-height": "1.2",
+      padding: "0 8px",
+    },
+    ".secure-payment-form .gp-accordion__icon-before, .secure-payment-form .gp-accordion__icon-after": {
+      width: "24px",
+      height: "24px",
+      "object-fit": "contain",
+      display: "block",
+    },
+    ".secure-payment-form .credit-card-accordion-container:has(.gp-accordion__content--visible)": {
+      background: `${customColors.warmGrey95}`,
+      border: `2px solid ${customColors.coolGreyDarken}`,
+      padding: "0px 16px 16px 16px",
+    },
+    ".secure-payment-form .credit-card-accordion-container:has(.gp-accordion__content--visible) .gp-accordion__header": {
+      background: `${customColors.warmGrey95}`,
+      border: 'none',
     },
   };
 };

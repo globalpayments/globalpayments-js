@@ -70,6 +70,7 @@ const ro = {
     "text": 'Cele 3 cifre suplimentare de pe spatele cardului. Pentru American Express, cele 4 cifre suplimentare de pe fața cardului.'
   },
   "other-cards-label": 'Sau introduceți manual detaliile cardului',
+  "manual-card-entry": 'Manual Card Entry',
   QR: {
     button: {
       text: 'Opțiune de plată',

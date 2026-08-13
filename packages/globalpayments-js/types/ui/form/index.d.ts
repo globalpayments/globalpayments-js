@@ -153,7 +153,12 @@ export declare const fieldStyles: () => {
         };
         "img.card-number-icon.valid.card-type-discover": {
             background: string;
-            "background-size": string;
+            "background-size": string; /**
+             * Instantiates a new UIForm object for a group of hosted fields
+             *
+             * @param fields Hosted field configuration
+             * @param styles Custom CSS configuration
+             */
             "background-position-y": string;
             width: string;
         };
@@ -163,7 +168,16 @@ export declare const fieldStyles: () => {
             "background-position-y": string;
         };
         "img.card-number-icon.valid.card-type-mastercard": {
-            background: string;
+            background: string; /**
+             * Sets an event listener for an event type
+             *
+             * @param fieldTypeOrEventName The field type on which the listener should
+             *          be applied, or the type of event that should trigger the listener
+             * @param eventNameOrListener The type of event that should trigger the
+             *          listener, or the listener function
+             * @param listener The listener function when both field type and event type
+             *          are provided
+             */
             "background-size": string;
             "background-position-y": string;
         };
@@ -935,7 +949,7 @@ export declare const parentStyles: () => {
             margin: string;
             cursor: string;
         };
-        ".secure-payment-form .affirm-button:hover, .secure-payment-form .klarna-button:hover, .secure-payment-form .sezzle-button:hover, .secure-payment-form .zip-button:hover": {
+        ".secure-payment-form .affirm-button:hover, .secure-payment-form .klarna-button:hover, .secure-payment-form .sezzle-button:hover, .secure-payment-form .zip-button:hover, .secure-payment-form .gp-accordion__header:hover ": {
             "border-color": string;
             "background-color": string;
         };
@@ -943,7 +957,7 @@ export declare const parentStyles: () => {
             outline: string;
             "outline-offset": string;
         };
-        ".secure-payment-form .affirm-button::before, .secure-payment-form .klarna-button::before, .secure-payment-form .sezzle-button::before, .secure-payment-form .zip-button::before": {
+        ".secure-payment-form .affirm-button::before, .secure-payment-form .klarna-button::before, .secure-payment-form .sezzle-button::before, .secure-payment-form .zip-button::before, .secure-payment-form .gp-accordion__header:before": {
             width: string;
             height: string;
             position: string;
@@ -1009,6 +1023,41 @@ export declare const parentStyles: () => {
         ".secure-payment-form .cashpresso3inst-button:focus": {
             outline: string;
             "outline-offset": string;
+        };
+        ".secure-payment-form .gp-accordion__header": {
+            color: string;
+            background: string;
+            "font-weight": string;
+            "font-size": string;
+            display: string;
+            "align-items": string;
+            "justify-content": string;
+            position: string;
+            height: string;
+            width: string;
+            "border-radius": string;
+            border: string;
+            margin: string;
+            cursor: string;
+        };
+        ".secure-payment-form .gp-accordion__title": {
+            "line-height": string;
+            padding: string;
+        };
+        ".secure-payment-form .gp-accordion__icon-before, .secure-payment-form .gp-accordion__icon-after": {
+            width: string;
+            height: string;
+            "object-fit": string;
+            display: string;
+        };
+        ".secure-payment-form .credit-card-accordion-container:has(.gp-accordion__content--visible)": {
+            background: string;
+            border: string;
+            padding: string;
+        };
+        ".secure-payment-form .credit-card-accordion-container:has(.gp-accordion__content--visible) .gp-accordion__header": {
+            background: string;
+            border: string;
         };
         ".secure-payment-form .link-button": {
             display: string;
@@ -1661,11 +1710,6 @@ export declare const parentStyles: () => {
             float: string;
         };
         ".secure-payment-form div[class$='-shield'] .ssl-text-logo": {
-            /**
-             * Appends additional CSS rules to the group of hosted fields
-             *
-             * @param json New CSS rules
-             */
             "border-radius": string;
             height: string;
             "text-align": string;
@@ -2069,7 +2113,7 @@ export declare const parentStyles: () => {
             margin: string;
             cursor: string;
         };
-        ".secure-payment-form .affirm-button:hover, .secure-payment-form .klarna-button:hover, .secure-payment-form .sezzle-button:hover, .secure-payment-form .zip-button:hover": {
+        ".secure-payment-form .affirm-button:hover, .secure-payment-form .klarna-button:hover, .secure-payment-form .sezzle-button:hover, .secure-payment-form .zip-button:hover, .secure-payment-form .gp-accordion__header:hover ": {
             "border-color": string;
             "background-color": string;
         };
@@ -2077,7 +2121,7 @@ export declare const parentStyles: () => {
             outline: string;
             "outline-offset": string;
         };
-        ".secure-payment-form .affirm-button::before, .secure-payment-form .klarna-button::before, .secure-payment-form .sezzle-button::before, .secure-payment-form .zip-button::before": {
+        ".secure-payment-form .affirm-button::before, .secure-payment-form .klarna-button::before, .secure-payment-form .sezzle-button::before, .secure-payment-form .zip-button::before, .secure-payment-form .gp-accordion__header:before": {
             width: string;
             height: string;
             position: string;
@@ -2143,6 +2187,41 @@ export declare const parentStyles: () => {
         ".secure-payment-form .cashpresso3inst-button:focus": {
             outline: string;
             "outline-offset": string;
+        };
+        ".secure-payment-form .gp-accordion__header": {
+            color: string;
+            background: string;
+            "font-weight": string;
+            "font-size": string;
+            display: string;
+            "align-items": string;
+            "justify-content": string;
+            position: string;
+            height: string;
+            width: string;
+            "border-radius": string;
+            border: string;
+            margin: string;
+            cursor: string;
+        };
+        ".secure-payment-form .gp-accordion__title": {
+            "line-height": string;
+            padding: string;
+        };
+        ".secure-payment-form .gp-accordion__icon-before, .secure-payment-form .gp-accordion__icon-after": {
+            width: string;
+            height: string;
+            "object-fit": string;
+            display: string;
+        };
+        ".secure-payment-form .credit-card-accordion-container:has(.gp-accordion__content--visible)": {
+            background: string;
+            border: string;
+            padding: string;
+        };
+        ".secure-payment-form .credit-card-accordion-container:has(.gp-accordion__content--visible) .gp-accordion__header": {
+            background: string;
+            border: string;
         };
         ".secure-payment-form .link-button": {
             display: string;
@@ -3289,9 +3368,6 @@ export declare const parentStyles: () => {
             "font-family": string;
             src: string;
         };
-        /**
-         * Represents logic surrounding a group of hosted fields.
-         */
         ".secure-payment-form": {
             display: string;
             "-ms-flex-wrap": string;
@@ -3313,13 +3389,18 @@ export declare const parentStyles: () => {
         ".secure-payment-form.no-cvv .credit-card-card-expiration": {
             flex: string;
             "margin-right": string;
+            width: string;
+            display: string;
+            "vertical-align": string;
         };
         ".secure-payment-form.no-cvv .credit-card-card-holder-name": {
             flex: string;
+            width: string;
+            display: string;
+            "vertical-align": string;
         };
         ".secure-payment-form .credit-card-card-cvv iframe": {
             width: string;
-            float: string;
         };
         ".secure-payment-form div[class$='-shield']": {
             flex: string;
@@ -3334,6 +3415,7 @@ export declare const parentStyles: () => {
             "justify-content": string;
             "align-items": string;
             width: string;
+            "padding-top": string;
         };
         ".secure-payment-form div[class$='-shield'] .ssl-logo_ico": {
             height: string;
@@ -3440,9 +3522,15 @@ export declare const parentStyles: () => {
             ".secure-payment-form .credit-card-card-expiration": {
                 flex: string;
                 "margin-right": string;
+                width: string;
+                display: string;
+                "vertical-align": string;
             };
             ".secure-payment-form .credit-card-card-cvv": {
                 flex: string;
+                width: string;
+                display: string;
+                "vertical-align": string;
             };
             ".secure-payment-form .credit-card-billing-address": {
                 flex: string;
@@ -4746,7 +4834,7 @@ export declare const parentStyles: () => {
             margin: string;
             cursor: string;
         };
-        ".secure-payment-form .affirm-button:hover, .secure-payment-form .klarna-button:hover, .secure-payment-form .sezzle-button:hover, .secure-payment-form .zip-button:hover": {
+        ".secure-payment-form .affirm-button:hover, .secure-payment-form .klarna-button:hover, .secure-payment-form .sezzle-button:hover, .secure-payment-form .zip-button:hover, .secure-payment-form .gp-accordion__header:hover ": {
             "border-color": string;
             "background-color": string;
         };
@@ -4754,7 +4842,7 @@ export declare const parentStyles: () => {
             outline: string;
             "outline-offset": string;
         };
-        ".secure-payment-form .affirm-button::before, .secure-payment-form .klarna-button::before, .secure-payment-form .sezzle-button::before, .secure-payment-form .zip-button::before": {
+        ".secure-payment-form .affirm-button::before, .secure-payment-form .klarna-button::before, .secure-payment-form .sezzle-button::before, .secure-payment-form .zip-button::before, .secure-payment-form .gp-accordion__header:before": {
             width: string;
             height: string;
             position: string;
@@ -4820,6 +4908,41 @@ export declare const parentStyles: () => {
         ".secure-payment-form .cashpresso3inst-button:focus": {
             outline: string;
             "outline-offset": string;
+        };
+        ".secure-payment-form .gp-accordion__header": {
+            color: string;
+            background: string;
+            "font-weight": string;
+            "font-size": string;
+            display: string;
+            "align-items": string;
+            "justify-content": string;
+            position: string;
+            height: string;
+            width: string;
+            "border-radius": string;
+            border: string;
+            margin: string;
+            cursor: string;
+        };
+        ".secure-payment-form .gp-accordion__title": {
+            "line-height": string;
+            padding: string;
+        };
+        ".secure-payment-form .gp-accordion__icon-before, .secure-payment-form .gp-accordion__icon-after": {
+            width: string;
+            height: string;
+            "object-fit": string;
+            display: string;
+        };
+        ".secure-payment-form .credit-card-accordion-container:has(.gp-accordion__content--visible)": {
+            background: string;
+            border: string;
+            padding: string;
+        };
+        ".secure-payment-form .credit-card-accordion-container:has(.gp-accordion__content--visible) .gp-accordion__header": {
+            background: string;
+            border: string;
         };
         ".secure-payment-form .link-button": {
             display: string;
