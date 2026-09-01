@@ -4,8 +4,11 @@
 
 # Changelog (MM/DD/YY)
 
+## latest v5.1.3 (08/13/26)
+- [Globalpayments-js][5.1.3]  Layout changes (added card form in an accordion with routing)
+
 ## latest v5.1.2 (08/13/26)
-- [Globalpayments-js][5.1.2]  E-service style and layout updated
+- [Globalpayments-js][5.1.2]  Layout changes (added card form in an accordion)
 
 ## v5.1.1 (08/11/26)
 - [Globalpayments-js][5.1.1]  Tokenization issue with autofilled expiry dates

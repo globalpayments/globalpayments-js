@@ -247,6 +247,8 @@ export function form(
     formOptions.apms = allowedApms.length > 0 ? allowedApms : undefined;
   }
 
+  if(!formOptions.apms) formOptions.apms = [];
+
   if (formOptions.apms) {
     if (isBlikAvailable(options?.apms?.countryCode, options?.apms?.currencyCode, options?.apms?.nonCardPayments)) {
       formOptions.apms.push(Apm.Blik);
@@ -575,7 +577,7 @@ export function form(
   }
 
   const language = getCurrentLanguage();
-  if (formOptions.apms) {
+  if (formOptions.apms.length > 0) {
     const firstField = target.querySelector(`[class$="${firstFieldCardForm}"]`);
     const divider = document.createElement('div');
     divider.classList.add('other-cards-label');
