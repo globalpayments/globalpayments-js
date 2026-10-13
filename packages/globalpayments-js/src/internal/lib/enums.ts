@@ -22,7 +22,8 @@ export enum Apm {
   Konek = "konek",
   Cashpresso3Installments = "cashpresso3inst",
   Cashpresso30Days = "cashpresso30days",
-  CashpressoInstallments = "cashpressoflexible"
+  CashpressoInstallments = "cashpressoflexible",
+  Blik0C = "blik0c",
 }
 
 export enum ApmEvents {
@@ -81,7 +82,8 @@ export enum ApmProviders {
   Konek = "Konek",
   Cashpresso3Installments = "cashpresso3inst",
   Cashpresso30Days = "cashpresso30days",
-  CashpressoInstallments = "cashpressoflexible"
+  CashpressoInstallments = "cashpressoflexible",
+  Blik0C = "blik0c",
 }
 
 export enum QRCodePaymentsWeChatProviderBrands {

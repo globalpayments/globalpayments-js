@@ -64,6 +64,18 @@ export declare const getBaseTokenDefinitions: (assetBaseUrl: string, themePreset
         "--button-primary-color-text-focus": string;
         "--button-primary-color-background-hover": string;
         "--button-primary-color-focus-indicator-focus": string;
+        "--button-primary-color-background-disabled": string;
+        "--button-primary-color-text-disabled": string;
+        "--blik0c-pay-button-color-background-default": string;
+        "--blik0c-pay-button-color-background-hover": string;
+        "--blik0c-pay-button-color-background-focus": string;
+        "--blik0c-pay-button-color-text-default": string;
+        "--blik0c-pay-button-color-text-hover": string;
+        "--blik0c-pay-button-color-text-focus": string;
+        "--blik0c-pay-button-color-focus-indicator-focus": string;
+        "--blik0c-pay-button-color-background-disabled": string;
+        "--blik0c-pay-button-color-text-disabled": string;
+        "--blik0c-header-color-text": string;
         "--dropin-ui-body-radius-bottom-left": string;
         "--dropin-ui-body-radius-bottom-right": string;
         "--dropin-ui-body-radius-top-left": string;

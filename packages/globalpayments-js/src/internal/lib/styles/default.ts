@@ -337,5 +337,63 @@ export const parentStyles = (assetBaseUrl: string) => {
     ...(options.orderInformation?.enabled ? getOrderInformationCommonStyles(assetBaseUrl) : {}),
 
     ...getBankSelectionCommonStyles(assetBaseUrl),
+
+    /*
+     * BLIK0C pay-now button — declared after getPaymentMethodsStyles so
+     * open-banking cannot override. Colors mirror the credit-card submit
+     * button in this theme (default #36b46e / hover #258851 / focus #258851).
+     */
+    ".secure-payment-form .blik0c-pay-button": {
+      display: "flex",
+      "align-items": "center",
+      "justify-content": "center",
+      "line-height": "1",
+      gap: "5px",
+      "background-color": "#36b46e",
+      color: "#fff",
+      height: "48px",
+      padding: "8px",
+      width: "100%",
+      border: "0px solid transparent",
+      cursor: "pointer",
+      "text-transform": "uppercase",
+      "font-size": "14px",
+      "font-weight": "400",
+      "font-family": "sans-serif",
+      "border-radius": "2px",
+    },
+    ".secure-payment-form .blik0c-pay-button:hover": {
+      "background-color": "#258851",
+      color: "#fff",
+      "border-color": "transparent",
+    },
+    ".secure-payment-form .blik0c-pay-button:focus": {
+      "background-color": "#258851",
+      color: "#fff",
+      outline: "none",
+    },
+    ".secure-payment-form .blik0c-pay-button.disabled-submit-button": {
+      "background-color": "#B0B4B5",
+      color: "#FCFCFC",
+      cursor: "pointer",
+    },
+    ".secure-payment-form .blik0c-pay-button.disabled-submit-button:hover": {
+      "background-color": "#B0B4B5",
+      color: "#FCFCFC",
+      "border-color": "transparent",
+      cursor: "pointer",
+    },
+    ".secure-payment-form .blik0c-pay-button-icon": {
+      display: "block",
+      width: "18px",
+      height: "25px",
+      "flex-shrink": "0",
+      "object-fit": "contain",
+      transform: "translateY(-1px)",
+    },
+    ".secure-payment-form .blik0c-header": {
+      "font-weight": "700",
+      color: "#36b46e",
+    },
   };
 };

@@ -62,15 +62,19 @@ const sv = {
     "ssl-msg-alt": '256-bitars SSL-krypterad logotyp',
     "ssl-msg": '256-bitars SSL<br>-krypterad',
     "security-msg-alt": 'Säkrad av Global Payments',
-    "security-msg": 'Säkert bearbetad av <strong>Global Payments</strong>'
+    "security-msg": 'Säkert bearbetad av <strong>Global Payments</strong>',
+    "e-service-terms-template": 'By paying, you accept the eService {{regulations}}.',
+    "e-service-terms-start": 'By paying, you accept the ',
+    "regulations-text": 'regulations',
+    "eservice-text": "eService"
   },
   tooltip: {
     "title": 'Säkerhetskod',
     "aria-label": 'Information om säkerhetskod',
     "text": 'De tre extra siffrorna på kortets baksida. För American Express är det de fyra extra siffrorna på kortets framsida.'
   },
-  "other-cards-label": 'Eller ange kortuppgifterna manuellt',
-  "manual-card-entry": 'Manual Card Entry',
+  "other-cards-label": 'ELLER',
+  "pay-with-a-card": 'BETALA MED KORT',
   QR: {
     button: {
       text: 'Betalningsalternativ',
@@ -89,7 +93,19 @@ const sv = {
       //   const url = `transparent url(${imageBase}open-banking.svg) no-repeat 50% 50%`
       //   return url;
       // }
-    }
+    },
+    redirectToBank: "Redirecting",
+    waitingScreen: {
+      blik0WaitingScreenMessage: "Please confirm the transaction from your mobile banking application.",
+      waitingIcon: "Waiting Icon",
+    },
+    redirectionText1: "or use the ",
+    link: "link",
+    redirectionText2: " to confirm it.",
+    blik0c: {
+      enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
+      errorMessage: "Please enter your 6 digit BLIK code.",
+    },
   },
   orderInformation: {
     amount: "Belopp",

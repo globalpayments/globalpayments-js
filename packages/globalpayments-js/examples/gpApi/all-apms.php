@@ -77,8 +77,8 @@ $accessToken = $response->token ?? '';
             disablePayButton:true,
             //merchantId: "<?//= $merchant_id ?>//",
             apms: {
-                currencyCode: "EUR",
-                countryCode: "UK",
+                currencyCode: "PLN",
+                countryCode: "PL",
                 acquirer: "erste",
                 allowedCardNetworks: [GlobalPayments.enums.CardNetwork.Visa, GlobalPayments.enums.CardNetwork.Mastercard, GlobalPayments.enums.CardNetwork.Amex, GlobalPayments.enums.CardNetwork.Discover],
                 applePay: {
@@ -131,8 +131,12 @@ $accessToken = $response->token ?? '';
                             category: "TBD"
                         },
                         {
+                            provider: GlobalPayments.enums.ApmProviders.Blik0C,
+                            enabled:true
+                        },
+                        {
                             provider: GlobalPayments.enums.ApmProviders.Blik,
-                            enabled: true
+                            enabled: false
                         },
                         {
                             provider: GlobalPayments.enums.ApmProviders.Affirm,
@@ -293,6 +297,7 @@ $accessToken = $response->token ?? '';
         const cardForm = GlobalPayments.creditCard.form('#credit-card-form', {
             amount: "60000",
             style: "gp-default",
+
             apms: [
                 GlobalPayments.enums.Apm.ClickToPay,
                 GlobalPayments.enums.Apm.GooglePay,
@@ -317,8 +322,8 @@ $accessToken = $response->token ?? '';
 
             let detail = {};
 
-            switch (provider) {
-                case GlobalPayments.enums.ApmProviders.OpenBanking:
+            switch (provider.toLowerCase()) {
+                case (GlobalPayments.enums.ApmProviders.OpenBanking.toLowerCase()):
                     if (!bankName) {
                         detail = {
                             provider,
@@ -335,13 +340,13 @@ $accessToken = $response->token ?? '';
                         }
                     }
                     break;
-                case GlobalPayments.enums.ApmProviders.Blik:
+                case (GlobalPayments.enums.ApmProviders.Blik.toLowerCase()):
                     detail = {
                         provider,
                         redirect_url: "https://www.blik.com/en",
                     };
                     break;
-                case GlobalPayments.enums.ApmProviders.WeChat:
+                case (GlobalPayments.enums.ApmProviders.WeChat.toLowerCase()):
                     detail = {
                         seconds_to_expire: "900",
                         next_action: "PRESENT_QR_CODE",
@@ -349,49 +354,49 @@ $accessToken = $response->token ?? '';
                         qr_code: "weixin://wxpay/bizpayurl?pr=0gWQb9Zzz",
                     };
                     break;
-                case GlobalPayments.enums.ApmProviders.Affirm:
+                case (GlobalPayments.enums.ApmProviders.Affirm.toLowerCase()):
                     detail = {
                         provider,
                         redirect_url: "https://www.affirm.com/",
                     };
                     break;
-                case GlobalPayments.enums.ApmProviders.Klarna:
+                case (GlobalPayments.enums.ApmProviders.Klarna.toLowerCase()):
                     detail = {
                         provider,
                         redirect_url: "https://www.klarna.com/",
                     };
                     break;
-                case GlobalPayments.enums.ApmProviders.Sezzle:
+                case (GlobalPayments.enums.ApmProviders.Sezzle.toLowerCase()):
                     detail = {
                         provider,
                         redirect_url: "https://www.sezzle.com/",
                     };
                     break;
-                case GlobalPayments.enums.ApmProviders.Zip:
+                case (GlobalPayments.enums.ApmProviders.Zip.toLowerCase()):
                     detail = {
                         provider,
                         redirect_url: "https://zip.co"
                     };
                     break;
-                case GlobalPayments.enums.Apm.Cashpresso30Days:
+                case (GlobalPayments.enums.Apm.Cashpresso30Days.toLowerCase()):
                     detail = {
                         provider,
                         redirect_url: "https://my.cashpresso.com/",
                     };
                 break;
-                case GlobalPayments.enums.Apm.Cashpresso3Installments:
+                case (GlobalPayments.enums.Apm.Cashpresso3Installments.toLowerCase()):
                     detail = {
                         provider,
                         redirect_url: "https://my.cashpresso.com/",
                     };
                 break;
-                case GlobalPayments.enums.Apm.CashpressoInstallments:
+                case (GlobalPayments.enums.Apm.CashpressoInstallments.toLowerCase()):
                     detail = {
                         provider,
                         redirect_url: "https://www.eu-startups.com/directory/cashpresso/",
                     };
                 break;
-                case GlobalPayments.enums.ApmProviders.ExpressPay: {
+                case (GlobalPayments.enums.ApmProviders.ExpressPay.toLowerCase()): {
                     const merchantCustomEventProvideDetails = new CustomEvent(GlobalPayments.enums.ExpressPayEvents.ExpressPayActionDetail, {
                         detail: {
                             redirectUrl,
@@ -401,6 +406,24 @@ $accessToken = $response->token ?? '';
                     window.dispatchEvent(merchantCustomEventProvideDetails);
                     return;
                 }
+                    break;
+                case (GlobalPayments.enums.ApmProviders.Blik0C.toLowerCase()): 
+                    detail = {
+                        provider,
+                        code: paymentProviderData.code,
+                        ipAddress: paymentProviderData.ipAddress,
+                        userAgent: paymentProviderData.userAgent,
+                    };
+                    setTimeout(() => {
+                        const merchantCustomEventProvideDetails = new CustomEvent(GlobalPayments.enums.ApmEvents.PaymentMethodActionDetail, {
+                            detail: {
+                                ...detail,
+                                next_action: "DISPLAY_WAIT_SCREEN",
+                                redirect_url: "https://caniuse.com/"
+                            }
+                        });
+                        window.dispatchEvent(merchantCustomEventProvideDetails);
+                    }, 500);
                     break;
                 default:
                     detail = {

@@ -60,15 +60,19 @@ const zh = {
     "ssl-msg-alt": '256位SSL加密标志',
     "ssl-msg": "256 位 SSL<br>加密",
     "security-msg-alt": '由 Global Payments 提供担保',
-    "security-msg": "通过以下方式进行安全处理<strong>Global Payments</strong>"
+    "security-msg": "通过以下方式进行安全处理<strong>Global Payments</strong>",
+    "e-service-terms-template": 'By paying, you accept the eService {{regulations}}.',
+    "e-service-terms-start": 'By paying, you accept the ',
+    "regulations-text": 'regulations',
+    "eservice-text": "eService"
   },
   tooltip: {
     "title": '安全码',
     "aria-label": '有关安全码的信息',
     "text": '卡片背後的末三碼。 若您持有美國運通卡，安全碼為卡片正面的末四碼。'
   },
-  "other-cards-label": '或手动输入卡详细信息',
-  "manual-card-entry": 'Manual Card Entry',
+  "other-cards-label": '或者',
+  "pay-with-a-card": '使用銀行卡支付',
   QR: {
     button: {
       text: '选择其他付款方式',
@@ -111,7 +115,19 @@ const zh = {
       //   const url = `transparent url(${imageBase}open-banking.svg) no-repeat 50% 50%`
       //   return url;
       // }
-    }
+    },
+    redirectToBank: "Redirecting",
+    waitingScreen: {
+      blik0WaitingScreenMessage: "Please confirm the transaction from your mobile banking application.",
+      waitingIcon: "Waiting Icon",
+    },
+    redirectionText1: "or use the ",
+    link: "link",
+    redirectionText2: " to confirm it.",
+    blik0c: {
+      enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
+      errorMessage: "Please enter your 6 digit BLIK code.",
+    },
   },
   bankSelection: {
     pleaseSelectYourPreferredBank: "Please select your preferred bank",

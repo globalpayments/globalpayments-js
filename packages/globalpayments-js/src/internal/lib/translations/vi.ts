@@ -62,15 +62,19 @@ const vi = {
     "ssl-msg-alt": 'Logo của phương thức mã hóa SSL 256 bit',
     "ssl-msg": 'Mã hóa<br>SSL 256 bit',
     "security-msg-alt": 'Được bảo mật bởi Global Payments',
-    "security-msg": 'Được xử lý bảo mật bởi <strong>Global Payments</strong>'
+    "security-msg": 'Được xử lý bảo mật bởi <strong>Global Payments</strong>',
+    "e-service-terms-template": 'By paying, you accept the eService {{regulations}}.',
+    "e-service-terms-start": 'By paying, you accept the ',
+    "regulations-text": 'regulations',
+    "eservice-text": "eService"
   },
   tooltip: {
     "title": 'Mã Bảo Mật',
     "aria-label": 'Thông tin về Mã Bảo Mật',
     "text": '3 chữ số bổ sung ở mặt sau thẻ của bạn. Đối với American Express, đó là 4 chữ số bổ sung ở mặt trước thẻ của bạn.'
   },
-  "other-cards-label": 'Hoặc nhập thông tin của thẻ theo cách thủ công',
-  "manual-card-entry": 'Manual Card Entry',
+  "other-cards-label": 'HOẶC',
+  "pay-with-a-card": 'THANH TOÁN BẰNG THẺ',
   QR: {
     button: {
       text: 'Chọn phương thức thanh toán khác',
@@ -89,7 +93,19 @@ const vi = {
       //   const url = `transparent url(${imageBase}open-banking.svg) no-repeat 50% 50%`
       //   return url;
       // }
-    }
+    },
+    redirectToBank: "Redirecting",
+    waitingScreen: {
+      blik0WaitingScreenMessage: "Please confirm the transaction from your mobile banking application.",
+      waitingIcon: "Waiting Icon",
+    },
+    redirectionText1: "or use the ",
+    link: "link",
+    redirectionText2: " to confirm it.",
+    blik0c: {
+      enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
+      errorMessage: "Please enter your 6 digit BLIK code.",
+    },
   },
   orderInformation: {
     amount: "Số lượng",

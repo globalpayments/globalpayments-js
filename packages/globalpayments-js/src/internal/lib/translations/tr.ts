@@ -62,15 +62,19 @@ const tr = {
     "ssl-msg-alt": '256-bit SSL encrypted logosu',
     "ssl-msg": '256-bit SSL<br>encrypted',
     "security-msg-alt": 'Global Payments ile Güvence Altında',
-    "security-msg": 'Güvenli şekilde işleyen: <strong>Global Payments</strong>'
+    "security-msg": 'Güvenli şekilde işleyen: <strong>Global Payments</strong>',
+    "e-service-terms-template": 'By paying, you accept the eService {{regulations}}.',
+    "e-service-terms-start": 'By paying, you accept the ',
+    "regulations-text": 'regulations',
+    "eservice-text": "eService"
   },
   tooltip: {
     "title": 'Güvenlik Kodu',
     "aria-label": 'Güvenlik Kodu Hakkında Bilgi',
     "text": 'Kartınızın arkasındaki ek 3 rakamdır. American Express’te, kartınızın önündeki ek 4 rakamdır.'
   },
-  "other-cards-label": 'Veya kart bilgilerini manuel olarak girin',
-  "manual-card-entry": 'Manual Card Entry',
+  "other-cards-label": 'VEYA',
+  "pay-with-a-card": 'KARTLA ÖDEME',
   QR: {
     button: {
       text: 'Başka bir ödeme yöntemi seçin',
@@ -89,7 +93,19 @@ const tr = {
       //   const url = `transparent url(${imageBase}open-banking.svg) no-repeat 50% 50%`
       //   return url;
       // }
-    }
+    },
+    redirectToBank: "Redirecting",
+    waitingScreen: {
+      blik0WaitingScreenMessage: "Please confirm the transaction from your mobile banking application.",
+      waitingIcon: "Waiting Icon",
+    },
+    redirectionText1: "or use the ",
+    link: "link",
+    redirectionText2: " to confirm it.",
+    blik0c: {
+      enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
+      errorMessage: "Please enter your 6 digit BLIK code.",
+    },
   },
   orderInformation: {
     amount: "Miktar",

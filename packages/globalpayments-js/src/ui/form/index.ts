@@ -99,6 +99,7 @@ export const frameFieldTypes = [
   Apm.Cashpresso30Days,
   Apm.Cashpresso3Installments,
   Apm.CashpressoInstallments,
+  Apm.Blik0C,
   CardFormFieldNames.CardNumber,
   CardFormFieldNames.CardExpiration,
   CardFormFieldNames.CardCvv,
@@ -374,7 +375,7 @@ export default class UIForm {
     const Cashpresso3Installments = this.frames[Apm.Cashpresso3Installments];
     const CashpressoInstallments = this.frames[Apm.CashpressoInstallments];
     const expressPay = this.frames[Apm.ExpressPay];
-
+    const blik0c = this.frames[Apm.Blik0C];
     const affirm = this.frames[Apm.Affirm];
     const klarna = this.frames[Apm.Klarna];
     const sezzle = this.frames[Apm.Sezzle];
@@ -504,6 +505,9 @@ export default class UIForm {
     if (blik) {
       blik?.container?.querySelector('iframe')?.remove();
       addPaymentMethod(blik, ApmProviders.Blik, Apm.Blik);
+    } else if(blik0c) {
+      blik0c?.container?.querySelector('iframe')?.remove();
+      addPaymentMethod(blik0c, ApmProviders.Blik0C, Apm.Blik0C);
     }
 
     if(affirm) {
@@ -846,7 +850,8 @@ export default class UIForm {
         && type !== Apm.Konek
         && type !== Apm.Cashpresso30Days
         && type !== Apm.Cashpresso3Installments
-        && type !== Apm.CashpressoInstallments) {
+        && type !== Apm.CashpressoInstallments
+        && type !== Apm.Blik0C) {
         fields.push(type);
       }
     }

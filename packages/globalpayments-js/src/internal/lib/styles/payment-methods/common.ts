@@ -45,7 +45,7 @@ export default (assetBaseUrl: string) => {
       color: customColors.linkActiveBlue,
       border: `1px solid ${customColors.azure76LightBlue}`,
     },
-    ".secure-payment-form .apms-redirecting-to-page": {
+    ".secure-payment-form .apms-redirecting-to-page, .secure-payment-form .blik0c-wait-screen": {
       ...commonColumnFlexCenterStyles,
       "justify-content": "center",
       height: "320px",

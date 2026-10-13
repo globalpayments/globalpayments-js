@@ -61,15 +61,19 @@ const en = {
     "ssl-msg-alt": '256-bit SSL encrypted logo',
     "ssl-msg": '256-bit SSL<br>encrypted',
     "security-msg-alt": 'Secured by Global Payments',
-    "security-msg": 'Securely processed by <strong>Global Payments</strong>'
+    "security-msg": 'Securely processed by <strong>Global Payments</strong>',
+    "e-service-terms-template": 'By paying, you accept the eService {{regulations}}.',
+    "e-service-terms-start": 'By paying, you accept the ',
+    "regulations-text": 'regulations',
+    "eservice-text": "eService"
   },
   tooltip: {
     "title": 'Security Code',
     "aria-label": 'Information about Security Code',
     "text": 'The additional 3 digits on the back of your card. For American Express, it is the additional 4 digits on the front of your card.'
   },
-  "other-cards-label": 'Or enter card details manually',
-  "manual-card-entry": "Manual Card Entry",
+  "other-cards-label": 'OR',
+  "pay-with-a-card": 'PAY WITH A CARD',
   QR: {
     scanRqCode: "Scan QR Code",
     payInApp: "to pay in app",
@@ -114,6 +118,17 @@ const en = {
       // }
     },
     redirectToBank: "Redirecting",
+    waitingScreen:{
+      blik0WaitingScreenMessage: 'Please confirm the transaction from your mobile banking application.',
+      waitingIcon: 'Waiting Icon',
+    },
+    redirectionText1: 'or use the ',
+    link: 'link',
+    redirectionText2: ' to confirm it.',
+    blik0c: {
+      enterCodeMessage: 'Please enter the BLIK code generated from your mobile banking application.',
+      errorMessage: 'Please enter your 6 digit BLIK code.',
+    }
   },
   dcc: {
     label: "Select Your Preferred Currency",

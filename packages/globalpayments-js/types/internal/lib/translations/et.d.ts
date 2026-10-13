@@ -62,6 +62,10 @@ declare const et: {
         "ssl-msg": string;
         "security-msg-alt": string;
         "security-msg": string;
+        "e-service-terms-template": string;
+        "e-service-terms-start": string;
+        "regulations-text": string;
+        "eservice-text": string;
     };
     tooltip: {
         title: string;
@@ -69,7 +73,7 @@ declare const et: {
         text: string;
     };
     "other-cards-label": string;
-    "manual-card-entry": string;
+    "pay-with-a-card": string;
     QR: {
         scanRqCode: string;
         payInApp: string;
@@ -105,6 +109,17 @@ declare const et: {
             getAriaLabel: (paymentMethod: string) => string;
         };
         redirectToBank: string;
+        waitingScreen: {
+            blik0WaitingScreenMessage: string;
+            waitingIcon: string;
+        };
+        redirectionText1: string;
+        link: string;
+        redirectionText2: string;
+        blik0c: {
+            enterCodeMessage: string;
+            errorMessage: string;
+        };
     };
     dcc: {
         label: string;

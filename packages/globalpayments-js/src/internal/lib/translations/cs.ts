@@ -58,15 +58,19 @@ const cs = {
     "ssl-msg-alt": 'Logo 256bitového šifrování SSL',
     "ssl-msg": '256bitové<br> šifrování SSL',
     "security-msg-alt": 'Zabezpečeno společností Global Payments',
-    "security-msg": 'Bezpečně zpracováno společností <strong>Global Payments</strong>'
+    "security-msg": 'Bezpečně zpracováno společností <strong>Global Payments</strong>',
+    "e-service-terms-template": 'By paying, you accept the eService {{regulations}}.',
+    "e-service-terms-start": 'By paying, you accept the ',
+    "regulations-text": 'regulations',
+    "eservice-text": "eService"
   },
   tooltip: {
     "title": 'Bezpečnostní kód',
     "aria-label": 'Informace o bezpečnostním kódu',
     "text": 'Další 3 číslice na zadní straně vaší karty. U karet American Express se jedná o další 4 číslice na přední straně vaší karty.'
   },
-  "other-cards-label": 'Nebo zadejte údaje o kartě ručně',
-  "manual-card-entry": 'Manual Card Entry',
+  "other-cards-label": 'NEBO',
+  "pay-with-a-card": 'PLATBA KARTOU',
   QR: {
     button: {
       text: 'Vyberte jinou platební metodu',
@@ -85,7 +89,19 @@ const cs = {
         const url = `transparent url(${imageBase}Bankovni_Platba_Logo.svg) no-repeat 50% 50%`
         return url;
       }
-    }
+    },
+    redirectToBank: "Redirecting",
+    waitingScreen: {
+      blik0WaitingScreenMessage: "Please confirm the transaction from your mobile banking application.",
+      waitingIcon: "Waiting Icon",
+    },
+    redirectionText1: "or use the ",
+    link: "link",
+    redirectionText2: " to confirm it.",
+    blik0c: {
+      enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
+      errorMessage: "Please enter your 6 digit BLIK code.",
+    },
   },
   orderInformation: {
     amount: "Množství",

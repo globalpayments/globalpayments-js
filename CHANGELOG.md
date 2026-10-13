@@ -4,10 +4,15 @@
 
 # Changelog (MM/DD/YY)
 
-## latest v5.1.3 (08/13/26)
+## latest v5.2.0 (10/15/26)
+- [Globalpayments-js][5.2.0] Footer update changes for all brand themes and styles. 
+- [Globalpayments-js][5.2.0] Replaced card accordion menu title
+- [Globalpayments-js][5.2.0] Blik 0 is added with brand themes 
+
+## v5.1.3 (09/03/26)
 - [Globalpayments-js][5.1.3]  Layout changes (added card form in an accordion with routing)
 
-## latest v5.1.2 (08/13/26)
+## v5.1.2 (08/13/26)
 - [Globalpayments-js][5.1.2]  Layout changes (added card form in an accordion)
 
 ## v5.1.1 (08/11/26)

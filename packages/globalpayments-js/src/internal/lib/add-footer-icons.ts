@@ -23,7 +23,7 @@ export function addFooterIcons(
   sslLogo.className = "ssl-text-logo";
 
   const sslImage = document.createElement("img");
-  sslImage.setAttribute('src', `${assetUrl}images/Encrypted_Badge.png`);
+  sslImage.setAttribute('src', `${assetUrl}images/Encrypted_Badge_New.svg`);
   sslImage.setAttribute('alt', translations[language].footer['ssl-msg-alt']);
   sslImage.className = "ssl-logo_ico";
 
@@ -44,7 +44,7 @@ export function addFooterIcons(
   // securityMsg.innerHTML = translations[language].footer['security-msg'];
 
   const securityImage = document.createElement("img");
-  securityImage.setAttribute('src', `${assetUrl}images/Secured_By_GP_Badge.png`);
+  securityImage.setAttribute('src', `${assetUrl}images/Secured_By_GP_Badge.svg`);
   securityImage.setAttribute('alt', translations[language].footer['security-msg-alt']);
 
   // logo.appendChild(securityMsg);

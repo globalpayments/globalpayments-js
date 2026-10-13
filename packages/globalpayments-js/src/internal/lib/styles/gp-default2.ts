@@ -664,7 +664,7 @@ export const parentStyles = (assetBaseUrl: string, theme?: string) => {
             color: "green",
             "font-weight": "bold"
         },
-        ".apms-redirecting-to-page": {
+        ".apms-redirecting-to-page, .blik0c-wait-screen": {
             ...commonColumnFlexCenterStyles,
             "justify-content": "center",
             height: "320px",
@@ -685,6 +685,54 @@ export const parentStyles = (assetBaseUrl: string, theme?: string) => {
 
         ...(options.orderInformation?.enabled ? getOrderInformationCommonStyles(assetBaseUrl, theme) : {}),
 
-        ...getBankSelectionCommonStyles(assetBaseUrl, theme)
+        ...getBankSelectionCommonStyles(assetBaseUrl, theme),
+
+        /*
+         * BLIK0C pay-now button — declared after getPaymentMethodsStyles so
+         * open-banking cannot override. Colors mirror the credit-card submit
+         * button in this theme (default #262AFF / hover #015a94 / focus border #08385b).
+         */
+        ".secure-payment-form .blik0c-pay-button": {
+            display: "flex",
+            "align-items": "center",
+            "justify-content": "center",
+            "line-height": "1",
+            gap: "5px",
+            "background-color": "#262AFF",
+            color: "#FCFCFC",
+            height: "48px",
+            padding: "8px",
+            width: "100%",
+            border: "none",
+            cursor: "pointer",
+            "text-transform": "uppercase",
+            "font-size": "1.125em",
+            "font-weight": "500",
+            "font-family": "Inter",
+            "border-radius": "4px",
+        },
+        ".secure-payment-form .blik0c-pay-button:hover": {
+            "background-color": "#015a94",
+            color: "#FCFCFC",
+            "border-color": "transparent",
+        },
+        ".secure-payment-form .blik0c-pay-button:focus": {
+            "background-color": "#262AFF",
+            border: "2px solid #08385b",
+            color: "#FCFCFC",
+            outline: "none",
+        },
+        ".secure-payment-form .blik0c-pay-button-icon": {
+            display: "block",
+            width: "18px",
+            height: "25px",
+            "flex-shrink": "0",
+            "object-fit": "contain",
+            transform: "translateY(-1px)",
+        },
+        ".secure-payment-form .blik0c-header": {
+            "font-weight": "700",
+            color: "#262AFF",
+        },
     };
 };

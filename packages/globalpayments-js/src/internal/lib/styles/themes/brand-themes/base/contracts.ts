@@ -74,7 +74,9 @@ export interface IThemePresetGeneralColors {
     cool_grey_39: string,
     cool_grey_base:string,
     cool_grey_95:string,
-    azure_95:string
+    azure_95:string,
+    disabledBackground: string,
+    disabledText: string,
 }
 
 export interface IThemePresetBodyPaddings {

@@ -284,6 +284,7 @@ export const changeCreditCardFormFieldsVisibility = (visible: boolean): void => 
     '.qr-code-payment-methods-wrapper',
     '.open-banking-button-wrapper',
     '.blik-button-wrapper',
+    '.blik0c-wrapper',
     '.affirm-button-wrapper',
     '.klarna-button-wrapper',
     '.sezzle-button-wrapper',

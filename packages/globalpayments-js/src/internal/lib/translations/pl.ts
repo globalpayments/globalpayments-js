@@ -62,15 +62,19 @@ const en = {
     "ssl-msg-alt": 'Logo 256-bitowego szyfrowania SSL',
     "ssl-msg": '256-bitowe szyfrowanie SSL<br>',
     "security-msg-alt": 'Zabezpieczenie — Global Payments',
-    "security-msg": 'Bezpieczne przetwarzanie przez <strong>Global Payments</strong>'
+    "security-msg": 'Bezpieczne przetwarzanie przez <strong>Global Payments</strong>',
+    "e-service-terms-template": 'Płacąc akceptujesz {{regulations}} eService.',
+    "e-service-terms-start": 'Płacąc akceptujesz',
+    "regulations-text": 'regulamin',
+    "eservice-text": "eService"
   },
   tooltip: {
     "title": 'Kod zabezpieczeń',
     "aria-label": 'Informacje o kodzie zabezpieczeń',
     "text": 'Dodatkowe 3 cyfry znajdujące się na odwrocie karty W przypadku kart American Express są to dodatkowe 4 cyfry znajdujące się na przedniej stronie karty.'
   },
-  "other-cards-label": 'Albo wprowadź dane karty ręcznie',
-  "manual-card-entry": 'Manual Card Entry',
+  "other-cards-label": 'LUB',
+  "pay-with-a-card": 'PŁAĆ KARTĄ',
   QR: {
     button: {
       text: 'Wybór sposobu płatności',
@@ -90,7 +94,18 @@ const en = {
         return url;
       }
     },
-  },
+    redirectToBank: "Redirecting",
+    waitingScreen: {
+      blik0WaitingScreenMessage: "Please confirm the transaction from your mobile banking application.",
+      waitingIcon: "Waiting Icon",
+    },
+    redirectionText1: "or use the ",
+    link: "link",
+    redirectionText2: " to confirm it.",
+    blik0c: {
+      enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
+      errorMessage: "Please enter your 6 digit BLIK code.",
+    },},
   orderInformation: {
     amount: "Kwota",
     orderReference: "Numer zamówienia",

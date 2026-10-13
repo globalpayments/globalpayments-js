@@ -62,15 +62,19 @@ const lv = {
     "ssl-msg-alt": '256 bitu SSL šifrējuma logotips',
     "ssl-msg": '256 bitu SSL<br>šifrējums',
     "security-msg-alt": 'Aizsargā Global Payments',
-    "security-msg": 'Droši apstrādā <strong>Global Payments</strong>'
+    "security-msg": 'Droši apstrādā <strong>Global Payments</strong>',
+    "e-service-terms-template": 'By paying, you accept the eService {{regulations}}.',
+    "e-service-terms-start": 'By paying, you accept the ',
+    "regulations-text": 'regulations',
+    "eservice-text": "eService"
   },
   tooltip: {
     "title": 'Drošības kods',
     "aria-label": 'Informācija par drošības kodu',
     "text": 'Papildu 3 cipari kartes aizmugurē. American Express kartēm tie ir papildu 4 cipari kartes priekšpusē.'
   },
-  "other-cards-label": 'Vai ievadiet kartes datus',
-  "manual-card-entry": 'Manual Card Entry',
+  "other-cards-label": 'VAI',
+  "pay-with-a-card": 'MAKSĀT AR KARTI',
   QR: {
     scanRqCode: "Scan QR Code",
     payInApp: "to pay in app",
@@ -114,6 +118,17 @@ const lv = {
       // }
     },
     redirectToBank: "Redirecting",
+    waitingScreen: {
+      blik0WaitingScreenMessage: "Please confirm the transaction from your mobile banking application.",
+      waitingIcon: "Waiting Icon",
+    },
+    redirectionText1: "or use the ",
+    link: "link",
+    redirectionText2: " to confirm it.",
+    blik0c: {
+      enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
+      errorMessage: "Please enter your 6 digit BLIK code.",
+    },
   },
   dcc: {
     label: "Select Your Preferred Currency",

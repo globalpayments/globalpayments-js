@@ -62,15 +62,19 @@ const pt = {
     "ssl-msg-alt": 'Logótipo de SSL encriptado de 256 bits',
     "ssl-msg": 'SSL<br>encriptado de 256 bits',
     "security-msg-alt": 'Protegido pela Global Payments',
-    "security-msg": 'Processado com segurança pela <strong>Global Payments</strong>'
+    "security-msg": 'Processado com segurança pela <strong>Global Payments</strong>',
+    "e-service-terms-template": 'By paying, you accept the eService {{regulations}}.',
+    "e-service-terms-start": 'By paying, you accept the ',
+    "regulations-text": 'regulations',
+    "eservice-text": "eService"
   },
   tooltip: {
     "title": 'Código de segurança',
-    "aria-label": 'Information about Security Code',
+    "aria-label": 'Informações sobre o código de segurança',
     "text": 'Os 3 dígitos adicionais localizados no verso do cartão. Para American Express, os 4 dígitos adicionais na frente do cartão.'
   },
-  "other-cards-label": 'Ou introduza os detalhes do cartão manualmente',
-  "manual-card-entry": 'Manual Card Entry',
+  "other-cards-label": 'OU',
+  "pay-with-a-card": 'PAGAR COM CARTÃO',
   QR: {
     button: {
       text: 'Opção de pagamento',
@@ -89,7 +93,19 @@ const pt = {
       //   const url = `transparent url(${imageBase}open-banking.svg) no-repeat 50% 50%`
       //   return url;
       // }
-    }
+    },
+    redirectToBank: "Redirecting",
+    waitingScreen: {
+      blik0WaitingScreenMessage: "Please confirm the transaction from your mobile banking application.",
+      waitingIcon: "Waiting Icon",
+    },
+    redirectionText1: "or use the ",
+    link: "link",
+    redirectionText2: " to confirm it.",
+    blik0c: {
+      enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
+      errorMessage: "Please enter your 6 digit BLIK code.",
+    },
   },
   orderInformation: {
     amount: "Montante",
