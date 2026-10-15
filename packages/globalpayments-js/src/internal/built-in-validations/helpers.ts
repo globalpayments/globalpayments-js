@@ -134,6 +134,24 @@ export const isBlikAvailable = (countryCode: string | undefined, currencyCode: s
   return showBlik;
 }
 
+export const isBlik0cAvailable = (countryCode: string | undefined, currencyCode: string | undefined, options: IApmConfiguration | undefined): boolean => {
+  let showBlik0c = false;
+  if (countryCode === POLAND && currencyCode === CountryCurrencies.Poland) {
+    const isBlik0cEnabled = options?.allowedPaymentMethods?.filter(item => {
+      return item.provider === ApmProviders.Blik0C
+    })[0]?.enabled;
+    if (isBlik0cEnabled) {
+      showBlik0c = true;
+    }
+    if (isBlikAvailable(countryCode, currencyCode, options) && isBlik0cEnabled) {
+      // tslint:disable-next-line:no-console
+      console.log("BLIK redirection and BLIK 0 cannot be used concurrently. BLIK 0 configuration has been ignored.");
+      return false;
+    }
+  }
+  return showBlik0c;
+}
+
 export const isExpressPayAvailable = (options: IApmConfiguration | undefined): boolean | undefined => {
   const showExpressPay = options?.allowedPaymentMethods?.filter(item => {
     return item.provider === ApmProviders.ExpressPay

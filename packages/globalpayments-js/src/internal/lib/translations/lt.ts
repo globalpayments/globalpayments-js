@@ -42,15 +42,19 @@ const lt = {
       "ssl-msg-alt": '256 bitų SSL užšifruotas logotipas',
       "ssl-msg": 'Užšifruotas<br>256 bitų SSL',
       "security-msg-alt": 'Apsaugą užtikrina „Global Payments“',
-      "security-msg": 'Saugų apdorojimą užtikrina <strong>Global Payments</strong>'
+      "security-msg": 'Saugų apdorojimą užtikrina <strong>Global Payments</strong>',
+      "e-service-terms-template": 'By paying, you accept the eService {{regulations}}.',
+      "e-service-terms-start": 'By paying, you accept the ',
+      "regulations-text": 'regulations',
+      "eservice-text": "eService"
     },
     tooltip: {
       "title": 'Saugos kodas',
       "aria-label": 'Saugos kodo informacija',
       "text": 'Papildomi 3 skaitmenys kortelės galinėje pusėje. „American Express“ atveju tai yra papildomi 4 skaitmenys kortelės priekinėje pusėje.'
     },
-    "other-cards-label": 'Arba įveskite kortelės duomenis rankiniu būdu',
-    "manual-card-entry": 'Manual Card Entry',
+    "other-cards-label": 'ARBA',
+    "pay-with-a-card": 'MOKĖKITE KORTELE',
     QR: {
       scanRqCode: "Scan QR Code",
       payInApp: "to pay in app",
@@ -81,20 +85,31 @@ const lt = {
         redirectingToPaymentPageMessage: 'Nukreipiama į mokėjimo puslapį',
       },
     },
-    apms: {
-      button: {
-        getAriaLabel: (paymentMethod: string): string => {
-          const resource = `Mokėti naudojant ##VALUE1##`;
-          return resource.replace('##VALUE1##', paymentMethod);
-        },
-        // getImageUrl: (assetBaseUrl: string): string => {
-        //   const imageBase = assetBaseUrl + "images/";
-        //   const url = `transparent url(${imageBase}open-banking.svg) no-repeat 50% 50%`
-        //   return url;
-        // }
+  apms: {
+    button: {
+      getAriaLabel: (paymentMethod: string): string => {
+        const resource = `Mokėti naudojant ##VALUE1##`;
+        return resource.replace('##VALUE1##', paymentMethod);
       },
-      redirectToBank: "Redirecting",
+      // getImageUrl: (assetBaseUrl: string): string => {
+      //   const imageBase = assetBaseUrl + "images/";
+      //   const url = `transparent url(${imageBase}open-banking.svg) no-repeat 50% 50%`
+      //   return url;
+      // }
     },
+    redirectToBank: "Redirecting",
+    waitingScreen: {
+      blik0WaitingScreenMessage: "Please confirm the transaction from your mobile banking application.",
+      waitingIcon: "Waiting Icon",
+    },
+    redirectionText1: "or use the ",
+    link: "link",
+    redirectionText2: " to confirm it.",
+    blik0c: {
+      enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
+      errorMessage: "Please enter your 6 digit BLIK code.",
+    },
+  },
     dcc: {
       label: "Select Your Preferred Currency",
       additionalInfo: (currency: string, exchangeRate: string, payerCurrency: string, marginRatePercentage: string) => {

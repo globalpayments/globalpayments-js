@@ -9,6 +9,7 @@ export declare const removeValidationRoundCounter: () => void;
 export declare const checkInstallmentsAvailability: (installmentsData: any) => boolean;
 export declare const isOpenBankingAvailable: (countryCode: string | undefined, aquirer: string | undefined) => boolean;
 export declare const isBlikAvailable: (countryCode: string | undefined, currencyCode: string | undefined, options: IApmConfiguration | undefined) => boolean;
+export declare const isBlik0cAvailable: (countryCode: string | undefined, currencyCode: string | undefined, options: IApmConfiguration | undefined) => boolean;
 export declare const isExpressPayAvailable: (options: IApmConfiguration | undefined) => boolean | undefined;
 export declare const getAvailableOptionsForBnpl: (countryCode: string | undefined, options: IApmConfiguration | undefined) => any;
 export declare const isCashpressoAvailable: (countryCode: string | undefined, currencyCode: string | undefined) => boolean;

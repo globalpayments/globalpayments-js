@@ -62,15 +62,19 @@ const mt = {
     "ssl-msg-alt": 'Logo kriptat SSL 256-bit',
     "ssl-msg": '256-bit SSL<br>kriptat',
     "security-msg-alt": 'Assigurat minn Global Payments',
-    "security-msg": 'Ipproċessat b’mod sigur minn <strong>Global Payments</strong>'
+    "security-msg": 'Ipproċessat b’mod sigur minn <strong>Global Payments</strong>',
+    "e-service-terms-template": 'By paying, you accept the eService {{regulations}}.',
+    "e-service-terms-start": 'By paying, you accept the ',
+    "regulations-text": 'regulations',
+    "eservice-text": "eService"
   },
   tooltip: {
     "title": 'Kodiċi tas-Sigurtà',
     "aria-label": 'Informazzjoni dwar il-Kodiċi tas-Sigurtà',
     "text": 'It-3 ċifri addizzjonali fuq wara tal-kard tiegħek. Għal American Express, huma l-4 ċifri addizzjonali fuq in-naħa ta’ quddiem tal-kard tiegħek.'
   },
-  "other-cards-label": 'Jew daħħal id-dettalji tal-kard manwalment',
-  "manual-card-entry": 'Manual Card Entry',
+  "other-cards-label": 'JEW',
+  "pay-with-a-card": 'ĦALLAS B\'KARTA',
   QR: {
     button: {
       text: 'Għażla tal-Pagamenti',
@@ -89,8 +93,19 @@ const mt = {
       //   const url = `transparent url(${imageBase}open-banking.svg) no-repeat 50% 50%`
       //   return url;
       // }
-    }
-  },
+    },
+    redirectToBank: "Redirecting",
+    waitingScreen: {
+      blik0WaitingScreenMessage: "Please confirm the transaction from your mobile banking application.",
+      waitingIcon: "Waiting Icon",
+    },
+    redirectionText1: "or use the ",
+    link: "link",
+    redirectionText2: " to confirm it.",
+    blik0c: {
+      enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
+      errorMessage: "Please enter your 6 digit BLIK code.",
+    },},
   orderInformation: {
     amount: "Ammont",
     orderReference: "Referenza tal-Ordni",

@@ -15,7 +15,7 @@ import { isBrandTheme, isEserviceThemeApplied } from "../internal/lib/styles/the
 import { addFooterBrandedIcons } from "../internal/lib/add-footer-branded-icons";
 import addOrderInformation from "../ui/components/order-information/action-add-order-information";
 import { Apm, CardCvvOption, formMaxWidth, HostedFieldFooterLinks } from "../internal/lib/enums";
-import { availableCashpressoOptions, checkInstallmentsAvailability, getAvailableOptionsForBnpl, isBlikAvailable, isCashpressoAvailable, isOpenBankingAvailable } from "../internal/built-in-validations/helpers";
+import { availableCashpressoOptions, checkInstallmentsAvailability, getAvailableOptionsForBnpl, isBlik0cAvailable, isBlikAvailable, isCashpressoAvailable, isOpenBankingAvailable } from "../internal/built-in-validations/helpers";
 import CountryList from "country-list-with-dial-code-and-flag";
 import CountryFlagSvg from "country-list-with-dial-code-and-flag/dist/flag-svg";
 import getAssetBaseUrl from "../internal/gateways/gp-api/get-asset-base-url";
@@ -247,24 +247,42 @@ export function form(
     formOptions.apms = allowedApms.length > 0 ? allowedApms : undefined;
   }
 
-  if(!formOptions.apms) formOptions.apms = [];
+  if (!formOptions.apms) formOptions.apms = [];
 
-  if (formOptions.apms) {
+  let apms = formOptions.apms as string[];
+
+  if (apms) {
+    if (isBlik0cAvailable(options?.apms?.countryCode, options?.apms?.currencyCode, options?.apms?.nonCardPayments)) {
+      const isBlik0c = apms.find((apm: string) => apm === Apm.Blik0C);
+      if (!isBlik0c) {
+        const clickToPayIndex = apms.findIndex((apm: string) => apm === Apm.ClickToPay);
+        const insertIndex = clickToPayIndex >= 0 ? clickToPayIndex + 1 : 1;
+        apms.splice(insertIndex, 0, Apm.Blik0C);
+      }
+    } else {
+      apms = apms.filter((apm: string) => apm !== Apm.Blik0C);
+      formOptions.apms = apms;
+    }
     if (isBlikAvailable(options?.apms?.countryCode, options?.apms?.currencyCode, options?.apms?.nonCardPayments)) {
-      formOptions.apms.push(Apm.Blik);
+      const isBlik = apms.find((apm: string) => apm === Apm.Blik);
+      if (!isBlik) {
+        const clickToPayIndex = apms.findIndex((apm: string) => apm === Apm.ClickToPay);
+        const insertIndex = clickToPayIndex >= 0 ? clickToPayIndex + 1 : 1;
+        apms.splice(insertIndex, 0, Apm.Blik);
+      }
     }
     if (isOpenBankingAvailable(options?.apms?.countryCode, options?.apms?.acquirer)) {
-      formOptions.apms.push(Apm.OpenBankingPayment);
+      apms.push(Apm.OpenBankingPayment);
     }
     const availableOptionsForBnpl = getAvailableOptionsForBnpl(options?.apms?.countryCode, options?.apms?.nonCardPayments);
 
-    if(availableOptionsForBnpl?.length > 0) formOptions.apms.push(...availableOptionsForBnpl);
+    if(availableOptionsForBnpl?.length > 0) apms.push(...availableOptionsForBnpl);
 
     if(isCashpressoAvailable(options?.apms?.countryCode, options?.apms?.currencyCode)){
-      formOptions.apms.push(...availableCashpressoOptions(formOptions.amount, options?.apms?.currencyCode));
+      apms.push(...availableCashpressoOptions(formOptions.amount, options?.apms?.currencyCode));
     }
 
-    fieldTypes = [...formOptions.apms.toString().split(','), ...fieldTypes]
+    fieldTypes = [...apms.toString().split(','), ...fieldTypes]
   }
 
   const fields: any = {};
@@ -577,7 +595,7 @@ export function form(
   }
 
   const language = getCurrentLanguage();
-  if (formOptions.apms.length > 0) {
+  if ((formOptions.apms ?? []).length > 0) {
     const firstField = target.querySelector(`[class$="${firstFieldCardForm}"]`);
     const divider = document.createElement('div');
     divider.classList.add('other-cards-label');
@@ -598,7 +616,7 @@ export function form(
     // Add section with credit card fields
     accordion.addSection(
       'credit-card-section',
-      translations[language]['manual-card-entry'],
+      translations[language]['pay-with-a-card'],
       iconBeforeText,
       iconAfterText,
       creditCardContent
@@ -613,7 +631,7 @@ export function form(
       '.credit-card-card-expiration',
       '.credit-card-card-cvv',
       '.credit-card-card-holder-name',
-      '.credit-card-dcc',
+      '.credit-card-currency-conversion',
       '.credit-card-installments',
       '.credit-card-submit',
     ];

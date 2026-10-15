@@ -62,15 +62,19 @@ const zhCn = {
         "ssl-msg-alt": '256位元SSL加密标志',
         "ssl-msg": '256 位 SSL<br>加密',
         "security-msg-alt": '由 Global Payments 提供安全保障',
-        "security-msg": '由 <strong>Global Payments</strong> 安全处理'
+        "security-msg": '由 <strong>Global Payments</strong> 安全处理',
+        "e-service-terms-template": 'By paying, you accept the eService {{regulations}}.',
+        "e-service-terms-start": 'By paying, you accept the ',
+        "regulations-text": 'regulations',
+        "eservice-text": "eService"
     },
     tooltip: {
         "title": '安全码',
         "aria-label": '安全码相关信息',
         "text": '您卡背面的额外 3 位数字。如果是美国运通卡，则是卡正面的额外 4 位数字。'
     },
-    "other-cards-label": '或者手动输入卡片信息',
-    "manual-card-entry": 'Manual Card Entry',
+    "other-cards-label": '或者',
+    "pay-with-a-card": '使用银行卡支付',
     QR: {
         scanRqCode: "扫描二维码",
         payInApp: "应用内支付",

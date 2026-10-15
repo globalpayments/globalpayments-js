@@ -62,15 +62,19 @@ const sl = {
     "ssl-msg-alt": 'Logotip 256-bitno šifriranega potrdila SSL',
     "ssl-msg": '256-bitno šifrirano<br>potrdilo SSL',
     "security-msg-alt": 'Zaščito zagotavlja Global Payments',
-    "security-msg": 'Varno obdelalo podjetje <strong>Global Payments</strong>'
+    "security-msg": 'Varno obdelalo podjetje <strong>Global Payments</strong>',
+    "e-service-terms-template": 'By paying, you accept the eService {{regulations}}.',
+    "e-service-terms-start": 'By paying, you accept the ',
+    "regulations-text": 'regulations',
+    "eservice-text": "eService"
   },
   tooltip: {
     "title": 'Varnostna koda',
     "aria-label": 'Informacije o varnostni kodi',
     "text": 'Dodatne 3 števke na hrbtni strani kartice. Za kartice American Express so to dodatne 4 števke na sprednji strani kartice.'
   },
-  "other-cards-label": 'Ali pa ročno vnesite podatke o kartici',
-  "manual-card-entry": 'Manual Card Entry',
+  "other-cards-label": 'ALI',
+  "pay-with-a-card": 'PLAČILO S KARTICO',
   QR: {
     button: {
       text: 'Oblike plačila',
@@ -89,7 +93,19 @@ const sl = {
       //   const url = `transparent url(${imageBase}open-banking.svg) no-repeat 50% 50%`
       //   return url;
       // }
-    }
+    },
+    redirectToBank: "Redirecting",
+    waitingScreen: {
+      blik0WaitingScreenMessage: "Please confirm the transaction from your mobile banking application.",
+      waitingIcon: "Waiting Icon",
+    },
+    redirectionText1: "or use the ",
+    link: "link",
+    redirectionText2: " to confirm it.",
+    blik0c: {
+      enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
+      errorMessage: "Please enter your 6 digit BLIK code.",
+    },
   },
   orderInformation: {
     amount: "Znesek",

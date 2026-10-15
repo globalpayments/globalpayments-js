@@ -20,7 +20,6 @@ const themePreset: IThemePreset = {
 
       buttonLabelColor1: '#FFFFFF',
       buttonLabelColor2: '#0000FF',
-
       errorColor: '#B31E14',
     },
 

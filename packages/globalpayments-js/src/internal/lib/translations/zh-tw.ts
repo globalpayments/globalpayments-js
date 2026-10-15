@@ -62,15 +62,19 @@ const zhTw = {
         "ssl-msg-alt": '256位元SSL加密標誌',
         "ssl-msg": '256 位元 SSL<br>加密',
         "security-msg-alt": '由 Global Payments 提供安全保障',
-        "security-msg": '由 <strong>Global Payments</strong> 安全處理'
+        "security-msg": '由 <strong>Global Payments</strong> 安全處理',
+        "e-service-terms-template": 'By paying, you accept the eService {{regulations}}.',
+        "e-service-terms-start": 'By paying, you accept the ',
+        "regulations-text": 'regulations',
+        "eservice-text": "eService"
     },
     tooltip: {
         "title": '安全碼',
         "aria-label": '安全碼相關訊息',
         "text": '您卡片背面的額外 3 位數字。如果是美國運通卡，則是卡片正面的額外 4 位數字。'
     },
-    "other-cards-label": '或手動輸入卡片訊息',
-    "manual-card-entry": 'Manual Card Entry',
+    "other-cards-label": '或者',
+    "pay-with-a-card": '使用銀行卡支付',
     QR: {
         scanRqCode: "掃描二維碼",
         payInApp: "應用程式內支付",

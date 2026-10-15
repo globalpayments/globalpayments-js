@@ -17,6 +17,7 @@ import {getCurrentLanguage, getTranslationLanguageSet} from "../../../internal/l
 import { isBankSelectionAvailable, getImageUrl } from "../../../internal/lib/bank-selection/helpers";
 import addBankSelection from "../../components/bank-selection/action-add-bank-selection";
 import getAssetBaseUrl from "../../../internal/gateways/gp-api/get-asset-base-url";
+import addBlik0CComponent from "../blik0c/action-add";
 export default function addPaymentMethod(iframeField: IframeField | undefined, apmProvider: ApmProviders, apm: Apm): void {
   if (!iframeField) return;
   const apmAllowedPaymentMethods = options.apms?.nonCardPayments?.allowedPaymentMethods;
@@ -59,7 +60,7 @@ function displayPaymentMethods(iframeField: IframeField, apmProvider: ApmProvide
   });
   paymentMethodButton.style.background = backgroundImage;
   // paymentMethodButton.setAttribute('style', 'background: backgroundImage')
-  if(apmProvider !== ApmProviders.ExpressPay) {
+  if(apmProvider !== ApmProviders.ExpressPay && apmProvider !== ApmProviders.Blik0C) {
     paymentMethodButton?.addEventListener('click', () => {
     // Merchant Interaction: Emit an event to let the Merchant know the selected provider
         iframeField?.emit(ApmEvents.PaymentMethodSelection, {
@@ -68,6 +69,12 @@ function displayPaymentMethods(iframeField: IframeField, apmProvider: ApmProvide
         currencyCode: options.apms?.currencyCode,
       });
   });
+  }
+
+  if(apmProvider === ApmProviders.Blik0C) {
+    paymentMethodButton?.addEventListener('click', () => {
+      addBlik0CComponent(iframeField);
+    });
   }
 
   paymentMethodButtonWrapperDiv.append(paymentMethodButton);

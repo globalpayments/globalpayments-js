@@ -62,15 +62,19 @@ const el = {
     "ssl-msg-alt": 'Κρυπτογράφηση λογότυπου 256-bit SSL',
     "ssl-msg": 'Κρυπτογράφηση 256-bit SSL<br>',
     "security-msg-alt": 'Ασφάλεια από την Global Payments',
-    "security-msg": 'Ασφαλής επεξεργασία από την <strong>Global Payments</strong>'
+    "security-msg": 'Ασφαλής επεξεργασία από την <strong>Global Payments</strong>',
+    "e-service-terms-template": 'By paying, you accept the eService {{regulations}}.',
+    "e-service-terms-start": 'By paying, you accept the ',
+    "regulations-text": 'regulations',
+    "eservice-text": "eService"
   },
   tooltip: {
     "title": 'Κωδικός ασφαλείας',
     "aria-label": 'Πληροφορίες για τον Κωδικό Ασφαλείας',
     "text": 'Τα επιπρόσθετα 3 ψηφία στο πίσω μέρος της κάρτας σας. Για American Express, είναι τα επιπρόσθετα 4 ψηφία στο μπροστινό μέρος της κάρτας σας.'
   },
-  "other-cards-label": 'Ή καταχωρίστε χειροκίνητα τα στοιχεία της κάρτας',
-  "manual-card-entry": 'Manual Card Entry',
+  "other-cards-label": 'Ή',
+  "pay-with-a-card": 'ΠΛΗΡΩΜΗ ΜΕ ΚΑΡΤΑ',
   QR: {
     button: {
       text: 'Επιλογή πληρωμής',
@@ -89,7 +93,19 @@ const el = {
       //   const url = `transparent url(${imageBase}open-banking.svg) no-repeat 50% 50%`
       //   return url;
       // }
-    }
+    },
+    redirectToBank: "Redirecting",
+    waitingScreen: {
+      blik0WaitingScreenMessage: "Please confirm the transaction from your mobile banking application.",
+      waitingIcon: "Waiting Icon",
+    },
+    redirectionText1: "or use the ",
+    link: "link",
+    redirectionText2: " to confirm it.",
+    blik0c: {
+      enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
+      errorMessage: "Please enter your 6 digit BLIK code.",
+    },
   },
   orderInformation: {
     amount: "Ποσό",

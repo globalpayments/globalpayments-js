@@ -153,12 +153,7 @@ export declare const fieldStyles: () => {
         };
         "img.card-number-icon.valid.card-type-discover": {
             background: string;
-            "background-size": string; /**
-             * Instantiates a new UIForm object for a group of hosted fields
-             *
-             * @param fields Hosted field configuration
-             * @param styles Custom CSS configuration
-             */
+            "background-size": string;
             "background-position-y": string;
             width: string;
         };
@@ -168,16 +163,7 @@ export declare const fieldStyles: () => {
             "background-position-y": string;
         };
         "img.card-number-icon.valid.card-type-mastercard": {
-            background: string; /**
-             * Sets an event listener for an event type
-             *
-             * @param fieldTypeOrEventName The field type on which the listener should
-             *          be applied, or the type of event that should trigger the listener
-             * @param eventNameOrListener The type of event that should trigger the
-             *          listener, or the listener function
-             * @param listener The listener function when both field type and event type
-             *          are provided
-             */
+            background: string;
             "background-size": string;
             "background-position-y": string;
         };
@@ -485,12 +471,6 @@ export declare const fieldStyles: () => {
             "background-position": string;
         };
         "img.card-number-icon.card-type-carnet": {
-            /**
-             * Instantiates a new UIForm object for a group of hosted fields
-             *
-             * @param fields Hosted field configuration
-             * @param styles Custom CSS configuration
-             */
             "background-image": string;
         };
         ".card-number::-ms-clear": {
@@ -645,6 +625,58 @@ export declare const fieldStyles: () => {
 export declare const parentStyles: () => {
     blank: {};
     default: {
+        ".secure-payment-form .blik0c-pay-button": {
+            display: string;
+            "align-items": string;
+            "justify-content": string;
+            "line-height": string;
+            gap: string;
+            "background-color": string;
+            color: string;
+            height: string;
+            padding: string;
+            width: string;
+            border: string;
+            cursor: string;
+            "text-transform": string;
+            "font-size": string;
+            "font-weight": string;
+            "font-family": string;
+            "border-radius": string;
+        };
+        ".secure-payment-form .blik0c-pay-button:hover": {
+            "background-color": string;
+            color: string;
+            "border-color": string;
+        };
+        ".secure-payment-form .blik0c-pay-button:focus": {
+            "background-color": string;
+            color: string;
+            outline: string;
+        };
+        ".secure-payment-form .blik0c-pay-button.disabled-submit-button": {
+            "background-color": string;
+            color: string;
+            cursor: string;
+        };
+        ".secure-payment-form .blik0c-pay-button.disabled-submit-button:hover": {
+            "background-color": string;
+            color: string;
+            "border-color": string;
+            cursor: string;
+        };
+        ".secure-payment-form .blik0c-pay-button-icon": {
+            display: string;
+            width: string;
+            height: string;
+            "flex-shrink": string;
+            "object-fit": string;
+            transform: string;
+        };
+        ".secure-payment-form .blik0c-header": {
+            "font-weight": string;
+            color: string;
+        };
         ".bank-selection-wrapper": {
             background: string;
             padding: string;
@@ -844,17 +876,7 @@ export declare const parentStyles: () => {
             outline: string;
             "outline-offset": string;
         };
-        ".secure-payment-form .open-banking-button-wrapper": {
-            display: string;
-            "flex-direction": string;
-            "align-items": string;
-        };
-        ".secure-payment-form .blik-button-wrapper": {
-            display: string;
-            "flex-direction": string;
-            "align-items": string;
-        };
-        ".secure-payment-form .express-pay-button-wrapper": {
+        ".secure-payment-form .open-banking-button-wrapper, .secure-payment-form .blik-button-wrapper, .secure-payment-form .blik0c-button-wrapper, .secure-payment-form .express-pay-button-wrapper": {
             display: string;
             "flex-direction": string;
             "align-items": string;
@@ -905,18 +927,38 @@ export declare const parentStyles: () => {
             "outline-offset": string;
         };
         ".secure-payment-form .blik-button::before": {
+            content: string;
             width: string;
             height: string;
             position: string;
             top: string;
             right: string;
         };
+        ".secure-payment-form .blik0c-wrapper.expand-blik0c-form": {
+            border: string;
+            background: string;
+            "border-radius": string;
+        };
+        ".secure-payment-form .blik0c-wrapper.expand-blik0c-form .blik0c-button": {
+            border: string;
+            background: string;
+            outline: string;
+            "border-radius": string;
+        };
+        ".secure-payment-form .blik0c-wait-screen": {
+            "justify-content": string;
+            "text-align": string;
+            display: string;
+            "flex-direction": string;
+            "align-items": string;
+        };
         ".secure-payment-form .express-pay-button": {
             "background-color": string;
             border: string;
+            color: string;
+            "font-weight": string;
             "border-radius": string;
             position: string;
-            color: string;
             height: string;
             width: string;
             margin: string;
@@ -926,6 +968,8 @@ export declare const parentStyles: () => {
             "background-color": string;
         };
         ".secure-payment-form .express-pay-button:focus": {
+            outline: string;
+            "outline-offset": string;
             "background-color": string;
         };
         ".secure-payment-form .express-pay-button::before": {
@@ -938,7 +982,7 @@ export declare const parentStyles: () => {
         ".secure-payment-form .express-pay-button::after": {
             content: string;
         };
-        ".secure-payment-form .affirm-button, .secure-payment-form .klarna-button, .secure-payment-form .sezzle-button, .secure-payment-form .zip-button": {
+        ".secure-payment-form .affirm-button, .secure-payment-form .klarna-button, .secure-payment-form .sezzle-button, .secure-payment-form .zip-button, .secure-payment-form .blik0c-button": {
             background: string;
             position: string;
             color: string;
@@ -949,20 +993,95 @@ export declare const parentStyles: () => {
             margin: string;
             cursor: string;
         };
-        ".secure-payment-form .affirm-button:hover, .secure-payment-form .klarna-button:hover, .secure-payment-form .sezzle-button:hover, .secure-payment-form .zip-button:hover, .secure-payment-form .gp-accordion__header:hover ": {
+        ".secure-payment-form .affirm-button:hover, .secure-payment-form .klarna-button:hover, .secure-payment-form .sezzle-button:hover, .secure-payment-form .zip-button:hover, .secure-payment-form .gp-accordion__header:hover, .secure-payment-form .blik0c-button:hover": {
             "border-color": string;
             "background-color": string;
         };
-        ".secure-payment-form .affirm-button:focus, .secure-payment-form .klarna-button:focus, .secure-payment-form .sezzle-button:focus, .secure-payment-form .zip-button:focus": {
+        ".secure-payment-form .affirm-button:focus, .secure-payment-form .klarna-button:focus, .secure-payment-form .sezzle-button:focus, .secure-payment-form .zip-button:focus, .secure-payment-form .blik0c-button:focus": {
             outline: string;
             "outline-offset": string;
         };
         ".secure-payment-form .affirm-button::before, .secure-payment-form .klarna-button::before, .secure-payment-form .sezzle-button::before, .secure-payment-form .zip-button::before, .secure-payment-form .gp-accordion__header:before": {
             width: string;
             height: string;
+            /**
+             * Sets an event listener for an event type
+             *
+             * @param fieldTypeOrEventName The field type on which the listener should
+             *          be applied, or the type of event that should trigger the listener
+             * @param eventNameOrListener The type of event that should trigger the
+             *          listener, or the listener function
+             * @param listener The listener function when both field type and event type
+             *          are provided
+             */
             position: string;
             top: string;
             right: string;
+        };
+        ".secure-payment-form .blik0c-component": {
+            width: string;
+            margin: string;
+            padding: string;
+            "box-sizing": string;
+            border: string;
+            "border-radius": string;
+            background: string;
+            overflow: string;
+        };
+        ".secure-payment-form .blik0c-custom-form": {
+            "align-items": string;
+            gap: string;
+            width: string;
+            padding: string;
+            "box-sizing": string;
+            display: string;
+            "flex-direction": string;
+        };
+        ".secure-payment-form .blik0c-code-action-wrapper": {
+            width: string;
+            display: string;
+            "flex-direction": string;
+            gap: string;
+        };
+        ".secure-payment-form .blik0c-content, .secure-payment-form .blik0c-header": {
+            width: string;
+            display: string;
+            "text-align": string;
+            font: string;
+            color: string;
+        };
+        ".secure-payment-form .blik0c-code-input-wrapper": {
+            width: string;
+            display: string;
+            "flex-direction": string;
+            gap: string;
+        };
+        ".secure-payment-form .blik0c-code-input": {
+            width: string;
+            height: string;
+            border: string;
+            "border-radius": string;
+            padding: string;
+            "box-sizing": string;
+            "font-size": string;
+            "line-height": string;
+        };
+        ".secure-payment-form .blik0c-code-input:focus": {
+            outline: string;
+            "outline-offset": string;
+        };
+        ".secure-payment-form .blik0c-code-error": {
+            width: string;
+            color: string;
+            font: string;
+            "text-align": string;
+            "min-height": string;
+        };
+        ".secure-payment-form .blik0c-code-error-icon": {
+            width: string;
+            height: string;
+            display: string;
+            "vertical-align": string;
         };
         ".secure-payment-form .cashpresso30days-button": {
             background: string;
@@ -1027,6 +1146,9 @@ export declare const parentStyles: () => {
         ".secure-payment-form .gp-accordion__header": {
             color: string;
             background: string;
+            /**
+             * Deletes all hosted fields within the form
+             */
             "font-weight": string;
             "font-size": string;
             display: string;
@@ -1084,7 +1206,7 @@ export declare const parentStyles: () => {
             color: string;
             border: string;
         };
-        ".secure-payment-form .apms-redirecting-to-page": {
+        ".secure-payment-form .apms-redirecting-to-page, .secure-payment-form .blik0c-wait-screen": {
             "justify-content": string;
             height: string;
             display: string;
@@ -1258,6 +1380,16 @@ export declare const parentStyles: () => {
             height: string;
             "min-width": string;
             "border-left": string;
+            /**
+             * Sets an event listener for an event type
+             *
+             * @param fieldTypeOrEventName The field type on which the listener should
+             *          be applied, or the type of event that should trigger the listener
+             * @param eventNameOrListener The type of event that should trigger the
+             *          listener, or the listener function
+             * @param listener The listener function when both field type and event type
+             *          are provided
+             */
             display: string;
         };
         ".secure-payment-form .credit-card-currency-conversion .tooltip:hover"?: {
@@ -1476,7 +1608,9 @@ export declare const parentStyles: () => {
         "@container (min-width: 408px)": {
             ".secure-payment-form .ctp-panel .ctp-button .heading": {
                 "font-size": string;
-            };
+            }; /**
+             * Represents logic surrounding a group of hosted fields.
+             */
             ".secure-payment-form .ctp-panel .right-arrow": {
                 "border-width": string;
             };
@@ -1500,7 +1634,16 @@ export declare const parentStyles: () => {
             border: string;
             "border-width": string;
             display: string;
-            padding: string;
+            padding: string; /**
+             * Sets an event listener for an event type
+             *
+             * @param fieldTypeOrEventName The field type on which the listener should
+             *          be applied, or the type of event that should trigger the listener
+             * @param eventNameOrListener The type of event that should trigger the
+             *          listener, or the listener function
+             * @param listener The listener function when both field type and event type
+             *          are provided
+             */
             transform: string;
             "-webkit-transform": string;
         };
@@ -1729,7 +1872,12 @@ export declare const parentStyles: () => {
             "font-weight": string;
             "font-family": string;
             color: string;
-            "line-height": string;
+            "line-height": string; /**
+             * Sets a special-case event listener that fires when all hosted
+             * fields in a form have registered / loaded
+             *
+             * @param fn The listener function
+             */
             display: string;
             "vertical-align": string;
             "text-align": string;
@@ -1809,6 +1957,58 @@ export declare const parentStyles: () => {
         };
     };
     "gp-default": {
+        ".secure-payment-form .blik0c-pay-button": {
+            display: string;
+            "align-items": string;
+            "justify-content": string;
+            "line-height": string;
+            gap: string;
+            "background-color": string;
+            color: string;
+            height: string;
+            padding: string;
+            width: string;
+            border: string;
+            cursor: string;
+            "text-transform": string;
+            "font-size": string;
+            "font-weight": string;
+            "border-radius": string;
+        };
+        ".secure-payment-form .blik0c-pay-button:hover": {
+            "background-color": string;
+            color: string;
+            "border-color": string;
+        };
+        ".secure-payment-form .blik0c-pay-button:focus": {
+            "background-color": string;
+            border: string;
+            color: string;
+            outline: string;
+        };
+        ".secure-payment-form .blik0c-pay-button.disabled-submit-button": {
+            "background-color": string;
+            color: string;
+            cursor: string;
+        };
+        ".secure-payment-form .blik0c-pay-button.disabled-submit-button:hover": {
+            "background-color": string;
+            color: string;
+            "border-color": string;
+            cursor: string;
+        };
+        ".secure-payment-form .blik0c-pay-button-icon": {
+            display: string;
+            width: string;
+            height: string;
+            "flex-shrink": string;
+            "object-fit": string;
+            transform: string;
+        };
+        ".secure-payment-form .blik0c-header": {
+            "font-weight": string;
+            color: string;
+        };
         ".bank-selection-wrapper": {
             background: string;
             padding: string;
@@ -2008,17 +2208,7 @@ export declare const parentStyles: () => {
             outline: string;
             "outline-offset": string;
         };
-        ".secure-payment-form .open-banking-button-wrapper": {
-            display: string;
-            "flex-direction": string;
-            "align-items": string;
-        };
-        ".secure-payment-form .blik-button-wrapper": {
-            display: string;
-            "flex-direction": string;
-            "align-items": string;
-        };
-        ".secure-payment-form .express-pay-button-wrapper": {
+        ".secure-payment-form .open-banking-button-wrapper, .secure-payment-form .blik-button-wrapper, .secure-payment-form .blik0c-button-wrapper, .secure-payment-form .express-pay-button-wrapper": {
             display: string;
             "flex-direction": string;
             "align-items": string;
@@ -2069,18 +2259,38 @@ export declare const parentStyles: () => {
             "outline-offset": string;
         };
         ".secure-payment-form .blik-button::before": {
+            content: string;
             width: string;
             height: string;
             position: string;
             top: string;
             right: string;
         };
+        ".secure-payment-form .blik0c-wrapper.expand-blik0c-form": {
+            border: string;
+            background: string;
+            "border-radius": string;
+        };
+        ".secure-payment-form .blik0c-wrapper.expand-blik0c-form .blik0c-button": {
+            border: string;
+            background: string;
+            outline: string;
+            "border-radius": string;
+        };
+        ".secure-payment-form .blik0c-wait-screen": {
+            "justify-content": string;
+            "text-align": string;
+            display: string;
+            "flex-direction": string;
+            "align-items": string;
+        };
         ".secure-payment-form .express-pay-button": {
             "background-color": string;
             border: string;
+            color: string;
+            "font-weight": string;
             "border-radius": string;
             position: string;
-            color: string;
             height: string;
             width: string;
             margin: string;
@@ -2090,6 +2300,8 @@ export declare const parentStyles: () => {
             "background-color": string;
         };
         ".secure-payment-form .express-pay-button:focus": {
+            outline: string;
+            "outline-offset": string;
             "background-color": string;
         };
         ".secure-payment-form .express-pay-button::before": {
@@ -2102,7 +2314,7 @@ export declare const parentStyles: () => {
         ".secure-payment-form .express-pay-button::after": {
             content: string;
         };
-        ".secure-payment-form .affirm-button, .secure-payment-form .klarna-button, .secure-payment-form .sezzle-button, .secure-payment-form .zip-button": {
+        ".secure-payment-form .affirm-button, .secure-payment-form .klarna-button, .secure-payment-form .sezzle-button, .secure-payment-form .zip-button, .secure-payment-form .blik0c-button": {
             background: string;
             position: string;
             color: string;
@@ -2113,20 +2325,95 @@ export declare const parentStyles: () => {
             margin: string;
             cursor: string;
         };
-        ".secure-payment-form .affirm-button:hover, .secure-payment-form .klarna-button:hover, .secure-payment-form .sezzle-button:hover, .secure-payment-form .zip-button:hover, .secure-payment-form .gp-accordion__header:hover ": {
+        ".secure-payment-form .affirm-button:hover, .secure-payment-form .klarna-button:hover, .secure-payment-form .sezzle-button:hover, .secure-payment-form .zip-button:hover, .secure-payment-form .gp-accordion__header:hover, .secure-payment-form .blik0c-button:hover": {
             "border-color": string;
             "background-color": string;
         };
-        ".secure-payment-form .affirm-button:focus, .secure-payment-form .klarna-button:focus, .secure-payment-form .sezzle-button:focus, .secure-payment-form .zip-button:focus": {
+        ".secure-payment-form .affirm-button:focus, .secure-payment-form .klarna-button:focus, .secure-payment-form .sezzle-button:focus, .secure-payment-form .zip-button:focus, .secure-payment-form .blik0c-button:focus": {
             outline: string;
             "outline-offset": string;
         };
         ".secure-payment-form .affirm-button::before, .secure-payment-form .klarna-button::before, .secure-payment-form .sezzle-button::before, .secure-payment-form .zip-button::before, .secure-payment-form .gp-accordion__header:before": {
             width: string;
             height: string;
+            /**
+             * Sets an event listener for an event type
+             *
+             * @param fieldTypeOrEventName The field type on which the listener should
+             *          be applied, or the type of event that should trigger the listener
+             * @param eventNameOrListener The type of event that should trigger the
+             *          listener, or the listener function
+             * @param listener The listener function when both field type and event type
+             *          are provided
+             */
             position: string;
             top: string;
             right: string;
+        };
+        ".secure-payment-form .blik0c-component": {
+            width: string;
+            margin: string;
+            padding: string;
+            "box-sizing": string;
+            border: string;
+            "border-radius": string;
+            background: string;
+            overflow: string;
+        };
+        ".secure-payment-form .blik0c-custom-form": {
+            "align-items": string;
+            gap: string;
+            width: string;
+            padding: string;
+            "box-sizing": string;
+            display: string;
+            "flex-direction": string;
+        };
+        ".secure-payment-form .blik0c-code-action-wrapper": {
+            width: string;
+            display: string;
+            "flex-direction": string;
+            gap: string;
+        };
+        ".secure-payment-form .blik0c-content, .secure-payment-form .blik0c-header": {
+            width: string;
+            display: string;
+            "text-align": string;
+            font: string;
+            color: string;
+        };
+        ".secure-payment-form .blik0c-code-input-wrapper": {
+            width: string;
+            display: string;
+            "flex-direction": string;
+            gap: string;
+        };
+        ".secure-payment-form .blik0c-code-input": {
+            width: string;
+            height: string;
+            border: string;
+            "border-radius": string;
+            padding: string;
+            "box-sizing": string;
+            "font-size": string;
+            "line-height": string;
+        };
+        ".secure-payment-form .blik0c-code-input:focus": {
+            outline: string;
+            "outline-offset": string;
+        };
+        ".secure-payment-form .blik0c-code-error": {
+            width: string;
+            color: string;
+            font: string;
+            "text-align": string;
+            "min-height": string;
+        };
+        ".secure-payment-form .blik0c-code-error-icon": {
+            width: string;
+            height: string;
+            display: string;
+            "vertical-align": string;
         };
         ".secure-payment-form .cashpresso30days-button": {
             background: string;
@@ -2191,6 +2478,9 @@ export declare const parentStyles: () => {
         ".secure-payment-form .gp-accordion__header": {
             color: string;
             background: string;
+            /**
+             * Deletes all hosted fields within the form
+             */
             "font-weight": string;
             "font-size": string;
             display: string;
@@ -2248,7 +2538,7 @@ export declare const parentStyles: () => {
             color: string;
             border: string;
         };
-        ".secure-payment-form .apms-redirecting-to-page": {
+        ".secure-payment-form .apms-redirecting-to-page, .secure-payment-form .blik0c-wait-screen": {
             "justify-content": string;
             height: string;
             display: string;
@@ -2400,6 +2690,16 @@ export declare const parentStyles: () => {
             height: string;
             "min-width": string;
             "border-left": string;
+            /**
+             * Sets an event listener for an event type
+             *
+             * @param fieldTypeOrEventName The field type on which the listener should
+             *          be applied, or the type of event that should trigger the listener
+             * @param eventNameOrListener The type of event that should trigger the
+             *          listener, or the listener function
+             * @param listener The listener function when both field type and event type
+             *          are provided
+             */
             display: string;
         };
         ".secure-payment-form .credit-card-currency-conversion .tooltip:hover"?: {
@@ -2646,7 +2946,9 @@ export declare const parentStyles: () => {
         "@container (min-width: 408px)": {
             ".secure-payment-form .ctp-panel .ctp-button .heading": {
                 "font-size": string;
-            };
+            }; /**
+             * Represents logic surrounding a group of hosted fields.
+             */
             ".secure-payment-form .ctp-panel .right-arrow": {
                 "border-width": string;
             };
@@ -2670,7 +2972,16 @@ export declare const parentStyles: () => {
             border: string;
             "border-width": string;
             display: string;
-            padding: string;
+            padding: string; /**
+             * Sets an event listener for an event type
+             *
+             * @param fieldTypeOrEventName The field type on which the listener should
+             *          be applied, or the type of event that should trigger the listener
+             * @param eventNameOrListener The type of event that should trigger the
+             *          listener, or the listener function
+             * @param listener The listener function when both field type and event type
+             *          are provided
+             */
             transform: string;
             "-webkit-transform": string;
         };
@@ -3827,6 +4138,16 @@ export declare const parentStyles: () => {
             height: string;
             "min-width": string;
             "border-left": string;
+            /**
+             * Sets an event listener for an event type
+             *
+             * @param fieldTypeOrEventName The field type on which the listener should
+             *          be applied, or the type of event that should trigger the listener
+             * @param eventNameOrListener The type of event that should trigger the
+             *          listener, or the listener function
+             * @param listener The listener function when both field type and event type
+             *          are provided
+             */
             display: string;
         };
         ".secure-payment-form .credit-card-currency-conversion .tooltip:hover"?: {
@@ -4166,7 +4487,9 @@ export declare const parentStyles: () => {
         "@container (min-width: 408px)": {
             ".secure-payment-form .ctp-panel .ctp-button .heading": {
                 "font-size": string;
-            };
+            }; /**
+             * Represents logic surrounding a group of hosted fields.
+             */
             ".secure-payment-form .ctp-panel .right-arrow": {
                 "border-width": string;
             };
@@ -4190,7 +4513,16 @@ export declare const parentStyles: () => {
             border: string;
             "border-width": string;
             display: string;
-            padding: string;
+            padding: string; /**
+             * Sets an event listener for an event type
+             *
+             * @param fieldTypeOrEventName The field type on which the listener should
+             *          be applied, or the type of event that should trigger the listener
+             * @param eventNameOrListener The type of event that should trigger the
+             *          listener, or the listener function
+             * @param listener The listener function when both field type and event type
+             *          are provided
+             */
             transform: string;
             "-webkit-transform": string;
         };
@@ -4425,11 +4757,6 @@ export declare const parentStyles: () => {
             "text-align": string;
             "margin-left": string;
             "margin-right": string;
-            /**
-             * Appends additional CSS rules to the group of hosted fields
-             *
-             * @param json New CSS rules
-             */
             "margin-top": string;
         };
         ".secure-payment-form div[class$='-logo']": {
@@ -4530,6 +4857,48 @@ export declare const parentStyles: () => {
         };
     };
     "gp-default2": {
+        ".secure-payment-form .blik0c-pay-button": {
+            display: string;
+            "align-items": string;
+            "justify-content": string;
+            "line-height": string;
+            gap: string;
+            "background-color": string;
+            color: string;
+            height: string;
+            padding: string;
+            width: string;
+            border: string;
+            cursor: string;
+            "text-transform": string;
+            "font-size": string;
+            "font-weight": string;
+            "font-family": string;
+            "border-radius": string;
+        };
+        ".secure-payment-form .blik0c-pay-button:hover": {
+            "background-color": string;
+            color: string;
+            "border-color": string;
+        };
+        ".secure-payment-form .blik0c-pay-button:focus": {
+            "background-color": string;
+            border: string;
+            color: string;
+            outline: string;
+        };
+        ".secure-payment-form .blik0c-pay-button-icon": {
+            display: string;
+            width: string;
+            height: string;
+            "flex-shrink": string;
+            "object-fit": string;
+            transform: string;
+        };
+        ".secure-payment-form .blik0c-header": {
+            "font-weight": string;
+            color: string;
+        };
         ".bank-selection-wrapper": {
             background: string;
             padding: string;
@@ -4729,17 +5098,7 @@ export declare const parentStyles: () => {
             outline: string;
             "outline-offset": string;
         };
-        ".secure-payment-form .open-banking-button-wrapper": {
-            display: string;
-            "flex-direction": string;
-            "align-items": string;
-        };
-        ".secure-payment-form .blik-button-wrapper": {
-            display: string;
-            "flex-direction": string;
-            "align-items": string;
-        };
-        ".secure-payment-form .express-pay-button-wrapper": {
+        ".secure-payment-form .open-banking-button-wrapper, .secure-payment-form .blik-button-wrapper, .secure-payment-form .blik0c-button-wrapper, .secure-payment-form .express-pay-button-wrapper": {
             display: string;
             "flex-direction": string;
             "align-items": string;
@@ -4790,18 +5149,38 @@ export declare const parentStyles: () => {
             "outline-offset": string;
         };
         ".secure-payment-form .blik-button::before": {
+            content: string;
             width: string;
             height: string;
             position: string;
             top: string;
             right: string;
         };
+        ".secure-payment-form .blik0c-wrapper.expand-blik0c-form": {
+            border: string;
+            background: string;
+            "border-radius": string;
+        };
+        ".secure-payment-form .blik0c-wrapper.expand-blik0c-form .blik0c-button": {
+            border: string;
+            background: string;
+            outline: string;
+            "border-radius": string;
+        };
+        ".secure-payment-form .blik0c-wait-screen": {
+            "justify-content": string;
+            "text-align": string;
+            display: string;
+            "flex-direction": string;
+            "align-items": string;
+        };
         ".secure-payment-form .express-pay-button": {
             "background-color": string;
             border: string;
+            color: string;
+            "font-weight": string;
             "border-radius": string;
             position: string;
-            color: string;
             height: string;
             width: string;
             margin: string;
@@ -4811,6 +5190,8 @@ export declare const parentStyles: () => {
             "background-color": string;
         };
         ".secure-payment-form .express-pay-button:focus": {
+            outline: string;
+            "outline-offset": string;
             "background-color": string;
         };
         ".secure-payment-form .express-pay-button::before": {
@@ -4823,7 +5204,7 @@ export declare const parentStyles: () => {
         ".secure-payment-form .express-pay-button::after": {
             content: string;
         };
-        ".secure-payment-form .affirm-button, .secure-payment-form .klarna-button, .secure-payment-form .sezzle-button, .secure-payment-form .zip-button": {
+        ".secure-payment-form .affirm-button, .secure-payment-form .klarna-button, .secure-payment-form .sezzle-button, .secure-payment-form .zip-button, .secure-payment-form .blik0c-button": {
             background: string;
             position: string;
             color: string;
@@ -4834,20 +5215,95 @@ export declare const parentStyles: () => {
             margin: string;
             cursor: string;
         };
-        ".secure-payment-form .affirm-button:hover, .secure-payment-form .klarna-button:hover, .secure-payment-form .sezzle-button:hover, .secure-payment-form .zip-button:hover, .secure-payment-form .gp-accordion__header:hover ": {
+        ".secure-payment-form .affirm-button:hover, .secure-payment-form .klarna-button:hover, .secure-payment-form .sezzle-button:hover, .secure-payment-form .zip-button:hover, .secure-payment-form .gp-accordion__header:hover, .secure-payment-form .blik0c-button:hover": {
             "border-color": string;
             "background-color": string;
         };
-        ".secure-payment-form .affirm-button:focus, .secure-payment-form .klarna-button:focus, .secure-payment-form .sezzle-button:focus, .secure-payment-form .zip-button:focus": {
+        ".secure-payment-form .affirm-button:focus, .secure-payment-form .klarna-button:focus, .secure-payment-form .sezzle-button:focus, .secure-payment-form .zip-button:focus, .secure-payment-form .blik0c-button:focus": {
             outline: string;
             "outline-offset": string;
         };
         ".secure-payment-form .affirm-button::before, .secure-payment-form .klarna-button::before, .secure-payment-form .sezzle-button::before, .secure-payment-form .zip-button::before, .secure-payment-form .gp-accordion__header:before": {
             width: string;
             height: string;
+            /**
+             * Sets an event listener for an event type
+             *
+             * @param fieldTypeOrEventName The field type on which the listener should
+             *          be applied, or the type of event that should trigger the listener
+             * @param eventNameOrListener The type of event that should trigger the
+             *          listener, or the listener function
+             * @param listener The listener function when both field type and event type
+             *          are provided
+             */
             position: string;
             top: string;
             right: string;
+        };
+        ".secure-payment-form .blik0c-component": {
+            width: string;
+            margin: string;
+            padding: string;
+            "box-sizing": string;
+            border: string;
+            "border-radius": string;
+            background: string;
+            overflow: string;
+        };
+        ".secure-payment-form .blik0c-custom-form": {
+            "align-items": string;
+            gap: string;
+            width: string;
+            padding: string;
+            "box-sizing": string;
+            display: string;
+            "flex-direction": string;
+        };
+        ".secure-payment-form .blik0c-code-action-wrapper": {
+            width: string;
+            display: string;
+            "flex-direction": string;
+            gap: string;
+        };
+        ".secure-payment-form .blik0c-content, .secure-payment-form .blik0c-header": {
+            width: string;
+            display: string;
+            "text-align": string;
+            font: string;
+            color: string;
+        };
+        ".secure-payment-form .blik0c-code-input-wrapper": {
+            width: string;
+            display: string;
+            "flex-direction": string;
+            gap: string;
+        };
+        ".secure-payment-form .blik0c-code-input": {
+            width: string;
+            height: string;
+            border: string;
+            "border-radius": string;
+            padding: string;
+            "box-sizing": string;
+            "font-size": string;
+            "line-height": string;
+        };
+        ".secure-payment-form .blik0c-code-input:focus": {
+            outline: string;
+            "outline-offset": string;
+        };
+        ".secure-payment-form .blik0c-code-error": {
+            width: string;
+            color: string;
+            font: string;
+            "text-align": string;
+            "min-height": string;
+        };
+        ".secure-payment-form .blik0c-code-error-icon": {
+            width: string;
+            height: string;
+            display: string;
+            "vertical-align": string;
         };
         ".secure-payment-form .cashpresso30days-button": {
             background: string;
@@ -4912,6 +5368,9 @@ export declare const parentStyles: () => {
         ".secure-payment-form .gp-accordion__header": {
             color: string;
             background: string;
+            /**
+             * Deletes all hosted fields within the form
+             */
             "font-weight": string;
             "font-size": string;
             display: string;
@@ -4969,7 +5428,7 @@ export declare const parentStyles: () => {
             color: string;
             border: string;
         };
-        ".secure-payment-form .apms-redirecting-to-page": {
+        ".secure-payment-form .apms-redirecting-to-page, .secure-payment-form .blik0c-wait-screen": {
             "justify-content": string;
             height: string;
             display: string;
@@ -5121,6 +5580,16 @@ export declare const parentStyles: () => {
             height: string;
             "min-width": string;
             "border-left": string;
+            /**
+             * Sets an event listener for an event type
+             *
+             * @param fieldTypeOrEventName The field type on which the listener should
+             *          be applied, or the type of event that should trigger the listener
+             * @param eventNameOrListener The type of event that should trigger the
+             *          listener, or the listener function
+             * @param listener The listener function when both field type and event type
+             *          are provided
+             */
             display: string;
         };
         ".secure-payment-form .credit-card-currency-conversion .tooltip:hover"?: {
@@ -5367,7 +5836,9 @@ export declare const parentStyles: () => {
         "@container (min-width: 408px)": {
             ".secure-payment-form .ctp-panel .ctp-button .heading": {
                 "font-size": string;
-            };
+            }; /**
+             * Represents logic surrounding a group of hosted fields.
+             */
             ".secure-payment-form .ctp-panel .right-arrow": {
                 "border-width": string;
             };
@@ -5391,7 +5862,16 @@ export declare const parentStyles: () => {
             border: string;
             "border-width": string;
             display: string;
-            padding: string;
+            padding: string; /**
+             * Sets an event listener for an event type
+             *
+             * @param fieldTypeOrEventName The field type on which the listener should
+             *          be applied, or the type of event that should trigger the listener
+             * @param eventNameOrListener The type of event that should trigger the
+             *          listener, or the listener function
+             * @param listener The listener function when both field type and event type
+             *          are provided
+             */
             transform: string;
             "-webkit-transform": string;
         };
@@ -6063,11 +6543,7 @@ export declare const parentStyles: () => {
         ".secure-payment-form div[class$='-shield'] .ssl-text-logo": {
             "border-radius": string;
             height: string;
-            "text-align": string; /**
-             * Appends additional CSS rules to the group of hosted fields
-             *
-             * @param json New CSS rules
-             */
+            "text-align": string;
             margin: string;
             display: string;
             "justify-content": string;
@@ -6458,7 +6934,7 @@ export declare const parentStyles: () => {
             color: string;
             "font-weight": string;
         };
-        ".apms-redirecting-to-page": {
+        ".apms-redirecting-to-page, .blik0c-wait-screen": {
             "justify-content": string;
             height: string;
             display: string;

@@ -33,7 +33,7 @@ const footerCommonProps = {
   },
   brandLogoImageProps: {
     margin: 0,
-    flex: "1 1 auto",
+    flex: "inherit",
     background: "var(--hppfooter-desktop) no-repeat center center",
     "background-size": "contain",
     "min-height": "70px",
@@ -147,7 +147,7 @@ const fieldStyles = (assetBaseUrl: string, themePreset?: IThemePreset) => {
       "text-align": "center",
       "vertical-align": "middle",
       "text-transform": "uppercase",
-      "font-family": "var(--button-primary-font-label, DMSans)",
+      "font-family": "var(--button-primary-font-label, DMSans), sans-serif",
       "border-bottom-left-radius": "var(--button-primary-radius-bottom-left)",
       "border-bottom-right-radius": "var(--button-primary-radius-bottom-right)",
       "border-top-left-radius": "var(--button-primary-radius-top-left)",
@@ -166,6 +166,16 @@ const fieldStyles = (assetBaseUrl: string, themePreset?: IThemePreset) => {
     "#secure-payment-field[type=button]:hover": {
       "background-color": "var(--button-primary-color-background-hover, #015a94)",
       color: "var(--button-primary-color-text-hover, white)",
+    },
+    "#secure-payment-field.disabled-submit-button[type=button]": {
+      "background-color": "var(--button-primary-color-background-disabled, #B0B4B5)",
+      color: "var(--button-primary-color-text-disabled, #FCFCFC)",
+      cursor: "default",
+    },
+    "#secure-payment-field.disabled-submit-button[type=button]:hover": {
+      "background-color": "var(--button-primary-color-background-disabled, #B0B4B5)",
+      color: "var(--button-primary-color-text-disabled, #FCFCFC)",
+      cursor: "default",
     },
     "#secure-payment-field[type=button]::before": {
       content: `var(--dropin-ui-button-primary-icon)`,
@@ -275,6 +285,13 @@ const parentStyles = (assetBaseUrl: string, themePreset?: IThemePreset) => {
     ".secure-payment-form .apm-footer": footerCommonProps.baseFooterProps,
     ".secure-payment-form .apm-footer .apm-shield": footerCommonProps.shieldLogoProps,
     ".secure-payment-form .apm-footer .footer-branded-logo-image": footerCommonProps.brandLogoImageProps,
+
+    ".secure-payment-form .credit-card-eservice-info .credit-card-eservice-text": {
+      "text-align": "center",
+      "font-weight": "400",
+      "font-family": "Open sans, sans-serif",
+      "margin": "2rem 0 3rem 0"
+    },
 
     "@media(max-width: 530px)": {
       ".secure-payment-form .credit-card-footer .footer-branded-logo-image": footerCommonProps.brandLogoImageTabletProps,
@@ -580,6 +597,66 @@ const parentStyles = (assetBaseUrl: string, themePreset?: IThemePreset) => {
 
     ...getOrderInformationCommonStyles(assetBaseUrl),
     ...getBankSelectionCommonStyles(assetBaseUrl),
+
+    /*
+     * BLIK0C themed styles.
+     * Declared after getPaymentMethodsStyles so payment-method (open-banking)
+     * styles cannot override the theme-driven pay button / header colors.
+     * The pay-now button reuses the primary button token model so it always
+     * matches the credit-card submit button under any brand theme.
+     */
+    ".secure-payment-form .blik0c-pay-button": {
+      display: "flex",
+      "align-items": "center",
+      "justify-content": "center",
+      "line-height": "1",
+      gap: "5px",
+      "background-color": "var(--blik0c-pay-button-color-background-default, var(--button-primary-color-background-default, #0071ba))",
+      color: "var(--blik0c-pay-button-color-text-default, var(--button-primary-color-text-default, white))",
+      height: "48px",
+      padding: "8px",
+      width: "100%",
+      border: "none",
+      cursor: "pointer",
+      "text-transform": "uppercase",
+      "font-size": "var(--button-primary-size-text, 1.125em)",
+      "font-weight": "var(--button-primary-weight-label-text, 500)",
+      "font-family": "var(--button-primary-font-label, DMSans), sans-serif",
+      "border-bottom-left-radius": "var(--button-primary-radius-bottom-left)",
+      "border-bottom-right-radius": "var(--button-primary-radius-bottom-right)",
+      "border-top-left-radius": "var(--button-primary-radius-top-left)",
+      "border-top-right-radius": "var(--button-primary-radius-top-right)",
+
+    },
+    ".secure-payment-form .blik0c-pay-button:hover": {
+      "background-color": "var(--blik0c-pay-button-color-background-hover, #015a94)",
+      color: "var(--blik0c-pay-button-color-text-hover, white)",
+      "border-color": "transparent",
+    },
+    ".secure-payment-form .blik0c-pay-button:focus": {
+      "background-color": "var(--blik0c-pay-button-color-background-focus, #0071ba)",
+      border: "2px solid var(--blik0c-pay-button-color-focus-indicator-focus, #08385b)",
+      color: "var(--blik0c-pay-button-color-text-focus, white)",
+      outline: "none",
+    },
+    ".secure-payment-form .blik0c-pay-button.disabled-submit-button, .secure-payment-form .blik0c-pay-button.disabled-submit-button:hover": {
+      "background-color": "var(--blik0c-pay-button-color-background-disabled, #B0B4B5) !important",
+      color: "var(--blik0c-pay-button-color-text-disabled, #FCFCFC) !important",
+      "border-color": "transparent",
+      cursor: "pointer",
+    },
+    ".secure-payment-form .blik0c-pay-button-icon": {
+      display: "block",
+      width: "18px",
+      height: "25px",
+      "flex-shrink": "0",
+      "object-fit": "contain",
+      transform: "translateY(-1px)",
+    },
+    ".secure-payment-form .blik0c-header": {
+      "font-weight": "700",
+      color: "var(--blik0c-header-color-text, var(--button-primary-color-background-default, #0071ba))",
+    },
   };
 };
 

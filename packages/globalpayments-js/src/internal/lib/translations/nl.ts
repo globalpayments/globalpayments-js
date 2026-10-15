@@ -62,15 +62,19 @@ const nl = {
     "ssl-msg-alt": '256-bits SSL-versleuteld logo',
     "ssl-msg": '256-bits SSL-<br>versleuteld',
     "security-msg-alt": 'Gewaarborgd door Global Payments',
-    "security-msg": 'Veilig verwerkt door <strong>Global Payments</strong>'
+    "security-msg": 'Veilig verwerkt door <strong>Global Payments</strong>',
+    "e-service-terms-template": 'By paying, you accept the eService {{regulations}}.',
+    "e-service-terms-start": 'By paying, you accept the ',
+    "regulations-text": 'regulations',
+    "eservice-text": "eService"
   },
   tooltip: {
     "title": 'Beveiligingscode',
     "aria-label": 'Informatie over de beveiligingscode',
     "text": 'De 3 cijfers op de achterzijde van uw kaart. Bij AmEx-kaarten zijn dit de 4 cijfers op de achterzijde van uw kaart.'
   },
-  "other-cards-label": 'U kunt de kaartgegevens ook handmatig invoeren',
-  "manual-card-entry": 'Manual Card Entry',
+  "other-cards-label": 'OF',
+  "pay-with-a-card": 'BETALEN MET EEN KAART',
   QR: {
     button: {
       text: 'Betalingskeuze',
@@ -89,7 +93,19 @@ const nl = {
       //   const url = `transparent url(${imageBase}open-banking.svg) no-repeat 50% 50%`
       //   return url;
       // }
-    }
+    },
+    redirectToBank: "Redirecting",
+    waitingScreen: {
+      blik0WaitingScreenMessage: "Please confirm the transaction from your mobile banking application.",
+      waitingIcon: "Waiting Icon",
+    },
+    redirectionText1: "or use the ",
+    link: "link",
+    redirectionText2: " to confirm it.",
+    blik0c: {
+      enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
+      errorMessage: "Please enter your 6 digit BLIK code.",
+    },
   },
   orderInformation: {
     amount: "Hoeveelheid",

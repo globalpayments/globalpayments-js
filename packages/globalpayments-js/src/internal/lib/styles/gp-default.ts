@@ -81,12 +81,12 @@ export const fieldStyles = (assetBaseUrl: string, theme?: string) => {
     "#secure-payment-field.disabled-submit-button[type=button]": {
       "background-color": "#B0B4B5",
       "color": "#FCFCFC",
-      cursor: "default",
+      cursor: "pointer",
     },
     "#secure-payment-field.disabled-submit-button[type=button]:hover": {
       "background-color": "#B0B4B5",
       "color": "#FCFCFC",
-      cursor: "default",
+      cursor: "pointer",
     },
     "#secure-payment-field[type=button]": {
       "background-color": "#0071ba",
@@ -462,5 +462,63 @@ export const parentStyles = (assetBaseUrl: string, theme?: string) => {
     ...(options.orderInformation?.enabled ? getOrderInformationCommonStyles(assetBaseUrl) : {}),
 
     ...getBankSelectionCommonStyles(assetBaseUrl),
+
+    /*
+     * BLIK0C pay-now button — declared after getPaymentMethodsStyles so
+     * open-banking cannot override. Colors mirror the credit-card submit
+     * button in this theme (default #0071ba / hover #015a94 / focus border #08385b).
+     */
+    ".secure-payment-form .blik0c-pay-button": {
+      display: "flex",
+      "align-items": "center",
+      "justify-content": "center",
+      "line-height": "1",
+      gap: "5px",
+      "background-color": "#0071ba",
+      color: "white",
+      height: "48px",
+      padding: "8px",
+      width: "100%",
+      border: "none",
+      cursor: "pointer",
+      "text-transform": "uppercase",
+      "font-size": "1.125em",
+      "font-weight": "500",
+      "border-radius": "2px",
+    },
+    ".secure-payment-form .blik0c-pay-button:hover": {
+      "background-color": "#015a94",
+      color: "white",
+      "border-color": "transparent",
+    },
+    ".secure-payment-form .blik0c-pay-button:focus": {
+      "background-color": "#0071ba",
+      border: "2px solid #08385b",
+      color: "white",
+      outline: "none",
+    },
+    ".secure-payment-form .blik0c-pay-button.disabled-submit-button": {
+      "background-color": "#B0B4B5",
+      color: "#FCFCFC",
+      cursor: "default",
+    },
+    ".secure-payment-form .blik0c-pay-button.disabled-submit-button:hover": {
+      "background-color": "#B0B4B5",
+      color: "#FCFCFC",
+      "border-color": "transparent",
+      cursor: "default",
+    },
+    ".secure-payment-form .blik0c-pay-button-icon": {
+      display: "block",
+      width: "18px",
+      height: "25px",
+      "flex-shrink": "0",
+      "object-fit": "contain",
+      transform: "translateY(-1px)",
+    },
+    ".secure-payment-form .blik0c-header": {
+      "font-weight": "700",
+      color: "#0071ba",
+    },
   };
 };

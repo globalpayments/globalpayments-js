@@ -62,15 +62,19 @@ const hu = {
     "ssl-msg-alt": '256 bites SSL-titkosítású embléma',
     "ssl-msg": '256 bites<br>SSL-titkosítású',
     "security-msg-alt": 'A Global Payments által biztosított',
-    "security-msg": 'A biztonságos feldolgozást a <strong>Global Payments</strong> szolgáltatja'
+    "security-msg": 'A biztonságos feldolgozást a <strong>Global Payments</strong> szolgáltatja',
+    "e-service-terms-template": 'By paying, you accept the eService {{regulations}}.',
+    "e-service-terms-start": 'By paying, you accept the ',
+    "regulations-text": 'regulations',
+    "eservice-text": "eService"
   },
   tooltip: {
     "title": 'Biztonsági kód',
     "aria-label": 'Információ a biztonsági kódról',
     "text": 'A kártya hátulján szereplő további 3 számjegy. American Express esetében ez a kártya hátulján szereplő további 4 számjegy.'
   },
-  "other-cards-label": 'Vagy adja meg kézzel a kártya adatait',
-  "manual-card-entry": 'Manual Card Entry',
+  "other-cards-label": 'VAGY',
+  "pay-with-a-card": 'KÁRTYÁS FIZETÉS',
   QR: {
     button: {
       text: 'Választott fizetési mód',
@@ -89,8 +93,19 @@ const hu = {
       //   const url = `transparent url(${imageBase}open-banking.svg) no-repeat 50% 50%`
       //   return url;
       // }
-    }
-  },
+    },
+    redirectToBank: "Redirecting",
+    waitingScreen: {
+      blik0WaitingScreenMessage: "Please confirm the transaction from your mobile banking application.",
+      waitingIcon: "Waiting Icon",
+    },
+    redirectionText1: "or use the ",
+    link: "link",
+    redirectionText2: " to confirm it.",
+    blik0c: {
+      enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
+      errorMessage: "Please enter your 6 digit BLIK code.",
+    },},
   orderInformation: {
     amount: "Összeg",
     orderReference: "Rendelési hivatkozás",

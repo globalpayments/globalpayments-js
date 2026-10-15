@@ -29,7 +29,9 @@ const themePreset: IThemePreset = {
         cool_grey_39: '#5A5E6D',
         cool_grey_base: '#707689',
         cool_grey_95: '#F1F2F4',
-        azure_95:'#E5F4FF'
+        azure_95:'#E5F4FF',
+        disabledBackground: '#B0B4B5',
+        disabledText: '#FCFCFC',
       },
     },
 

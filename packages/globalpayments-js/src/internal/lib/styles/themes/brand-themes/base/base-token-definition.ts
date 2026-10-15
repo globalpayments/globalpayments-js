@@ -116,6 +116,21 @@ export const getBaseTokenDefinitions = (assetBaseUrl: string, themePreset?: IThe
         "--button-primary-color-background-hover": colors.brand.accent1,
         "--button-primary-color-focus-indicator-focus": colors.brand.accent1,
 
+        "--button-primary-color-background-disabled": colors.general.disabledBackground,
+        "--button-primary-color-text-disabled": colors.general.disabledText,
+
+        /* blik0c tokens - inherit primary button color model so pay-now button matches submit button */
+        "--blik0c-pay-button-color-background-default": colors.brand.color1,
+        "--blik0c-pay-button-color-background-hover": colors.brand.accent1,
+        "--blik0c-pay-button-color-background-focus": colors.brand.accent2,
+        "--blik0c-pay-button-color-text-default": colors.brand.buttonLabelColor1,
+        "--blik0c-pay-button-color-text-hover": colors.brand.buttonLabelColor1,
+        "--blik0c-pay-button-color-text-focus": colors.brand.buttonLabelColor1,
+        "--blik0c-pay-button-color-focus-indicator-focus": colors.brand.accent1,
+        "--blik0c-pay-button-color-background-disabled": colors.general.disabledBackground,
+        "--blik0c-pay-button-color-text-disabled": colors.general.disabledText,
+        "--blik0c-header-color-text": colors.brand.dark,
+
         /* border tokens */
         "--dropin-ui-body-radius-bottom-left": borders.dropInUIBody.bottomLeft,
         "--dropin-ui-body-radius-bottom-right": borders.dropInUIBody.bottomRight,

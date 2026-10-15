@@ -80,10 +80,7 @@ export class Accordion {
       className: "gp-accordion__icon",
     });
 
-    header.appendChild(iconBeforeTitle);
-    header.appendChild(titleSpan);
-    header.appendChild(iconAfterTitle);
-    header.appendChild(icon);
+    header.append(iconBeforeTitle, titleSpan, iconAfterTitle, icon);
 
     // Content wrapper
     const contentWrapper = createHtmlDivElement({

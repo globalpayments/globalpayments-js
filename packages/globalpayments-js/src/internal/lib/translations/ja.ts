@@ -62,15 +62,19 @@ const ja = {
     "ssl-msg-alt": '256 ビット SSL 暗号化ロゴ',
     "ssl-msg": '256 ビット SSL<br>暗号化',
     "security-msg-alt": 'Global Payments によるセキュリティ保護',
-    "security-msg": '<strong>Global Payments</strong> によって安全に処理されます'
+    "security-msg": '<strong>Global Payments</strong> によって安全に処理されます',
+    "e-service-terms-template": 'By paying, you accept the eService {{regulations}}.',
+    "e-service-terms-start": 'By paying, you accept the ',
+    "regulations-text": 'regulations',
+    "eservice-text": "eService"
   },
   tooltip: {
     "title": 'セキュリティコード',
     "aria-label": 'セキュリティコードについて',
     "text": 'カードの裏面にある追加の 3 桁の数字です。アメリカンエキスプレスの場合は、カードの表面にある追加の 4 桁の数字です。'
   },
-  "other-cards-label": 'またはカード情報を手動で入力する',
-  "manual-card-entry": 'Manual Card Entry',
+  "other-cards-label": 'または',
+  "pay-with-a-card": 'カードで支払う',
   QR: {
     button: {
       text: '他の支払い方法を選択する',
@@ -89,7 +93,19 @@ const ja = {
       //   const url = `transparent url(${imageBase}open-banking.svg) no-repeat 50% 50%`
       //   return url;
       // }
-    }
+    },
+    redirectToBank: "Redirecting",
+    waitingScreen: {
+      blik0WaitingScreenMessage: "Please confirm the transaction from your mobile banking application.",
+      waitingIcon: "Waiting Icon",
+    },
+    redirectionText1: "or use the ",
+    link: "link",
+    redirectionText2: " to confirm it.",
+    blik0c: {
+      enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
+      errorMessage: "Please enter your 6 digit BLIK code.",
+    },
   },
   orderInformation: {
     amount: "額",
