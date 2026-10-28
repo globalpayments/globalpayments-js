@@ -103,6 +103,45 @@ const cs = {
       errorMessage: "Please enter your 6 digit BLIK code.",
     },
   },
+  dcc: {
+    label: "Vyberte preferovanou měnu",
+    additionalInfo: (currency: string, exchangeRate: string, payerCurrency: string, marginRatePercentage: string, payerRegionEU: string) => {
+      // const resource = `<p>Exchange rate used: 1 ##VALUE1## = ##VALUE2## ##VALUE3##. Exchange Rate Mark-Up: ##VALUE4## above ECB Rate.</p>`;
+      const euResource = `Směnný kurz: 1 ##VALUE1## = ##VALUE2## ##VALUE3##  (včetně přirážky oproti kurzu ECB: ##VALUE4##)`
+      const nonEuResource = `Směnný kurz: 1 ##VALUE1## = ##VALUE2## ##VALUE3## (včetně přirážky: ##VALUE4##)`;
+
+      const resource = payerRegionEU ? euResource : nonEuResource;
+      return resource.replace('##VALUE1##', currency)
+        .replace('##VALUE2##', exchangeRate)
+        .replace('##VALUE3##', payerCurrency)
+        .replace('##VALUE4##', marginRatePercentage)
+    },
+    cardCurrency: {
+      tooltip: (payerCurrency: string, exchangeRateSource: string, exchangeRateTimeCreated: string) => {
+        const resource = `<p>Souhlasím s tím, že mi byla nabídnuta možnost výběru měn pro platbu.
+        Souhlasím se směnným kurzem a konečnou částkou a s tím, že vybraná měna transakce je měnou zvolenou držitelem karty: ##VALUE1##.
+        Převod měn a kurz poskytuje společnost Global Payments.</p>`;
+
+        return resource.replace('##VALUE1##', payerCurrency)
+          .replace('##VALUE2##', exchangeRateSource)
+          .replace('##VALUE3##', exchangeRateTimeCreated);
+      },
+      "aria-label": "Information about Currency Conversion"
+    },
+    merchantCurrency: {
+      tooltip: (exchangeRateSource: string, exchangeRateTimeCreated: string) => {
+        const resource = `<p>Reference Rate Provided by: ##VALUE1##,<br />
+        Exchange rate offered on: ##VALUE2##.</p>`;
+
+        return resource.replace('##VALUE1##', exchangeRateSource)
+          .replace('##VALUE2##', exchangeRateTimeCreated);
+      },
+      "aria-label": "Information about Currency Conversion"
+    },
+    installmentWithDcc : 'U plateb na splátky není převod měn k dispozici. Chcete-li převod měn povolit, vyberte možnost „Zaplatit v plné výši“.',
+    dccWarning: 'UJISTĚTE SE, ŽE ROZUMÍTE NÁKLADŮM NA PŘEVOD MĚN, PROTOŽE SE MOHOU LIŠIT V ZÁVISLOSTI NA TOM, ZDA SI VYBERETE DOMÁCÍ MĚNU NEBO MĚNU KARTY.',
+    disclaimer: 'Vydavatel Vaší karty může účtovat směnný kurz a další poplatky za konverzi.'
+  },
   orderInformation: {
     amount: "Množství",
     orderReference: "Reference objednávky",

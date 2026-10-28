@@ -182,6 +182,52 @@ const styles = () => {
       "border-style": "solid",
       "border-color": `${customColors.coolGrey25} transparent transparent transparent`,
     },
+    ".secure-payment-form .dcc-payer-tooltip-text": {
+        "font-family": "var(--dcc-options-font-exchange-rate, DMSans)",
+        "font-size":"14px"
+      },
+      ".secure-payment-form .warning-info": {
+        "margin-top":"1rem"
+      },
+      ".secure-payment-form .submit-disclaimer-text": {
+        "margin-bottom":"3rem",
+        "font-family": "var(--dcc-options-font-exchange-rate, DMSans)",
+        "font-size":"14px"
+        },
+        ".secure-payment-form .submit-section-separator": {
+          display: "flex",
+          "align-items": "center",
+          "justify-content": "center",
+          margin: "12px 0",
+          color: "var(--dcc-options-color-text-exchange-rate, #5A5E6D)",
+        },
+        ".secure-payment-form .submit-section-separator::before": {
+          content: "''",
+          flex: "1",
+          height: "1px",
+          "background-color": "#D7DCE1",
+          "margin-right": "10px",
+        },
+        ".secure-payment-form .submit-section-separator::after": {
+          content: "''",
+          flex: "1",
+          height: "1px",
+          "background-color": "#D7DCE1",
+          "margin-left": "10px",
+        },
+        ".secure-payment-form .submit-section-separator-label": {
+          "font-family": "var(--dcc-options-font-exchange-rate, DMSans)",
+          "font-size": "14px",
+          "font-weight": "500",
+        },
+        ".secure-payment-form .dcc-submit-label-text": {
+          "font-family": "var(--dcc-options-font-exchange-rate, DMSans)",
+          "font-size": "14px",
+          "font-weight": "500",
+          "color":`${customColors.coolGrey25}`,
+          "margin-bottom":"1rem",
+          "margin-top":"2rem"
+        },
     "@media only screen and (max-width: 768px)": {
       ".secure-payment-form .currency-conversion-container" : {
         "flex-direction": "column",
@@ -211,6 +257,21 @@ const styles = () => {
       ".secure-payment-form .credit-card-currency-conversion .tooltip-content::before": {
         right: "4%",
       },
+      ".secure-payment-form .dcc-payer-tooltip-text": {
+        "font-family": "var(--dcc-options-font-exchange-rate, DMSans)",
+        "font-size":"14px"
+      },
+      ".secure-payment-form .submit-disclaimer-text": {
+        "margin-bottom":"3rem",
+        "font-family": "var(--dcc-options-font-exchange-rate, DMSans)",
+        "font-size":"14px"
+      },
+      ".secure-payment-form .submit-section-separator": {
+        margin: "10px 0",
+      },
+      ".secure-payment-form .submit-section-separator-label": {
+        "font-size": "14px",
+      }
     },
 
     "@media(max-width: 340px)": {

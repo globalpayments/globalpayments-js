@@ -14,7 +14,7 @@ import {DCC_KEY} from "../internal/lib/currency-conversion/contracts/constants";
 import { isBrandTheme, isEserviceThemeApplied } from "../internal/lib/styles/themes/helpers";
 import { addFooterBrandedIcons } from "../internal/lib/add-footer-branded-icons";
 import addOrderInformation from "../ui/components/order-information/action-add-order-information";
-import { Apm, CardCvvOption, formMaxWidth, HostedFieldFooterLinks } from "../internal/lib/enums";
+import { Apm, ApmProviders, CardCvvOption, formMaxWidth, HostedFieldFooterLinks } from "../internal/lib/enums";
 import { availableCashpressoOptions, checkInstallmentsAvailability, getAvailableOptionsForBnpl, isBlik0cAvailable, isBlikAvailable, isCashpressoAvailable, isOpenBankingAvailable } from "../internal/built-in-validations/helpers";
 import CountryList from "country-list-with-dial-code-and-flag";
 import CountryFlagSvg from "country-list-with-dial-code-and-flag/dist/flag-svg";
@@ -193,14 +193,18 @@ export function form(
   }
 
 
-  // If Currency Conversion option is present, insert the field between cardholder and submit button
-  if (options.currencyConversion?.enabled) fieldTypes.push( DCC_KEY);
-
   // If installments option is present insert the field between card holder and submit button
+  // Installments should always come BEFORE DCC flow
   if (options.installments) {
     if(checkInstallmentsAvailability(options.installments)){
       fieldTypes.push(INSTALLMENTS_KEY);
     }
+  }
+
+  // If Currency Conversion option is present, insert the field between cardholder and submit button
+  if (options.currencyConversion) {
+    fieldTypes.push(DCC_KEY);
+    fieldTypes.push("submit-dcc");
   }
 
   fieldTypes.push("submit");
@@ -278,8 +282,12 @@ export function form(
 
     if(availableOptionsForBnpl?.length > 0) apms.push(...availableOptionsForBnpl);
 
-    if(isCashpressoAvailable(options?.apms?.countryCode, options?.apms?.currencyCode)){
-      apms.push(...availableCashpressoOptions(formOptions.amount, options?.apms?.currencyCode));
+    const cashpressoProviders = [ApmProviders.Cashpresso3Installments, ApmProviders.Cashpresso30Days, ApmProviders.CashpressoInstallments];
+    const hasCashpressoInAllowedMethods = options?.apms?.nonCardPayments?.allowedPaymentMethods?.some(
+      item => cashpressoProviders.includes(item.provider as ApmProviders)
+    );
+    if(hasCashpressoInAllowedMethods && isCashpressoAvailable(options?.apms?.countryCode, options?.apms?.currencyCode)){
+      formOptions.apms.push(...availableCashpressoOptions(formOptions.amount, options?.apms?.currencyCode));
     }
 
     fieldTypes = [...apms.toString().split(','), ...fieldTypes]
@@ -466,7 +474,7 @@ export function form(
         }
       });
     }
-    if (type !== "submit" && formOptions.labels && formOptions.labels[type]) {
+    if (type !== "submit" && type !== "submit-dcc" && formOptions.labels && formOptions.labels[type]) {
       const labelEl = createHtmlDivElement({
         className: "label-div"
       });
@@ -633,6 +641,7 @@ export function form(
       '.credit-card-card-holder-name',
       '.credit-card-currency-conversion',
       '.credit-card-installments',
+      '.credit-card-submit-dcc',
       '.credit-card-submit',
     ];
     cardDetailSelectors.forEach((selector) => {

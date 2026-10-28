@@ -131,19 +131,24 @@ const lv = {
     },
   },
   dcc: {
-    label: "Select Your Preferred Currency",
-    additionalInfo: (currency: string, exchangeRate: string, payerCurrency: string, marginRatePercentage: string) => {
-      const resource = `<p>Exchange rate used: 1 ##VALUE1## = ##VALUE2## ##VALUE3##. Exchange Rate Mark-Up: ##VALUE4## above ECB Rate.</p>`;
+    label: "Izvēlieties vēlamo valūtu",
+    additionalInfo: (currency: string, exchangeRate: string, payerCurrency: string, marginRatePercentage: string, payerRegionEU: string) => {
+      // const resource = `<p>Exchange rate used: 1 ##VALUE1## = ##VALUE2## ##VALUE3##. Exchange Rate Mark-Up: ##VALUE4## above ECB Rate.</p>`;
+      const euResource = `Valūtas kurss: 1 ##VALUE1## = ##VALUE2## ##VALUE3##  (Ieskaitot uzcenojumu virs ECB kursa: ##VALUE4##)`
+      const nonEuResource = `Valūtas kurss: 1 ##VALUE1## = ##VALUE2## ##VALUE3## (Ieskaitot uzcenojuma likmi: ##VALUE4##)`;
+
+      const resource = payerRegionEU ? euResource : nonEuResource;
       return resource.replace('##VALUE1##', currency)
         .replace('##VALUE2##', exchangeRate)
         .replace('##VALUE3##', payerCurrency)
-        .replace('##VALUE4##', marginRatePercentage);
+        .replace('##VALUE4##', marginRatePercentage)
     },
     cardCurrency: {
       tooltip: (payerCurrency: string, exchangeRateSource: string, exchangeRateTimeCreated: string) => {
-        const resource = `<p>I accept that I have been offered a choice of currencies for payment. I accept the conversion rate and final amount and that the final selected transaction currency is the cardholder's chosen currency, ##VALUE1##.</p>
-          <p>Reference Rate Provided by: ##VALUE2##,<br />
-          Exchange rate offered on: ##VALUE3##.</p>`;
+        const resource = `<p>Es piekrītu, ka man ir piedāvāta maksājuma valūtu izvēle.
+        Es piekrītu konvertācijas kursam un galīgajai summai, kā arī tam, ka izvēlētā darījuma valūta ir kartes turētāja izvēlētā valūta: ##VALUE1##.
+        Valūtas konvertāciju un kursu nodrošina Global Payments.</p>`;
+
         return resource.replace('##VALUE1##', payerCurrency)
           .replace('##VALUE2##', exchangeRateSource)
           .replace('##VALUE3##', exchangeRateTimeCreated);
@@ -153,12 +158,16 @@ const lv = {
     merchantCurrency: {
       tooltip: (exchangeRateSource: string, exchangeRateTimeCreated: string) => {
         const resource = `<p>Reference Rate Provided by: ##VALUE1##,<br />
-          Exchange rate offered on: ##VALUE2##.</p>`;
+        Exchange rate offered on: ##VALUE2##.</p>`;
+
         return resource.replace('##VALUE1##', exchangeRateSource)
           .replace('##VALUE2##', exchangeRateTimeCreated);
       },
       "aria-label": "Information about Currency Conversion"
-    }
+    },
+    installmentWithDcc : 'Valūtas konvertēšanu nevar piedāvāt ar maksājumiem pa daļām. Atlasiet “Maksāt pilnībā”, lai iespējotu valūtas konvertēšanu.',
+    dccWarning: 'PĀRLIECINIETIES, KA SAPROTAT VALŪTAS KONVERTĀCIJAS IZMAKSAS, JO TĀS VAR ATŠĶIRTIES ATKARĪBĀ NO TĀ, VAI IZVĒLATIES SAVU MĀJAS VALŪTU VAI DARĪJUMA VALŪTU.',
+    disclaimer: 'Jūsu kartes izdevējs var piemērot valūtas maiņas kursu un papildu konvertācijas maksu.'
   },
   orderInformation: {
     amount: "Summa",

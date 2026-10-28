@@ -824,7 +824,7 @@ export default class Card {
    * @param fieldType
    */
   public static validateCurrencyConversionFields(e: Event, fieldType: string) {
-    if (!options.currencyConversion?.enabled) return;
+    if (!options.currencyConversion) return;
 
     const target = (e.currentTarget
       ? e.currentTarget
@@ -863,7 +863,7 @@ export default class Card {
    * @param fieldType
    */
   public static currencyConversionFieldsValidatedEvent(e: Event, fieldType: string) {
-    if (!options.currencyConversion?.enabled) return;
+    if (!options.currencyConversion) return;
 
     const target = (e.currentTarget
       ? e.currentTarget
@@ -911,7 +911,7 @@ export default class Card {
    * @param fieldType
    */
   public static hideCurrencyConversionField(e: Event, fieldType: string) {
-    if (!options.currencyConversion?.enabled) return;
+    if (!options.currencyConversion) return;
 
     const target = (e.currentTarget
       ? e.currentTarget

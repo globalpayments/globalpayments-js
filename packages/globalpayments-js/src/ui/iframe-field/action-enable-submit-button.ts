@@ -26,25 +26,26 @@ export default function actionEnableSubmitButton(data: any): void {
         validationState[CardFormFieldNames.CardCvv] &&
         validationState[CardFormFieldNames.CardHolderName];
 
-    let submitButtonFrameId: string | null = null;
+    const submitButtonFrameIds: string[] = [];
     for (const frameId in loadedFrames) {
-        if (loadedFrames[frameId]?.frame?.name === "submit") {
-            submitButtonFrameId = frameId;
-            break;
+        if (loadedFrames[frameId]?.frame?.name === "submit" || loadedFrames[frameId]?.frame?.name === "submit-dcc") {
+            submitButtonFrameIds.push(frameId);
         }
     }
 
-    if (!submitButtonFrameId) return;
+    if (submitButtonFrameIds.length === 0) return;
 
-    // Send message to submit button iframe to toggle the disabled class
-    postMessage.post(
-        {
-            data: {
-                shouldEnable: allFieldsValid
+    // Send message to each submit button iframe to toggle the disabled class.
+    submitButtonFrameIds.forEach((submitButtonFrameId) => {
+        postMessage.post(
+            {
+                data: {
+                    shouldEnable: allFieldsValid
+                },
+                id: submitButtonFrameId,
+                type: `ui:iframe-field:${HostedFieldValidationEvents.EnableSubmitButton}`,
             },
-            id: submitButtonFrameId,
-            type: `ui:iframe-field:${HostedFieldValidationEvents.EnableSubmitButton}`,
-        },
-        submitButtonFrameId,
-    );
+            submitButtonFrameId,
+        );
+    });
 }

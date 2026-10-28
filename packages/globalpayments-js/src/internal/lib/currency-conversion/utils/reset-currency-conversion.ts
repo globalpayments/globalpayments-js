@@ -10,6 +10,14 @@ export const resetCurrencyConversion = (dccField: IframeField | undefined): void
   // Remove all children from the container except the iframe
   dccField?.container?.querySelector(`.${CurrencyConversionStyles.CONTAINER}`)?.remove();
 
+  // Remove all companion DCC text/UI blocks rendered by template.ts.
+  document.querySelectorAll(
+    '.dcc-submit-label-text, .dcc-payer-tooltip-text, .submit-disclaimer-text, .submit-section-separator, #installment-dcc-warning'
+  ).forEach((el) => el.remove());
+
+  const dccSubmitIframe = document.querySelector("iframe[name='submit-dcc']") as HTMLIFrameElement | null;
+  dccSubmitIframe?.classList.add("hidden");
+
   // Clear the value of the payment field inside the iframe
   dccField?.setValue('');
 

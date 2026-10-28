@@ -180,7 +180,7 @@ export const fieldStyles = (assetBaseUrl: string) => {
       "letter-spacing": "3px",
     },
 
-    ...(options.currencyConversion?.enabled ? getCurrencyConversionFieldStyles() : {}),
+    ...(options.currencyConversion ? getCurrencyConversionFieldStyles() : {}),
     ...(options.fieldValidation?.enabled ? getBuiltInValidationFieldStyles(assetBaseUrl) : {}),
   };
 };
@@ -331,7 +331,7 @@ export const parentStyles = (assetBaseUrl: string) => {
     ...getClickToPayStyles(assetBaseUrl),
     ...getGooglePayStyles(assetBaseUrl),
     ...(options.fieldValidation?.enabled ? getBuiltInValidationParentStyles(assetBaseUrl) : {}),
-    ...(options.currencyConversion?.enabled ? getCurrencyConversionStyles() : {}),
+    ...(options.currencyConversion ? getCurrencyConversionStyles() : {}),
     ...getPaymentMethodsStyles(assetBaseUrl),
 
     ...(options.orderInformation?.enabled ? getOrderInformationCommonStyles(assetBaseUrl) : {}),

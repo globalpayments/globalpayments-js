@@ -132,19 +132,19 @@ const en = {
   },
   dcc: {
     label: "Select Your Preferred Currency",
-    additionalInfo: (currency: string, exchangeRate: string, payerCurrency: string, marginRatePercentage: string) => {
-      const resource = `<p>Exchange rate used: 1 ##VALUE1## = ##VALUE2## ##VALUE3##. Exchange Rate Mark-Up: ##VALUE4## above ECB Rate.</p>`;
-
+    additionalInfo: (currency: string, exchangeRate: string, payerCurrency: string, marginRatePercentage: string, payerRegionEU: string) => {
+      // const resource = `<p>Exchange rate used: 1 ##VALUE1## = ##VALUE2## ##VALUE3##. Exchange Rate Mark-Up: ##VALUE4## above ECB Rate.</p>`;
+      const resource = `Exchange rate: 1 ##VALUE1## = ##VALUE2## ##VALUE3## (Including mark-up ${payerRegionEU ? 'over ECB' : ''}  rate: ##VALUE4##)`
       return resource.replace('##VALUE1##', currency)
         .replace('##VALUE2##', exchangeRate)
         .replace('##VALUE3##', payerCurrency)
-        .replace('##VALUE4##', marginRatePercentage);
+        .replace('##VALUE4##', marginRatePercentage)
     },
     cardCurrency: {
       tooltip: (payerCurrency: string, exchangeRateSource: string, exchangeRateTimeCreated: string) => {
-        const resource = `<p>I accept that I have been offered a choice of currencies for payment. I accept the conversion rate and final amount and that the final selected transaction currency is the cardholder's chosen currency, ##VALUE1##.</p>
-        <p>Reference Rate Provided by: ##VALUE2##,<br />
-        Exchange rate offered on: ##VALUE3##.</p>`;
+        const resource = `<p>I accept that I have been offered a choice of currencies for payment. I accept the conversion rate and final amount and that
+        the selected transaction currency is the cardholder’s chosen currency: ##VALUE1##.
+        The currency conversion and rate is provided by Global Payments.</p>`;
 
         return resource.replace('##VALUE1##', payerCurrency)
           .replace('##VALUE2##', exchangeRateSource)
@@ -162,7 +162,9 @@ const en = {
       },
       "aria-label": "Information about Currency Conversion"
     },
-    installmentWithDcc : 'Currency conversion does not support installments. You can still pay the full amount in your own currency, or switch to the merchant\'s currency if you wish to use the installment option.'
+    installmentWithDcc : 'Currency conversion cannot be offered with installments. Select "Pay in full" to enable currency conversion.',
+    dccWarning: 'MAKE SURE YOU UNDERSTAND THE COSTS OF CURRENCY CONVERSION AS THEY MAY BE DIFFERENT DEPENDING ON WHETHER YOU SELECT YOUR HOME CURRENCY OR THE TRANSACTION CURRENCY.',
+    disclaimer: 'Exchange rate and additional conversion fees may be applied by your card issuer.'
   },
   orderInformation: {
     amount: "Amount",

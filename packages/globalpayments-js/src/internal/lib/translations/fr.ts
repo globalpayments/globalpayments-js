@@ -106,6 +106,45 @@ const fr = {
       errorMessage: "Please enter your 6 digit BLIK code.",
     },
   },
+  dcc: {
+    label: "Sélectionnez votre devise préférée",
+    additionalInfo: (currency: string, exchangeRate: string, payerCurrency: string, marginRatePercentage: string, payerRegionEU: string) => {
+      // const resource = `<p>Exchange rate used: 1 ##VALUE1## = ##VALUE2## ##VALUE3##. Exchange Rate Mark-Up: ##VALUE4## above ECB Rate.</p>`;
+      const euResource = `Taux de change: 1 ##VALUE1## = ##VALUE2## ##VALUE3##  (majoration incluse par rapport au taux de la BCE: ##VALUE4##)`
+      const nonEuResource = `Taux de change: 1 ##VALUE1## = ##VALUE2## ##VALUE3## (majoration incluse: ##VALUE4##)`
+      const resource = payerRegionEU ? euResource : nonEuResource;
+
+      return resource.replace('##VALUE1##', currency)
+        .replace('##VALUE2##', exchangeRate)
+        .replace('##VALUE3##', payerCurrency)
+        .replace('##VALUE4##', marginRatePercentage)
+    },
+    cardCurrency: {
+      tooltip: (payerCurrency: string, exchangeRateSource: string, exchangeRateTimeCreated: string) => {
+        const resource = `<p>J'accepte qu'un choix de devises m'ait été proposé pour le paiement.
+        J'accepte le taux de conversion et le montant final, et que la devise de transaction sélectionnée soit celle choisie par le titulaire de la carte : ##VALUE1##.
+        La conversion et le taux de change sont fournis par Global Payments.</p>`;
+
+        return resource.replace('##VALUE1##', payerCurrency)
+          .replace('##VALUE2##', exchangeRateSource)
+          .replace('##VALUE3##', exchangeRateTimeCreated);
+      },
+      "aria-label": "Information about Currency Conversion"
+    },
+    merchantCurrency: {
+      tooltip: (exchangeRateSource: string, exchangeRateTimeCreated: string) => {
+        const resource = `<p>Reference Rate Provided by: ##VALUE1##,<br />
+        Exchange rate offered on: ##VALUE2##.</p>`;
+
+        return resource.replace('##VALUE1##', exchangeRateSource)
+          .replace('##VALUE2##', exchangeRateTimeCreated);
+      },
+      "aria-label": "Information about Currency Conversion"
+    },
+    installmentWithDcc : "La conversion de devises n'est pas disponible pour les paiements échelonnés. Sélectionnez « Payer en une seule fois » pour activer la conversion de devises.",
+    dccWarning: 'Assurez-vous de bien comprendre les coûts de conversion de devises, car ils peuvent varier selon que vous choisissiez votre devise nationale ou la devise de la transaction.',
+    disclaimer: "Des frais de change et de conversion supplémentaires peuvent être appliqués par l'émetteur de votre carte."
+  },
   orderInformation: {
     amount: "Montant",
     orderReference: "Référence de commande",

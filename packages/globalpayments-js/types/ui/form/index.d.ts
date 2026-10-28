@@ -152,6 +152,9 @@ export declare const fieldStyles: () => {
             "background-position-y": string;
         };
         "img.card-number-icon.valid.card-type-discover": {
+            /**
+             * Represents logic surrounding a group of hosted fields.
+             */
             background: string;
             "background-size": string;
             "background-position-y": string;
@@ -171,7 +174,16 @@ export declare const fieldStyles: () => {
             background: string;
             "background-size": string;
             "background-position-y": string;
-        };
+        }; /**
+         * Sets an event listener for an event type
+         *
+         * @param fieldTypeOrEventName The field type on which the listener should
+         *          be applied, or the type of event that should trigger the listener
+         * @param eventNameOrListener The type of event that should trigger the
+         *          listener, or the listener function
+         * @param listener The listener function when both field type and event type
+         *          are provided
+         */
         "img.card-number-icon.card-type-carnet": {
             "background-image": string;
         };
@@ -1004,16 +1016,6 @@ export declare const parentStyles: () => {
         ".secure-payment-form .affirm-button::before, .secure-payment-form .klarna-button::before, .secure-payment-form .sezzle-button::before, .secure-payment-form .zip-button::before, .secure-payment-form .gp-accordion__header:before": {
             width: string;
             height: string;
-            /**
-             * Sets an event listener for an event type
-             *
-             * @param fieldTypeOrEventName The field type on which the listener should
-             *          be applied, or the type of event that should trigger the listener
-             * @param eventNameOrListener The type of event that should trigger the
-             *          listener, or the listener function
-             * @param listener The listener function when both field type and event type
-             *          are provided
-             */
             position: string;
             top: string;
             right: string;
@@ -1146,9 +1148,6 @@ export declare const parentStyles: () => {
         ".secure-payment-form .gp-accordion__header": {
             color: string;
             background: string;
-            /**
-             * Deletes all hosted fields within the form
-             */
             "font-weight": string;
             "font-size": string;
             display: string;
@@ -1370,6 +1369,9 @@ export declare const parentStyles: () => {
             "font-family": string;
             "font-size": string;
             "font-weight": number;
+            /**
+             * Represents logic surrounding a group of hosted fields.
+             */
             margin: string;
             display: string;
             "line-height": string;
@@ -1380,16 +1382,6 @@ export declare const parentStyles: () => {
             height: string;
             "min-width": string;
             "border-left": string;
-            /**
-             * Sets an event listener for an event type
-             *
-             * @param fieldTypeOrEventName The field type on which the listener should
-             *          be applied, or the type of event that should trigger the listener
-             * @param eventNameOrListener The type of event that should trigger the
-             *          listener, or the listener function
-             * @param listener The listener function when both field type and event type
-             *          are provided
-             */
             display: string;
         };
         ".secure-payment-form .credit-card-currency-conversion .tooltip:hover"?: {
@@ -1417,6 +1409,52 @@ export declare const parentStyles: () => {
             "border-width": string;
             "border-style": string;
             "border-color": string;
+        };
+        ".secure-payment-form .dcc-payer-tooltip-text"?: {
+            "font-family": string;
+            "font-size": string;
+        };
+        ".secure-payment-form .warning-info"?: {
+            "margin-top": string;
+        };
+        ".secure-payment-form .submit-disclaimer-text"?: {
+            "margin-bottom": string;
+            "font-family": string;
+            "font-size": string;
+        };
+        ".secure-payment-form .submit-section-separator"?: {
+            display: string;
+            "align-items": string;
+            "justify-content": string;
+            margin: string;
+            color: string;
+        };
+        ".secure-payment-form .submit-section-separator::before"?: {
+            content: string;
+            flex: string;
+            height: string;
+            "background-color": string;
+            "margin-right": string;
+        };
+        ".secure-payment-form .submit-section-separator::after"?: {
+            content: string;
+            flex: string;
+            height: string;
+            "background-color": string;
+            "margin-left": string;
+        };
+        ".secure-payment-form .submit-section-separator-label"?: {
+            "font-family": string;
+            "font-size": string;
+            "font-weight": string;
+        };
+        ".secure-payment-form .dcc-submit-label-text"?: {
+            "font-family": string;
+            "font-size": string;
+            "font-weight": string;
+            color: string;
+            "margin-bottom": string;
+            "margin-top": string;
         };
         "@media only screen and (max-width: 768px)"?: {
             ".secure-payment-form .currency-conversion-container": {
@@ -1446,6 +1484,21 @@ export declare const parentStyles: () => {
             };
             ".secure-payment-form .credit-card-currency-conversion .tooltip-content::before": {
                 right: string;
+            };
+            ".secure-payment-form .dcc-payer-tooltip-text": {
+                "font-family": string;
+                "font-size": string;
+            };
+            ".secure-payment-form .submit-disclaimer-text": {
+                "margin-bottom": string;
+                "font-family": string;
+                "font-size": string;
+            };
+            ".secure-payment-form .submit-section-separator": {
+                margin: string;
+            };
+            ".secure-payment-form .submit-section-separator-label": {
+                "font-size": string;
             };
         };
         "#googlePay": {
@@ -1608,9 +1661,7 @@ export declare const parentStyles: () => {
         "@container (min-width: 408px)": {
             ".secure-payment-form .ctp-panel .ctp-button .heading": {
                 "font-size": string;
-            }; /**
-             * Represents logic surrounding a group of hosted fields.
-             */
+            };
             ".secure-payment-form .ctp-panel .right-arrow": {
                 "border-width": string;
             };
@@ -1630,20 +1681,17 @@ export declare const parentStyles: () => {
             content: string;
             position: string;
             width: string;
+            /**
+             * Instantiates a new UIForm object for a group of hosted fields
+             *
+             * @param fields Hosted field configuration
+             * @param styles Custom CSS configuration
+             */
             height: string;
             border: string;
             "border-width": string;
             display: string;
-            padding: string; /**
-             * Sets an event listener for an event type
-             *
-             * @param fieldTypeOrEventName The field type on which the listener should
-             *          be applied, or the type of event that should trigger the listener
-             * @param eventNameOrListener The type of event that should trigger the
-             *          listener, or the listener function
-             * @param listener The listener function when both field type and event type
-             *          are provided
-             */
+            padding: string;
             transform: string;
             "-webkit-transform": string;
         };
@@ -1707,7 +1755,11 @@ export declare const parentStyles: () => {
             "font-size": string;
         };
         "#ctp-wrapper .quitbanner > svg": {
-            display: string;
+            display: string; /**
+             * Appends additional CSS rules to the group of hosted fields
+             *
+             * @param json New CSS rules
+             */
         };
         "#ctp-wrapper #footer": {
             display: string;
@@ -1730,6 +1782,12 @@ export declare const parentStyles: () => {
             "margin-top": string;
             "margin-bottom": string;
         };
+        /**
+         * Sets a special-case event listener that fires when all hosted
+         * fields in a form have registered / loaded
+         *
+         * @param fn The listener function
+         */
         "#ctp-wrapper .logindiv": {
             "min-height": string;
         };
@@ -1872,12 +1930,7 @@ export declare const parentStyles: () => {
             "font-weight": string;
             "font-family": string;
             color: string;
-            "line-height": string; /**
-             * Sets a special-case event listener that fires when all hosted
-             * fields in a form have registered / loaded
-             *
-             * @param fn The listener function
-             */
+            "line-height": string;
             display: string;
             "vertical-align": string;
             "text-align": string;
@@ -1915,7 +1968,9 @@ export declare const parentStyles: () => {
             display: string;
         };
         ".secure-payment-form iframe": {
-            width: string;
+            width: string; /**
+             * Deletes all hosted fields within the form
+             */
         };
         ".secure-payment-form .form-row": {
             "margin-top": string;
@@ -2336,16 +2391,6 @@ export declare const parentStyles: () => {
         ".secure-payment-form .affirm-button::before, .secure-payment-form .klarna-button::before, .secure-payment-form .sezzle-button::before, .secure-payment-form .zip-button::before, .secure-payment-form .gp-accordion__header:before": {
             width: string;
             height: string;
-            /**
-             * Sets an event listener for an event type
-             *
-             * @param fieldTypeOrEventName The field type on which the listener should
-             *          be applied, or the type of event that should trigger the listener
-             * @param eventNameOrListener The type of event that should trigger the
-             *          listener, or the listener function
-             * @param listener The listener function when both field type and event type
-             *          are provided
-             */
             position: string;
             top: string;
             right: string;
@@ -2478,9 +2523,6 @@ export declare const parentStyles: () => {
         ".secure-payment-form .gp-accordion__header": {
             color: string;
             background: string;
-            /**
-             * Deletes all hosted fields within the form
-             */
             "font-weight": string;
             "font-size": string;
             display: string;
@@ -2676,6 +2718,9 @@ export declare const parentStyles: () => {
             "font-family": string;
             "font-size": string;
             "font-weight": number;
+            /**
+             * Represents logic surrounding a group of hosted fields.
+             */
             margin: string;
             display: string;
             "line-height": string;
@@ -2690,16 +2735,6 @@ export declare const parentStyles: () => {
             height: string;
             "min-width": string;
             "border-left": string;
-            /**
-             * Sets an event listener for an event type
-             *
-             * @param fieldTypeOrEventName The field type on which the listener should
-             *          be applied, or the type of event that should trigger the listener
-             * @param eventNameOrListener The type of event that should trigger the
-             *          listener, or the listener function
-             * @param listener The listener function when both field type and event type
-             *          are provided
-             */
             display: string;
         };
         ".secure-payment-form .credit-card-currency-conversion .tooltip:hover"?: {
@@ -2731,6 +2766,52 @@ export declare const parentStyles: () => {
             "border-style": string;
             "border-color": string;
         };
+        ".secure-payment-form .dcc-payer-tooltip-text"?: {
+            "font-family": string;
+            "font-size": string;
+        };
+        ".secure-payment-form .warning-info"?: {
+            "margin-top": string;
+        };
+        ".secure-payment-form .submit-disclaimer-text"?: {
+            "margin-bottom": string;
+            "font-family": string;
+            "font-size": string;
+        };
+        ".secure-payment-form .submit-section-separator"?: {
+            display: string;
+            "align-items": string;
+            "justify-content": string;
+            margin: string;
+            color: string;
+        };
+        ".secure-payment-form .submit-section-separator::before"?: {
+            content: string;
+            flex: string;
+            height: string;
+            "background-color": string;
+            "margin-right": string;
+        };
+        ".secure-payment-form .submit-section-separator::after"?: {
+            content: string;
+            flex: string;
+            height: string;
+            "background-color": string;
+            "margin-left": string;
+        };
+        ".secure-payment-form .submit-section-separator-label"?: {
+            "font-family": string;
+            "font-size": string;
+            "font-weight": string;
+        };
+        ".secure-payment-form .dcc-submit-label-text"?: {
+            "font-family": string;
+            "font-size": string;
+            "font-weight": string;
+            color: string;
+            "margin-bottom": string;
+            "margin-top": string;
+        };
         "@media only screen and (max-width: 768px)"?: {
             ".secure-payment-form .currency-conversion-container": {
                 "flex-direction": string;
@@ -2759,6 +2840,21 @@ export declare const parentStyles: () => {
             };
             ".secure-payment-form .credit-card-currency-conversion .tooltip-content::before": {
                 right: string;
+            };
+            ".secure-payment-form .dcc-payer-tooltip-text": {
+                "font-family": string;
+                "font-size": string;
+            };
+            ".secure-payment-form .submit-disclaimer-text": {
+                "margin-bottom": string;
+                "font-family": string;
+                "font-size": string;
+            };
+            ".secure-payment-form .submit-section-separator": {
+                margin: string;
+            };
+            ".secure-payment-form .submit-section-separator-label": {
+                "font-size": string;
             };
         };
         "@media(max-width: 340px)"?: {
@@ -2946,9 +3042,7 @@ export declare const parentStyles: () => {
         "@container (min-width: 408px)": {
             ".secure-payment-form .ctp-panel .ctp-button .heading": {
                 "font-size": string;
-            }; /**
-             * Represents logic surrounding a group of hosted fields.
-             */
+            };
             ".secure-payment-form .ctp-panel .right-arrow": {
                 "border-width": string;
             };
@@ -2968,20 +3062,17 @@ export declare const parentStyles: () => {
             content: string;
             position: string;
             width: string;
+            /**
+             * Instantiates a new UIForm object for a group of hosted fields
+             *
+             * @param fields Hosted field configuration
+             * @param styles Custom CSS configuration
+             */
             height: string;
             border: string;
             "border-width": string;
             display: string;
-            padding: string; /**
-             * Sets an event listener for an event type
-             *
-             * @param fieldTypeOrEventName The field type on which the listener should
-             *          be applied, or the type of event that should trigger the listener
-             * @param eventNameOrListener The type of event that should trigger the
-             *          listener, or the listener function
-             * @param listener The listener function when both field type and event type
-             *          are provided
-             */
+            padding: string;
             transform: string;
             "-webkit-transform": string;
         };
@@ -3045,7 +3136,11 @@ export declare const parentStyles: () => {
             "font-size": string;
         };
         "#ctp-wrapper .quitbanner > svg": {
-            display: string;
+            display: string; /**
+             * Appends additional CSS rules to the group of hosted fields
+             *
+             * @param json New CSS rules
+             */
         };
         "#ctp-wrapper #footer": {
             display: string;
@@ -3068,6 +3163,12 @@ export declare const parentStyles: () => {
             "margin-top": string;
             "margin-bottom": string;
         };
+        /**
+         * Sets a special-case event listener that fires when all hosted
+         * fields in a form have registered / loaded
+         *
+         * @param fn The listener function
+         */
         "#ctp-wrapper .logindiv": {
             "min-height": string;
         };
@@ -3204,6 +3305,8 @@ export declare const parentStyles: () => {
             "flex-wrap": string;
             "padding-bottom": string;
             "padding-right": string;
+            background: string;
+            "align-items": string;
         };
         ".secure-payment-form .installment-pay-in-visa-option": {
             background: string;
@@ -3260,6 +3363,12 @@ export declare const parentStyles: () => {
             color: string;
             "margin-right": string;
         };
+        /**
+         * Instantiates a new UIForm object for a group of hosted fields
+         *
+         * @param fields Hosted field configuration
+         * @param styles Custom CSS configuration
+         */
         ".secure-payment-form .installment-terms-conditions-flex": {
             display: string;
             "align-items": string;
@@ -3291,6 +3400,8 @@ export declare const parentStyles: () => {
             "font-size": string;
             "font-family": string;
             "vertical-align": string;
+            "font-weight": string;
+            color: string;
         };
         ".secure-payment-form .installment-dcc-warning": {
             display: string;
@@ -4128,6 +4239,9 @@ export declare const parentStyles: () => {
             "font-family": string;
             "font-size": string;
             "font-weight": number;
+            /**
+             * Represents logic surrounding a group of hosted fields.
+             */
             margin: string;
             display: string;
             "line-height": string;
@@ -4138,16 +4252,6 @@ export declare const parentStyles: () => {
             height: string;
             "min-width": string;
             "border-left": string;
-            /**
-             * Sets an event listener for an event type
-             *
-             * @param fieldTypeOrEventName The field type on which the listener should
-             *          be applied, or the type of event that should trigger the listener
-             * @param eventNameOrListener The type of event that should trigger the
-             *          listener, or the listener function
-             * @param listener The listener function when both field type and event type
-             *          are provided
-             */
             display: string;
         };
         ".secure-payment-form .credit-card-currency-conversion .tooltip:hover"?: {
@@ -4170,6 +4274,52 @@ export declare const parentStyles: () => {
             "border-width": string;
             "border-style": string;
             "border-color": string;
+        };
+        ".secure-payment-form .dcc-payer-tooltip-text"?: {
+            "font-family": string;
+            "font-size": string;
+        };
+        ".secure-payment-form .warning-info"?: {
+            "margin-top": string;
+        };
+        ".secure-payment-form .submit-disclaimer-text"?: {
+            "margin-bottom": string;
+            "font-family": string;
+            "font-size": string;
+        };
+        ".secure-payment-form .submit-section-separator"?: {
+            display: string;
+            "align-items": string;
+            "justify-content": string;
+            margin: string;
+            color: string;
+        };
+        ".secure-payment-form .submit-section-separator::before"?: {
+            content: string;
+            flex: string;
+            height: string;
+            "background-color": string;
+            "margin-right": string;
+        };
+        ".secure-payment-form .submit-section-separator::after"?: {
+            content: string;
+            flex: string;
+            height: string;
+            "background-color": string;
+            "margin-left": string;
+        };
+        ".secure-payment-form .submit-section-separator-label"?: {
+            "font-family": string;
+            "font-size": string;
+            "font-weight": string;
+        };
+        ".secure-payment-form .dcc-submit-label-text"?: {
+            "font-family": string;
+            "font-size": string;
+            "font-weight": string;
+            color: string;
+            "margin-bottom": string;
+            "margin-top": string;
         };
         "@media only screen and (max-width: 768px)"?: {
             ".secure-payment-form .currency-conversion-container": {
@@ -4199,6 +4349,21 @@ export declare const parentStyles: () => {
             };
             ".secure-payment-form .credit-card-currency-conversion .tooltip-content::before": {
                 right: string;
+            };
+            ".secure-payment-form .dcc-payer-tooltip-text": {
+                "font-family": string;
+                "font-size": string;
+            };
+            ".secure-payment-form .submit-disclaimer-text": {
+                "margin-bottom": string;
+                "font-family": string;
+                "font-size": string;
+            };
+            ".secure-payment-form .submit-section-separator": {
+                margin: string;
+            };
+            ".secure-payment-form .submit-section-separator-label": {
+                "font-size": string;
             };
         };
         "@media(max-width: 340px)"?: {
@@ -4487,9 +4652,7 @@ export declare const parentStyles: () => {
         "@container (min-width: 408px)": {
             ".secure-payment-form .ctp-panel .ctp-button .heading": {
                 "font-size": string;
-            }; /**
-             * Represents logic surrounding a group of hosted fields.
-             */
+            };
             ".secure-payment-form .ctp-panel .right-arrow": {
                 "border-width": string;
             };
@@ -4509,20 +4672,17 @@ export declare const parentStyles: () => {
             content: string;
             position: string;
             width: string;
+            /**
+             * Instantiates a new UIForm object for a group of hosted fields
+             *
+             * @param fields Hosted field configuration
+             * @param styles Custom CSS configuration
+             */
             height: string;
             border: string;
             "border-width": string;
             display: string;
-            padding: string; /**
-             * Sets an event listener for an event type
-             *
-             * @param fieldTypeOrEventName The field type on which the listener should
-             *          be applied, or the type of event that should trigger the listener
-             * @param eventNameOrListener The type of event that should trigger the
-             *          listener, or the listener function
-             * @param listener The listener function when both field type and event type
-             *          are provided
-             */
+            padding: string;
             transform: string;
             "-webkit-transform": string;
         };
@@ -4586,7 +4746,11 @@ export declare const parentStyles: () => {
             "font-size": string;
         };
         "#ctp-wrapper .quitbanner > svg": {
-            display: string;
+            display: string; /**
+             * Appends additional CSS rules to the group of hosted fields
+             *
+             * @param json New CSS rules
+             */
         };
         "#ctp-wrapper #footer": {
             display: string;
@@ -4609,6 +4773,12 @@ export declare const parentStyles: () => {
             "margin-top": string;
             "margin-bottom": string;
         };
+        /**
+         * Sets a special-case event listener that fires when all hosted
+         * fields in a form have registered / loaded
+         *
+         * @param fn The listener function
+         */
         "#ctp-wrapper .logindiv": {
             "min-height": string;
         };
@@ -4768,7 +4938,11 @@ export declare const parentStyles: () => {
             float: string;
             display: string;
             "justify-content": string;
-        };
+        }; /**
+         * Appends additional CSS rules to the group of hosted fields
+         *
+         * @param json New CSS rules
+         */
         ".secure-payment-form div[class$='-logo'] .security-msg": {
             color: string;
             "font-size": string;
@@ -4788,6 +4962,12 @@ export declare const parentStyles: () => {
         ".secure-payment-form div": {
             display: string;
         };
+        /**
+         * Sets a special-case event listener that fires when all hosted
+         * fields in a form have registered / loaded
+         *
+         * @param fn The listener function
+         */
         ".secure-payment-form iframe": {
             "min-height": string;
         };
@@ -5226,16 +5406,6 @@ export declare const parentStyles: () => {
         ".secure-payment-form .affirm-button::before, .secure-payment-form .klarna-button::before, .secure-payment-form .sezzle-button::before, .secure-payment-form .zip-button::before, .secure-payment-form .gp-accordion__header:before": {
             width: string;
             height: string;
-            /**
-             * Sets an event listener for an event type
-             *
-             * @param fieldTypeOrEventName The field type on which the listener should
-             *          be applied, or the type of event that should trigger the listener
-             * @param eventNameOrListener The type of event that should trigger the
-             *          listener, or the listener function
-             * @param listener The listener function when both field type and event type
-             *          are provided
-             */
             position: string;
             top: string;
             right: string;
@@ -5368,9 +5538,6 @@ export declare const parentStyles: () => {
         ".secure-payment-form .gp-accordion__header": {
             color: string;
             background: string;
-            /**
-             * Deletes all hosted fields within the form
-             */
             "font-weight": string;
             "font-size": string;
             display: string;
@@ -5566,6 +5733,9 @@ export declare const parentStyles: () => {
             "font-family": string;
             "font-size": string;
             "font-weight": number;
+            /**
+             * Represents logic surrounding a group of hosted fields.
+             */
             margin: string;
             display: string;
             "line-height": string;
@@ -5580,16 +5750,6 @@ export declare const parentStyles: () => {
             height: string;
             "min-width": string;
             "border-left": string;
-            /**
-             * Sets an event listener for an event type
-             *
-             * @param fieldTypeOrEventName The field type on which the listener should
-             *          be applied, or the type of event that should trigger the listener
-             * @param eventNameOrListener The type of event that should trigger the
-             *          listener, or the listener function
-             * @param listener The listener function when both field type and event type
-             *          are provided
-             */
             display: string;
         };
         ".secure-payment-form .credit-card-currency-conversion .tooltip:hover"?: {
@@ -5621,6 +5781,52 @@ export declare const parentStyles: () => {
             "border-style": string;
             "border-color": string;
         };
+        ".secure-payment-form .dcc-payer-tooltip-text"?: {
+            "font-family": string;
+            "font-size": string;
+        };
+        ".secure-payment-form .warning-info"?: {
+            "margin-top": string;
+        };
+        ".secure-payment-form .submit-disclaimer-text"?: {
+            "margin-bottom": string;
+            "font-family": string;
+            "font-size": string;
+        };
+        ".secure-payment-form .submit-section-separator"?: {
+            display: string;
+            "align-items": string;
+            "justify-content": string;
+            margin: string;
+            color: string;
+        };
+        ".secure-payment-form .submit-section-separator::before"?: {
+            content: string;
+            flex: string;
+            height: string;
+            "background-color": string;
+            "margin-right": string;
+        };
+        ".secure-payment-form .submit-section-separator::after"?: {
+            content: string;
+            flex: string;
+            height: string;
+            "background-color": string;
+            "margin-left": string;
+        };
+        ".secure-payment-form .submit-section-separator-label"?: {
+            "font-family": string;
+            "font-size": string;
+            "font-weight": string;
+        };
+        ".secure-payment-form .dcc-submit-label-text"?: {
+            "font-family": string;
+            "font-size": string;
+            "font-weight": string;
+            color: string;
+            "margin-bottom": string;
+            "margin-top": string;
+        };
         "@media only screen and (max-width: 768px)"?: {
             ".secure-payment-form .currency-conversion-container": {
                 "flex-direction": string;
@@ -5649,6 +5855,21 @@ export declare const parentStyles: () => {
             };
             ".secure-payment-form .credit-card-currency-conversion .tooltip-content::before": {
                 right: string;
+            };
+            ".secure-payment-form .dcc-payer-tooltip-text": {
+                "font-family": string;
+                "font-size": string;
+            };
+            ".secure-payment-form .submit-disclaimer-text": {
+                "margin-bottom": string;
+                "font-family": string;
+                "font-size": string;
+            };
+            ".secure-payment-form .submit-section-separator": {
+                margin: string;
+            };
+            ".secure-payment-form .submit-section-separator-label": {
+                "font-size": string;
             };
         };
         "@media(max-width: 340px)"?: {
@@ -5836,9 +6057,7 @@ export declare const parentStyles: () => {
         "@container (min-width: 408px)": {
             ".secure-payment-form .ctp-panel .ctp-button .heading": {
                 "font-size": string;
-            }; /**
-             * Represents logic surrounding a group of hosted fields.
-             */
+            };
             ".secure-payment-form .ctp-panel .right-arrow": {
                 "border-width": string;
             };
@@ -5858,20 +6077,17 @@ export declare const parentStyles: () => {
             content: string;
             position: string;
             width: string;
+            /**
+             * Instantiates a new UIForm object for a group of hosted fields
+             *
+             * @param fields Hosted field configuration
+             * @param styles Custom CSS configuration
+             */
             height: string;
             border: string;
             "border-width": string;
             display: string;
-            padding: string; /**
-             * Sets an event listener for an event type
-             *
-             * @param fieldTypeOrEventName The field type on which the listener should
-             *          be applied, or the type of event that should trigger the listener
-             * @param eventNameOrListener The type of event that should trigger the
-             *          listener, or the listener function
-             * @param listener The listener function when both field type and event type
-             *          are provided
-             */
+            padding: string;
             transform: string;
             "-webkit-transform": string;
         };
@@ -5935,7 +6151,11 @@ export declare const parentStyles: () => {
             "font-size": string;
         };
         "#ctp-wrapper .quitbanner > svg": {
-            display: string;
+            display: string; /**
+             * Appends additional CSS rules to the group of hosted fields
+             *
+             * @param json New CSS rules
+             */
         };
         "#ctp-wrapper #footer": {
             display: string;
@@ -5958,6 +6178,12 @@ export declare const parentStyles: () => {
             "margin-top": string;
             "margin-bottom": string;
         };
+        /**
+         * Sets a special-case event listener that fires when all hosted
+         * fields in a form have registered / loaded
+         *
+         * @param fn The listener function
+         */
         "#ctp-wrapper .logindiv": {
             "min-height": string;
         };
@@ -6094,6 +6320,8 @@ export declare const parentStyles: () => {
             "flex-wrap": string;
             "padding-bottom": string;
             "padding-right": string;
+            background: string;
+            "align-items": string;
         };
         ".secure-payment-form .installment-pay-in-visa-option": {
             background: string;
@@ -6150,6 +6378,12 @@ export declare const parentStyles: () => {
             color: string;
             "margin-right": string;
         };
+        /**
+         * Instantiates a new UIForm object for a group of hosted fields
+         *
+         * @param fields Hosted field configuration
+         * @param styles Custom CSS configuration
+         */
         ".secure-payment-form .installment-terms-conditions-flex": {
             display: string;
             "align-items": string;
@@ -6181,6 +6415,8 @@ export declare const parentStyles: () => {
             "font-size": string;
             "font-family": string;
             "vertical-align": string;
+            "font-weight": string;
+            color: string;
         };
         ".secure-payment-form .installment-dcc-warning": {
             display: string;
@@ -6975,6 +7211,7 @@ export default class UIForm {
     formOptionFields: IUIFormOptions | undefined;
     private totalNumberOfFields;
     private hasInstallmentValidationError;
+    private selectedSubmitType;
     /**
      * Instantiates a new UIForm object for a group of hosted fields
      *
@@ -7017,12 +7254,18 @@ export default class UIForm {
     private startCardInstallmentDataRequest;
     private removeInstallmentsPanel;
     private currencyConversionResponseData;
+    private currencyConversionRawData;
     private installmentResponseData;
+    private populateCurrencyConversionAcceptedFromSubmit;
+    private getSubmitButtonBaseLabel;
+    private updateCurrencyConversionSubmitLabels;
+    private resetCurrencyConversionSubmitLabels;
     /**
      * Configures event listeners related to currency conversion for the specified iframe field.
      * @param dccField The iframe field associated with the currency conversion.
      */
     private configureCurrencyConversionEvents;
+    private updateDccFlowForInstallmentSelection;
     private checkCurrencyConversionStatus;
     /**
      * Initiates a currency conversion data request using the provided parameters.

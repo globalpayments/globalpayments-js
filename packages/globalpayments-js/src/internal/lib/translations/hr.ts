@@ -107,6 +107,45 @@ const hr = {
       errorMessage: "Please enter your 6 digit BLIK code.",
     },
   },
+  dcc: {
+    label: "Odaberite željenu valutu",
+    additionalInfo: (currency: string, exchangeRate: string, payerCurrency: string, marginRatePercentage: string, payerRegionEU: string) => {
+      // const resource = `<p>Exchange rate used: 1 ##VALUE1## = ##VALUE2## ##VALUE3##. Exchange Rate Mark-Up: ##VALUE4## above ECB Rate.</p>`;
+      const euResource = `Tečaj: 1 ##VALUE1## = ##VALUE2## ##VALUE3##  (uključujući maržu iznad tečaja ECB-a: ##VALUE4##)`
+      const nonEuResource = `Tečaj: 1 ##VALUE1## = ##VALUE2## ##VALUE3## (uključujući maržu: ##VALUE4##)`;
+
+      const resource = payerRegionEU ? euResource : nonEuResource;
+      return resource.replace('##VALUE1##', currency)
+        .replace('##VALUE2##', exchangeRate)
+        .replace('##VALUE3##', payerCurrency)
+        .replace('##VALUE4##', marginRatePercentage)
+    },
+    cardCurrency: {
+      tooltip: (payerCurrency: string, exchangeRateSource: string, exchangeRateTimeCreated: string) => {
+        const resource = `<p>Prihvaćam da mi je ponuđen izbor valuta za plaćanje.
+        Prihvaćam tečaj konverzije i konačni iznos te da je odabrana valuta transakcije valuta koju je odabrao korisnik kartice: ##VALUE1##.
+        Konverziju valuta i tečaj osigurava Global Payments.</p>`;
+
+        return resource.replace('##VALUE1##', payerCurrency)
+          .replace('##VALUE2##', exchangeRateSource)
+          .replace('##VALUE3##', exchangeRateTimeCreated);
+      },
+      "aria-label": "Information about Currency Conversion"
+    },
+    merchantCurrency: {
+      tooltip: (exchangeRateSource: string, exchangeRateTimeCreated: string) => {
+        const resource = `<p>Reference Rate Provided by: ##VALUE1##,<br />
+        Exchange rate offered on: ##VALUE2##.</p>`;
+
+        return resource.replace('##VALUE1##', exchangeRateSource)
+          .replace('##VALUE2##', exchangeRateTimeCreated);
+      },
+      "aria-label": "Information about Currency Conversion"
+    },
+    installmentWithDcc : 'Konverzija valuta ne može se ponuditi uz obročnu otplatu. Odaberite "Plati u cijelosti" kako biste omogućili konverziju valuta.',
+    dccWarning: 'PROVJERITE DA RAZUMIJETE TROŠKOVE KONVERZIJE VALUTA JER SE MOGU RAZLIKOVATI OVISNO O TOMU ODABIRATE LI DOMAĆU VALUTU ILI VALUTU TRANSAKCIJE.',
+    disclaimer: 'Izdavatelj vaše kartice može primijeniti tečajnu listu i dodatne naknade za konverziju.'
+  },
   orderInformation: {
     amount: "Iznositi",
     orderReference: "Referenca narudžbe",

@@ -664,6 +664,7 @@ export class IframeField extends EventEmitter {
     // this.type = type === "submit" || type === "card-track" ? "button" : "input";
     switch(type){
       case ("submit") :
+      case ("submit-dcc") :
       case ("card-track") : {
         this.type = "button"
       }

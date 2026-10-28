@@ -105,7 +105,47 @@ const de = {
     blik0c: {
       enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
       errorMessage: "Please enter your 6 digit BLIK code.",
-    },},
+    },
+  },
+  dcc: {
+    label: "Wählen Sie Ihre bevorzugte Währung.",
+    additionalInfo: (currency: string, exchangeRate: string, payerCurrency: string, marginRatePercentage: string, payerRegionEU: string) => {
+      // const resource = `<p>Exchange rate used: 1 ##VALUE1## = ##VALUE2## ##VALUE3##. Exchange Rate Mark-Up: ##VALUE4## above ECB Rate.</p>`;
+      const euResource = `Wechselkurs: 1 ##VALUE1## = ##VALUE2## ##VALUE3##  (einschließlich Aufschlag auf den EZB-Zinssatz: ##VALUE4##)`
+      const nonEuResource = `Wechselkurs: 1 ##VALUE1## = ##VALUE2## ##VALUE3## (einschließlich Aufschlag: ##VALUE4##)`;
+
+      const resource = payerRegionEU ? euResource : nonEuResource;
+      return resource.replace('##VALUE1##', currency)
+        .replace('##VALUE2##', exchangeRate)
+        .replace('##VALUE3##', payerCurrency)
+        .replace('##VALUE4##', marginRatePercentage)
+    },
+    cardCurrency: {
+      tooltip: (payerCurrency: string, exchangeRateSource: string, exchangeRateTimeCreated: string) => {
+        const resource = `<p>Ich bestätige, dass mir verschiedene Währungen für die Zahlung angeboten wurden.
+        Ich akzeptiere den Umrechnungskurs und den Endbetrag sowie die vom Karteninhaber gewählte Währung: ##VALUE1##.
+        Die Währungsumrechnung und der Kurs werden von Global Payments bereitgestellt.</p>`;
+
+        return resource.replace('##VALUE1##', payerCurrency)
+          .replace('##VALUE2##', exchangeRateSource)
+          .replace('##VALUE3##', exchangeRateTimeCreated);
+      },
+      "aria-label": "Information about Currency Conversion"
+    },
+    merchantCurrency: {
+      tooltip: (exchangeRateSource: string, exchangeRateTimeCreated: string) => {
+        const resource = `<p>Reference Rate Provided by: ##VALUE1##,<br />
+        Exchange rate offered on: ##VALUE2##.</p>`;
+
+        return resource.replace('##VALUE1##', exchangeRateSource)
+          .replace('##VALUE2##', exchangeRateTimeCreated);
+      },
+      "aria-label": "Information about Currency Conversion"
+    },
+    installmentWithDcc : 'Bei Ratenzahlung ist keine Währungsumrechnung möglich. Wählen Sie „Vollständig bezahlen“, um die Währungsumrechnung zu aktivieren.',
+    dccWarning: 'Informieren Sie sich unbedingt über die Kosten der Währungsumrechnung, da diese je nach Wahl Ihrer Heimatwährung oder der Transaktionswährung unterschiedlich sein können.',
+    disclaimer: 'Wechselkurs und zusätzliche Umrechnungsgebühren können von Ihrem Kartenaussteller erhoben werden.'
+  },
   orderInformation: {
     amount: "Menge",
     orderReference: "Tagairt Ordaithe",

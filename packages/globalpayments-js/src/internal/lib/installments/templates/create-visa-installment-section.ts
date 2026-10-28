@@ -58,7 +58,8 @@ export function createVisaInstallmentSection(
         payInDiv.textContent = `${installmentTranslations.payInInstallmentsText} ${option.count}`;
 
         if (!option.reference) {
-            payInDiv.textContent = `${options.installments?.country === EligibleCountries.CA ? installmentTranslations.payInFullLatam : installmentTranslations.payInFullVisa}`;
+            // payInDiv.textContent = `${options.installments?.country === EligibleCountries.CA ? installmentTranslations.payInFullLatam : installmentTranslations.payInFullVisa}`;
+            payInDiv.textContent = installmentTranslations.payInFullLatam;
             installmentDetailsDiv.style.setProperty("display", "flex", "important");
             installmentDetailsDiv.style.setProperty("align-items", "center", "important");
             payInDiv.style.backgroundColor = "#0074C7";

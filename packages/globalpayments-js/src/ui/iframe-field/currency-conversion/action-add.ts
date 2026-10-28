@@ -21,7 +21,7 @@ export default function addCurrencyConversion(
   callback: (response: CurrencyConversionPaymentData, value: string) => void
 ): void {
   // If iframeField is not defined, or currency conversion is not enabled, or status is not available, return early
-  if (!iframeField || !options.currencyConversion || !options.currencyConversion.enabled ||
+  if (!iframeField || !options.currencyConversion ||
     data.status !== CurrencyConversionStatus.CurrencyConversionAvailable) {
     return;
   }
@@ -73,8 +73,6 @@ function generateResponseData(data: any) {
       exchangeRateSource: data.exchange_rate_source,
       cardHolderAmount: data.payer_amount,
       cardHolderCurrency: data.payer_currency,
-      merchantAmount: data.amount,
-      merchantCurrency: data.currency,
       marginPercentageRate: data.margin_rate_percentage,
       exchangeRateTimeCreated: data.exchange_rate_time_created,
       commissionPercentage: data.commission_percentage

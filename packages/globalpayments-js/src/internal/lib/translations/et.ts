@@ -131,19 +131,24 @@ const et = {
     },
   },
   dcc: {
-    label: "Select Your Preferred Currency",
-    additionalInfo: (currency: string, exchangeRate: string, payerCurrency: string, marginRatePercentage: string) => {
-      const resource = `<p>Exchange rate used: 1 ##VALUE1## = ##VALUE2## ##VALUE3##. Exchange Rate Mark-Up: ##VALUE4## above ECB Rate.</p>`;
+    label: "Valige oma eelistatud valuuta",
+    additionalInfo: (currency: string, exchangeRate: string, payerCurrency: string, marginRatePercentage: string, payerRegionEU: string) => {
+      // const resource = `<p>Exchange rate used: 1 ##VALUE1## = ##VALUE2## ##VALUE3##. Exchange Rate Mark-Up: ##VALUE4## above ECB Rate.</p>`;
+      const euResource = `Vahetuskurss: 1 ##VALUE1## = ##VALUE2## ##VALUE3##  (sh EKP kursi juurdehindlus: ##VALUE4##)`
+      const nonEuResource = `Vahetuskurss: 1 ##VALUE1## = ##VALUE2## ##VALUE3## (sh juurdehindlusmäär: ##VALUE4##)`;
+
+      const resource = payerRegionEU ? euResource : nonEuResource;
       return resource.replace('##VALUE1##', currency)
         .replace('##VALUE2##', exchangeRate)
         .replace('##VALUE3##', payerCurrency)
-        .replace('##VALUE4##', marginRatePercentage);
+        .replace('##VALUE4##', marginRatePercentage)
     },
     cardCurrency: {
       tooltip: (payerCurrency: string, exchangeRateSource: string, exchangeRateTimeCreated: string) => {
-        const resource = `<p>I accept that I have been offered a choice of currencies for payment. I accept the conversion rate and final amount and that the final selected transaction currency is the cardholder's chosen currency, ##VALUE1##.</p>
-          <p>Reference Rate Provided by: ##VALUE2##,<br />
-          Exchange rate offered on: ##VALUE3##.</p>`;
+        const resource = `<p>Nõustun, et mulle on pakutud makseks valuutade valikut.
+        Nõustun konversioonikursi ja lõppsummaga ning sellega, et valitud tehingu valuuta on kaardiomaniku valitud valuuta: ##VALUE1##.
+        Valuuta konverteerimise ja kursi pakub Global Payments.</p>`;
+
         return resource.replace('##VALUE1##', payerCurrency)
           .replace('##VALUE2##', exchangeRateSource)
           .replace('##VALUE3##', exchangeRateTimeCreated);
@@ -153,12 +158,16 @@ const et = {
     merchantCurrency: {
       tooltip: (exchangeRateSource: string, exchangeRateTimeCreated: string) => {
         const resource = `<p>Reference Rate Provided by: ##VALUE1##,<br />
-          Exchange rate offered on: ##VALUE2##.</p>`;
+        Exchange rate offered on: ##VALUE2##.</p>`;
+
         return resource.replace('##VALUE1##', exchangeRateSource)
           .replace('##VALUE2##', exchangeRateTimeCreated);
       },
       "aria-label": "Information about Currency Conversion"
-    }
+    },
+    installmentWithDcc : 'Osamaksetega ei saa valuutakonverteerimist pakkuda. Valuutakonverteerimise lubamiseks valige „Maksa täies ulatuses”.',
+    dccWarning: 'VEENDUGE, ET SA MÕISTAD VALUUTA KONVERTEERIMISE KULUDE KORRAL, KUNA NEED VÕIVAD ERINEVÕIDA SELLE POOLT, KAS VALITE OMA KODUVÄÄRT VÕI TEHINGU VALUUTA.',
+    disclaimer: 'Teie kaardi väljastaja võib rakendada vahetuskurssi ja täiendavaid konverteerimistasusid.'
   },
   orderInformation: {
     amount: "Summa",

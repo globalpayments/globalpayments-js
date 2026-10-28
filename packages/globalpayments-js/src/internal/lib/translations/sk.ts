@@ -105,7 +105,46 @@ const sk = {
     blik0c: {
       enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
       errorMessage: "Please enter your 6 digit BLIK code.",
-    },},
+    }
+  },
+  dcc: {
+    label: "Vyberte si preferovanú menu",
+    additionalInfo: (currency: string, exchangeRate: string, payerCurrency: string, marginRatePercentage: string, payerRegionEU: string) => {
+      // const resource = `<p>Exchange rate used: 1 ##VALUE1## = ##VALUE2## ##VALUE3##. Exchange Rate Mark-Up: ##VALUE4## above ECB Rate.</p>`;
+      const euResource = `Výmenný kurz: 1 ##VALUE1## = ##VALUE2## ##VALUE3##  (vrátane prirážky oproti kurzu ECB: ##VALUE4##)`
+      const nonEuResource = `Výmenný kurz: 1 ##VALUE1## = ##VALUE2## ##VALUE3## (vrátane prirážky: ##VALUE4##)`;
+      const resource = payerRegionEU ? euResource : nonEuResource;
+      return resource.replace('##VALUE1##', currency)
+        .replace('##VALUE2##', exchangeRate)
+        .replace('##VALUE3##', payerCurrency)
+        .replace('##VALUE4##', marginRatePercentage)
+    },
+    cardCurrency: {
+      tooltip: (payerCurrency: string, exchangeRateSource: string, exchangeRateTimeCreated: string) => {
+        const resource = `<p>Potvrdzujem, že mi bola ponúknutá možnosť výberu meny platby.
+        Akceptujem výmenný kurz a konečnú sumu a potvrdzujem, že mnou zvolená mena transakcie je: ##VALUE1##.
+        Prepočet meny a výmenný kurz zabezpečuje spoločnosť Global Payments.</p>`;
+
+        return resource.replace('##VALUE1##', payerCurrency)
+          .replace('##VALUE2##', exchangeRateSource)
+          .replace('##VALUE3##', exchangeRateTimeCreated);
+      },
+      "aria-label": "Information about Currency Conversion"
+    },
+    merchantCurrency: {
+      tooltip: (exchangeRateSource: string, exchangeRateTimeCreated: string) => {
+        const resource = `<p>Reference Rate Provided by: ##VALUE1##,<br />
+        Exchange rate offered on: ##VALUE2##.</p>`;
+
+        return resource.replace('##VALUE1##', exchangeRateSource)
+          .replace('##VALUE2##', exchangeRateTimeCreated);
+      },
+      "aria-label": "Information about Currency Conversion"
+    },
+    installmentWithDcc : 'Konverzia meny nie je možná pri splátkach. Ak chcete povoliť konverziu meny, vyberte možnosť „Zaplatiť v plnej výške“.',
+    dccWarning: 'Uistite sa, že rozumiete nákladom spojeným s prepočtom meny, pretože sa môžu líšiť v závislosti od výberu lokálnej meny alebo meny karty.',
+    disclaimer: 'Vydavateľ Vašej karty môže účtovať poplatky za výmenný kurz a ďalšie poplatky za konverziu.'
+  },
   orderInformation: {
     amount: "Suma",
     orderReference: "Referencia objednávky",

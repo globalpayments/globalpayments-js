@@ -26,12 +26,13 @@ export default (id: string, type: string, data: IDictionary) => {
   w.dataContents[data.data.type] = data.data.value;
 
   if (!w.dataReceivedFields) {
-    w.dataReceivedFields = ["submit"];
+    w.dataReceivedFields = [];
   }
 
   (w.dataReceivedFields as string[]).push(data.data.type);
 
   const installment = data.data.installment;
+
   const currencyConversion = data.data.currencyConversion;
 
   const isInstallmentActive = installment?.installmentReference
@@ -142,9 +143,9 @@ export default (id: string, type: string, data: IDictionary) => {
             // redirectUrl,
             // expressPayEnabled: options.expressPay?.enabled,
             ...(sendInstallment ?  {installment} : {}),
+            ...(currencyConversion && currencyConversion.currencyConversionAccepted === 'YES' ?  {currencyConversion} : {}),
             details: {
               ...(response.details),
-              ...(currencyConversion ?  {currencyConversion} : {}),
             },
             ...response
           },

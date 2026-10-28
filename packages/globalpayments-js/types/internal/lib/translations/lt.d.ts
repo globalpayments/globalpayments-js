@@ -103,7 +103,7 @@ declare const lt: {
     };
     dcc: {
         label: string;
-        additionalInfo: (currency: string, exchangeRate: string, payerCurrency: string, marginRatePercentage: string) => string;
+        additionalInfo: (currency: string, exchangeRate: string, payerCurrency: string, marginRatePercentage: string, payerRegionEU: string) => string;
         cardCurrency: {
             tooltip: (payerCurrency: string, exchangeRateSource: string, exchangeRateTimeCreated: string) => string;
             "aria-label": string;
@@ -112,6 +112,9 @@ declare const lt: {
             tooltip: (exchangeRateSource: string, exchangeRateTimeCreated: string) => string;
             "aria-label": string;
         };
+        installmentWithDcc: string;
+        dccWarning: string;
+        disclaimer: string;
     };
     orderInformation: {
         amount: string;
