@@ -37,9 +37,6 @@ export default (id: string, data: IDictionary) => {
       fieldsToValidate = [...fieldsToValidate, ...additionalFieldsToValidate];
     }
 
-    // Handle DCC Validations (if needed)
-    handleCurrencyConversionValidationSetup(fieldsToValidate);
-
     const fieldsToValidateCount = fieldsToValidate.length;
 
     const cardHolderNotPresent = w.formValidations[CardFormFieldNames.CardHolderName] === undefined;
@@ -85,13 +82,6 @@ export default (id: string, data: IDictionary) => {
     w.formValidations[CardFormFieldNames.CardCvv] === undefined;
 
     isFormValid = cardNumber && cardExpiration && (cardCvv || cvvNotPresent) && (cardHolderName || cardHolderNotPresent) && expressPayFieldsValid;
-
-    const isCurrencyConversionEnabled = options.currencyConversion?.enabled;
-    const isCurrencyConversionAvailable = getCurrencyConversionAvailabilityStatus();
-    const shouldCurrencyConversionBeValidated = isCurrencyConversionEnabled && isCurrencyConversionAvailable;
-    if (shouldCurrencyConversionBeValidated) {
-      isFormValid = isFormValid && w.formValidations[DCC_KEY];
-    }
 
     const visInstallmentValidity = localStorage.getItem(INSTALLMENT_VALIDITY_KEY);
     if (visInstallmentValidity !== null) {

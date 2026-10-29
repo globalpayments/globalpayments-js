@@ -4,8 +4,8 @@ export interface CurrencyConversionPaymentData {
     exchangeRateSource: string;
     cardHolderAmount: string;
     cardHolderCurrency: string;
-    merchantAmount: string;
-    merchantCurrency: string;
+    merchantAmount?: string;
+    merchantCurrency?: string;
     marginPercentageRate: string;
     exchangeRateTimeCreated: string;
     commissionPercentage: string;

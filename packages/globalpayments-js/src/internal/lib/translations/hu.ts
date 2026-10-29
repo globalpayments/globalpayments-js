@@ -105,7 +105,47 @@ const hu = {
     blik0c: {
       enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
       errorMessage: "Please enter your 6 digit BLIK code.",
-    },},
+    },
+  },
+  dcc: {
+    label: "Válassza ki a kívánt pénznemet",
+    additionalInfo: (currency: string, exchangeRate: string, payerCurrency: string, marginRatePercentage: string, payerRegionEU: string) => {
+      // const resource = `<p>Exchange rate used: 1 ##VALUE1## = ##VALUE2## ##VALUE3##. Exchange Rate Mark-Up: ##VALUE4## above ECB Rate.</p>`;
+      const euResource = `Árfolyam: 1 ##VALUE1## = ##VALUE2## ##VALUE3##  (Beleértve az EKB árfolyamához képesti felárat: ##VALUE4##)`
+      const nonEuResource = `Árfolyam: 1 ##VALUE1## = ##VALUE2## ##VALUE3## (Haszonkulccsal együtt: ##VALUE4##)`;
+
+      const resource = payerRegionEU ? euResource : nonEuResource;
+      return resource.replace('##VALUE1##', currency)
+        .replace('##VALUE2##', exchangeRate)
+        .replace('##VALUE3##', payerCurrency)
+        .replace('##VALUE4##', marginRatePercentage)
+    },
+    cardCurrency: {
+      tooltip: (payerCurrency: string, exchangeRateSource: string, exchangeRateTimeCreated: string) => {
+        const resource = `<p>Elfogadom, hogy fizetéskor több pénznem közül választhatok.
+        Elfogadom az átváltási árfolyamot és a végső összeget, valamint azt, hogy a kiválasztott tranzakció pénzneme a kártyatulajdonos által választott pénznem: ##VALUE1##.
+        A pénznemváltást és az árfolyamot a Global Payments biztosítja.</p>`;
+
+        return resource.replace('##VALUE1##', payerCurrency)
+          .replace('##VALUE2##', exchangeRateSource)
+          .replace('##VALUE3##', exchangeRateTimeCreated);
+      },
+      "aria-label": "Information about Currency Conversion"
+    },
+    merchantCurrency: {
+      tooltip: (exchangeRateSource: string, exchangeRateTimeCreated: string) => {
+        const resource = `<p>Reference Rate Provided by: ##VALUE1##,<br />
+        Exchange rate offered on: ##VALUE2##.</p>`;
+
+        return resource.replace('##VALUE1##', exchangeRateSource)
+          .replace('##VALUE2##', exchangeRateTimeCreated);
+      },
+      "aria-label": "Information about Currency Conversion"
+    },
+    installmentWithDcc : 'Részletfizetés esetén nem lehetséges a pénznemváltás. A pénznemváltás engedélyezéséhez válassza a „Teljes összeg fizetése” lehetőséget.',
+    dccWarning: 'GYŐZŐDJÖN MEG RÓLA, HOGY ÉRTETTE A DEVIZAÁTVÁLTÁS KÖLTSÉGEIT, MERT AZOK ELTÉRŐEK LEHETNEK ATTÓL FÜGGŐEN, HOGY A HAZAI PÉNZNEMÉT VAGY A TRANZAKCIÓ PÉNZNEMÉT VÁLASZTOTJA-E.',
+    disclaimer: 'A kártyakibocsátó árfolyamot és további átváltási díjakat számíthat fel.'
+  },
   orderInformation: {
     amount: "Összeg",
     orderReference: "Rendelési hivatkozás",

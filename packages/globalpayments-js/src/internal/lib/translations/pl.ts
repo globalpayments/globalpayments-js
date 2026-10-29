@@ -105,7 +105,47 @@ const en = {
     blik0c: {
       enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
       errorMessage: "Please enter your 6 digit BLIK code.",
-    },},
+    }
+  },
+  dcc: {
+    label: "Wybierz preferowaną walutę",
+    additionalInfo: (currency: string, exchangeRate: string, payerCurrency: string, marginRatePercentage: string, payerRegionEU: string) => {
+      // const resource = `<p>Exchange rate used: 1 ##VALUE1## = ##VALUE2## ##VALUE3##. Exchange Rate Mark-Up: ##VALUE4## above ECB Rate.</p>`;
+      const euResource = `Kurs wymiany: 1 ##VALUE1## = ##VALUE2## ##VALUE3##  (w tym marża ponad kurs referencyjny EBC: ##VALUE4##)`
+      const nonEuResource = `Kurs wymiany: 1 ##VALUE1## = ##VALUE2## ##VALUE3## (w tym marża kursowa: ##VALUE4##)`
+      const resource = payerRegionEU ? euResource : nonEuResource;
+
+      return resource.replace('##VALUE1##', currency)
+        .replace('##VALUE2##', exchangeRate)
+        .replace('##VALUE3##', payerCurrency)
+        .replace('##VALUE4##', marginRatePercentage)
+    },
+    cardCurrency: {
+      tooltip: (payerCurrency: string, exchangeRateSource: string, exchangeRateTimeCreated: string) => {
+        const resource = `<p>Potwierdzam, że zaoferowano mi możliwość wyboru waluty płatności.
+        Akceptuję kurs wymiany oraz finalną kwotę i potwierdzam, że wybrana przeze mnie waluta transakcji to: ##VALUE1##.
+        Przewalutowanie oraz kurs wymiany są dostarczane przez firmę Global Payments.</p>`;
+
+        return resource.replace('##VALUE1##', payerCurrency)
+          .replace('##VALUE2##', exchangeRateSource)
+          .replace('##VALUE3##', exchangeRateTimeCreated);
+      },
+      "aria-label": "Information about Currency Conversion"
+    },
+    merchantCurrency: {
+      tooltip: (exchangeRateSource: string, exchangeRateTimeCreated: string) => {
+        const resource = `<p>Reference Rate Provided by: ##VALUE1##,<br />
+        Exchange rate offered on: ##VALUE2##.</p>`;
+
+        return resource.replace('##VALUE1##', exchangeRateSource)
+          .replace('##VALUE2##', exchangeRateTimeCreated);
+      },
+      "aria-label": "Information about Currency Conversion"
+    },
+    installmentWithDcc : 'Przewalutowanie nie może być oferowane przy płatności ratalnej. Wybierz opcję „Zapłać całość”, aby włączyć przewalutowanie.',
+    dccWarning: 'UPEWNIJ SIĘ, ŻE ROZUMIESZ KOSZTY ZWIĄZANE Z PRZEWALUTOWANIEM, PONIEWAŻ MOGĄ ONE RÓŻNIĆ SIĘ W ZALEŻNOŚCI OD WYBORU WALUTY LOKALNEJ LUB WALUTY KARTY.',
+    disclaimer: 'Wydawca karty może naliczyć opłatę za wymianę walut i inne dodatkowe opłaty za przewalutowanie.'
+  },
   orderInformation: {
     amount: "Kwota",
     orderReference: "Numer zamówienia",

@@ -76,7 +76,7 @@ export function createInstallmentOptions(iFrameField: IframeField | undefined, i
   else if (options.installments?.program === Program.VIS) {
     if (installmentPlans.terms.length > 0) {
       const firstTerm = {
-        name: installmentTranslations.payInFullVisa,
+        name: installmentTranslations.payInFullLatam,
         count: InstallmentLabels.INSTALLMENT_DEFAULT_PAYMENT_OPTION,
         planAmount: amount,
         currency: options.installments?.currency

@@ -1051,6 +1051,52 @@ declare const parentStyles: (assetBaseUrl: string, themePreset?: IThemePreset | 
         "border-style": string;
         "border-color": string;
     };
+    ".secure-payment-form .dcc-payer-tooltip-text"?: {
+        "font-family": string;
+        "font-size": string;
+    };
+    ".secure-payment-form .warning-info"?: {
+        "margin-top": string;
+    };
+    ".secure-payment-form .submit-disclaimer-text"?: {
+        "margin-bottom": string;
+        "font-family": string;
+        "font-size": string;
+    };
+    ".secure-payment-form .submit-section-separator"?: {
+        display: string;
+        "align-items": string;
+        "justify-content": string;
+        margin: string;
+        color: string;
+    };
+    ".secure-payment-form .submit-section-separator::before"?: {
+        content: string;
+        flex: string;
+        height: string;
+        "background-color": string;
+        "margin-right": string;
+    };
+    ".secure-payment-form .submit-section-separator::after"?: {
+        content: string;
+        flex: string;
+        height: string;
+        "background-color": string;
+        "margin-left": string;
+    };
+    ".secure-payment-form .submit-section-separator-label"?: {
+        "font-family": string;
+        "font-size": string;
+        "font-weight": string;
+    };
+    ".secure-payment-form .dcc-submit-label-text"?: {
+        "font-family": string;
+        "font-size": string;
+        "font-weight": string;
+        color: string;
+        "margin-bottom": string;
+        "margin-top": string;
+    };
     "@media only screen and (max-width: 768px)"?: {
         ".secure-payment-form .currency-conversion-container": {
             "flex-direction": string;
@@ -1079,6 +1125,21 @@ declare const parentStyles: (assetBaseUrl: string, themePreset?: IThemePreset | 
         };
         ".secure-payment-form .credit-card-currency-conversion .tooltip-content::before": {
             right: string;
+        };
+        ".secure-payment-form .dcc-payer-tooltip-text": {
+            "font-family": string;
+            "font-size": string;
+        };
+        ".secure-payment-form .submit-disclaimer-text": {
+            "margin-bottom": string;
+            "font-family": string;
+            "font-size": string;
+        };
+        ".secure-payment-form .submit-section-separator": {
+            margin: string;
+        };
+        ".secure-payment-form .submit-section-separator-label": {
+            "font-size": string;
         };
     };
     "@media(max-width: 340px)"?: {
@@ -1513,6 +1574,8 @@ declare const parentStyles: (assetBaseUrl: string, themePreset?: IThemePreset | 
         "flex-wrap": string;
         "padding-bottom": string;
         "padding-right": string;
+        background: string;
+        "align-items": string;
     };
     ".secure-payment-form .installment-pay-in-visa-option": {
         background: string;
@@ -1600,6 +1663,8 @@ declare const parentStyles: (assetBaseUrl: string, themePreset?: IThemePreset | 
         "font-size": string;
         "font-family": string;
         "vertical-align": string;
+        "font-weight": string;
+        color: string;
     };
     ".secure-payment-form .installment-dcc-warning": {
         display: string;

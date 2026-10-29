@@ -110,36 +110,45 @@ const lt = {
       errorMessage: "Please enter your 6 digit BLIK code.",
     },
   },
-    dcc: {
-      label: "Select Your Preferred Currency",
-      additionalInfo: (currency: string, exchangeRate: string, payerCurrency: string, marginRatePercentage: string) => {
-        const resource = `<p>Exchange rate used: 1 ##VALUE1## = ##VALUE2## ##VALUE3##. Exchange Rate Mark-Up: ##VALUE4## above ECB Rate.</p>`;
-        return resource.replace('##VALUE1##', currency)
-          .replace('##VALUE2##', exchangeRate)
-          .replace('##VALUE3##', payerCurrency)
-          .replace('##VALUE4##', marginRatePercentage);
-      },
-      cardCurrency: {
-        tooltip: (payerCurrency: string, exchangeRateSource: string, exchangeRateTimeCreated: string) => {
-          const resource = `<p>I accept that I have been offered a choice of currencies for payment. I accept the conversion rate and final amount and that the final selected transaction currency is the cardholder's chosen currency, ##VALUE1##.</p>
-          <p>Reference Rate Provided by: ##VALUE2##,<br />
-          Exchange rate offered on: ##VALUE3##.</p>`;
-          return resource.replace('##VALUE1##', payerCurrency)
-            .replace('##VALUE2##', exchangeRateSource)
-            .replace('##VALUE3##', exchangeRateTimeCreated);
-        },
-        "aria-label": "Information about Currency Conversion"
-      },
-      merchantCurrency: {
-        tooltip: (exchangeRateSource: string, exchangeRateTimeCreated: string) => {
-          const resource = `<p>Reference Rate Provided by: ##VALUE1##,<br />
-          Exchange rate offered on: ##VALUE2##.</p>`;
-          return resource.replace('##VALUE1##', exchangeRateSource)
-            .replace('##VALUE2##', exchangeRateTimeCreated);
-        },
-        "aria-label": "Information about Currency Conversion"
-      }
+  dcc: {
+    label: "Pasirinkite pageidaujamą valiutą",
+    additionalInfo: (currency: string, exchangeRate: string, payerCurrency: string, marginRatePercentage: string, payerRegionEU: string) => {
+      // const resource = `<p>Exchange rate used: 1 ##VALUE1## = ##VALUE2## ##VALUE3##. Exchange Rate Mark-Up: ##VALUE4## above ECB Rate.</p>`;
+      const euResource = `Valiutos kursas: 1 ##VALUE1## = ##VALUE2## ##VALUE3##  (įskaitant antkainį, viršijantį ECB kursą: ##VALUE4##)`
+      const nonEuResource = `Valiutos kursas: 1 ##VALUE1## = ##VALUE2## ##VALUE3## (įskaitant antkainį: ##VALUE4##)`;
+
+      const resource = payerRegionEU ? euResource : nonEuResource;
+      return resource.replace('##VALUE1##', currency)
+        .replace('##VALUE2##', exchangeRate)
+        .replace('##VALUE3##', payerCurrency)
+        .replace('##VALUE4##', marginRatePercentage);
     },
+    cardCurrency: {
+      tooltip: (payerCurrency: string, exchangeRateSource: string, exchangeRateTimeCreated: string) => {
+        const resource = `<p>Sutinku, kad man buvo pasiūlyta pasirinkti mokėjimo valiutas.
+        Sutinku su konvertavimo kursu ir galutine suma bei su tuo, kad pasirinkta operacijos valiuta yra kortelės turėtojo pasirinkta valiuta: ##VALUE1##.
+        Valiutos konvertavimą ir kursą pateikia „Global Payments“.</p>`;
+
+        return resource.replace('##VALUE1##', payerCurrency)
+          .replace('##VALUE2##', exchangeRateSource)
+          .replace('##VALUE3##', exchangeRateTimeCreated);
+      },
+      "aria-label": "Information about Currency Conversion"
+    },
+    merchantCurrency: {
+      tooltip: (exchangeRateSource: string, exchangeRateTimeCreated: string) => {
+        const resource = `<p>Reference Rate Provided by: ##VALUE1##,<br />
+        Exchange rate offered on: ##VALUE2##.</p>`;
+
+        return resource.replace('##VALUE1##', exchangeRateSource)
+          .replace('##VALUE2##', exchangeRateTimeCreated);
+      },
+      "aria-label": "Information about Currency Conversion"
+    },
+    installmentWithDcc : 'Valiutos konvertavimas negali būti siūlomas mokant dalimis. Pasirinkite „Mokėti visą sumą“, kad įjungtumėte valiutos konvertavimą.',
+    dccWarning: 'ĮSITIKINKITE, KAD SUPRANTATE VALIUTOS KONVERTAVIMO IŠLAIDAS, NES JOS GALI SKIRTIS PRIKLAUSOMAI NUO TO, AR PASIRINKITE SAVO NAMŲ VALIUTĄ, AR OPERACIJOS VALIUTĄ.',
+    disclaimer: 'Jūsų kortelės išdavėjas gali taikyti valiutos kursą ir papildomus konvertavimo mokesčius.'
+  },
     orderInformation: {
       amount: "Amount",
       orderReference: "Order Reference",

@@ -129,6 +129,8 @@ const styles = (assetBaseUrl: string) => {
             /* margin-top: 20px; */
             "padding-bottom": "0",
             "padding-right": "0",
+            "background": "#FFFFFF",
+            "align-items": "center",
         },
 
         ".secure-payment-form .installment-pay-in-visa-option": {
@@ -231,7 +233,9 @@ const styles = (assetBaseUrl: string) => {
             "margin-left": "8px",
             "font-size": "14px",
             "font-family": 'DMSans',
-            "vertical-align": "middle"
+            "vertical-align": "middle",
+            "font-weight": "500",
+            "color":"#E12619"
         },
 
         ".secure-payment-form .installment-dcc-warning": {

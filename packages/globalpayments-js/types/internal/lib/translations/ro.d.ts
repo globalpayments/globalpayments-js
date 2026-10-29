@@ -97,6 +97,21 @@ declare const ro: {
             errorMessage: string;
         };
     };
+    dcc: {
+        label: string;
+        additionalInfo: (currency: string, exchangeRate: string, payerCurrency: string, marginRatePercentage: string, payerRegionEU: string) => string;
+        cardCurrency: {
+            tooltip: (payerCurrency: string, exchangeRateSource: string, exchangeRateTimeCreated: string) => string;
+            "aria-label": string;
+        };
+        merchantCurrency: {
+            tooltip: (exchangeRateSource: string, exchangeRateTimeCreated: string) => string;
+            "aria-label": string;
+        };
+        installmentWithDcc: string;
+        dccWarning: string;
+        disclaimer: string;
+    };
     orderInformation: {
         amount: string;
         orderReference: string;

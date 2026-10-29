@@ -179,7 +179,7 @@ export const fieldStyles = (assetBaseUrl: string) => {
     },
 
     ...(options.fieldValidation?.enabled ? getBuiltInValidationFieldStyles(assetBaseUrl) : {}),
-    ...(options.currencyConversion?.enabled ? getCurrencyConversionFieldStyles() : {}),
+    ...(options.currencyConversion ? getCurrencyConversionFieldStyles() : {}),
   };
 };
 
@@ -336,7 +336,7 @@ export const parentStyles = (assetBaseUrl: string) => {
 
     ...(options.fieldValidation?.enabled ? getBuiltInValidationParentStyles(assetBaseUrl) : {}),
     ...(options.apms?.qrCodePayments && options.apms?.qrCodePayments.enabled ? getQRCodePaymentsCommonStyles(assetBaseUrl) : {}),
-    ...(options.currencyConversion?.enabled ? getCurrencyConversionStyles() : {}),
+    ...(options.currencyConversion ? getCurrencyConversionStyles() : {}),
 
     ...(options.orderInformation?.enabled ? getOrderInformationCommonStyles(assetBaseUrl) : {}),
 

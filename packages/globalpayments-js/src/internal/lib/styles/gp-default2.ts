@@ -166,7 +166,7 @@ export const fieldStyles = (assetBaseUrl: string, theme?: string) => {
             display: "none",
         },
 
-        ...(options.currencyConversion?.enabled ? getCurrencyConversionFieldStyles() : {}),
+        ...(options.currencyConversion ? getCurrencyConversionFieldStyles() : {}),
         ...(options.fieldValidation?.enabled ? getBuiltInValidationFieldStyles(assetBaseUrl, theme) : {}),
     };
 };
@@ -680,7 +680,7 @@ export const parentStyles = (assetBaseUrl: string, theme?: string) => {
         ...getClickToPayStyles(assetBaseUrl),
         ...getGooglePayStyles(assetBaseUrl),
         ...(options.fieldValidation?.enabled ? getBuiltInValidationParentStyles(assetBaseUrl, theme) : {}),
-        ...(options.currencyConversion?.enabled ? getCurrencyConversionStyles() : {}),
+        ...(options.currencyConversion ? getCurrencyConversionStyles() : {}),
         ...getPaymentMethodsStyles(assetBaseUrl),
 
         ...(options.orderInformation?.enabled ? getOrderInformationCommonStyles(assetBaseUrl, theme) : {}),

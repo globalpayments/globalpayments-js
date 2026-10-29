@@ -226,7 +226,7 @@ const fieldStyles = (assetBaseUrl: string, themePreset?: IThemePreset) => {
       display: "none",
     },
 
-    ...(options.currencyConversion?.enabled ? getCurrencyConversionFieldStyles() : {}),
+    ...(options.currencyConversion ? getCurrencyConversionFieldStyles() : {}),
     ...(options.fieldValidation?.enabled ? getBuiltInValidationFieldStyles(assetBaseUrl) : {}),
   };
 };
@@ -592,7 +592,7 @@ const parentStyles = (assetBaseUrl: string, themePreset?: IThemePreset) => {
     ...getClickToPayStyles(assetBaseUrl),
     ...getGooglePayStyles(assetBaseUrl),
     ...(options.fieldValidation?.enabled ? getBuiltInValidationParentStyles(assetBaseUrl) : {}),
-    ...(options.currencyConversion?.enabled ? getCurrencyConversionStyles() : {}),
+    ...(options.currencyConversion ? getCurrencyConversionStyles() : {}),
     ...getPaymentMethodsStyles(assetBaseUrl),
 
     ...getOrderInformationCommonStyles(assetBaseUrl),

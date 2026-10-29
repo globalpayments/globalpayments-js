@@ -105,7 +105,47 @@ const ro = {
     blik0c: {
       enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
       errorMessage: "Please enter your 6 digit BLIK code.",
-    },},
+    }
+  },
+  dcc: {
+    label: "Selectați moneda preferată",
+    additionalInfo: (currency: string, exchangeRate: string, payerCurrency: string, marginRatePercentage: string, payerRegionEU: string) => {
+      // const resource = `<p>Exchange rate used: 1 ##VALUE1## = ##VALUE2## ##VALUE3##. Exchange Rate Mark-Up: ##VALUE4## above ECB Rate.</p>`;
+      const euResource = `Curs de schimb: 1 ##VALUE1## = ##VALUE2## ##VALUE3##  (Incluzând rata adaosului comercial deasupra cursului BCE: ##VALUE4##)`
+      const nonEuResource = `Curs de schimb: 1 ##VALUE1## = ##VALUE2## ##VALUE3## (Incluzând rata adaosului comercial: ##VALUE4##)`;
+
+      const resource = payerRegionEU ? euResource : nonEuResource;
+      return resource.replace('##VALUE1##', currency)
+        .replace('##VALUE2##', exchangeRate)
+        .replace('##VALUE3##', payerCurrency)
+        .replace('##VALUE4##', marginRatePercentage)
+    },
+    cardCurrency: {
+      tooltip: (payerCurrency: string, exchangeRateSource: string, exchangeRateTimeCreated: string) => {
+        const resource = `<p>Accept că mi s-a oferit o selecție de valute pentru plată.
+        Accept cursul de schimb și suma finală și că moneda selectată pentru tranzacție este moneda aleasă de titularul cardului: ##VALUE1##.
+        Conversia valutară și cursul de schimb sunt furnizate de Global Payments.</p>`;
+
+        return resource.replace('##VALUE1##', payerCurrency)
+          .replace('##VALUE2##', exchangeRateSource)
+          .replace('##VALUE3##', exchangeRateTimeCreated);
+      },
+      "aria-label": "Information about Currency Conversion"
+    },
+    merchantCurrency: {
+      tooltip: (exchangeRateSource: string, exchangeRateTimeCreated: string) => {
+        const resource = `<p>Reference Rate Provided by: ##VALUE1##,<br />
+        Exchange rate offered on: ##VALUE2##.</p>`;
+
+        return resource.replace('##VALUE1##', exchangeRateSource)
+          .replace('##VALUE2##', exchangeRateTimeCreated);
+      },
+      "aria-label": "Information about Currency Conversion"
+    },
+    installmentWithDcc : 'Conversia valutară nu poate fi oferită la plățile în rate. Selectați „Plătiți integral” pentru a activa conversia valutară.',
+    dccWarning: 'ASIGURAȚI-VĂ CĂ ÎNȚELEGEȚI COSTURILE CONVERSIEI VALUTARE, DEOARECE ACESTEA POT FI DIFERITE ÎN FUNCȚIE DE SELECTAREA MONEDEI NAȚIONALE SAU A MONEDEI TRANZACȚIEI.',
+    disclaimer: 'Emitentul cardului dumneavoastră poate aplica cursul de schimb valutar și comisioane suplimentare de conversie.'
+  },
   orderInformation: {
     amount: "Cantitate",
     orderReference: "Referință de comandă",

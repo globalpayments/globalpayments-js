@@ -96,9 +96,9 @@ export const validate = (fieldType: string, value: string, extraData?: any): { i
             if (charactersLessThan(trimSpaces(value), 2)) return createValidationResult(false, ValidationMessages.CardHolderName.NotValidCardHolderName);
 
             return createValidationResult(true);
-        case DCC_KEY:
-            if (isEmpty(value)) return createValidationResult(false, ValidationMessages.CurrencyConversion.Required);
-            return createValidationResult(true);
+        // case DCC_KEY:
+        //     if (isEmpty(value)) return createValidationResult(false, ValidationMessages.CurrencyConversion.Required);
+        //     return createValidationResult(true);
         default:
         return createValidationResult(false);
     }

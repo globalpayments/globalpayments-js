@@ -26,7 +26,7 @@ export const cleanUpCurrencyConversionAvailabilityStatus = (): void => {
 }
 
 export const handleCurrencyConversionValidationSetup = (fieldsToValidate: string[]): void => {
-    const isCurrencyConversionEnabled = options.currencyConversion?.enabled;
+    const isCurrencyConversionEnabled = options.currencyConversion;
     const isCurrencyConversionAvailable = getCurrencyConversionAvailabilityStatus();
     const shouldCurrencyConversionBeValidated = isCurrencyConversionEnabled && isCurrencyConversionAvailable;
 

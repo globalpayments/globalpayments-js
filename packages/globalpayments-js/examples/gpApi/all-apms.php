@@ -29,7 +29,7 @@ $request = json_encode([
     'grant_type' => 'client_credentials',
     'nonce' => $nonce,
     'interval_to_expire' => '1_HOUR',
-    'permissions' => ['PMT_POST_Create_Single','INS_POST_Query']
+    'permissions' => ['PMT_POST_Create_Single','INS_POST_Query','CCS_POST_DCC']
     // 'permissions' => ['CON_POST_Create']
 ]);
 
@@ -74,7 +74,6 @@ $accessToken = $response->token ?? '';
             language: "en",
             reference: "",
             cardCvvOption: GlobalPayments.enums.CardCvvOption.Mandatory,
-            disablePayButton:true,
             //merchantId: "<?//= $merchant_id ?>//",
             apms: {
                 currencyCode: "PLN",
@@ -271,9 +270,8 @@ $accessToken = $response->token ?? '';
                 enabled: true
             },
             currencyConversion: {
-                enabled: true,
-                accountName: "dcc",
-                currency: "EUR",
+                accountName: "GPECOM_CNP_DCC_Processing",
+                currency: "GBP",
                 country: "GB",
             },
             // merchantId: "MER_20c2b3fcfedd484e9c3723347db56b71",

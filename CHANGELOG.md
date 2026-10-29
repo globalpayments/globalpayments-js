@@ -4,6 +4,9 @@
 
 # Changelog (MM/DD/YY)
 
+## latest v5.3.0 (10/29/26)
+- [Globalpayments-js][5.3.0] Elevate DCC
+
 ## latest v5.2.0 (10/15/26)
 - [Globalpayments-js][5.2.0] Footer update changes for all brand themes and styles. 
 - [Globalpayments-js][5.2.0] Replaced card accordion menu title

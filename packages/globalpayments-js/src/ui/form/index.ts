@@ -46,6 +46,9 @@ import { addExpressPayDetailsEventListener, formatBillingAddress, formatShipping
 import getExpressPayBaseUrl from "../../internal/gateways/gp-api/get-express-pay-base-url";
 import { addInstallmentEligibilityBadge } from "../../internal/lib/installments/templates/common";
 import addKonek from "../iframe-field/konek/action-add";
+import { formatAmount } from "../../common/currency";
+import { translateMessage } from "../../internal/lib/translate";
+import translations from "../../internal/lib/translations/translations";
 
 export { IUIFormField } from "../iframe-field";
 
@@ -109,6 +112,7 @@ export const frameFieldTypes = [
   "routing-number",
   INSTALLMENTS_KEY,
   DCC_KEY,
+  "submit-dcc",
   "submit",
 ];
 
@@ -126,6 +130,7 @@ export default class UIForm {
   public formOptionFields: IUIFormOptions | undefined;
   private totalNumberOfFields = 0;
   private hasInstallmentValidationError = false;
+  private selectedSubmitType: "submit" | "submit-dcc" = "submit";
 
   /**
    * Instantiates a new UIForm object for a group of hosted fields
@@ -295,6 +300,7 @@ export default class UIForm {
         ExpressPayFieldNames.ShippingPostalCode
       )
     }
+
     for (const type of frameFieldTypes) {
       // Do not create Konek iframe unless Konek configuration exists in options.
       if (type === Apm.Konek && (options.apms?.konek && (!options.apms?.konek?.enabled || options.apms?.countryCode !== "CA"))) {
@@ -345,21 +351,25 @@ export default class UIForm {
     }
 
     // support tokenization data flows to `card-number` / `account-number`
-    if (this.frames.submit !== undefined) {
-      this.frames.submit.on("click", () => {
-        if (options.fieldValidation?.enabled) {
-          this.validateForm(this.frames);
-        } else {
-          this.submitForm();
-        }
-        if(options.expressPay?.enabled){
-          if (this.formOptionFields) {
-            this.formOptionFields.provider = '';
+    ["submit", "submit-dcc"].forEach((submitType) => {
+      if (this.frames[submitType] !== undefined) {
+        this.frames[submitType]!.on("click", () => {
+          this.selectedSubmitType = submitType as "submit" | "submit-dcc";
+          this.populateCurrencyConversionAcceptedFromSubmit(this.selectedSubmitType);
+          if (options.fieldValidation?.enabled) {
+            this.validateForm(this.frames);
+          } else {
+            this.submitForm();
           }
-          addExpressPayDetailsEventListener();
-        }
-      });
-    }
+          if(options.expressPay?.enabled){
+            if (this.formOptionFields) {
+              this.formOptionFields.provider = '';
+            }
+            addExpressPayDetailsEventListener();
+          }
+        });
+      }
+    });
 
     const cardNumber = this.frames[CardFormFieldNames.CardNumber];
     const cardCvv = this.frames[CardFormFieldNames.CardCvv];
@@ -434,11 +444,13 @@ export default class UIForm {
       this.configureCardInstallmentsEvents(installmentsFrame);
     }
 
-    if (options.currencyConversion?.enabled) {
+    if (options.currencyConversion) {
       const dcc = this.frames[DCC_KEY];
+      const dccSubmit = this.frames["submit-dcc"];
       if (dcc) {
         dcc?.container?.querySelector('iframe')?.classList.add('hidden');
       }
+      dccSubmit?.container?.querySelector('iframe')?.classList.add('hidden');
       this.configureCurrencyConversionEvents(dcc);
     }
 
@@ -606,6 +618,8 @@ export default class UIForm {
     [cardNumberFrame, cardExpirationFrame].forEach(cardFieldFrame => {
       cardFieldFrame.on(InstallmentEvents.CardInstallmentsHide, (_data?: any) => {
         this.removeInstallmentsPanel();
+        this.installmentResponseData = null;
+        this.updateDccFlowForInstallmentSelection(this.installmentResponseData);
         installmentRequestInProgress = false;
       });
 
@@ -633,9 +647,9 @@ export default class UIForm {
           const installmentFields = this.fields[INSTALLMENTS_KEY];
           addInstallments(installmentField, installmentPlansData, installmentFields.amount, (installment: InstallmentPaymentData | VisaInstallmentPaymentData) => {
             const target = this.frames[`card-number`] || this.frames[`account-number`];
-
             if (!target) return;
             this.installmentResponseData = installment;
+            this.updateDccFlowForInstallmentSelection(installment);
           });
 
         installmentRequestInProgress = false;
@@ -686,11 +700,51 @@ export default class UIForm {
     const installmentsContainer = document.querySelector(".installment-option-section");
     if(installmentsContainer) {
       installmentsContainer.setAttribute("style", "display: none !important");
+      const renderedInstallmentOptions = installmentsContainer.querySelector(".payment-options-installment");
+      renderedInstallmentOptions?.remove();
     }
   }
 
   private currencyConversionResponseData: any;
+  private currencyConversionRawData: any;
   private installmentResponseData: InstallmentPaymentData | VisaInstallmentPaymentData | null = null;
+
+  private populateCurrencyConversionAcceptedFromSubmit(submitType: "submit" | "submit-dcc"): void {
+    if (!options.currencyConversion) {
+      return;
+    }
+
+    this.currencyConversionResponseData = this.currencyConversionResponseData || {};
+    this.currencyConversionResponseData.response = this.currencyConversionResponseData.response || {};
+    this.currencyConversionResponseData.response.currencyConversionAccepted = submitType === "submit-dcc" ? "YES" : "NO";
+  }
+
+  private getSubmitButtonBaseLabel(showDcc?:boolean): string {
+    const submitText = (this.formOptionFields as any)?.submit;
+    if (submitText) {
+      return submitText;
+    }
+
+    return translateMessage(options.language || "en", translations.en.values.submit)
+      || translations.en.values.submit
+      || "Pay";
+  }
+
+  private updateCurrencyConversionSubmitLabels(data: any): void {
+    const submitLabel = this.getSubmitButtonBaseLabel();
+
+    const merchantAmountText = `${formatAmount(data.amount, data.currency)} ${data.currency}`;
+    const payerAmountText = `${formatAmount(data.payer_amount, data.payer_currency)} ${data.payer_currency}`;
+
+    this.frames.submit?.setText(`${submitLabel} ${merchantAmountText}`);
+    this.frames["submit-dcc"]?.setText(`${submitLabel} ${payerAmountText}`);
+  }
+
+  private resetCurrencyConversionSubmitLabels(): void {
+    const submitLabel = this.getSubmitButtonBaseLabel();
+    this.frames.submit?.setText(submitLabel);
+    this.frames["submit-dcc"]?.setText(submitLabel);
+  }
 
   /**
    * Configures event listeners related to currency conversion for the specified iframe field.
@@ -718,6 +772,7 @@ export default class UIForm {
           cleanUpCurrencyConversionAvailabilityStatus();
 
           resetCurrencyConversion(dccField);
+          this.resetCurrencyConversionSubmitLabels();
           currencyConversionRequestInProgress = false;
         });
 
@@ -747,32 +802,59 @@ export default class UIForm {
         // Event listener for handling completion of currency conversion request
         cardFieldFrame.on(CurrencyConversionEvents.CurrencyConversionRequestCompleted, (data?: any) => {
           if (!data) return;
+          this.updateCurrencyConversionSubmitLabels(data);
+          this.currencyConversionRawData = data;
 
           this.checkCurrencyConversionStatus(dccField, data);
 
           // Add the currency conversion data to the specified iframe field and update response data
           addCurrencyConversion(dccField, data, (response, value) => {
               this.currencyConversionResponseData = {response, value};
-              const installmentDiv = document.getElementById('installment-option-section');
-              const installmentAvailabilityDiv = document.getElementById('installment-dcc-warning');
-            if (installmentDiv) {
-              if ((options.installments?.program === Program.VIS) &&
-                (this.currencyConversionResponseData.response.currencyConversionAccepted === "YES")) {
-                installmentDiv.style.display = 'none';
-                if (installmentAvailabilityDiv) {
-                  installmentAvailabilityDiv.style.display = 'block';
-                }
-              } else {
-                installmentDiv.style.display = 'flex';
-                if (installmentAvailabilityDiv) {
-                  installmentAvailabilityDiv.style.display = 'none';
-                }
-              }
-            }
+              this.updateDccFlowForInstallmentSelection(this.installmentResponseData);
           });
           currencyConversionRequestInProgress = false;
         });
       });
+    }
+  }
+
+  private updateDccFlowForInstallmentSelection(
+    installment: InstallmentPaymentData | VisaInstallmentPaymentData | null,
+  ): void {
+    if (!options.currencyConversion) {
+      return;
+    }
+
+    const showDccFlow = !(installment && installment.installmentReference);
+
+    const toggleElementDisplay = (selector: string, visible: boolean) => {
+      const elements = document.querySelectorAll(selector);
+      elements.forEach((el) => {
+        const target = el as HTMLElement;
+        target.style.display = visible ? "" : "none";
+      });
+    };
+
+    // Toggle all DCC-related submit flow elements.
+    toggleElementDisplay('.credit-card-submit-dcc', showDccFlow);
+    toggleElementDisplay('.dcc-submit-label-text', showDccFlow);
+    toggleElementDisplay('.dcc-payer-tooltip-text', showDccFlow);
+    toggleElementDisplay('.submit-disclaimer-text', showDccFlow);
+    toggleElementDisplay('.submit-section-separator', showDccFlow);
+
+    // Toggle submit button label based on installment selection.
+    if (!showDccFlow) {
+      // Installment plan selected: revert submit button to its base label.
+      this.frames.submit?.setText(this.getSubmitButtonBaseLabel());
+    } else if (this.currencyConversionRawData) {
+      // Pay-in-full selected: restore the DCC amount labels.
+      this.updateCurrencyConversionSubmitLabels(this.currencyConversionRawData);
+    }
+
+    // Show warning when any installment option (with reference) is selected.
+    const installmentAvailabilityDiv = document.getElementById('installment-dcc-warning');
+    if (installmentAvailabilityDiv) {
+      installmentAvailabilityDiv.style.display = showDccFlow ? 'none' : 'block';
     }
   }
 
@@ -781,6 +863,7 @@ export default class UIForm {
     setCurrencyConversionAvailabilityStatus(isCurrencyConversionAvailable);
 
     if (!isCurrencyConversionAvailable) {
+      this.resetCurrencyConversionSubmitLabels();
       resetCurrencyConversion(dccField);
     }
   }
@@ -858,16 +941,16 @@ export default class UIForm {
 
     if (this.currencyConversionResponseData) {
       // Check if Currency Conversion is enabled and a value is selected
-      const isCurrencyConversionEnabled = options.currencyConversion?.enabled;
+      const isCurrencyConversionEnabled = options.currencyConversion;
       const hasCurrencyConversionNoValueSelected = this.currencyConversionResponseData.value === '';
 
       // If Currency Conversion is enabled but no value is selected and field validation is not enabled, emit an error
       if (isCurrencyConversionEnabled && hasCurrencyConversionNoValueSelected) {
-        if (!options.fieldValidation?.enabled) {
-          // tslint:disable-next-line:no-console
-          console.error("Mandatory Fields missing [currency conversion] See Developers Guide");
-          return;
-        }
+        // if (!options.fieldValidation?.enabled) {
+        //   // tslint:disable-next-line:no-console
+        //   console.error("Mandatory Fields missing [currency conversion] See Developers Guide");
+        //   return;
+        // }
 
         // Remove DCC_KEY from fields if it was not processed due to currency conversion condition
         const isCurrencyConversionAvailable = getCurrencyConversionAvailabilityStatus();
@@ -876,6 +959,8 @@ export default class UIForm {
         }
       }
     }
+
+    this.populateCurrencyConversionAcceptedFromSubmit(this.selectedSubmitType);
 
     const currencyConversion = this.currencyConversionResponseData
       && this.currencyConversionResponseData.response
@@ -895,7 +980,7 @@ export default class UIForm {
     }
 
     for (const type of fields) {
-      if (type === "submit") {
+      if (type === "submit" || type === "submit-dcc") {
         continue;
       }
 
@@ -992,9 +1077,9 @@ export default class UIForm {
       )}
     }
 
-    if (options.currencyConversion?.enabled) {
-      hostedFieldsToValidate.push(frames[DCC_KEY])
-    }
+    // if (options.currencyConversion?.enabled) {
+    //   hostedFieldsToValidate.push(frames[DCC_KEY])
+    // }
     return hostedFieldsToValidate;
   }
 
@@ -1050,7 +1135,6 @@ export default class UIForm {
       }
 
       cleanUpFormValidationDataAndEmitValidityState(true);
-
       // Submit the VALID form
       this.submitForm();
     });
@@ -1060,6 +1144,7 @@ export default class UIForm {
 
   private validateForm(frames: IFrameCollection): void {
     const accountCardNumberFrameTarget = this.frames[CardFormFieldNames.CardNumber] || this.frames[CardFormFieldNames.CardAccountNumber];
+
     if (!accountCardNumberFrameTarget) return;
 
     this.hasInstallmentValidationError = false;

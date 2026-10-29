@@ -104,6 +104,8 @@ declare const styles: (assetBaseUrl: string) => {
         "flex-wrap": string;
         "padding-bottom": string;
         "padding-right": string;
+        background: string;
+        "align-items": string;
     };
     ".secure-payment-form .installment-pay-in-visa-option": {
         background: string;
@@ -191,6 +193,8 @@ declare const styles: (assetBaseUrl: string) => {
         "font-size": string;
         "font-family": string;
         "vertical-align": string;
+        "font-weight": string;
+        color: string;
     };
     ".secure-payment-form .installment-dcc-warning": {
         display: string;
