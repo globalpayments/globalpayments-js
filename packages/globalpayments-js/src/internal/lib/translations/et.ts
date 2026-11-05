@@ -36,7 +36,8 @@ const et = {
       Required: 'Kaardi number on kohustuslik',
       CharactersLessThan12: 'Kaardi number peab olema vähemalt 12-kohaline',
       NumberIsNotValid: 'Kaardi number on sobimatu',
-      NotAllowedCardType: 'Sellist tüüpi kaarti ei saa töödelda. Kasutage teist kaarti'
+      NotAllowedCardType: 'Sellist tüüpi kaarti ei saa töödelda. Kasutage teist kaarti',
+      NotAllowedCardNetwork: "Seda kaarditüüpi ei aktsepteerita. Palun kasutage ühe ülaltoodud võrgu kaarti."
     },
     CardExpiration: {
       NotCompleted: 'Sisestage sobiv kuu/aasta',
@@ -122,9 +123,9 @@ const et = {
       blik0WaitingScreenMessage: "Please confirm the transaction from your mobile banking application.",
       waitingIcon: "Waiting Icon",
     },
-    redirectionText1: "or use the ",
-    link: "link",
-    redirectionText2: " to confirm it.",
+    redirectionText1: "või kinnitamiseks kasutage ",
+    link: "linki",
+    redirectionText2: ".",
     blik0c: {
       enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
       errorMessage: "Please enter your 6 digit BLIK code.",

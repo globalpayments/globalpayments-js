@@ -36,7 +36,8 @@ const sv = {
       Required: 'Kortnummer krävs',
       CharactersLessThan12: 'Kortnumret måste bestå av minst tolv siffror',
       NumberIsNotValid: 'Kortnumret är ogiltigt',
-      NotAllowedCardType: 'Det går inte att bearbeta korttypen. Använd ett annat kort.'
+      NotAllowedCardType: 'Det går inte att bearbeta korttypen. Använd ett annat kort.',
+      NotAllowedCardNetwork: "Denna korttyp accepteras inte. Använd ett kort från ett av nätverken som anges ovan."
     },
     CardExpiration: {
       NotCompleted: 'Ange giltig(t) månad/år',
@@ -99,9 +100,9 @@ const sv = {
       blik0WaitingScreenMessage: "Please confirm the transaction from your mobile banking application.",
       waitingIcon: "Waiting Icon",
     },
-    redirectionText1: "or use the ",
-    link: "link",
-    redirectionText2: " to confirm it.",
+    redirectionText1: "eller använd ",
+    link: "länken",
+    redirectionText2: " för att bekräfta det.",
     blik0c: {
       enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
       errorMessage: "Please enter your 6 digit BLIK code.",

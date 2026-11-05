@@ -4,6 +4,7 @@ export declare const ValidationMessages: {
         CharactersLessThan12: any;
         NumberIsNotValid: any;
         NotAllowedCardType: any;
+        NotAllowedCardNetwork: any;
     };
     CardExpiration: {
         NotCompleted: any;

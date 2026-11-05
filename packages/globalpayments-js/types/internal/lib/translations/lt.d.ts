@@ -16,6 +16,7 @@ declare const lt: {
             CharactersLessThan12: string;
             NumberIsNotValid: string;
             NotAllowedCardType: string;
+            NotAllowedCardNetwork: string;
         };
         CardExpiration: {
             NotCompleted: string;

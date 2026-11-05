@@ -36,6 +36,7 @@ declare const et: {
             CharactersLessThan12: string;
             NumberIsNotValid: string;
             NotAllowedCardType: string;
+            NotAllowedCardNetwork: string;
         };
         CardExpiration: {
             NotCompleted: string;

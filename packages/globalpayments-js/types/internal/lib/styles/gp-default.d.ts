@@ -115,6 +115,9 @@ export declare const fieldStyles: (assetBaseUrl: string, theme?: string | undefi
         "margin-top": string;
         "background-size": string;
     };
+    "img.card-number-icon:not([class*='card-type-'])": {
+        opacity: string;
+    };
     "img.card-number-icon.card-type-amex": {
         "background-image": string;
     };
@@ -142,11 +145,8 @@ export declare const fieldStyles: (assetBaseUrl: string, theme?: string | undefi
 };
 export declare const parentStyles: (assetBaseUrl: string, theme?: string | undefined) => {
     ".secure-payment-form .blik0c-pay-button": {
-        display: string;
-        "align-items": string;
-        "justify-content": string;
-        "line-height": string;
-        gap: string;
+        "text-align": string;
+        "vertical-align": string;
         "background-color": string;
         color: string;
         height: string;
@@ -165,7 +165,6 @@ export declare const parentStyles: (assetBaseUrl: string, theme?: string | undef
         "border-color": string;
     };
     ".secure-payment-form .blik0c-pay-button:focus": {
-        "background-color": string;
         border: string;
         color: string;
         outline: string;
@@ -180,6 +179,10 @@ export declare const parentStyles: (assetBaseUrl: string, theme?: string | undef
         color: string;
         "border-color": string;
         cursor: string;
+    };
+    ".secure-payment-form .blik0c-pay-button::before": {
+        content: string;
+        "margin-right": string;
     };
     ".secure-payment-form .blik0c-pay-button-icon": {
         display: string;
@@ -1991,6 +1994,55 @@ export declare const parentStyles: (assetBaseUrl: string, theme?: string | undef
     };
     ".secure-payment-form iframe": {
         "min-height": string;
+        width: string;
+    };
+    ".secure-payment-form .credit-card-card-number-target": {
+        position: string;
+        overflow: string;
+    };
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos": {
+        position: string;
+        right: string;
+        top: string;
+        display: string;
+        gap: string;
+        "align-items": string;
+        "justify-content": string;
+        "pointer-events": string;
+        "z-index": string;
+    };
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos.is-empty": {
+        display: string;
+    };
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos > span": {
+        display: string;
+        "align-items": string;
+        "justify-content": string;
+        width: string;
+        height: string;
+        padding: string;
+        border: string;
+        "border-radius": string;
+        background: string;
+        "box-shadow": string;
+        opacity: string;
+        transition: string;
+    };
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos.has-detected-brand > span": {
+        opacity: string;
+        filter: string;
+    };
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos.has-detected-brand > span.is-active": {
+        opacity: string;
+        filter: string;
+    };
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos.is-invalid": {
+        opacity: string;
+    };
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos img": {
+        display: string;
+        "max-width": string;
+        height: string;
         width: string;
     };
     ".secure-payment-form .other-cards-label": {

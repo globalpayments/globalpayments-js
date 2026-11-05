@@ -36,7 +36,8 @@ const sl = {
       Required: 'Številka kartice je obvezna',
       CharactersLessThan12: 'Številka kartice mora vsebovati najmanj 12 števk',
       NumberIsNotValid: 'Številka kartice ni veljavna',
-      NotAllowedCardType: 'Te vrste kartice ni mogoče obdelati. Uporabite drugo kartico.'
+      NotAllowedCardType: 'Te vrste kartice ni mogoče obdelati. Uporabite drugo kartico.',
+      NotAllowedCardNetwork: "Ta vrsta kartice ni sprejeta. Uporabite kartico enega od zgoraj navedenih omrežij."
     },
     CardExpiration: {
       NotCompleted: 'Vnesite veljaven mesec/leto',
@@ -99,9 +100,9 @@ const sl = {
       blik0WaitingScreenMessage: "Please confirm the transaction from your mobile banking application.",
       waitingIcon: "Waiting Icon",
     },
-    redirectionText1: "or use the ",
-    link: "link",
-    redirectionText2: " to confirm it.",
+    redirectionText1: "ali pa uporabite ",
+    link: "povezavo",
+    redirectionText2: " za potrditev.",
     blik0c: {
       enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
       errorMessage: "Please enter your 6 digit BLIK code.",

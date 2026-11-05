@@ -147,7 +147,7 @@ const fieldStyles = (assetBaseUrl: string, themePreset?: IThemePreset) => {
       "text-align": "center",
       "vertical-align": "middle",
       "text-transform": "uppercase",
-      "font-family": "var(--button-primary-font-label, DMSans), sans-serif",
+      "font-family": `var(--button-primary-font-label, ${themePreset?.fontFamily.brand.fontName ?? "DMSans"}), sans-serif`,
       "border-bottom-left-radius": "var(--button-primary-radius-bottom-left)",
       "border-bottom-right-radius": "var(--button-primary-radius-bottom-right)",
       "border-top-left-radius": "var(--button-primary-radius-top-left)",
@@ -157,15 +157,15 @@ const fieldStyles = (assetBaseUrl: string, themePreset?: IThemePreset) => {
       "align-items": "center",
       "justify-content": "center",
     },
+    "#secure-payment-field[type=button]:hover": {
+      "background-color": "var(--button-primary-color-background-hover, #015a94)",
+      color: "var(--button-primary-color-text-hover, white)",
+    },
     "#secure-payment-field[type=button]:focus": {
       "background-color": "var(--button-primary-color-background-focus, #0071ba)",
       border: "2px solid var(--button-primary-color-focus-indicator-focus, #08385b)",
       color: "var(--button-primary-color-text-focus, white)",
       outline: "none",
-    },
-    "#secure-payment-field[type=button]:hover": {
-      "background-color": "var(--button-primary-color-background-hover, #015a94)",
-      color: "var(--button-primary-color-text-hover, white)",
     },
     "#secure-payment-field.disabled-submit-button[type=button]": {
       "background-color": "var(--button-primary-color-background-disabled, #B0B4B5)",
@@ -200,6 +200,9 @@ const fieldStyles = (assetBaseUrl: string, themePreset?: IThemePreset) => {
       height: "16px",
       "margin-top": "-8px",
       "background-size": "20px",
+    },
+    "img.card-number-icon:not([class*='card-type-'])": {
+      opacity: "0",
     },
     "img.card-number-icon.card-type-amex": {
       "background-image": `url(${imageBase}gp-cc-amex.svg)`,
@@ -267,6 +270,63 @@ const parentStyles = (assetBaseUrl: string, themePreset?: IThemePreset) => {
       "font-size": "var(--inputfield-label-size-text, 0.79em)",
       "font-weight": "var(--inputfield-label-weight-text, 500)",
       "font-family": "var(--inputfield-label-font, DMSans)",
+    },
+
+    ".secure-payment-form .credit-card-card-number-target": {
+      position: "relative",
+      overflow: "visible",
+    },
+
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos": {
+      position: "absolute",
+      right: "10px",
+      top: "-34px",
+      display: "flex",
+      gap: "6px",
+      "align-items": "center",
+      "justify-content": "flex-end",
+      "pointer-events": "none",
+      "z-index": "2",
+    },
+
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos.is-empty": {
+      display: "none",
+    },
+
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos > span": {
+      display: "inline-flex",
+      "align-items": "center",
+      "justify-content": "center",
+      width: "40px",
+      height: "28px",
+      padding: "4px 6px",
+      border: "1px solid #D9D9D9",
+      "border-radius": "6px",
+      background: "#fff",
+      "box-shadow": "0 1px 2px rgba(0, 0, 0, 0.08)",
+      opacity: "1",
+      transition: "opacity .2s ease, filter .2s ease",
+    },
+
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos.has-detected-brand > span": {
+      opacity: "0.35",
+      filter: "grayscale(1)",
+    },
+
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos.has-detected-brand > span.is-active": {
+      opacity: "1",
+      filter: "none",
+    },
+
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos.is-invalid": {
+      opacity: "0",
+    },
+
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos img": {
+      display: "block",
+      "max-width": "100%",
+      height: "16px",
+      width: "auto",
     },
 
     ".secure-payment-form > div": {
@@ -621,7 +681,7 @@ const parentStyles = (assetBaseUrl: string, themePreset?: IThemePreset) => {
       "text-transform": "uppercase",
       "font-size": "var(--button-primary-size-text, 1.125em)",
       "font-weight": "var(--button-primary-weight-label-text, 500)",
-      "font-family": "var(--button-primary-font-label, DMSans), sans-serif",
+      "font-family": `var(--button-primary-font-label, ${themePreset?.fontFamily.brand.fontName ?? "DMSans"}), sans-serif`,
       "border-bottom-left-radius": "var(--button-primary-radius-bottom-left)",
       "border-bottom-right-radius": "var(--button-primary-radius-bottom-right)",
       "border-top-left-radius": "var(--button-primary-radius-top-left)",

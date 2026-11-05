@@ -10,7 +10,12 @@ export default function addApplePay(iframeField: IframeField | undefined, field:
   const missingConfig = [];
 
   const total = field.amount;
-  const allowedCardNetworks = options.apms?.applePay?.allowedCardNetworks ? options.apms?.applePay?.allowedCardNetworks : options.apms?.allowedCardNetworks;
+  const firstConfigured = (...lists: (string[] | undefined)[]) => lists.find((l) => Array.isArray(l) && l.length > 0);
+  const allowedCardNetworks = firstConfigured(
+    options.apms?.applePay?.allowedCardNetworks,
+    options.apms?.allowedCardNetworks,
+    options.allowedCardNetworks,
+  );
   const currencyCode = options.apms?.currencyCode;
 
   if (!allowedCardNetworks || allowedCardNetworks.length === 0) {

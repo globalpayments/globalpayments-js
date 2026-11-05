@@ -36,7 +36,8 @@ const mt = {
       Required: 'Huwa meħtieġ Numru tal-Kard',
       CharactersLessThan12: 'In-Numru tal-Kard irid ikun jikkonsisti f’mill-inqas 12-il numru',
       NumberIsNotValid: 'In-Numru tal-Kard mhuwiex validu',
-      NotAllowedCardType: 'Dan it-tip ta’ kard ma jistax jiġi pproċessat, jekk jogħġbok uża Kard oħra'
+      NotAllowedCardType: 'Dan it-tip ta’ kard ma jistax jiġi pproċessat, jekk jogħġbok uża Kard oħra',
+      NotAllowedCardNetwork: "Dan it-tip ta' karta mhux aċċettat. Jekk jogħġbok uża karta minn waħda min-netwerks elenkati hawn fuq."
     },
     CardExpiration: {
       NotCompleted: 'Jekk jogħġbok daħħal xahar/sena validi',
@@ -99,9 +100,9 @@ const mt = {
       blik0WaitingScreenMessage: "Please confirm the transaction from your mobile banking application.",
       waitingIcon: "Waiting Icon",
     },
-    redirectionText1: "or use the ",
+    redirectionText1: "jew uża l-",
     link: "link",
-    redirectionText2: " to confirm it.",
+    redirectionText2: " biex tikkonfermah.",
     blik0c: {
       enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
       errorMessage: "Please enter your 6 digit BLIK code.",

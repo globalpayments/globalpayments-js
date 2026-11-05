@@ -36,7 +36,8 @@ const it = {
       Required: 'È necessario un numero di carta',
       CharactersLessThan12: 'Il numero di carta deve essere composto da almeno 12 cifre',
       NumberIsNotValid: 'Il numero di carta non è valido',
-      NotAllowedCardType: 'Impossibile elaborare questo tipo di carta, usane un\'altra.'
+      NotAllowedCardType: 'Impossibile elaborare questo tipo di carta, usane un\'altra.',
+      NotAllowedCardNetwork: "Questo tipo di carta non è accettato. Si prega di utilizzare una carta di uno dei circuiti elencati sopra."
     },
     CardExpiration: {
       NotCompleted: 'Inserisci un mese/anno valido',
@@ -99,9 +100,9 @@ const it = {
       blik0WaitingScreenMessage: "Please confirm the transaction from your mobile banking application.",
       waitingIcon: "Waiting Icon",
     },
-    redirectionText1: "or use the ",
+    redirectionText1: "oppure usa il ",
     link: "link",
-    redirectionText2: " to confirm it.",
+    redirectionText2: " per confermarlo.",
     blik0c: {
       enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
       errorMessage: "Please enter your 6 digit BLIK code.",

@@ -36,7 +36,8 @@ const ro = {
       Required: 'Numărul cardului este obligatoriu',
       CharactersLessThan12: 'Numărul cardului trebuie să fie format din cel puțin 12 cifre',
       NumberIsNotValid: 'Numărul cardului nu este valid',
-      NotAllowedCardType: 'Nu se poate procesa acest tip de card, utilizați un alt card'
+      NotAllowedCardType: 'Nu se poate procesa acest tip de card, utilizați un alt card',
+      NotAllowedCardNetwork: "Acest tip de card nu este acceptat. Vă rugăm să utilizați un card de la una dintre rețelele enumerate mai sus."
     },
     CardExpiration: {
       NotCompleted: 'Introduceți o lună valabilă/un an valid',
@@ -99,9 +100,9 @@ const ro = {
       blik0WaitingScreenMessage: "Please confirm the transaction from your mobile banking application.",
       waitingIcon: "Waiting Icon",
     },
-    redirectionText1: "or use the ",
-    link: "link",
-    redirectionText2: " to confirm it.",
+    redirectionText1: "sau folosiți ",
+    link: "linkul",
+    redirectionText2: " pentru a confirma.",
     blik0c: {
       enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
       errorMessage: "Please enter your 6 digit BLIK code.",

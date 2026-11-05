@@ -36,7 +36,8 @@ const hu = {
       Required: 'A kártyaszámot meg kell adni',
       CharactersLessThan12: 'A kártyaszámnak legalább 12 számjegyből kell állnia',
       NumberIsNotValid: 'A telefonszám érvénytelen',
-      NotAllowedCardType: 'Ezt a kártyatípust nem lehet feldolgozni, használjon másik kártyát'
+      NotAllowedCardType: 'Ezt a kártyatípust nem lehet feldolgozni, használjon másik kártyát',
+      NotAllowedCardNetwork: "Ez a kártyatípus nem elfogadott. Kérjük, használjon a fent felsorolt ​​hálózatok egyikéből származó kártyát."
     },
     CardExpiration: {
       NotCompleted: 'Adjon meg érvényes hónapot/évet',
@@ -99,9 +100,9 @@ const hu = {
       blik0WaitingScreenMessage: "Please confirm the transaction from your mobile banking application.",
       waitingIcon: "Waiting Icon",
     },
-    redirectionText1: "or use the ",
-    link: "link",
-    redirectionText2: " to confirm it.",
+    redirectionText1: "vagy használd a ",
+    link: "linket",
+    redirectionText2: " a megerősítéshez.",
     blik0c: {
       enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
       errorMessage: "Please enter your 6 digit BLIK code.",

@@ -36,7 +36,8 @@ const ja = {
       Required: 'カード番号は必須です。',
       CharactersLessThan12: 'カード番号は少なくとも 12 桁でなければなりません。',
       NumberIsNotValid: 'カード番号が無効です。',
-      NotAllowedCardType: 'このカードタイプは処理できません。別のカードをご使用ください。'
+      NotAllowedCardType: 'このカードタイプは処理できません。別のカードをご使用ください。',
+      NotAllowedCardNetwork: "このカードはご利用いただけません。上記に記載されているネットワークのカードをご利用ください。"
     },
     CardExpiration: {
       NotCompleted: '有効な月/年を入力してください。',
@@ -99,9 +100,9 @@ const ja = {
       blik0WaitingScreenMessage: "Please confirm the transaction from your mobile banking application.",
       waitingIcon: "Waiting Icon",
     },
-    redirectionText1: "or use the ",
-    link: "link",
-    redirectionText2: " to confirm it.",
+    redirectionText1: "または、",
+    link: "リンク",
+    redirectionText2: "を使用して確認してください。",
     blik0c: {
       enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
       errorMessage: "Please enter your 6 digit BLIK code.",

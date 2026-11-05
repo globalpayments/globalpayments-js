@@ -35,7 +35,8 @@ const en = {
       Required: 'A Card Number is required',
       CharactersLessThan12: 'The Card Number must consist of at least 12 digits',
       NumberIsNotValid: 'The Card Number is not valid',
-      NotAllowedCardType: 'Cannot process this card type, please use another Card'
+      NotAllowedCardType: 'Cannot process this card type, please use another Card',
+      NotAllowedCardNetwork: "This card type is not accepted. Please use a card from one of the networks listed above."
     },
     CardExpiration: {
       NotCompleted: 'Please enter a valid month/year',
@@ -128,6 +129,9 @@ const en = {
     blik0c: {
       enterCodeMessage: 'Please enter the BLIK code generated from your mobile banking application.',
       errorMessage: 'Please enter your 6 digit BLIK code.',
+      PayButtonText: "PAY NOW",
+      timeoutMessage: 'You’ve been inactive for a while. For your security, your session will automatically expire in ##VALUE1## seconds.',
+      blikCodeHeader: 'BLIK Code',
     }
   },
   dcc: {

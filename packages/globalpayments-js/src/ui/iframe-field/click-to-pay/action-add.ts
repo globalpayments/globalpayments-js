@@ -7,7 +7,12 @@ export default function addClickToPay(iframeField: IframeField | undefined, fiel
   const gateway = getGateway();
   if (!options.apms?.clickToPay || gateway?.supports.apm?.clickToPay === false) return;
 
-  const allowedCardNetworks = options.apms?.clickToPay?.allowedCardNetworks ? options.apms?.clickToPay?.allowedCardNetworks : options.apms?.allowedCardNetworks;
+  const firstConfigured = (...lists: (string[] | undefined)[]) => lists.find((l) => Array.isArray(l) && l.length > 0);
+  const allowedCardNetworks = firstConfigured(
+    options.apms?.clickToPay?.allowedCardNetworks,
+    options.apms?.allowedCardNetworks,
+    options.allowedCardNetworks,
+  );
   const currencyCode = options.apms?.currencyCode;
   const canadianDebit = options.apms?.clickToPay?.canadianDebit;
   const ctpClientId = options.apms?.clickToPay?.ctpClientId!;

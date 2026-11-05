@@ -32,7 +32,9 @@ export declare enum CardNetwork {
     Discover = "DISCOVER",
     Mastercard = "MASTERCARD",
     Visa = "VISA",
-    Carnet = "CARNET"
+    Carnet = "CARNET",
+    Maestro = "MAESTRO",
+    Diners = "DINERS"
 }
 export declare enum CharacterValidation {
     englishOnly = "englishOnly",

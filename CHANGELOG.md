@@ -4,7 +4,11 @@
 
 # Changelog (MM/DD/YY)
 
-## latest v5.3.0 (10/29/26)
+## latest v5.4.0 (11/05/26)
+- [Globalpayments-js][5.4.0] Reject non-allowed cards feature
+- [Globalpayments-js][5.4.0] Accessibility issue fixes
+
+## v5.3.0 (10/29/26)
 - [Globalpayments-js][5.3.0] Elevate DCC
 
 ## latest v5.2.0 (10/15/26)

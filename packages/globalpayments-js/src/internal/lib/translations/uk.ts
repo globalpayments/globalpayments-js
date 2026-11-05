@@ -36,7 +36,8 @@ const uk = {
       Required: 'Потрібно вказати номер картки',
       CharactersLessThan12: 'Номер картки має містити щонайменше 12 цифр',
       NumberIsNotValid: 'Номер картки недійсний',
-      NotAllowedCardType: 'Неможливо обробити цей тип картки, скористайтесь іншою карткою'
+      NotAllowedCardType: 'Неможливо обробити цей тип картки, скористайтесь іншою карткою',
+      NotAllowedCardNetwork: "Цей тип картки не приймається. Будь ласка, скористайтеся карткою однієї з перелічених вище мереж."
     },
     CardExpiration: {
       NotCompleted: 'Введіть дійсні місяць і рік',
@@ -99,9 +100,9 @@ const uk = {
       blik0WaitingScreenMessage: "Please confirm the transaction from your mobile banking application.",
       waitingIcon: "Waiting Icon",
     },
-    redirectionText1: "or use the ",
-    link: "link",
-    redirectionText2: " to confirm it.",
+    redirectionText1: "або скористайтеся ",
+    link: "посиланням",
+    redirectionText2: " для підтвердження.",
     blik0c: {
       enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
       errorMessage: "Please enter your 6 digit BLIK code.",

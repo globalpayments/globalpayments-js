@@ -36,7 +36,8 @@ const vi = {
       Required: 'Cần có Số Thẻ',
       CharactersLessThan12: 'Số Thẻ phải gồm ít nhất 12 chữ số',
       NumberIsNotValid: 'Số Thẻ không hợp lệ',
-      NotAllowedCardType: 'Không thể xử lý loại thẻ này, vui lòng sử dụng Thẻ khác'
+      NotAllowedCardType: 'Không thể xử lý loại thẻ này, vui lòng sử dụng Thẻ khác',
+      NotAllowedCardNetwork: "Loại thẻ này không được chấp nhận. Vui lòng sử dụng thẻ từ một trong các mạng lưới thanh toán được liệt kê ở trên."
     },
     CardExpiration: {
       NotCompleted: 'Vui lòng nhập tháng/năm hợp lệ',
@@ -99,9 +100,9 @@ const vi = {
       blik0WaitingScreenMessage: "Please confirm the transaction from your mobile banking application.",
       waitingIcon: "Waiting Icon",
     },
-    redirectionText1: "or use the ",
-    link: "link",
-    redirectionText2: " to confirm it.",
+    redirectionText1: "Hoặc sử dụng ",
+    link: "liên kết",
+    redirectionText2: " để xác nhận.",
     blik0c: {
       enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
       errorMessage: "Please enter your 6 digit BLIK code.",

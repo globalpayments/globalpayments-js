@@ -36,6 +36,7 @@ declare const zhTw: {
             CharactersLessThan12: string;
             NumberIsNotValid: string;
             NotAllowedCardType: string;
+            NotAllowedCardNetwork: string;
         };
         CardExpiration: {
             NotCompleted: string;
@@ -104,7 +105,10 @@ declare const zhTw: {
             redirectingToPaymentPageMessage: string;
         };
     };
-    apm: {
+    apms: {
+        redirectionText1: string;
+        link: string;
+        redirectionText2: string;
         redirectToBank: string;
     };
     dcc: {

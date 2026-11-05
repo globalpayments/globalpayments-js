@@ -13,6 +13,15 @@ export const validate = (fieldType: string, value: string, extraData?: any): { i
             // A Card Number is required
             if (isEmpty(value)) return createValidationResult(false, ValidationMessages.CardNumber.Required);
 
+            // Validate the card network once four digits have been entered
+            const allowedCardNetworks = options.allowedCardNetworks;
+            if (allowedCardNetworks && allowedCardNetworks.length > 0 && trimSpaces(value).replace(/\D/g, '').length >= 4) {
+                const cardNetwork = typeByNumber(value)?.code.toUpperCase();
+                if (cardNetwork && !allowedCardNetworks.includes(cardNetwork)) {
+                    return createValidationResult(false, ValidationMessages.CardNumber.NotAllowedCardNetwork)
+                }
+            }
+
             // If card number is less than 12 digits
             // The Card Number must consist of at least 12 digits
             if (charactersLessThan(trimSpaces(value), 12)) return createValidationResult(false, ValidationMessages.CardNumber.CharactersLessThan12);

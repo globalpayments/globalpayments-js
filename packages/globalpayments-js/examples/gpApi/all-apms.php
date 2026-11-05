@@ -72,6 +72,7 @@ $accessToken = $response->token ?? '';
             env: "local",
             apiVersion: "2021-03-22",
             language: "en",
+            allowedCardNetworks: [ GlobalPayments.enums.CardNetwork.Mastercard, GlobalPayments.enums.CardNetwork.Amex, GlobalPayments.enums.CardNetwork.Discover],
             reference: "",
             cardCvvOption: GlobalPayments.enums.CardCvvOption.Mandatory,
             //merchantId: "<?//= $merchant_id ?>//",

@@ -11,6 +11,7 @@ import { InstallmentEvents } from "./installments/contracts/enums";
 import { hideHostedFieldValidation, showHostedFieldValidation } from "../built-in-validations/helpers";
 import { CardFormFieldNames, CardFormFieldValidationTestEvents, HostedFieldValidationEvents,ExpressPayFieldNames } from "../../common/enums";
 import { expressPayFieldsValidate, validate } from "../built-in-validations/field-validator";
+import { ValidationMessages } from "../built-in-validations/messages";
 import { isSafari } from "../../common/browser-helpers";
 import { CurrencyConversionEvents } from "./currency-conversion/contracts/enums";
 import { hasCurrencyConversionSensitiveValueChanged, removeCurrencyConversionAvailabilityStatus, removeCurrencyConversionPreviousValue } from "./currency-conversion/utils/helpers";
@@ -31,26 +32,13 @@ export default class Card {
       ? e.currentTarget
       : e.srcElement) as HTMLInputElement;
     const type = typeByNumber(target.value);
-    let classList = target.className.split(" ");
-    const length = classList.length;
-    const icon = target.parentNode?.querySelector('img');
-    const GENERIC_CARD_DESCRIPTION = "Generic Card";
+    // const icon = target.parentNode?.querySelector('img');
 
-    let i = 0;
-    let c = "";
-
-    for (i; i < length; i++) {
-      c = classList[i];
-      if (c && c.indexOf("card-type-") !== -1) {
-        delete classList[i];
-      }
-    }
+    const i = 0;
+    const c = "";
 
     const id = target.getAttribute("data-id");
     if (type) {
-      classList.push("card-type-" + type.code);
-      classList = classList.filter((str) => str !== '');
-
       if (id) {
         postMessage.post(
           {
@@ -61,22 +49,18 @@ export default class Card {
           "parent",
         );
       }
-
-      if (icon) {
-        const cardTypeDescription = `${type.code.charAt(0).toUpperCase() + type.code.slice(1)} Card`;
-        icon.setAttribute('alt', cardTypeDescription);
-        icon.setAttribute('title', cardTypeDescription);
-      }
     } else {
-      icon!.setAttribute('alt', GENERIC_CARD_DESCRIPTION);
-      icon!.setAttribute('title', GENERIC_CARD_DESCRIPTION);
+      if (id) {
+        postMessage.post(
+          {
+            data: { cardType: undefined },
+            id,
+            type: "ui:iframe-field:card-type",
+          },
+          "parent",
+        );
+      }
     }
-
-    classList = classList.filter((str) => str !== '');
-    const classListIcon = classList.filter(str => (str !== '' && str !== 'card-number'))
-    icon!.className = classListIcon.join(" ");
-    icon!.classList.add('card-number-icon');
-    target.className = classList.join(" ");
   }
 
   /**
@@ -1005,7 +989,7 @@ export default class Card {
     Events.addHandler(el, "input", (e: Event) => { Card.hideCurrencyConversionField(e, CardFormFieldNames.CardNumber) });
 
     Events.addHandler(el, "blur", (e: Event) => { Card.focusOutHostedFieldValidationHandler(e, CardFormFieldNames.CardNumber) });
-    Events.addHandler(el, "input", (e: Event) => { Card.focusInHostedFieldValidationHandler(e) });
+    Events.addHandler(el, "input", (e: Event) => { Card.focusInHostedFieldValidationHandler(e, CardFormFieldNames.CardNumber) });
   }
 
   /**
@@ -1201,7 +1185,7 @@ export default class Card {
     Card.handleHostedFieldValidation(id, type, value, { isAmex: Card.getCardType(target) === "amex" });
   }
 
-  private static focusInHostedFieldValidationHandler(e: Event) {
+  private static focusInHostedFieldValidationHandler(e: Event, type?: string) {
     // Only if Built-in field validations are enable
     if (!options.fieldValidation?.enabled) return;
 
@@ -1209,6 +1193,14 @@ export default class Card {
     const id = target.getAttribute("data-id");
 
     if (!id) return;
+
+    if (type === CardFormFieldNames.CardNumber && target.value.replace(/\D/g, "").length >= 4) {
+      const { message } = validate(type, target.value);
+      if (message && message === ValidationMessages.CardNumber.NotAllowedCardNetwork) {
+        showHostedFieldValidation(id, message);
+        return;
+      }
+    }
 
     hideHostedFieldValidation(id);
   }

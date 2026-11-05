@@ -114,6 +114,9 @@ export declare const fieldStyles: (assetBaseUrl: string, theme?: string | undefi
         "background-size": string;
         left: string;
     };
+    "img.card-number-icon:not([class*='card-type-'])": {
+        opacity: string;
+    };
     "img.card-number-icon.card-type-amex": {
         "background-image": string;
     };
@@ -1912,6 +1915,52 @@ export declare const parentStyles: (assetBaseUrl: string, theme?: string | undef
     };
     ".secure-payment-form iframe": {
         "min-height": string;
+        width: string;
+    };
+    ".secure-payment-form .credit-card-card-number-target": {
+        position: string;
+        overflow: string;
+    };
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos": {
+        position: string;
+        right: string;
+        top: string;
+        display: string;
+        gap: string;
+        "align-items": string;
+        "justify-content": string;
+        "pointer-events": string;
+        "z-index": string;
+    };
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos.is-empty": {
+        display: string;
+    };
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos > span": {
+        display: string;
+        "align-items": string;
+        "justify-content": string;
+        width: string;
+        height: string;
+        padding: string;
+        border: string;
+        "border-radius": string;
+        background: string;
+        "box-shadow": string;
+        opacity: string;
+        transition: string;
+    };
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos.has-detected-brand > span": {
+        opacity: string;
+        filter: string;
+    };
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos.has-detected-brand > span.is-active": {
+        opacity: string;
+        filter: string;
+    };
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos span img": {
+        display: string;
+        "max-width": string;
+        height: string;
         width: string;
     };
     ".secure-payment-form .other-cards-label": {

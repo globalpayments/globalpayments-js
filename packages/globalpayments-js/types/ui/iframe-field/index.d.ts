@@ -6,6 +6,7 @@ export interface IFrameCollection {
 }
 export interface IUIFormField {
     label?: string;
+    ariaLabelledBy?: string;
     placeholder?: string;
     target?: string;
     text?: string;

@@ -115,6 +115,9 @@ export declare const fieldStyles: () => {
             background: string;
             "background-size": string;
         };
+        "img.card-number-icon:not([class*='card-type-'])": {
+            opacity: string;
+        };
         "img.card-number-icon[src$='/gp-cc-generic.svg']": {
             background: string;
             "background-size": string;
@@ -152,9 +155,6 @@ export declare const fieldStyles: () => {
             "background-position-y": string;
         };
         "img.card-number-icon.valid.card-type-discover": {
-            /**
-             * Represents logic surrounding a group of hosted fields.
-             */
             background: string;
             "background-size": string;
             "background-position-y": string;
@@ -162,6 +162,12 @@ export declare const fieldStyles: () => {
         };
         "img.card-number-icon.valid.card-type-jcb": {
             background: string;
+            /**
+             * Instantiates a new UIForm object for a group of hosted fields
+             *
+             * @param fields Hosted field configuration
+             * @param styles Custom CSS configuration
+             */
             "background-size": string;
             "background-position-y": string;
         };
@@ -174,16 +180,7 @@ export declare const fieldStyles: () => {
             background: string;
             "background-size": string;
             "background-position-y": string;
-        }; /**
-         * Sets an event listener for an event type
-         *
-         * @param fieldTypeOrEventName The field type on which the listener should
-         *          be applied, or the type of event that should trigger the listener
-         * @param eventNameOrListener The type of event that should trigger the
-         *          listener, or the listener function
-         * @param listener The listener function when both field type and event type
-         *          are provided
-         */
+        };
         "img.card-number-icon.card-type-carnet": {
             "background-image": string;
         };
@@ -311,6 +308,9 @@ export declare const fieldStyles: () => {
             "margin-top": string;
             "background-size": string;
         };
+        "img.card-number-icon:not([class*='card-type-'])": {
+            opacity: string;
+        };
         "img.card-number-icon.card-type-amex": {
             "background-image": string;
         };
@@ -360,6 +360,9 @@ export declare const fieldStyles: () => {
             "background-position": string;
         };
         "#field-validation-wrapper"?: {
+            "margin-top": string;
+        };
+        "[id^='field-validation-wrapper-']"?: {
             "margin-top": string;
         };
         "#secure-payment-field[type=text].field-validation-wrapper"?: {
@@ -422,6 +425,9 @@ export declare const fieldStyles: () => {
         ".card-cvv.card-type-amex": {
             background: string;
             "background-size": string;
+        };
+        "img.card-number-icon:not([class*='card-type-'])": {
+            opacity: string;
         };
         "img.card-number-icon[src$='/gp-cc-generic.svg']": {
             background: string;
@@ -490,7 +496,12 @@ export declare const fieldStyles: () => {
         };
         "input[placeholder]": {
             "letter-spacing": string;
-        };
+        }; /**
+         * Instantiates a new UIForm object for a group of hosted fields
+         *
+         * @param fields Hosted field configuration
+         * @param styles Custom CSS configuration
+         */
     };
     "gp-default2": {
         ".secure-payment-form label::after"?: {
@@ -607,6 +618,9 @@ export declare const fieldStyles: () => {
             "margin-top": string;
             "background-size": string;
             left: string;
+        };
+        "img.card-number-icon:not([class*='card-type-'])": {
+            opacity: string;
         };
         "img.card-number-icon.card-type-amex": {
             "background-image": string;
@@ -1899,6 +1913,60 @@ export declare const parentStyles: () => {
             "line-height": string;
             "text-transform": string;
         };
+        ".secure-payment-form .credit-card-card-number-target": {
+            position: string;
+            overflow: string;
+        };
+        ".secure-payment-form .credit-card-card-number-target .card-brand-logos": {
+            position: string;
+            right: string;
+            top: string;
+            display: string;
+            gap: string;
+            "align-items": string;
+            "justify-content": string;
+            "pointer-events": string;
+            "z-index": string;
+        };
+        ".secure-payment-form .credit-card-card-number-target .card-brand-logos.is-empty": {
+            display: string;
+        };
+        ".secure-payment-form .credit-card-card-number-target .card-brand-logos > span": {
+            /**
+             * Appends additional CSS rules to the group of hosted fields
+             *
+             * @param json New CSS rules
+             */
+            display: string;
+            "align-items": string;
+            "justify-content": string;
+            width: string;
+            height: string;
+            padding: string;
+            border: string;
+            "border-radius": string;
+            background: string;
+            "box-shadow": string;
+            opacity: string;
+            transition: string;
+        };
+        ".secure-payment-form .credit-card-card-number-target .card-brand-logos.has-detected-brand > span": {
+            opacity: string;
+            filter: string;
+        };
+        ".secure-payment-form .credit-card-card-number-target .card-brand-logos.has-detected-brand > span.is-active": {
+            opacity: string;
+            filter: string;
+        };
+        ".secure-payment-form .credit-card-card-number-target .card-brand-logos.is-invalid": {
+            opacity: string;
+        };
+        ".secure-payment-form .credit-card-card-number-target .card-brand-logos span img": {
+            display: string;
+            "max-width": string;
+            height: string;
+            width: string;
+        };
         ".secure-payment-form #ss-banner": {
             background: string;
             "background-size": string;
@@ -1968,9 +2036,7 @@ export declare const parentStyles: () => {
             display: string;
         };
         ".secure-payment-form iframe": {
-            width: string; /**
-             * Deletes all hosted fields within the form
-             */
+            width: string;
         };
         ".secure-payment-form .form-row": {
             "margin-top": string;
@@ -2013,11 +2079,8 @@ export declare const parentStyles: () => {
     };
     "gp-default": {
         ".secure-payment-form .blik0c-pay-button": {
-            display: string;
-            "align-items": string;
-            "justify-content": string;
-            "line-height": string;
-            gap: string;
+            "text-align": string;
+            "vertical-align": string;
             "background-color": string;
             color: string;
             height: string;
@@ -2036,7 +2099,6 @@ export declare const parentStyles: () => {
             "border-color": string;
         };
         ".secure-payment-form .blik0c-pay-button:focus": {
-            "background-color": string;
             border: string;
             color: string;
             outline: string;
@@ -2051,6 +2113,10 @@ export declare const parentStyles: () => {
             color: string;
             "border-color": string;
             cursor: string;
+        };
+        ".secure-payment-form .blik0c-pay-button::before": {
+            content: string;
+            "margin-right": string;
         };
         ".secure-payment-form .blik0c-pay-button-icon": {
             display: string;
@@ -3796,6 +3862,9 @@ export declare const parentStyles: () => {
             "flex-wrap": string;
         };
         ".secure-payment-form *": {
+            /**
+             * Represents logic surrounding a group of hosted fields.
+             */
             "box-sizing": string;
         };
         ".secure-payment-form label": {
@@ -3875,6 +3944,11 @@ export declare const parentStyles: () => {
             "margin-right": string;
         };
         ".secure-payment-form div[class$='-logo'] .security-msg strong": {
+            /**
+             * Appends additional CSS rules to the group of hosted fields
+             *
+             * @param json New CSS rules
+             */
             "white-space": string;
             "font-weight": string;
             display: string;
@@ -3887,6 +3961,55 @@ export declare const parentStyles: () => {
         };
         ".secure-payment-form iframe": {
             "min-height": string;
+            width: string;
+        };
+        ".secure-payment-form .credit-card-card-number-target": {
+            position: string;
+            overflow: string;
+        };
+        ".secure-payment-form .credit-card-card-number-target .card-brand-logos": {
+            position: string;
+            right: string;
+            top: string;
+            display: string;
+            gap: string;
+            "align-items": string;
+            "justify-content": string;
+            "pointer-events": string;
+            "z-index": string;
+        };
+        ".secure-payment-form .credit-card-card-number-target .card-brand-logos.is-empty": {
+            display: string;
+        };
+        ".secure-payment-form .credit-card-card-number-target .card-brand-logos > span": {
+            display: string;
+            "align-items": string;
+            "justify-content": string;
+            width: string;
+            height: string;
+            padding: string;
+            border: string;
+            "border-radius": string;
+            background: string;
+            "box-shadow": string;
+            opacity: string;
+            transition: string;
+        };
+        ".secure-payment-form .credit-card-card-number-target .card-brand-logos.has-detected-brand > span": {
+            opacity: string;
+            filter: string;
+        };
+        ".secure-payment-form .credit-card-card-number-target .card-brand-logos.has-detected-brand > span.is-active": {
+            opacity: string;
+            filter: string;
+        };
+        ".secure-payment-form .credit-card-card-number-target .card-brand-logos.is-invalid": {
+            opacity: string;
+        };
+        ".secure-payment-form .credit-card-card-number-target .card-brand-logos img": {
+            display: string;
+            "max-width": string;
+            height: string;
             width: string;
         };
         ".secure-payment-form .other-cards-label": {
@@ -4891,6 +5014,59 @@ export declare const parentStyles: () => {
             "line-height": string;
             "text-transform": string;
         };
+        ".secure-payment-form .credit-card-card-number-target": {
+            position: string;
+            overflow: string;
+        };
+        ".secure-payment-form .credit-card-card-number-target .card-brand-logos": {
+            position: string;
+            right: string;
+            top: string;
+            display: string;
+            gap: string;
+            "align-items": string;
+            "justify-content": string;
+            "pointer-events": string;
+            "z-index": string;
+        };
+        ".secure-payment-form .credit-card-card-number-target .card-brand-logos.is-empty": {
+            display: string;
+        };
+        ".secure-payment-form .credit-card-card-number-target .card-brand-logos > span": {
+            display: string;
+            "align-items": string;
+            "justify-content": string;
+            width: string;
+            height: string;
+            padding: string;
+            border: string;
+            "border-radius": string;
+            background: string;
+            "box-shadow": string;
+            opacity: string;
+            transition: string;
+        };
+        ".secure-payment-form .credit-card-card-number-target .card-brand-logos.has-detected-brand > span": {
+            opacity: string;
+            filter: string;
+        };
+        ".secure-payment-form .credit-card-card-number-target .card-brand-logos.has-detected-brand > span.is-active": {
+            opacity: string;
+            filter: string;
+        }; /**
+         * Appends additional CSS rules to the group of hosted fields
+         *
+         * @param json New CSS rules
+         */
+        ".secure-payment-form .credit-card-card-number-target .card-brand-logos.is-invalid": {
+            opacity: string;
+        };
+        ".secure-payment-form .credit-card-card-number-target .card-brand-logos img": {
+            display: string;
+            "max-width": string;
+            height: string;
+            width: string;
+        };
         ".secure-payment-form #ss-banner": {
             background: string;
             "background-size": string;
@@ -4923,7 +5099,9 @@ export declare const parentStyles: () => {
             color: string;
             "line-height": string;
             display: string;
-            "vertical-align": string;
+            "vertical-align": string; /**
+             * Deletes all hosted fields within the form
+             */
             "text-align": string;
             "margin-left": string;
             "margin-right": string;
@@ -4938,11 +5116,7 @@ export declare const parentStyles: () => {
             float: string;
             display: string;
             "justify-content": string;
-        }; /**
-         * Appends additional CSS rules to the group of hosted fields
-         *
-         * @param json New CSS rules
-         */
+        };
         ".secure-payment-form div[class$='-logo'] .security-msg": {
             color: string;
             "font-size": string;
@@ -4962,12 +5136,6 @@ export declare const parentStyles: () => {
         ".secure-payment-form div": {
             display: string;
         };
-        /**
-         * Sets a special-case event listener that fires when all hosted
-         * fields in a form have registered / loaded
-         *
-         * @param fn The listener function
-         */
         ".secure-payment-form iframe": {
             "min-height": string;
         };
@@ -6834,6 +7002,52 @@ export declare const parentStyles: () => {
         };
         ".secure-payment-form iframe": {
             "min-height": string;
+            width: string;
+        };
+        ".secure-payment-form .credit-card-card-number-target": {
+            position: string;
+            overflow: string;
+        };
+        ".secure-payment-form .credit-card-card-number-target .card-brand-logos": {
+            position: string;
+            right: string;
+            top: string;
+            display: string;
+            gap: string;
+            "align-items": string;
+            "justify-content": string;
+            "pointer-events": string;
+            "z-index": string;
+        };
+        ".secure-payment-form .credit-card-card-number-target .card-brand-logos.is-empty": {
+            display: string;
+        };
+        ".secure-payment-form .credit-card-card-number-target .card-brand-logos > span": {
+            display: string;
+            "align-items": string;
+            "justify-content": string;
+            width: string;
+            height: string;
+            padding: string;
+            border: string;
+            "border-radius": string;
+            background: string;
+            "box-shadow": string;
+            opacity: string;
+            transition: string;
+        };
+        ".secure-payment-form .credit-card-card-number-target .card-brand-logos.has-detected-brand > span": {
+            opacity: string;
+            filter: string;
+        };
+        ".secure-payment-form .credit-card-card-number-target .card-brand-logos.has-detected-brand > span.is-active": {
+            opacity: string;
+            filter: string;
+        };
+        ".secure-payment-form .credit-card-card-number-target .card-brand-logos span img": {
+            display: string;
+            "max-width": string;
+            height: string;
             width: string;
         };
         ".secure-payment-form .other-cards-label": {

@@ -130,6 +130,9 @@ export const fieldStyles = (assetBaseUrl: string, theme?: string) => {
       "margin-top": "-8px",
       "background-size": "20px",
     },
+    "img.card-number-icon:not([class*='card-type-'])": {
+      opacity: "0",
+    },
     "img.card-number-icon.card-type-amex": {
       "background-image": `url(${imageBase}gp-cc-amex.svg)`,
     },
@@ -283,6 +286,63 @@ export const parentStyles = (assetBaseUrl: string, theme?: string) => {
     ".secure-payment-form iframe": {
       "min-height": "40px",
       width: "100%",
+    },
+
+    ".secure-payment-form .credit-card-card-number-target": {
+      position: "relative",
+      overflow: "visible",
+    },
+
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos": {
+      position: "absolute",
+      right: "10px",
+      top: "-34px",
+      display: "flex",
+      gap: "6px",
+      "align-items": "center",
+      "justify-content": "flex-end",
+      "pointer-events": "none",
+      "z-index": "2",
+    },
+
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos.is-empty": {
+      display: "none",
+    },
+
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos > span": {
+      display: "inline-flex",
+      "align-items": "center",
+      "justify-content": "center",
+      width: "40px",
+      height: "28px",
+      padding: "4px 6px",
+      border: "1px solid #D9D9D9",
+      "border-radius": "6px",
+      background: "#fff",
+      "box-shadow": "0 1px 2px rgba(0, 0, 0, 0.08)",
+      opacity: "1",
+      transition: "opacity .2s ease, filter .2s ease",
+    },
+
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos.has-detected-brand > span": {
+      opacity: "0.35",
+      filter: "grayscale(1)",
+    },
+
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos.has-detected-brand > span.is-active": {
+      opacity: "1",
+      filter: "none",
+    },
+
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos.is-invalid": {
+      opacity: "0",
+    },
+
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos img": {
+      display: "block",
+      "max-width": "100%",
+      height: "16px",
+      width: "auto",
     },
 
     ".secure-payment-form .other-cards-label": {
@@ -469,11 +529,8 @@ export const parentStyles = (assetBaseUrl: string, theme?: string) => {
      * button in this theme (default #0071ba / hover #015a94 / focus border #08385b).
      */
     ".secure-payment-form .blik0c-pay-button": {
-      display: "flex",
-      "align-items": "center",
-      "justify-content": "center",
-      "line-height": "1",
-      gap: "5px",
+      "text-align": "center",
+      "vertical-align": "middle",
       "background-color": "#0071ba",
       color: "white",
       height: "48px",
@@ -492,7 +549,6 @@ export const parentStyles = (assetBaseUrl: string, theme?: string) => {
       "border-color": "transparent",
     },
     ".secure-payment-form .blik0c-pay-button:focus": {
-      "background-color": "#0071ba",
       border: "2px solid #08385b",
       color: "white",
       outline: "none",
@@ -500,16 +556,20 @@ export const parentStyles = (assetBaseUrl: string, theme?: string) => {
     ".secure-payment-form .blik0c-pay-button.disabled-submit-button": {
       "background-color": "#B0B4B5",
       color: "#FCFCFC",
-      cursor: "default",
+      cursor: "pointer",
     },
     ".secure-payment-form .blik0c-pay-button.disabled-submit-button:hover": {
       "background-color": "#B0B4B5",
       color: "#FCFCFC",
       "border-color": "transparent",
-      cursor: "default",
+      cursor: "pointer",
+    },
+    ".secure-payment-form .blik0c-pay-button::before": {
+      content: `url("${imageBase}gp-lock.svg")`,
+      "margin-right": "5px",
     },
     ".secure-payment-form .blik0c-pay-button-icon": {
-      display: "block",
+      display: "none",
       width: "18px",
       height: "25px",
       "flex-shrink": "0",

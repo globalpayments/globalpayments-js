@@ -13,6 +13,9 @@ export const ValidationMessages = {
 
       // If card number is not found in the configured list of card types
       NotAllowedCardType: translations.en.validationMessages.CardNumber.NotAllowedCardType,
+
+      // If card network is not included in configured root allowedCardNetworks
+      NotAllowedCardNetwork: translations.en.validationMessages.CardNumber.NotAllowedCardNetwork,
     },
     CardExpiration: {
       // If a user clicks but does not enter any value

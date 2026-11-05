@@ -36,7 +36,8 @@ const zhTw = {
             Required: '需提供卡號。',
             CharactersLessThan12: '卡號至少須為12位數',
             NumberIsNotValid: '卡號無效',
-            NotAllowedCardType: '無法處理此卡類型，請使用其他卡片'
+            NotAllowedCardType: '無法處理此卡類型，請使用其他卡片',
+            NotAllowedCardNetwork: "貨幣換算不支援分期付款。您仍可以自己的貨幣支付全額，或切換至商家貨幣以使用分期付款選項。"
         },
         CardExpiration: {
             NotCompleted: '請輸入有效的月份/年份',
@@ -105,7 +106,10 @@ const zhTw = {
             redirectingToPaymentPageMessage: '正在跳轉至付款頁面',
         },
     },
-    apm: {
+    apms: {
+        redirectionText1: "或使用 ",
+        link: "連結",
+        redirectionText2: " 進行確認。",
         redirectToBank: "跳轉中",
     },
     dcc: {

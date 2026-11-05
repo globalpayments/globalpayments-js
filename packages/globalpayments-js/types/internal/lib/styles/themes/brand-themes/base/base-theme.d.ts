@@ -101,15 +101,15 @@ declare const fieldStyles: (assetBaseUrl: string, themePreset?: IThemePreset | u
         "align-items": string;
         "justify-content": string;
     };
+    "#secure-payment-field[type=button]:hover": {
+        "background-color": string;
+        color: string;
+    };
     "#secure-payment-field[type=button]:focus": {
         "background-color": string;
         border: string;
         color: string;
         outline: string;
-    };
-    "#secure-payment-field[type=button]:hover": {
-        "background-color": string;
-        color: string;
     };
     "#secure-payment-field.disabled-submit-button[type=button]": {
         "background-color": string;
@@ -143,6 +143,9 @@ declare const fieldStyles: (assetBaseUrl: string, themePreset?: IThemePreset | u
         height: string;
         "margin-top": string;
         "background-size": string;
+    };
+    "img.card-number-icon:not([class*='card-type-'])": {
+        opacity: string;
     };
     "img.card-number-icon.card-type-amex": {
         "background-image": string;
@@ -2073,6 +2076,55 @@ declare const parentStyles: (assetBaseUrl: string, themePreset?: IThemePreset | 
         "font-size": string;
         "font-weight": string;
         "font-family": string;
+    };
+    ".secure-payment-form .credit-card-card-number-target": {
+        position: string;
+        overflow: string;
+    };
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos": {
+        position: string;
+        right: string;
+        top: string;
+        display: string;
+        gap: string;
+        "align-items": string;
+        "justify-content": string;
+        "pointer-events": string;
+        "z-index": string;
+    };
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos.is-empty": {
+        display: string;
+    };
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos > span": {
+        display: string;
+        "align-items": string;
+        "justify-content": string;
+        width: string;
+        height: string;
+        padding: string;
+        border: string;
+        "border-radius": string;
+        background: string;
+        "box-shadow": string;
+        opacity: string;
+        transition: string;
+    };
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos.has-detected-brand > span": {
+        opacity: string;
+        filter: string;
+    };
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos.has-detected-brand > span.is-active": {
+        opacity: string;
+        filter: string;
+    };
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos.is-invalid": {
+        opacity: string;
+    };
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos img": {
+        display: string;
+        "max-width": string;
+        height: string;
+        width: string;
     };
     ".secure-payment-form > div": {
         flex: string;
