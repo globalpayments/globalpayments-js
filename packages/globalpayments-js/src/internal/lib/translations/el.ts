@@ -36,7 +36,8 @@ const el = {
       Required: 'Απαιτείται ένας Αριθμός κάρτας',
       CharactersLessThan12: 'Ο Αριθμός κάρτας πρέπει να περιλαμβάνει τουλάχιστον 12 ψηφία',
       NumberIsNotValid: 'Ο Αριθμός κάρτας δεν είναι έγκυρος',
-      NotAllowedCardType: 'Αδυναμία επεξεργασίας αυτού του τύπου κάρτας, δοκιμάστε άλλη Κάρτα'
+      NotAllowedCardType: 'Αδυναμία επεξεργασίας αυτού του τύπου κάρτας, δοκιμάστε άλλη Κάρτα',
+      NotAllowedCardNetwork: "Αυτός ο τύπος κάρτας δεν γίνεται δεκτός. Χρησιμοποιήστε μια κάρτα από ένα από τα δίκτυα που αναφέρονται παραπάνω."
     },
     CardExpiration: {
       NotCompleted: 'Καταχωρίστε έγκυρο μήνα/έτος',
@@ -99,9 +100,9 @@ const el = {
       blik0WaitingScreenMessage: "Please confirm the transaction from your mobile banking application.",
       waitingIcon: "Waiting Icon",
     },
-    redirectionText1: "or use the ",
-    link: "link",
-    redirectionText2: " to confirm it.",
+    redirectionText1: "ή χρησιμοποιήστε τον ",
+    link: "σύνδεσμο",
+    redirectionText2: " για να το επιβεβαιώσετε.",
     blik0c: {
       enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
       errorMessage: "Please enter your 6 digit BLIK code.",
@@ -127,12 +128,12 @@ const el = {
     total: 'Total',
     fees: 'Fees',
     additionalTerms: 'Additional terms',
-    mandatoryError : "Acceptance of Terms and Conditions is required",
-    learnMoreText : "Learn more",
-    month:'month',
-    includeFees:'incl. fee',
+    mandatoryError: "Acceptance of Terms and Conditions is required",
+    learnMoreText: "Learn more",
+    month: 'month',
+    includeFees: 'incl. fee',
     include: 'incl.',
-    furtherInfoText : 'Further Information and Privacy Policy',
+    furtherInfoText: 'Further Information and Privacy Policy',
     footerInstallmentsTextStart: 'Installments enabled by',
     footerInstallmentsTextEnd: ''
   }

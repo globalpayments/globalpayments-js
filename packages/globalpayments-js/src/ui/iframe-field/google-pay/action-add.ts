@@ -10,7 +10,12 @@ export default function addGooglePay(iframeField: IframeField | undefined, field
   const missingConfig = [];
 
   const amount = field.amount;
-  const allowedCardNetworks = options.apms?.googlePay?.allowedCardNetworks ? options.apms?.googlePay?.allowedCardNetworks : options.apms?.allowedCardNetworks;
+  const firstConfigured = (...lists: (string[] | undefined)[]) => lists.find((l) => Array.isArray(l) && l.length > 0);
+  const allowedCardNetworks = firstConfigured(
+    options.apms?.googlePay?.allowedCardNetworks,
+    options.apms?.allowedCardNetworks,
+    options.allowedCardNetworks,
+  );
   const allowedCardAuthMethods = options.apms?.googlePay?.allowedAuthMethods;
   const currencyCode = options.apms?.currencyCode;
 

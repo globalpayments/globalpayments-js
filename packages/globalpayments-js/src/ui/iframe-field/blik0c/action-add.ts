@@ -71,6 +71,7 @@ const removeExistingElement = (container: Element | null, selector: string): voi
 };
 
 const renderBlikTimeoutScreen = (iframeField: IframeField): void => {
+    const lang = getCurrentLanguage();
     const timeoutScreen = createHtmlDivElement({
         id: 'blik0c-timeout-screen',
         className: 'blik0c-wait-screen',
@@ -94,7 +95,8 @@ const renderBlikTimeoutScreen = (iframeField: IframeField): void => {
 
     let remainingSeconds = 59;
     const updateCountdown = (): void => {
-        timeoutCountdown.textContent = `You’ve been inactive for a while. For your security, your session will automatically expire in ${remainingSeconds} seconds.`;
+        const timeoutMessage = translateMessage(lang, translations.en.apms?.blik0c?.timeoutMessage);
+        timeoutCountdown.textContent = timeoutMessage.replace('##VALUE1##', String(remainingSeconds));
 
         if (remainingSeconds === 0) {
             // tslint:disable-next-line:no-console
@@ -214,7 +216,7 @@ export default function addBlik0CComponent(iframeField: IframeField | undefined)
     const blikHeader = createHtmlSpanElement({
         id: 'blik0c-header',
         className: 'blik0c-header',
-        textContent: 'BLIK Code'
+        textContent: `${translateMessage(lang, translations.en.apms?.blik0c?.blikCodeHeader)}`,
     });
     const codeInput = createHtmlElement('input', {
         id: 'blik0c-code-input',
@@ -244,7 +246,7 @@ export default function addBlik0CComponent(iframeField: IframeField | undefined)
     const payButton = createHtmlButtonElement({
         id: 'blik0c-pay-button',
         className: 'blik0c-pay-button disabled-submit-button',
-        textContent: 'Pay Now',
+        textContent: `${translateMessage(lang, translations.en.apms?.blik0c?.PayButtonText)}`,
         attributes: [{ type: 'button' }],
     });
     payButton.prepend(payButtonIcon);

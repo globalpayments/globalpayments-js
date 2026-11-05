@@ -48,7 +48,7 @@ import { IUIFormOptions } from "../form";
 import CountryList from "country-list-with-dial-code-and-flag";
 import CountryFlagSvg from 'country-list-with-dial-code-and-flag/dist/flag-svg';
 import { Country, State, City } from 'country-state-city';
-import { ApmProviders, ExpressPayEvents } from "../../internal/lib/enums";
+import { ApmProviders, CardCvvOption, ExpressPayEvents } from "../../internal/lib/enums";
 
 export interface IFrameCollection {
   [key: string]: IframeField | undefined;
@@ -56,6 +56,7 @@ export interface IFrameCollection {
 
 export interface IUIFormField {
   label?: string;
+  ariaLabelledBy?: string;
   placeholder?: string;
   target?: string;
   text?: string;
@@ -157,6 +158,8 @@ export class IframeField extends EventEmitter {
     const data: any = JSON.parse(atob(query));
 
     const formOptionFields = data.formOptionFields;
+    const fieldValidationEnabled = data.fieldValidation?.enabled;
+    const cardCvvOption = data.cardCvvOption;
     const input:any = document.createElement(
       type === "button" ? "button" : (type === "select" ? "select" : "input"),
     );
@@ -221,6 +224,20 @@ export class IframeField extends EventEmitter {
       input.setAttribute("autocomplete", fieldTypeAutocompleteMap[name]);
     }
 
+    if (fieldValidationEnabled) {
+      const isRequiredField = type !== "button" && (
+        name === CardFormFieldNames.CardNumber ||
+        name === CardFormFieldNames.CardExpiration ||
+        name === CardFormFieldNames.CardHolderName ||
+        (name === CardFormFieldNames.CardCvv && cardCvvOption !== CardCvvOption.Optional && cardCvvOption !== CardCvvOption.NotDisplayed)
+      );
+
+      if (isRequiredField) {
+        input.required = true;
+        input.setAttribute("aria-required", "true");
+      }
+    }
+
     if (name === "card-track") {
       const message = "Read Card";
       input.appendChild(document.createTextNode(message));
@@ -228,15 +245,11 @@ export class IframeField extends EventEmitter {
       // const message = translateMessage(data.lang, translations.en.values.submit);
       const message = formOptionFields?.submit ? formOptionFields?.submit : translateMessage(data.lang, translations.en.values.submit);
       input.appendChild(document.createTextNode(message));
+      input.setAttribute("aria-label", message);
       if(disabledPayButton){
         input.classList.add('disabled-submit-button');
       }
     }
-
-    const label = document.createElement("label");
-    label.id = paymentFieldId + "-label";
-    label.setAttribute("for", paymentFieldId);
-    label.className = "offscreen";
 
     const dest = document.getElementById(paymentFieldId + "-wrapper");
     if (!dest) {
@@ -244,7 +257,14 @@ export class IframeField extends EventEmitter {
     }
 
     dest.insertBefore(input, dest.firstChild);
-    dest.insertBefore(label, dest.firstChild);
+
+    if (type !== "button") {
+      const label = document.createElement("label");
+      label.id = paymentFieldId + "-label";
+      label.setAttribute("for", paymentFieldId);
+      label.className = "offscreen";
+      dest.insertBefore(label, dest.firstChild);
+    }
 
     IframeField.addFrameFocusEvent();
 
@@ -698,6 +718,8 @@ export class IframeField extends EventEmitter {
       btoa(
         JSON.stringify({
           enableAutocomplete: options.enableAutocomplete,
+          fieldValidation: options.fieldValidation,
+          cardCvvOption: options.cardCvvOption,
           id: this.id,
           lang: options.language || "en",
           targetOrigin: window.location.origin,
@@ -1098,6 +1120,9 @@ export class IframeField extends EventEmitter {
     frame.name = type;
     if (opts.title || opts.label) {
       frame.title = opts.title || opts.label || "";
+    }
+    if (opts.ariaLabelledBy) {
+      frame.setAttribute("aria-labelledby", opts.ariaLabelledBy);
     }
     frame.style.border = "0";
     frame.style.height = "50px";

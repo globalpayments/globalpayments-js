@@ -36,7 +36,8 @@ const sk = {
       Required: 'Vyžaduje sa číslo karty',
       CharactersLessThan12: 'Číslo karty musí obsahovať najmenej 12 číslic',
       NumberIsNotValid: 'Číslo karty je neplatné',
-      NotAllowedCardType: 'Tento typ karty nie je možné spracovať, použite inú kartu'
+      NotAllowedCardType: 'Tento typ karty nie je možné spracovať, použite inú kartu',
+      NotAllowedCardNetwork: "Konverzia meny nepodporuje splátky. Celú sumu môžete stále zaplatiť vo svojej mene alebo prejsť na menu obchodníka, ak chcete použiť možnosť splátok."
     },
     CardExpiration: {
       NotCompleted: 'Zadajte platný mesiac/rok',
@@ -99,9 +100,9 @@ const sk = {
       blik0WaitingScreenMessage: "Please confirm the transaction from your mobile banking application.",
       waitingIcon: "Waiting Icon",
     },
-    redirectionText1: "or use the ",
-    link: "link",
-    redirectionText2: " to confirm it.",
+    redirectionText1: "alebo použite ",
+    link: "odkaz",
+    redirectionText2: " na potvrdenie.",
     blik0c: {
       enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
       errorMessage: "Please enter your 6 digit BLIK code.",

@@ -36,7 +36,8 @@ const lv = {
       Required: 'Nepieciešams kartes numurs',
       CharactersLessThan12: 'Kartes numuru jāveido vismaz 12 cipariem',
       NumberIsNotValid: 'Kartes numurs nav derīgs',
-      NotAllowedCardType: 'Nav iespējams apstrādāt šādu kartes tipu. Lūdzu, izmantojiet citu karti'
+      NotAllowedCardType: 'Nav iespējams apstrādāt šādu kartes tipu. Lūdzu, izmantojiet citu karti',
+      NotAllowedCardNetwork: "Šis kartes veids netiek pieņemts. Lūdzu, izmantojiet karti no kāda no iepriekš uzskaitītajiem tīkliem."
     },
     CardExpiration: {
       NotCompleted: 'Lūdzu, ievadiet derīgu mēnesi/gadu',
@@ -122,9 +123,9 @@ const lv = {
       blik0WaitingScreenMessage: "Please confirm the transaction from your mobile banking application.",
       waitingIcon: "Waiting Icon",
     },
-    redirectionText1: "or use the ",
-    link: "link",
-    redirectionText2: " to confirm it.",
+    redirectionText1: "vai izmantojiet ",
+    link: "saiti",
+    redirectionText2: ", lai to apstiprinātu.",
     blik0c: {
       enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
       errorMessage: "Please enter your 6 digit BLIK code.",

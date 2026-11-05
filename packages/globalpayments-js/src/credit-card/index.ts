@@ -19,10 +19,16 @@ import { availableCashpressoOptions, checkInstallmentsAvailability, getAvailable
 import CountryList from "country-list-with-dial-code-and-flag";
 import CountryFlagSvg from "country-list-with-dial-code-and-flag/dist/flag-svg";
 import getAssetBaseUrl from "../internal/gateways/gp-api/get-asset-base-url";
-import { CardFormFieldNames, ExpressPayFieldNames } from "../common/enums";
+import { CardFormFieldNames, ExpressPayFieldNames, HostedFieldValidationEvents } from "../common/enums";
+import { ValidationMessages } from "../internal/built-in-validations/messages";
 import { HOSTED_FIELDS_SHIPPING_KEYS } from "../common/constants";
 import getExpressPayBaseUrl from "../internal/gateways/gp-api/get-express-pay-base-url";
 import Accordion from "../ui/components/accordion";
+
+interface ICardBrandLogo {
+  alt: string;
+  fileName: string;
+}
 
 const APM_REQUIRED_FIELDS: Partial<Record<Apm, string[]>> = {
   [Apm.ApplePay]: ["countryCode", "currencyCode"],
@@ -41,6 +47,145 @@ const APM_REQUIRED_FIELDS: Partial<Record<Apm, string[]>> = {
   [Apm.QRCodePayments]: [],
   [Apm.PayPal]: [],
 };
+
+const CARD_BRAND_LOGOS: Record<string, ICardBrandLogo> = {
+  VISA: { alt: 'Visa', fileName: 'visa.svg' },
+  MASTERCARD: { alt: 'Mastercard', fileName: 'mastercard.svg' },
+  AMEX: { alt: 'American Express', fileName: 'amex.svg' },
+  DISCOVER: { alt: 'Discover', fileName: 'discover.svg' },
+  DINERS: { alt: 'Diners Club', fileName: 'gp-cc-diners.svg' },
+  DINERSCLUB: { alt: 'Diners Club', fileName: 'gp-cc-diners.svg' },
+  MAESTRO: { alt: 'Maestro', fileName: 'gp-cc-maestro.svg' },
+};
+
+const CARD_BRAND_ORDER = [
+  'VISA',
+  'MASTERCARD',
+  'AMEX',
+  'MAESTRO',
+  'DINERS',
+  'DISCOVER',
+];
+
+function normalizeCardNetwork(network: string) {
+  return network.replace(/[^a-z0-9]/gi, '').toUpperCase();
+}
+
+function getValidCardNetworks(networks?: string[]) {
+  if (!Array.isArray(networks) || networks.length === 0) {
+    return [];
+  }
+
+  return networks
+    .map((network) => typeof network === 'string' ? normalizeCardNetwork(network) : undefined)
+    .filter((network): network is string => !!network && !!CARD_BRAND_LOGOS[network]);
+}
+
+function validateAllowedCardNetworks(...networkLists: (string[] | undefined)[]) {
+  const invalidNetworks = networkLists.reduce<string[]>((invalid, networks) => {
+    if (!Array.isArray(networks) || networks.length === 0) {
+      return invalid;
+    }
+
+    const list = networks.filter((network) => {
+      if (typeof network !== 'string') {
+        return true;
+      }
+
+      return !CARD_BRAND_LOGOS[normalizeCardNetwork(network)];
+    });
+
+    return invalid.concat(list.map(String));
+  }, []);
+
+  if (invalidNetworks.length > 0) {
+    const errorMessage = "Invalid card network configured in 'allowedCardNetworks'";
+    // tslint:disable-next-line:no-console
+    console.error(errorMessage, invalidNetworks);
+    throw new Error(errorMessage);
+  }
+}
+
+function getAllowedCardNetworks() {
+  const configuredNetworks = options.allowedCardNetworks;
+  if (!Array.isArray(configuredNetworks) || configuredNetworks.length === 0) {
+    return [];
+  }
+
+  const configuredSet = new Set(getValidCardNetworks(configuredNetworks));
+
+  return CARD_BRAND_ORDER.filter((network) => configuredSet.has(network));
+}
+
+function renderCardBrandStrip(brandStrip: HTMLElement, assetBaseUrl: string, detectedCardType?: string, hasNotAllowedCardNetworkError = false) {
+  const allowedNetworks = getAllowedCardNetworks();
+  const normalizedDetectedCardType = detectedCardType ? normalizeCardNetwork(detectedCardType) : '';
+  const visibleNetworks = allowedNetworks.length
+    ? allowedNetworks
+    : normalizedDetectedCardType
+      ? [normalizedDetectedCardType]
+      : [];
+
+  brandStrip.innerHTML = '';
+  brandStrip.classList.toggle('is-empty', visibleNetworks.length === 0);
+  brandStrip.classList.toggle('has-detected-brand', !!normalizedDetectedCardType && allowedNetworks.length > 0 && !hasNotAllowedCardNetworkError);
+
+  visibleNetworks.forEach((network) => {
+    const brand = CARD_BRAND_LOGOS[network];
+    if (!brand) {
+      return;
+    }
+
+    const brandItem = document.createElement('span');
+    if (normalizedDetectedCardType && network === normalizedDetectedCardType) {
+      brandItem.classList.add('is-active');
+    }
+
+    const brandImage = createHtmlImageElement({
+      src: `${assetBaseUrl}images/${brand.fileName}`,
+      alt: brand.alt,
+    });
+    brandImage.setAttribute('aria-hidden', 'true');
+
+    brandItem.appendChild(brandImage);
+    brandStrip.appendChild(brandItem);
+  });
+
+  if (brandStrip.classList.contains('has-detected-brand') && !brandStrip.querySelector('span.is-active')) {
+    brandStrip.classList.remove('has-detected-brand');
+  }
+}
+
+function initializeCardBrandStrip(uiForm: UIForm) {
+  const cardNumberFrame = uiForm.frames[CardFormFieldNames.CardNumber];
+  const brandTarget = cardNumberFrame?.container as HTMLElement | null;
+
+  if (!cardNumberFrame || !brandTarget) {
+    return;
+  }
+
+  const brandStrip = document.createElement('div');
+  brandStrip.className = 'card-brand-logos';
+  brandStrip.setAttribute('aria-hidden', 'true');
+  brandTarget.appendChild(brandStrip);
+
+  let detectedCardType: string | undefined;
+  let hasNotAllowedCardNetworkError = false;
+
+  renderCardBrandStrip(brandStrip, getAssetBaseUrl(''));
+  cardNumberFrame.on('card-type', (data?: { cardType?: string }) => {
+    detectedCardType = data?.cardType;
+    renderCardBrandStrip(brandStrip, getAssetBaseUrl(''), detectedCardType, hasNotAllowedCardNetworkError);
+  });
+  cardNumberFrame.on(HostedFieldValidationEvents.ValidationShow, (data?: { validationMessage?: string }) => {
+    hasNotAllowedCardNetworkError = data?.validationMessage === ValidationMessages.CardNumber.NotAllowedCardNetwork;
+    renderCardBrandStrip(brandStrip, getAssetBaseUrl(''), detectedCardType, hasNotAllowedCardNetworkError);
+  });
+  cardNumberFrame.on(HostedFieldValidationEvents.ValidationHide, () => {
+    hasNotAllowedCardNetworkError = false;
+    renderCardBrandStrip(brandStrip, getAssetBaseUrl(''), detectedCardType, hasNotAllowedCardNetworkError);
+  });
+}
 
 export const defaultOptions: IUIFormOptions = {
   labels: {
@@ -123,6 +268,10 @@ export function form(
 
     target = el;
   }
+
+  validateAllowedCardNetworks(
+    options.allowedCardNetworks,
+  );
 
   target.className = target.className + " secure-payment-form";
 
@@ -248,7 +397,7 @@ export function form(
       console.error(`APM buttons were not rendered due to missing required field(s): ${blockedApms.join("; ")}`);
     }
 
-    formOptions.apms = allowedApms.length > 0 ? allowedApms : undefined;
+    formOptions.apms = allowedApms.length > 0 ? allowedApms : [];
   }
 
   if (!formOptions.apms) formOptions.apms = [];
@@ -256,6 +405,10 @@ export function form(
   let apms = formOptions.apms as string[];
 
   if (apms) {
+    if (options.apms?.konek?.enabled && countryCode === "CA" && !apms.includes(Apm.Konek)) {
+      apms.push(Apm.Konek);
+    }
+
     if (isBlik0cAvailable(options?.apms?.countryCode, options?.apms?.currencyCode, options?.apms?.nonCardPayments)) {
       const isBlik0c = apms.find((apm: string) => apm === Apm.Blik0C);
       if (!isBlik0c) {
@@ -479,6 +632,8 @@ export function form(
         className: "label-div"
       });
       const label = document.createElement("label");
+      const labelId = `${formOptions.prefix + type}-label`;
+      label.id = labelId;
       label.appendChild(document.createTextNode(formOptions.labels[type]));
       const shippingTypes: string[] = HOSTED_FIELDS_SHIPPING_KEYS.map(x => x);
       const isShippingRequired: any = options.expressPay?.enabled && (options.expressPay?.isShippingRequired !== false);
@@ -496,6 +651,7 @@ export function form(
         span.textContent = " (Optional)";
         label.appendChild(span);
       }
+      label.removeAttribute("for");
       labelEl.appendChild(label);
       if (type === "card-cvv" && formOptions.style === "gp-default2") {
         const tooltip = createToolTip({
@@ -578,6 +734,7 @@ export function form(
 
     fields[type] = {} as any;
     fields[type].target = ".secure-payment-form ." + formOptions.prefix + type + "-target";
+    fields[type].ariaLabelledBy = `${formOptions.prefix + type}-label`;
     if (formOptions.placeholders && formOptions.placeholders[type]) {
       fields[type].placeholder =
         type === "card-expiration" && options.enableTwoDigitExpirationYear
@@ -666,11 +823,15 @@ export function form(
     addFooterIcons(formOptions, target);
   }
 
-  return new UIForm(
+  const uiForm = new UIForm(
     fields,
     formOptions.style ? fieldStyles()[formOptions.style] : {},
     formOptions?.fields
   );
+
+  initializeCardBrandStrip(uiForm);
+
+  return uiForm;
 }
 
 /**

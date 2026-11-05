@@ -36,7 +36,8 @@ const nl = {
       Required: 'Kaartnummer vereist',
       CharactersLessThan12: 'Het kaartnummer moet ten minste 12 tekens bevatten',
       NumberIsNotValid: 'Het kaartnummer is niet geldig',
-      NotAllowedCardType: 'Dit kaarttype kan niet worden verwerkt. Gebruik een andere kaart'
+      NotAllowedCardType: 'Dit kaarttype kan niet worden verwerkt. Gebruik een andere kaart',
+      NotAllowedCardNetwork: "Dit kaarttype wordt niet geaccepteerd. Gebruik een kaart van een van de bovenstaande netwerken."
     },
     CardExpiration: {
       NotCompleted: 'Voer een geldige maand en een geldig jaar in',
@@ -99,9 +100,9 @@ const nl = {
       blik0WaitingScreenMessage: "Please confirm the transaction from your mobile banking application.",
       waitingIcon: "Waiting Icon",
     },
-    redirectionText1: "or use the ",
+    redirectionText1: "Of gebruik de ",
     link: "link",
-    redirectionText2: " to confirm it.",
+    redirectionText2: " om het te bevestigen.",
     blik0c: {
       enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
       errorMessage: "Please enter your 6 digit BLIK code.",

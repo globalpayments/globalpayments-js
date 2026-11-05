@@ -44,17 +44,22 @@ export default (id: string, validationMessage: string, fieldType: string, styleT
     return;
   }
 
-  const existingValidationMessageDiv = document.querySelector(`#field-validation-wrapper`);
+  const validationWrapperId = getValidationWrapperId(fieldType);
+  const validationMessageId = getValidationMessageId(fieldType);
+  const existingValidationMessageDiv = document.querySelector(`#${validationWrapperId}`);
   existingValidationMessageDiv?.remove();
 
-  const newValidationMessageDiv = createValidationMessageDiv(validationMessage,styleType);
+  fieldInput?.setAttribute('aria-describedby', validationMessageId);
+  fieldInput?.setAttribute('aria-invalid', 'true');
+
+  const newValidationMessageDiv = createValidationMessageDiv(validationMessage, fieldType, styleType);
   fieldWrapperDiv.append(newValidationMessageDiv);
 };
 
-function createValidationMessageDiv(validationMessage: string,styleType?:string): HTMLDivElement {
+function createValidationMessageDiv(validationMessage: string, fieldType: string, styleType?:string): HTMLDivElement {
   const fontFamily = (styleType === "gp-default2" ? "Inter" : "var(--inputfield-container-font-error, DMSans)");
   const validationMessageDiv = createHtmlDivElement({
-    id: `field-validation-wrapper`,
+    id: getValidationWrapperId(fieldType),
     attributes: [
       {
         style: [
@@ -72,7 +77,7 @@ function createValidationMessageDiv(validationMessage: string,styleType?:string)
   });
 
   const validationMessageSpan = createHtmlSpanElement({
-    id: `field-validation-message`,
+    id: getValidationMessageId(fieldType),
     textContent: validationMessage,
     attributes: [
       { 'aria-label': `Error: ${validationMessage}` },
@@ -83,4 +88,12 @@ function createValidationMessageDiv(validationMessage: string,styleType?:string)
   validationMessageDiv.append(validationMessageSpan);
 
   return validationMessageDiv;
+}
+
+function getValidationWrapperId(fieldType: string): string {
+  return `field-validation-wrapper-${fieldType}`;
+}
+
+function getValidationMessageId(fieldType: string): string {
+  return `field-validation-message-${fieldType}`;
 }

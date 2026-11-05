@@ -34,7 +34,8 @@ const zh = {
       Required: '卡號為必填欄位',
       CharactersLessThan12: '卡號至少為 12 位數',
       NumberIsNotValid: '卡號無效',
-      NotAllowedCardType: '無法處理此卡種，請使用其他卡片'
+      NotAllowedCardType: '無法處理此卡種，請使用其他卡片',
+      NotAllowedCardNetwork: "不接受此卡片類型。請使用屬於上方所列任一卡片組織的卡片。"
     },
     CardExpiration: {
       NotCompleted: '請輸入有效月/年',
@@ -121,9 +122,9 @@ const zh = {
       blik0WaitingScreenMessage: "Please confirm the transaction from your mobile banking application.",
       waitingIcon: "Waiting Icon",
     },
-    redirectionText1: "or use the ",
-    link: "link",
-    redirectionText2: " to confirm it.",
+    redirectionText1: "或使用 ",
+    link: "連結",
+    redirectionText2: " 進行確認。",
     blik0c: {
       enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
       errorMessage: "Please enter your 6 digit BLIK code.",

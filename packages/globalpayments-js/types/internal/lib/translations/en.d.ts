@@ -36,6 +36,7 @@ declare const en: {
             CharactersLessThan12: string;
             NumberIsNotValid: string;
             NotAllowedCardType: string;
+            NotAllowedCardNetwork: string;
         };
         CardExpiration: {
             NotCompleted: string;
@@ -119,6 +120,9 @@ declare const en: {
         blik0c: {
             enterCodeMessage: string;
             errorMessage: string;
+            PayButtonText: string;
+            timeoutMessage: string;
+            blikCodeHeader: string;
         };
     };
     dcc: {

@@ -29,6 +29,7 @@ export interface IConfiguration extends IDictionary {
     env?: string;
     serviceURL?: string;
     allowedCardTypes?: string[];
+    allowedCardNetworks?: string[];
     useNetworkToken?: boolean;
     disablePayButton?: boolean;
     apms?: {

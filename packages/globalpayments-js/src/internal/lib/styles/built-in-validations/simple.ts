@@ -19,6 +19,9 @@ export const fieldStyles = (assetBaseUrl: string) => {
       },
       "#field-validation-wrapper": {
           "margin-top": "0px!important"
+      },
+      "[id^='field-validation-wrapper-']": {
+          "margin-top": "0px!important"
       }
     };
   };

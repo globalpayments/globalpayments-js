@@ -16,7 +16,8 @@ const lt = {
         Required: 'Būtina nurodyti kortelės numerį',
         CharactersLessThan12: 'Kortelės numerį turi sudaryti bent 12 skaitmenų',
         NumberIsNotValid: 'Kortelės numeris netinkamas',
-        NotAllowedCardType: 'Šio tipo kortelės neapdorojamos, naudokite kitą kortelę'
+        NotAllowedCardType: 'Šio tipo kortelės neapdorojamos, naudokite kitą kortelę',
+        NotAllowedCardNetwork: "Šio tipo kortelė nepriimama. Naudokite vieno iš aukščiau išvardytų tinklų kortelę."
       },
       CardExpiration: {
         NotCompleted: 'Įveskite tinkamą mėnesį / metus',
@@ -102,9 +103,9 @@ const lt = {
       blik0WaitingScreenMessage: "Please confirm the transaction from your mobile banking application.",
       waitingIcon: "Waiting Icon",
     },
-    redirectionText1: "or use the ",
-    link: "link",
-    redirectionText2: " to confirm it.",
+    redirectionText1: "arba patvirtinimui naudokite ",
+    link: "nuorodą",
+    redirectionText2: ".",
     blik0c: {
       enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
       errorMessage: "Please enter your 6 digit BLIK code.",

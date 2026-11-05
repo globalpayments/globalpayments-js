@@ -36,7 +36,8 @@ const en = {
       Required: 'A Card Number is required',
       CharactersLessThan12: 'The Card Number must consist of at least 12 digits',
       NumberIsNotValid: 'The Card Number is not valid',
-      NotAllowedCardType: 'Cannot process this card type, please use another Card'
+      NotAllowedCardType: 'Cannot process this card type, please use another Card',
+      NotAllowedCardNetwork: "Ní ghlactar leis an gcineál cárta seo. Bain úsáid as cárta ó cheann de na líonraí atá liostaithe thuas."
     },
     CardExpiration: {
       NotCompleted: 'Please enter a valid month/year',
@@ -122,9 +123,9 @@ const en = {
       blik0WaitingScreenMessage: "Please confirm the transaction from your mobile banking application.",
       waitingIcon: "Waiting Icon",
     },
-    redirectionText1: "or use the ",
-    link: "link",
-    redirectionText2: " to confirm it.",
+    redirectionText1: "nó bain úsáid as an ",
+    link: "nasc",
+    redirectionText2: " chun é a dheimhniú.",
     blik0c: {
       enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
       errorMessage: "Please enter your 6 digit BLIK code.",

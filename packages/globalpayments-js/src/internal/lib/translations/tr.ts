@@ -36,7 +36,8 @@ const tr = {
       Required: 'Bir Kart Numarası gerekiyor',
       CharactersLessThan12: 'Kart Numarası en az 12 rakamdan oluşmalıdır',
       NumberIsNotValid: 'Kart Numarası geçersiz',
-      NotAllowedCardType: 'Bu kart türü işlenemiyor, lütfen başka bir Kart kullanın'
+      NotAllowedCardType: 'Bu kart türü işlenemiyor, lütfen başka bir Kart kullanın',
+      NotAllowedCardNetwork: "Bu kart türü kabul edilmiyor. Lütfen yukarıda listelenen ağlardan birine ait bir kart kullanın."
     },
     CardExpiration: {
       NotCompleted: 'Lütfen geçerli bir ay/yıl girin',
@@ -99,9 +100,9 @@ const tr = {
       blik0WaitingScreenMessage: "Please confirm the transaction from your mobile banking application.",
       waitingIcon: "Waiting Icon",
     },
-    redirectionText1: "or use the ",
-    link: "link",
-    redirectionText2: " to confirm it.",
+    redirectionText1: "Ya da onaylamak için ",
+    link: "bağlantıyı",
+    redirectionText2: " kullanın.",
     blik0c: {
       enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
       errorMessage: "Please enter your 6 digit BLIK code.",

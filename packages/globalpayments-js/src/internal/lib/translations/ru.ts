@@ -36,7 +36,8 @@ const ru = {
       Required: 'Необходимо указать номер карты',
       CharactersLessThan12: 'Номер карты должен состоять как минимум из 12 цифр',
       NumberIsNotValid: 'Недопустимый номер карты',
-      NotAllowedCardType: 'Невозможно обработать карту этого типа. Попробуйте использовать другую карту'
+      NotAllowedCardType: 'Невозможно обработать карту этого типа. Попробуйте использовать другую карту',
+      NotAllowedCardNetwork: "Данный тип карты не принимается. Пожалуйста, используйте карту одной из перечисленных выше платежных систем."
     },
     CardExpiration: {
       NotCompleted: 'Укажите действительный месяц/год',
@@ -99,9 +100,9 @@ const ru = {
       blik0WaitingScreenMessage: "Please confirm the transaction from your mobile banking application.",
       waitingIcon: "Waiting Icon",
     },
-    redirectionText1: "or use the ",
-    link: "link",
-    redirectionText2: " to confirm it.",
+    redirectionText1: "или воспользуйтесь ",
+    link: "ссылкой",
+    redirectionText2: " для подтверждения.",
     blik0c: {
       enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
       errorMessage: "Please enter your 6 digit BLIK code.",

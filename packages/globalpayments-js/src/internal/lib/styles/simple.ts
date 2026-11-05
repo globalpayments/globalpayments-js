@@ -101,6 +101,9 @@ export const fieldStyles = (assetBaseUrl: string) => {
       "margin-top": "-21px",
       "background-position": "50% 50%"
     },
+    "img.card-number-icon:not([class*='card-type-'])": {
+      opacity: "0",
+    },
 
     "img.card-number-icon[src$='/gp-cc-generic.svg']": {
       background: `transparent url(${imageBase}logo-mastercard@2x.png) no-repeat`,
@@ -198,6 +201,63 @@ export const parentStyles = (assetBaseUrl: string) => {
       "font-weight": "bold",
       "line-height": "1.5",
       "text-transform": "uppercase",
+    },
+
+    ".secure-payment-form .credit-card-card-number-target": {
+      position: "relative",
+      overflow: "visible",
+    },
+
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos": {
+      position: "absolute",
+      right: "6px",
+      top: "-34px",
+      display: "flex",
+      gap: "6px",
+      "align-items": "center",
+      "justify-content": "flex-end",
+      "pointer-events": "none",
+      "z-index": "2",
+    },
+
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos.is-empty": {
+      display: "none",
+    },
+
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos > span": {
+      display: "inline-flex",
+      "align-items": "center",
+      "justify-content": "center",
+      width: "40px",
+      height: "28px",
+      padding: "4px 6px",
+      border: "1px solid #D9D9D9",
+      "border-radius": "6px",
+      background: "#fff",
+      "box-shadow": "0 1px 2px rgba(0, 0, 0, 0.08)",
+      opacity: "1",
+      transition: "opacity .2s ease, filter .2s ease",
+    },
+
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos.has-detected-brand > span": {
+      opacity: "0.35",
+      filter: "grayscale(1)",
+    },
+
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos.has-detected-brand > span.is-active": {
+      opacity: "1",
+      filter: "none",
+    },
+
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos.is-invalid": {
+      opacity: "0",
+    },
+
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos img": {
+      display: "block",
+      "max-width": "100%",
+      height: "16px",
+      width: "auto",
     },
 
     ".secure-payment-form #ss-banner": {

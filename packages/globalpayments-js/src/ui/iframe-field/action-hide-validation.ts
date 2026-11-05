@@ -22,10 +22,13 @@ export default (id: string, fieldType: string) => {
   const fieldSelector = `#secure-payment-field[type=${fieldType === CardFormFieldNames.CardHolderName ? 'text' : 'tel'}]`;
   const fieldInput = document.querySelector(fieldSelector);
   fieldInput?.classList.remove('hf-invalid');
+  fieldInput?.removeAttribute('aria-describedby');
+  fieldInput?.removeAttribute('aria-invalid');
 
   if (fieldType === CardFormFieldNames.CardNumber) {
     const cardNumberTypeLogo = document.querySelector(`#secure-payment-field-wrapper > img.card-number-icon`);
     cardNumberTypeLogo?.classList.remove('hf-invalid');
+
   } else if (fieldType === CardFormFieldNames.CardCvv) {
     postMessage.post(
       {
@@ -37,6 +40,10 @@ export default (id: string, fieldType: string) => {
     );
   }
 
-  const validationMessageDiv = document.querySelector(`#field-validation-wrapper`);
+  const validationMessageDiv = document.querySelector(`#${getValidationWrapperId(fieldType)}`);
   validationMessageDiv?.remove();
 };
+
+function getValidationWrapperId(fieldType: string): string {
+  return `field-validation-wrapper-${fieldType}`;
+}

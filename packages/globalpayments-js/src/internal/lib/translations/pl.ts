@@ -36,7 +36,8 @@ const en = {
       Required: 'Wymagany jest numer karty',
       CharactersLessThan12: 'Numer karty musi składać się z co najmniej 12 znaków',
       NumberIsNotValid: 'Numer karty jest nieprawidłowy',
-      NotAllowedCardType: 'Nie można przetworzyć tego typu karty, użyj innej karty'
+      NotAllowedCardType: 'Nie można przetworzyć tego typu karty, użyj innej karty',
+      NotAllowedCardNetwork: "Ten typ karty nie jest akceptowany. Prosimy o użycie karty z jednej z sieci wymienionych powyżej."
     },
     CardExpiration: {
       NotCompleted: 'Wprowadź prawidłowy miesiąc/rok',
@@ -96,15 +97,18 @@ const en = {
     },
     redirectToBank: "Redirecting",
     waitingScreen: {
-      blik0WaitingScreenMessage: "Please confirm the transaction from your mobile banking application.",
+      blik0WaitingScreenMessage: "Potwierdź transakcję za pomocą aplikacji bankowości mobilnej.",
       waitingIcon: "Waiting Icon",
     },
-    redirectionText1: "or use the ",
-    link: "link",
-    redirectionText2: " to confirm it.",
+    redirectionText1: "lub użyj ",
+    link: "linku",
+    redirectionText2: ", aby potwierdzić.",
     blik0c: {
-      enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
-      errorMessage: "Please enter your 6 digit BLIK code.",
+      enterCodeMessage: "Proszę wpisać kod BLIK wygenerowany przez aplikację bankowości mobilnej.",
+      errorMessage: "Proszę wpisać 6-cyfrowy kod BLIK.",
+      PayButtonText: "ZAPŁAĆ TERAZ",
+      timeoutMessage: 'Byłeś nieaktywny przez jakiś czas. Ze względów bezpieczeństwa Twoja sesja automatycznie wygaśnie za ##VALUE1## sekund.',
+      blikCodeHeader: 'Kod BLIK',
     }
   },
   dcc: {

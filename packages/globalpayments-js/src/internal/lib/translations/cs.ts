@@ -32,7 +32,8 @@ const cs = {
       Required: 'Je vyžadováno číslo karty',
       CharactersLessThan12: 'Číslo karty musí obsahovat alespoň 12 číslic',
       NumberIsNotValid: 'Číslo karty není platné',
-      NotAllowedCardType: 'Tento typ karty nelze zpracovat, použijte prosím jinou kartu'
+      NotAllowedCardType: 'Tento typ karty nelze zpracovat, použijte prosím jinou kartu',
+      NotAllowedCardNetwork: "Tento typ karty není akceptován. Použijte prosím kartu z jedné z výše uvedených sítí."
     },
     CardExpiration: {
       NotCompleted: 'Zadejte platný měsíc/rok',
@@ -95,9 +96,9 @@ const cs = {
       blik0WaitingScreenMessage: "Please confirm the transaction from your mobile banking application.",
       waitingIcon: "Waiting Icon",
     },
-    redirectionText1: "or use the ",
-    link: "link",
-    redirectionText2: " to confirm it.",
+    redirectionText1: "nebo použijte ",
+    link: "odkaz",
+    redirectionText2: " k potvrzení.",
     blik0c: {
       enterCodeMessage: "Please enter the BLIK code generated from your mobile banking application.",
       errorMessage: "Please enter your 6 digit BLIK code.",

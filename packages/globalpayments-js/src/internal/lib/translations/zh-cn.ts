@@ -36,7 +36,8 @@ const zhCn = {
             Required: '需要提供卡号。',
             CharactersLessThan12: '卡号至少须为12位数',
             NumberIsNotValid: '卡号无效',
-            NotAllowedCardType: '无法处理此卡类型，请使用其他卡片'
+            NotAllowedCardType: '无法处理此卡类型，请使用其他卡片',
+            NotAllowedCardNetwork: "货币换算不支持分期付款。您仍可以自己的货币支付全额，或切换至商家货币以使用分期付款选项。"
         },
         CardExpiration: {
             NotCompleted: '请输入有效的月份/年份',
@@ -105,7 +106,10 @@ const zhCn = {
             redirectingToPaymentPageMessage: '正在跳转至支付页面',
         },
     },
-    apm: {
+    apms: {
+        redirectionText1: "或使用 ",
+        link: "连结",
+        redirectionText2: " 进行确认。",
         redirectToBank: "跳转中",
     },
     dcc: {

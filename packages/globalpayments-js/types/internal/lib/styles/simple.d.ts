@@ -24,6 +24,9 @@ export declare const fieldStyles: (assetBaseUrl: string) => {
     "#field-validation-wrapper"?: {
         "margin-top": string;
     };
+    "[id^='field-validation-wrapper-']"?: {
+        "margin-top": string;
+    };
     "#secure-payment-field[type=text].field-validation-wrapper"?: {
         "font-family": string;
     };
@@ -84,6 +87,9 @@ export declare const fieldStyles: (assetBaseUrl: string) => {
     ".card-cvv.card-type-amex": {
         background: string;
         "background-size": string;
+    };
+    "img.card-number-icon:not([class*='card-type-'])": {
+        opacity: string;
     };
     "img.card-number-icon[src$='/gp-cc-generic.svg']": {
         background: string;
@@ -989,6 +995,55 @@ export declare const parentStyles: (assetBaseUrl: string) => {
         "font-weight": string;
         "line-height": string;
         "text-transform": string;
+    };
+    ".secure-payment-form .credit-card-card-number-target": {
+        position: string;
+        overflow: string;
+    };
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos": {
+        position: string;
+        right: string;
+        top: string;
+        display: string;
+        gap: string;
+        "align-items": string;
+        "justify-content": string;
+        "pointer-events": string;
+        "z-index": string;
+    };
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos.is-empty": {
+        display: string;
+    };
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos > span": {
+        display: string;
+        "align-items": string;
+        "justify-content": string;
+        width: string;
+        height: string;
+        padding: string;
+        border: string;
+        "border-radius": string;
+        background: string;
+        "box-shadow": string;
+        opacity: string;
+        transition: string;
+    };
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos.has-detected-brand > span": {
+        opacity: string;
+        filter: string;
+    };
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos.has-detected-brand > span.is-active": {
+        opacity: string;
+        filter: string;
+    };
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos.is-invalid": {
+        opacity: string;
+    };
+    ".secure-payment-form .credit-card-card-number-target .card-brand-logos img": {
+        display: string;
+        "max-width": string;
+        height: string;
+        width: string;
     };
     ".secure-payment-form #ss-banner": {
         background: string;
