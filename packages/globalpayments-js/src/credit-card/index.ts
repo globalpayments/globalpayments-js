@@ -24,6 +24,7 @@ import { ValidationMessages } from "../internal/built-in-validations/messages";
 import { HOSTED_FIELDS_SHIPPING_KEYS } from "../common/constants";
 import getExpressPayBaseUrl from "../internal/gateways/gp-api/get-express-pay-base-url";
 import Accordion from "../ui/components/accordion";
+import { createRavelinObject, initRavelin } from "../internal/lib/ravelin";
 
 interface ICardBrandLogo {
   alt: string;
@@ -259,6 +260,7 @@ export function form(
   target: string | HTMLElement,
   formOptions: IUIFormOptions = {},
 ) {
+  initRavelin(createRavelinObject(options.enableFraudMitigation, options.publishable_key));
   if (typeof target === "string") {
     const el = document.querySelector(target) as HTMLElement;
 

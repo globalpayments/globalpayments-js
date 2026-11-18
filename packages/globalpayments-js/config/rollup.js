@@ -16,11 +16,14 @@ const plugins = [
   commonjs(),
   typescript({
     check: true,
+    include: ["*.ts", "**/*.ts", "*.tsx", "**/*.tsx"],
     typescript: require("typescript"),
     useTsconfigDeclarationDir: true,
   }),
   json()
 ];
+
+const external = ["ravelinjs/core+track+encrypt"];
 
 const onwarn = (warning) => {
   // Suppress this error message... there are hundreds of them. Angular team says to ignore it.
@@ -39,9 +42,12 @@ export default [
       file: "./dist/globalpayments.js",
       format: "umd",
       name: "GlobalPayments",
+      globals: {
+        'ravelinjs/core+track+encrypt': 'Ravelin'
+      },
       sourcemap: true,
     },
-
+    external,
     plugins,
     onwarn,
   },
@@ -52,9 +58,12 @@ export default [
       file: "./dist/globalpayments.min.js",
       format: "umd",
       name: "GlobalPayments",
+      globals: {
+        'ravelinjs/core+track+encrypt': 'Ravelin'
+      },
       sourcemap: true,
     },
-
+    external,
     plugins: plugins.concat([
       terser({
         compress: {

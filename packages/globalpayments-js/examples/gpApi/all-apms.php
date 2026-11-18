@@ -287,7 +287,9 @@ $accessToken = $response->token ?? '';
                     max_time_unit_number: 32,
                     max_amount: 10000
                 },
-            }
+            },
+            enableFraudMitigation: true,
+            publishable_key: "publishable_key_test_livena1_Vr7SqP6hysAGMeAH2ZkNcFyrOjlDzjzwGWQBC1"
         });
 
         GlobalPayments.on("error", error => {

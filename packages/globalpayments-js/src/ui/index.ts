@@ -1,3 +1,4 @@
+import { createRavelinObject } from "../internal/lib/ravelin";
 import UIForm from "./form";
 
 export * from "./iframe-field";

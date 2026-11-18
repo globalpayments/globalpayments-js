@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "rimraf": "*",
-    "typescript": "*"
+    "typescript": "4.1.2"
   },
   "gitHead": "09776fcfe6140ce5b1ea8fc55fb4867b15565f1d"
 }

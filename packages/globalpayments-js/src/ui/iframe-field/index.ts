@@ -48,6 +48,8 @@ import { IUIFormOptions } from "../form";
 import CountryList from "country-list-with-dial-code-and-flag";
 import CountryFlagSvg from 'country-list-with-dial-code-and-flag/dist/flag-svg';
 import { Country, State, City } from 'country-state-city';
+import { trackRavelinPaste } from "../../internal/lib/ravelin";
+import { getRavelinDeviceId } from "../../internal/lib/ravelin";
 import { ApmProviders, CardCvvOption, ExpressPayEvents } from "../../internal/lib/enums";
 
 export interface IFrameCollection {
@@ -73,6 +75,13 @@ export const fieldTypeAutocompleteMap: IDictionary = {
   "card-number": "cc-number",
   "card-holder-name": "cc-name"
 };
+
+const ravelinPasteFieldTypes = [
+  CardFormFieldNames.CardNumber,
+  CardFormFieldNames.CardCvv,
+  CardFormFieldNames.CardExpiration,
+  CardFormFieldNames.CardHolderName,
+];
 
 /**
  * Represents logic surrounding individual hosted fields.
@@ -175,6 +184,14 @@ export class IframeField extends EventEmitter {
     input.id = paymentFieldId;
     input.className = name;
     input.setAttribute("data-id", id);
+
+    if (name === CardFormFieldNames.CardNumber) {
+      input.setAttribute("data-rvn-pan", "true");
+    }
+
+    if (name === CardFormFieldNames.CardCvv) {
+      input.setAttribute("data-rvn-sensitive", "true");
+    }
 
     const countryArray = CountryList.getAll();
       const countryDialCodes = countryArray.map(item => {
@@ -325,6 +342,12 @@ export class IframeField extends EventEmitter {
           },
           "parent",
         );
+      });
+    }
+
+    if (ravelinPasteFieldTypes.indexOf(name as CardFormFieldNames) !== -1) {
+      Events.addHandler(input, "paste", (event: Event) => {
+        void trackRavelinPaste(event as ClipboardEvent);
       });
     }
 
@@ -785,6 +808,7 @@ export class IframeField extends EventEmitter {
         case "pass-data":
           const installment = data.data.installment;
           const currencyConversion = data.data.currencyConversion;
+          const ravelinDeviceId = options.enableFraudMitigation && options.publishable_key ? getRavelinDeviceId() : undefined;
 
           let shippingSameAsBilling:any;
 
@@ -798,8 +822,9 @@ export class IframeField extends EventEmitter {
                 value: data.data.value,
                 isShippingSameAsBilling: shippingSameAsBilling?.checked,
                 expressPayOptions: this.expressPayEnabled ? options.expressPay : {},
+                ravelinDeviceId: ravelinDeviceId ? ravelinDeviceId : undefined,
                 ...(installment ? { installment } : {}),
-                ...(currencyConversion ? { currencyConversion } : {})
+                ...(currencyConversion ? { currencyConversion } : {}),
               },
               id: data.data.target,
               type: "ui:iframe-field:accumulate-data",
