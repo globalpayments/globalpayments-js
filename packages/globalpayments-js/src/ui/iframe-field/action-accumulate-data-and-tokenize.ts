@@ -34,6 +34,7 @@ export default (id: string, type: string, data: IDictionary) => {
   const installment = data.data.installment;
 
   const currencyConversion = data.data.currencyConversion;
+  const ravelinDeviceId = data.data.ravelinDeviceId ? data.data.ravelinDeviceId : undefined;
 
   const isInstallmentActive = installment?.installmentReference
   && (
@@ -142,6 +143,7 @@ export default (id: string, type: string, data: IDictionary) => {
           data: {
             // redirectUrl,
             // expressPayEnabled: options.expressPay?.enabled,
+            sessionId: ravelinDeviceId ? ravelinDeviceId : undefined,
             ...(sendInstallment ?  {installment} : {}),
             ...(currencyConversion && currencyConversion.currencyConversionAccepted === 'YES' ?  {currencyConversion} : {}),
             details: {

@@ -4,7 +4,10 @@
 
 # Changelog (MM/DD/YY)
 
-## latest v5.4.0 (11/05/26)
+## latest v5.5.0 (11/19/26)
+- [Globalpayments-js][5.5.0] Fraudsight feature added
+
+## v5.4.0 (11/05/26)
 - [Globalpayments-js][5.4.0] Reject non-allowed cards feature
 - [Globalpayments-js][5.4.0] Accessibility issue fixes
 

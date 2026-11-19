@@ -49,6 +49,7 @@ import addKonek from "../iframe-field/konek/action-add";
 import { formatAmount } from "../../common/currency";
 import { translateMessage } from "../../internal/lib/translate";
 import translations from "../../internal/lib/translations/translations";
+import { createRavelinObject, initRavelin } from "../../internal/lib/ravelin";
 
 export { IUIFormField } from "../iframe-field";
 
@@ -143,6 +144,7 @@ export default class UIForm {
     this.fields = fields;
     this.styles = styles;
     this.formOptionFields = formOptions;
+    initRavelin(createRavelinObject(options.enableFraudMitigation, options.publishable_key));
     this.createFrames();
   }
 

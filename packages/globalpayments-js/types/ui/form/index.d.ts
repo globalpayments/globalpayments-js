@@ -162,15 +162,15 @@ export declare const fieldStyles: () => {
         };
         "img.card-number-icon.valid.card-type-jcb": {
             background: string;
-            /**
-             * Instantiates a new UIForm object for a group of hosted fields
-             *
-             * @param fields Hosted field configuration
-             * @param styles Custom CSS configuration
-             */
             "background-size": string;
             "background-position-y": string;
         };
+        /**
+         * Instantiates a new UIForm object for a group of hosted fields
+         *
+         * @param fields Hosted field configuration
+         * @param styles Custom CSS configuration
+         */
         "img.card-number-icon.valid.card-type-mastercard": {
             background: string;
             "background-size": string;
@@ -496,12 +496,7 @@ export declare const fieldStyles: () => {
         };
         "input[placeholder]": {
             "letter-spacing": string;
-        }; /**
-         * Instantiates a new UIForm object for a group of hosted fields
-         *
-         * @param fields Hosted field configuration
-         * @param styles Custom CSS configuration
-         */
+        };
     };
     "gp-default2": {
         ".secure-payment-form label::after"?: {
@@ -641,6 +636,9 @@ export declare const fieldStyles: () => {
             "background-image": string;
         };
         "img.card-number-icon.card-type-carnet": {
+            /**
+             * Represents logic surrounding a group of hosted fields.
+             */
             "background-image": string;
         };
         ".card-number::-ms-clear": {
@@ -1151,6 +1149,12 @@ export declare const parentStyles: () => {
             outline: string;
             "outline-offset": string;
         };
+        /**
+         * Sets a special-case event listener that fires when all hosted
+         * fields in a form have registered / loaded
+         *
+         * @param fn The listener function
+         */
         ".secure-payment-form .cashpressoflexible-button:focus": {
             outline: string;
             "outline-offset": string;
@@ -1183,6 +1187,9 @@ export declare const parentStyles: () => {
             width: string;
             height: string;
             "object-fit": string;
+            /**
+             * Deletes all hosted fields within the form
+             */
             display: string;
         };
         ".secure-payment-form .credit-card-accordion-container:has(.gp-accordion__content--visible)": {
@@ -1383,9 +1390,6 @@ export declare const parentStyles: () => {
             "font-family": string;
             "font-size": string;
             "font-weight": number;
-            /**
-             * Represents logic surrounding a group of hosted fields.
-             */
             margin: string;
             display: string;
             "line-height": string;
@@ -1395,6 +1399,12 @@ export declare const parentStyles: () => {
             width: string;
             height: string;
             "min-width": string;
+            /**
+             * Instantiates a new UIForm object for a group of hosted fields
+             *
+             * @param fields Hosted field configuration
+             * @param styles Custom CSS configuration
+             */
             "border-left": string;
             display: string;
         };
@@ -1695,12 +1705,6 @@ export declare const parentStyles: () => {
             content: string;
             position: string;
             width: string;
-            /**
-             * Instantiates a new UIForm object for a group of hosted fields
-             *
-             * @param fields Hosted field configuration
-             * @param styles Custom CSS configuration
-             */
             height: string;
             border: string;
             "border-width": string;
@@ -1769,11 +1773,7 @@ export declare const parentStyles: () => {
             "font-size": string;
         };
         "#ctp-wrapper .quitbanner > svg": {
-            display: string; /**
-             * Appends additional CSS rules to the group of hosted fields
-             *
-             * @param json New CSS rules
-             */
+            display: string;
         };
         "#ctp-wrapper #footer": {
             display: string;
@@ -1796,18 +1796,18 @@ export declare const parentStyles: () => {
             "margin-top": string;
             "margin-bottom": string;
         };
-        /**
-         * Sets a special-case event listener that fires when all hosted
-         * fields in a form have registered / loaded
-         *
-         * @param fn The listener function
-         */
         "#ctp-wrapper .logindiv": {
             "min-height": string;
         };
         "#ctp-wrapper .VerificationLabel label": {
             display: string;
             margin: string;
+            /**
+             * Sets a special-case event listener that fires when all hosted
+             * fields in a form have registered / loaded
+             *
+             * @param fn The listener function
+             */
             "font-size": string;
         };
         "#ctp-wrapper .VerificationLabel #userMobileMC": {
@@ -1932,11 +1932,6 @@ export declare const parentStyles: () => {
             display: string;
         };
         ".secure-payment-form .credit-card-card-number-target .card-brand-logos > span": {
-            /**
-             * Appends additional CSS rules to the group of hosted fields
-             *
-             * @param json New CSS rules
-             */
             display: string;
             "align-items": string;
             "justify-content": string;
@@ -1981,7 +1976,9 @@ export declare const parentStyles: () => {
         ".secure-payment-form div[class$='-shield'] .ssl-text-logo": {
             "border-radius": string;
             height: string;
-            "text-align": string;
+            "text-align": string; /**
+             * Deletes all hosted fields within the form
+             */
             margin: string;
             display: string;
             "justify-content": string;
@@ -2578,6 +2575,12 @@ export declare const parentStyles: () => {
             outline: string;
             "outline-offset": string;
         };
+        /**
+         * Sets a special-case event listener that fires when all hosted
+         * fields in a form have registered / loaded
+         *
+         * @param fn The listener function
+         */
         ".secure-payment-form .cashpressoflexible-button:focus": {
             outline: string;
             "outline-offset": string;
@@ -2610,6 +2613,9 @@ export declare const parentStyles: () => {
             width: string;
             height: string;
             "object-fit": string;
+            /**
+             * Deletes all hosted fields within the form
+             */
             display: string;
         };
         ".secure-payment-form .credit-card-accordion-container:has(.gp-accordion__content--visible)": {
@@ -2784,9 +2790,6 @@ export declare const parentStyles: () => {
             "font-family": string;
             "font-size": string;
             "font-weight": number;
-            /**
-             * Represents logic surrounding a group of hosted fields.
-             */
             margin: string;
             display: string;
             "line-height": string;
@@ -2800,6 +2803,12 @@ export declare const parentStyles: () => {
             width: string;
             height: string;
             "min-width": string;
+            /**
+             * Instantiates a new UIForm object for a group of hosted fields
+             *
+             * @param fields Hosted field configuration
+             * @param styles Custom CSS configuration
+             */
             "border-left": string;
             display: string;
         };
@@ -3128,12 +3137,6 @@ export declare const parentStyles: () => {
             content: string;
             position: string;
             width: string;
-            /**
-             * Instantiates a new UIForm object for a group of hosted fields
-             *
-             * @param fields Hosted field configuration
-             * @param styles Custom CSS configuration
-             */
             height: string;
             border: string;
             "border-width": string;
@@ -3202,11 +3205,7 @@ export declare const parentStyles: () => {
             "font-size": string;
         };
         "#ctp-wrapper .quitbanner > svg": {
-            display: string; /**
-             * Appends additional CSS rules to the group of hosted fields
-             *
-             * @param json New CSS rules
-             */
+            display: string;
         };
         "#ctp-wrapper #footer": {
             display: string;
@@ -3229,18 +3228,18 @@ export declare const parentStyles: () => {
             "margin-top": string;
             "margin-bottom": string;
         };
-        /**
-         * Sets a special-case event listener that fires when all hosted
-         * fields in a form have registered / loaded
-         *
-         * @param fn The listener function
-         */
         "#ctp-wrapper .logindiv": {
             "min-height": string;
         };
         "#ctp-wrapper .VerificationLabel label": {
             display: string;
             margin: string;
+            /**
+             * Sets a special-case event listener that fires when all hosted
+             * fields in a form have registered / loaded
+             *
+             * @param fn The listener function
+             */
             "font-size": string;
         };
         "#ctp-wrapper .VerificationLabel #userMobileMC": {
@@ -3429,12 +3428,6 @@ export declare const parentStyles: () => {
             color: string;
             "margin-right": string;
         };
-        /**
-         * Instantiates a new UIForm object for a group of hosted fields
-         *
-         * @param fields Hosted field configuration
-         * @param styles Custom CSS configuration
-         */
         ".secure-payment-form .installment-terms-conditions-flex": {
             display: string;
             "align-items": string;
@@ -3511,6 +3504,12 @@ export declare const parentStyles: () => {
             "font-style": string;
             "font-weight": string;
             "line-height": string;
+            /**
+             * Sets a special-case event listener that fires when all hosted
+             * fields in a form have registered / loaded
+             *
+             * @param fn The listener function
+             */
             "font-size": string;
             margin: string;
         };
@@ -3862,9 +3861,6 @@ export declare const parentStyles: () => {
             "flex-wrap": string;
         };
         ".secure-payment-form *": {
-            /**
-             * Represents logic surrounding a group of hosted fields.
-             */
             "box-sizing": string;
         };
         ".secure-payment-form label": {
@@ -3881,7 +3877,12 @@ export declare const parentStyles: () => {
             flex: string;
             "margin-right": string;
             width: string;
-            display: string;
+            display: string; /**
+             * Instantiates a new UIForm object for a group of hosted fields
+             *
+             * @param fields Hosted field configuration
+             * @param styles Custom CSS configuration
+             */
             "vertical-align": string;
         };
         ".secure-payment-form.no-cvv .credit-card-card-holder-name": {
@@ -3944,11 +3945,6 @@ export declare const parentStyles: () => {
             "margin-right": string;
         };
         ".secure-payment-form div[class$='-logo'] .security-msg strong": {
-            /**
-             * Appends additional CSS rules to the group of hosted fields
-             *
-             * @param json New CSS rules
-             */
             "white-space": string;
             "font-weight": string;
             display: string;
@@ -3997,6 +3993,9 @@ export declare const parentStyles: () => {
         };
         ".secure-payment-form .credit-card-card-number-target .card-brand-logos.has-detected-brand > span": {
             opacity: string;
+            /**
+             * Deletes all hosted fields within the form
+             */
             filter: string;
         };
         ".secure-payment-form .credit-card-card-number-target .card-brand-logos.has-detected-brand > span.is-active": {
@@ -4362,9 +4361,6 @@ export declare const parentStyles: () => {
             "font-family": string;
             "font-size": string;
             "font-weight": number;
-            /**
-             * Represents logic surrounding a group of hosted fields.
-             */
             margin: string;
             display: string;
             "line-height": string;
@@ -4374,6 +4370,12 @@ export declare const parentStyles: () => {
             width: string;
             height: string;
             "min-width": string;
+            /**
+             * Instantiates a new UIForm object for a group of hosted fields
+             *
+             * @param fields Hosted field configuration
+             * @param styles Custom CSS configuration
+             */
             "border-left": string;
             display: string;
         };
@@ -4795,12 +4797,6 @@ export declare const parentStyles: () => {
             content: string;
             position: string;
             width: string;
-            /**
-             * Instantiates a new UIForm object for a group of hosted fields
-             *
-             * @param fields Hosted field configuration
-             * @param styles Custom CSS configuration
-             */
             height: string;
             border: string;
             "border-width": string;
@@ -4869,11 +4865,7 @@ export declare const parentStyles: () => {
             "font-size": string;
         };
         "#ctp-wrapper .quitbanner > svg": {
-            display: string; /**
-             * Appends additional CSS rules to the group of hosted fields
-             *
-             * @param json New CSS rules
-             */
+            display: string;
         };
         "#ctp-wrapper #footer": {
             display: string;
@@ -4896,18 +4888,18 @@ export declare const parentStyles: () => {
             "margin-top": string;
             "margin-bottom": string;
         };
-        /**
-         * Sets a special-case event listener that fires when all hosted
-         * fields in a form have registered / loaded
-         *
-         * @param fn The listener function
-         */
         "#ctp-wrapper .logindiv": {
             "min-height": string;
         };
         "#ctp-wrapper .VerificationLabel label": {
             display: string;
             margin: string;
+            /**
+             * Sets a special-case event listener that fires when all hosted
+             * fields in a form have registered / loaded
+             *
+             * @param fn The listener function
+             */
             "font-size": string;
         };
         "#ctp-wrapper .VerificationLabel #userMobileMC": {
@@ -5053,11 +5045,7 @@ export declare const parentStyles: () => {
         ".secure-payment-form .credit-card-card-number-target .card-brand-logos.has-detected-brand > span.is-active": {
             opacity: string;
             filter: string;
-        }; /**
-         * Appends additional CSS rules to the group of hosted fields
-         *
-         * @param json New CSS rules
-         */
+        };
         ".secure-payment-form .credit-card-card-number-target .card-brand-logos.is-invalid": {
             opacity: string;
         };
@@ -5099,9 +5087,7 @@ export declare const parentStyles: () => {
             color: string;
             "line-height": string;
             display: string;
-            "vertical-align": string; /**
-             * Deletes all hosted fields within the form
-             */
+            "vertical-align": string;
             "text-align": string;
             "margin-left": string;
             "margin-right": string;
@@ -5695,6 +5681,12 @@ export declare const parentStyles: () => {
             outline: string;
             "outline-offset": string;
         };
+        /**
+         * Sets a special-case event listener that fires when all hosted
+         * fields in a form have registered / loaded
+         *
+         * @param fn The listener function
+         */
         ".secure-payment-form .cashpressoflexible-button:focus": {
             outline: string;
             "outline-offset": string;
@@ -5727,6 +5719,9 @@ export declare const parentStyles: () => {
             width: string;
             height: string;
             "object-fit": string;
+            /**
+             * Deletes all hosted fields within the form
+             */
             display: string;
         };
         ".secure-payment-form .credit-card-accordion-container:has(.gp-accordion__content--visible)": {
@@ -5901,9 +5896,6 @@ export declare const parentStyles: () => {
             "font-family": string;
             "font-size": string;
             "font-weight": number;
-            /**
-             * Represents logic surrounding a group of hosted fields.
-             */
             margin: string;
             display: string;
             "line-height": string;
@@ -5917,6 +5909,12 @@ export declare const parentStyles: () => {
             width: string;
             height: string;
             "min-width": string;
+            /**
+             * Instantiates a new UIForm object for a group of hosted fields
+             *
+             * @param fields Hosted field configuration
+             * @param styles Custom CSS configuration
+             */
             "border-left": string;
             display: string;
         };
@@ -6245,12 +6243,6 @@ export declare const parentStyles: () => {
             content: string;
             position: string;
             width: string;
-            /**
-             * Instantiates a new UIForm object for a group of hosted fields
-             *
-             * @param fields Hosted field configuration
-             * @param styles Custom CSS configuration
-             */
             height: string;
             border: string;
             "border-width": string;
@@ -6319,11 +6311,7 @@ export declare const parentStyles: () => {
             "font-size": string;
         };
         "#ctp-wrapper .quitbanner > svg": {
-            display: string; /**
-             * Appends additional CSS rules to the group of hosted fields
-             *
-             * @param json New CSS rules
-             */
+            display: string;
         };
         "#ctp-wrapper #footer": {
             display: string;
@@ -6346,18 +6334,18 @@ export declare const parentStyles: () => {
             "margin-top": string;
             "margin-bottom": string;
         };
-        /**
-         * Sets a special-case event listener that fires when all hosted
-         * fields in a form have registered / loaded
-         *
-         * @param fn The listener function
-         */
         "#ctp-wrapper .logindiv": {
             "min-height": string;
         };
         "#ctp-wrapper .VerificationLabel label": {
             display: string;
             margin: string;
+            /**
+             * Sets a special-case event listener that fires when all hosted
+             * fields in a form have registered / loaded
+             *
+             * @param fn The listener function
+             */
             "font-size": string;
         };
         "#ctp-wrapper .VerificationLabel #userMobileMC": {
@@ -6546,12 +6534,6 @@ export declare const parentStyles: () => {
             color: string;
             "margin-right": string;
         };
-        /**
-         * Instantiates a new UIForm object for a group of hosted fields
-         *
-         * @param fields Hosted field configuration
-         * @param styles Custom CSS configuration
-         */
         ".secure-payment-form .installment-terms-conditions-flex": {
             display: string;
             "align-items": string;
@@ -6628,6 +6610,12 @@ export declare const parentStyles: () => {
             "font-style": string;
             "font-weight": string;
             "line-height": string;
+            /**
+             * Sets a special-case event listener that fires when all hosted
+             * fields in a form have registered / loaded
+             *
+             * @param fn The listener function
+             */
             "font-size": string;
             margin: string;
         };
@@ -6910,7 +6898,16 @@ export declare const parentStyles: () => {
         };
         ".secure-payment-form *": {
             "box-sizing": string;
-        };
+        }; /**
+         * Sets an event listener for an event type
+         *
+         * @param fieldTypeOrEventName The field type on which the listener should
+         *          be applied, or the type of event that should trigger the listener
+         * @param eventNameOrListener The type of event that should trigger the
+         *          listener, or the listener function
+         * @param listener The listener function when both field type and event type
+         *          are provided
+         */
         ".secure-payment-form label": {
             margin: string;
             display: string;
@@ -6959,6 +6956,11 @@ export declare const parentStyles: () => {
             "margin-left": string;
             "vertical-align": string;
         };
+        /**
+         * Appends additional CSS rules to the group of hosted fields
+         *
+         * @param json New CSS rules
+         */
         ".secure-payment-form div[class$='-shield'] .ssl-msg": {
             "font-size": string;
             "font-weight": string;

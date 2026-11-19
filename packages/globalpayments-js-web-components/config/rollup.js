@@ -7,10 +7,12 @@ const input = "./src/index.ts";
 const plugins = [
   resolve({
       "globalpayments-js-loader": true,
+      extensions: [".mjs", ".js", ".json", ".node", ".ts"],
   }),
   commonjs(),
   typescript({
     check: true,
+    include: ["*.ts", "**/*.ts", "*.tsx", "**/*.tsx"],
     typescript: require("typescript"),
     useTsconfigDeclarationDir: true,
   }),

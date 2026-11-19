@@ -10,6 +10,7 @@ import * as paymentRequest from "./payment-request";
 import * as configure from "./tools/configure";
 import * as ui from "./ui";
 import * as enums from "./internal/lib/enums";
+import { getRavelinDeviceId, initRavelin, loadRavelinPage, trackRavelinEvent, trackRavelinPaste } from "./internal/lib/ravelin";
 declare const _default: {
     configure: (options: configure.IConfiguration) => void;
     creditCard: typeof creditCard;
@@ -22,5 +23,10 @@ declare const _default: {
     on: (ev: string, listener: IEventListener) => void;
     paymentRequest: typeof paymentRequest;
     ui: typeof ui;
+    getRavelinDeviceId: typeof getRavelinDeviceId;
+    initRavelin: typeof initRavelin;
+    loadRavelinPage: typeof loadRavelinPage;
+    trackRavelinEvent: typeof trackRavelinEvent;
+    trackRavelinPaste: typeof trackRavelinPaste;
 };
 export default _default;

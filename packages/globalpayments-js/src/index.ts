@@ -11,6 +11,13 @@ import * as paymentRequest from "./payment-request";
 import * as configure from "./tools/configure";
 import * as ui from "./ui";
 import * as enums from "./internal/lib/enums";
+import {
+  getRavelinDeviceId,
+  initRavelin,
+  loadRavelinPage,
+  trackRavelinEvent,
+  trackRavelinPaste,
+} from "./internal/lib/ravelin";
 
 // Library entry points for integrator use except where noted.
 export default {
@@ -46,4 +53,19 @@ export default {
   // Allows integrators to custom payment data entry forms for credit
   // card, eCheck / ACH, or gift and loyalty cards.
   ui,
+  // Ravelin tracking helpers for consumers who need to initialize and
+  // send lifecycle or custom events manually.
+  getRavelinDeviceId,
+  initRavelin,
+  loadRavelinPage,
+  trackRavelinEvent,
+  trackRavelinPaste,
 };
+
+// export {
+//   getRavelinDeviceId,
+//   initRavelin,
+//   loadRavelinPage,
+//   trackRavelinEvent,
+//   trackRavelinPaste,
+// };

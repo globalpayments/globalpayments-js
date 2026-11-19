@@ -16,6 +16,7 @@ const plugins = [
   commonjs(),
   typescript({
     check: true,
+    include: ["*.ts", "**/*.ts", "*.tsx", "**/*.tsx"],
     typescript: require("typescript"),
     useTsconfigDeclarationDir: true,
   }),
